@@ -10,7 +10,6 @@
 		629C1F532A4ABD0F00540FA4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F522A4ABD0F00540FA4 /* AppDelegate.swift */; };
 		629C1F552A4ABD0F00540FA4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F542A4ABD0F00540FA4 /* SceneDelegate.swift */; };
 		629C1F572A4ABD0F00540FA4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F562A4ABD0F00540FA4 /* ViewController.swift */; };
-		629C1F5A2A4ABD0F00540FA4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 629C1F582A4ABD0F00540FA4 /* Main.storyboard */; };
 		629C1F5D2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F5B2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld */; };
 		629C1F5F2A4ABD1000540FA4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 629C1F5E2A4ABD1000540FA4 /* Assets.xcassets */; };
 		629C1F622A4ABD1000540FA4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 629C1F602A4ABD1000540FA4 /* LaunchScreen.storyboard */; };
@@ -21,7 +20,6 @@
 		629C1F522A4ABD0F00540FA4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		629C1F542A4ABD0F00540FA4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		629C1F562A4ABD0F00540FA4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		629C1F592A4ABD0F00540FA4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		629C1F5C2A4ABD0F00540FA4 /* LottoDairy.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LottoDairy.xcdatamodel; sourceTree = "<group>"; };
 		629C1F5E2A4ABD1000540FA4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		629C1F612A4ABD1000540FA4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -61,7 +59,6 @@
 				629C1F522A4ABD0F00540FA4 /* AppDelegate.swift */,
 				629C1F542A4ABD0F00540FA4 /* SceneDelegate.swift */,
 				629C1F562A4ABD0F00540FA4 /* ViewController.swift */,
-				629C1F582A4ABD0F00540FA4 /* Main.storyboard */,
 				629C1F5E2A4ABD1000540FA4 /* Assets.xcassets */,
 				629C1F602A4ABD1000540FA4 /* LaunchScreen.storyboard */,
 				629C1F632A4ABD1000540FA4 /* Info.plist */,
@@ -130,7 +127,6 @@
 			files = (
 				629C1F622A4ABD1000540FA4 /* LaunchScreen.storyboard in Resources */,
 				629C1F5F2A4ABD1000540FA4 /* Assets.xcassets in Resources */,
-				629C1F5A2A4ABD0F00540FA4 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,14 +147,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		629C1F582A4ABD0F00540FA4 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				629C1F592A4ABD0F00540FA4 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		629C1F602A4ABD1000540FA4 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -295,9 +283,9 @@
 				INFOPLIST_FILE = LottoDairy/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -322,9 +310,9 @@
 				INFOPLIST_FILE = LottoDairy/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
