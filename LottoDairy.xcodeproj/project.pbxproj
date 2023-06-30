@@ -19,7 +19,7 @@
 		80603AD62A4AC839003D5274 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80603AD52A4AC839003D5274 /* Coordinator.swift */; };
 		80603AD82A4AC874003D5274 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80603AD72A4AC874003D5274 /* BaseCoordinator.swift */; };
 		80603ADA2A4E6FE2003D5274 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80603AD92A4E6FE2003D5274 /* AppCoordinator.swift */; };
-		80603ADC2A4E9DDD003D5274 /* ProfileCoordinatorOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80603ADB2A4E9DDD003D5274 /* ProfileCoordinatorOutput.swift */; };
+		80603ADC2A4E9DDD003D5274 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80603ADB2A4E9DDD003D5274 /* ProfileCoordinator.swift */; };
 		80603ADE2A4E9FB0003D5274 /* RouterImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80603ADD2A4E9FB0003D5274 /* RouterImp.swift */; };
 /* End PBXBuildFile section */
 
@@ -38,7 +38,7 @@
 		80603AD52A4AC839003D5274 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		80603AD72A4AC874003D5274 /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		80603AD92A4E6FE2003D5274 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
-		80603ADB2A4E9DDD003D5274 /* ProfileCoordinatorOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinatorOutput.swift; sourceTree = "<group>"; };
+		80603ADB2A4E9DDD003D5274 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		80603ADD2A4E9FB0003D5274 /* RouterImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterImp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -53,6 +53,68 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		621503242A4EB76B00431BBB /* Factories */ = {
+			isa = PBXGroup;
+			children = (
+				621503202A4E79D000431BBB /* CoordinatorFactory.swift */,
+			);
+			path = Factories;
+			sourceTree = "<group>";
+		};
+		621503252A4EB78E00431BBB /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				80603AD52A4AC839003D5274 /* Coordinator.swift */,
+				6215031E2A4E792700431BBB /* Presentable.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		621503262A4EB91900431BBB /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				621503242A4EB76B00431BBB /* Factories */,
+				621503282A4EB93600431BBB /* Parents */,
+				621503272A4EB92600431BBB /* Router */,
+				621503252A4EB78E00431BBB /* Protocols */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		621503272A4EB92600431BBB /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				621503222A4E7CAE00431BBB /* Router.swift */,
+				80603ADD2A4E9FB0003D5274 /* RouterImp.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		621503282A4EB93600431BBB /* Parents */ = {
+			isa = PBXGroup;
+			children = (
+				80603AD72A4AC874003D5274 /* BaseCoordinator.swift */,
+			);
+			path = Parents;
+			sourceTree = "<group>";
+		};
+		6215032A2A4EBA7200431BBB /* ProfileScene */ = {
+			isa = PBXGroup;
+			children = (
+				80603ADB2A4E9DDD003D5274 /* ProfileCoordinator.swift */,
+			);
+			path = ProfileScene;
+			sourceTree = "<group>";
+		};
+		6215032B2A4EBAD600431BBB /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				629C1F5E2A4ABD1000540FA4 /* Assets.xcassets */,
+				629C1F602A4ABD1000540FA4 /* LaunchScreen.storyboard */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
 		629C1F462A4ABD0F00540FA4 = {
 			isa = PBXGroup;
 			children = (
@@ -72,10 +134,11 @@
 		629C1F512A4ABD0F00540FA4 /* LottoDairy */ = {
 			isa = PBXGroup;
 			children = (
+				6215032B2A4EBAD600431BBB /* Resource */,
+				621503262A4EB91900431BBB /* Coordinator */,
 				80603AD22A4AC6F1003D5274 /* Application */,
+				6215032A2A4EBA7200431BBB /* ProfileScene */,
 				629C1F562A4ABD0F00540FA4 /* ViewController.swift */,
-				629C1F5E2A4ABD1000540FA4 /* Assets.xcassets */,
-				629C1F602A4ABD1000540FA4 /* LaunchScreen.storyboard */,
 				629C1F632A4ABD1000540FA4 /* Info.plist */,
 				629C1F5B2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld */,
 			);
@@ -88,13 +151,6 @@
 				629C1F522A4ABD0F00540FA4 /* AppDelegate.swift */,
 				629C1F542A4ABD0F00540FA4 /* SceneDelegate.swift */,
 				80603AD92A4E6FE2003D5274 /* AppCoordinator.swift */,
-				80603AD52A4AC839003D5274 /* Coordinator.swift */,
-				80603AD72A4AC874003D5274 /* BaseCoordinator.swift */,
-				6215031E2A4E792700431BBB /* Presentable.swift */,
-				621503202A4E79D000431BBB /* CoordinatorFactory.swift */,
-				80603ADB2A4E9DDD003D5274 /* ProfileCoordinatorOutput.swift */,
-				621503222A4E7CAE00431BBB /* Router.swift */,
-				80603ADD2A4E9FB0003D5274 /* RouterImp.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -177,7 +233,7 @@
 				80603AD82A4AC874003D5274 /* BaseCoordinator.swift in Sources */,
 				629C1F5D2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld in Sources */,
 				621503212A4E79D000431BBB /* CoordinatorFactory.swift in Sources */,
-				80603ADC2A4E9DDD003D5274 /* ProfileCoordinatorOutput.swift in Sources */,
+				80603ADC2A4E9DDD003D5274 /* ProfileCoordinator.swift in Sources */,
 				80603ADE2A4E9FB0003D5274 /* RouterImp.swift in Sources */,
 				629C1F552A4ABD0F00540FA4 /* SceneDelegate.swift in Sources */,
 				80603ADA2A4E6FE2003D5274 /* AppCoordinator.swift in Sources */,
