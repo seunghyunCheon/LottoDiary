@@ -7,4 +7,7 @@
 
 protocol CoordinatorFactory {
     
+    func makeTabbarCoordinator() -> (configurator: Coordinator, toPresent: Presentable?)
+    
+    func makeProfileCoordinator(router: Router) -> Coordinator & ProfileCoordinatorOutput
 }
