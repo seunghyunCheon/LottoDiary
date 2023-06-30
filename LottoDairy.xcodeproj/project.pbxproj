@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		6215031F2A4E792700431BBB /* Presentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6215031E2A4E792700431BBB /* Presentable.swift */; };
+		621503212A4E79D000431BBB /* CoordinatorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 621503202A4E79D000431BBB /* CoordinatorFactory.swift */; };
+		621503232A4E7CAE00431BBB /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 621503222A4E7CAE00431BBB /* Router.swift */; };
 		629C1F532A4ABD0F00540FA4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F522A4ABD0F00540FA4 /* AppDelegate.swift */; };
 		629C1F552A4ABD0F00540FA4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F542A4ABD0F00540FA4 /* SceneDelegate.swift */; };
 		629C1F572A4ABD0F00540FA4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F562A4ABD0F00540FA4 /* ViewController.swift */; };
@@ -21,6 +23,8 @@
 
 /* Begin PBXFileReference section */
 		6215031E2A4E792700431BBB /* Presentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presentable.swift; sourceTree = "<group>"; };
+		621503202A4E79D000431BBB /* CoordinatorFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorFactory.swift; sourceTree = "<group>"; };
+		621503222A4E7CAE00431BBB /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		629C1F4F2A4ABD0F00540FA4 /* LottoDairy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LottoDairy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		629C1F522A4ABD0F00540FA4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		629C1F542A4ABD0F00540FA4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -83,6 +87,8 @@
 				80603AD52A4AC839003D5274 /* Coordinator.swift */,
 				80603AD72A4AC874003D5274 /* BaseCoordinator.swift */,
 				6215031E2A4E792700431BBB /* Presentable.swift */,
+				621503202A4E79D000431BBB /* CoordinatorFactory.swift */,
+				621503222A4E7CAE00431BBB /* Router.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -159,10 +165,12 @@
 			files = (
 				629C1F572A4ABD0F00540FA4 /* ViewController.swift in Sources */,
 				6215031F2A4E792700431BBB /* Presentable.swift in Sources */,
+				621503232A4E7CAE00431BBB /* Router.swift in Sources */,
 				629C1F532A4ABD0F00540FA4 /* AppDelegate.swift in Sources */,
 				80603AD62A4AC839003D5274 /* Coordinator.swift in Sources */,
 				80603AD82A4AC874003D5274 /* BaseCoordinator.swift in Sources */,
 				629C1F5D2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld in Sources */,
+				621503212A4E79D000431BBB /* CoordinatorFactory.swift in Sources */,
 				629C1F552A4ABD0F00540FA4 /* SceneDelegate.swift in Sources */,
 				80603ADA2A4E6FE2003D5274 /* AppCoordinator.swift in Sources */,
 			);
