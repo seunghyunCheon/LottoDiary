@@ -25,6 +25,11 @@
 		80603ADA2A4E6FE2003D5274 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80603AD92A4E6FE2003D5274 /* AppCoordinator.swift */; };
 		80603ADC2A4E9DDD003D5274 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80603ADB2A4E9DDD003D5274 /* ProfileCoordinator.swift */; };
 		80603ADE2A4E9FB0003D5274 /* RouterImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80603ADD2A4E9FB0003D5274 /* RouterImp.swift */; };
+		80773A6E2A55AE9E0020F1DD /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80773A6D2A55AE9E0020F1DD /* HomeCoordinator.swift */; };
+		80773A702A55AF770020F1DD /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80773A6F2A55AF770020F1DD /* HomeViewController.swift */; };
+		80773A722A55AFF80020F1DD /* HomeFlowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80773A712A55AFF80020F1DD /* HomeFlowProtocol.swift */; };
+		80773A742A55B99E0020F1DD /* HomeModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80773A732A55B99E0020F1DD /* HomeModuleFactory.swift */; };
+		80773A762A55BA1C0020F1DD /* ModuleFactoryImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80773A752A55BA1C0020F1DD /* ModuleFactoryImp.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +53,11 @@
 		80603AD92A4E6FE2003D5274 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		80603ADB2A4E9DDD003D5274 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		80603ADD2A4E9FB0003D5274 /* RouterImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterImp.swift; sourceTree = "<group>"; };
+		80773A6D2A55AE9E0020F1DD /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
+		80773A6F2A55AF770020F1DD /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		80773A712A55AFF80020F1DD /* HomeFlowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFlowProtocol.swift; sourceTree = "<group>"; };
+		80773A732A55B99E0020F1DD /* HomeModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModuleFactory.swift; sourceTree = "<group>"; };
+		80773A752A55BA1C0020F1DD /* ModuleFactoryImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleFactoryImp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +76,7 @@
 			children = (
 				6215032C2A559B9700431BBB /* Imp */,
 				621503202A4E79D000431BBB /* CoordinatorFactory.swift */,
+				80773A732A55B99E0020F1DD /* HomeModuleFactory.swift */,
 			);
 			path = Factories;
 			sourceTree = "<group>";
@@ -128,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				6215032F2A559BB200431BBB /* CoordinatorFactoryImp.swift */,
+				80773A752A55BA1C0020F1DD /* ModuleFactoryImp.swift */,
 			);
 			path = Imp;
 			sourceTree = "<group>";
@@ -166,6 +178,7 @@
 				80603AD22A4AC6F1003D5274 /* Application */,
 				6215032A2A4EBA7200431BBB /* ProfileScene */,
 				621503312A559C7300431BBB /* TabBarScene */,
+				80773A6C2A55AE8C0020F1DD /* HomeScene */,
 				629C1F562A4ABD0F00540FA4 /* ViewController.swift */,
 				629C1F632A4ABD1000540FA4 /* Info.plist */,
 				629C1F5B2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld */,
@@ -181,6 +194,16 @@
 				80603AD92A4E6FE2003D5274 /* AppCoordinator.swift */,
 			);
 			path = Application;
+			sourceTree = "<group>";
+		};
+		80773A6C2A55AE8C0020F1DD /* HomeScene */ = {
+			isa = PBXGroup;
+			children = (
+				80773A6D2A55AE9E0020F1DD /* HomeCoordinator.swift */,
+				80773A6F2A55AF770020F1DD /* HomeViewController.swift */,
+				80773A712A55AFF80020F1DD /* HomeFlowProtocol.swift */,
+			);
+			path = HomeScene;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -254,12 +277,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				629C1F572A4ABD0F00540FA4 /* ViewController.swift in Sources */,
+				80773A742A55B99E0020F1DD /* HomeModuleFactory.swift in Sources */,
 				621503302A559BB200431BBB /* CoordinatorFactoryImp.swift in Sources */,
 				621503332A559C9600431BBB /* TabBarController.swift in Sources */,
+				80773A6E2A55AE9E0020F1DD /* HomeCoordinator.swift in Sources */,
 				6215031F2A4E792700431BBB /* Presentable.swift in Sources */,
+				80773A702A55AF770020F1DD /* HomeViewController.swift in Sources */,
 				621503232A4E7CAE00431BBB /* Router.swift in Sources */,
 				629C1F532A4ABD0F00540FA4 /* AppDelegate.swift in Sources */,
 				80603AD62A4AC839003D5274 /* Coordinator.swift in Sources */,
+				80773A762A55BA1C0020F1DD /* ModuleFactoryImp.swift in Sources */,
 				80603AD82A4AC874003D5274 /* BaseCoordinator.swift in Sources */,
 				629C1F5D2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld in Sources */,
 				621503372A55A44900431BBB /* TabBarFlowProtocol.swift in Sources */,
@@ -269,6 +296,7 @@
 				629C1F552A4ABD0F00540FA4 /* SceneDelegate.swift in Sources */,
 				621503352A559CB800431BBB /* TabBarCoordinator.swift in Sources */,
 				80603ADA2A4E6FE2003D5274 /* AppCoordinator.swift in Sources */,
+				80773A722A55AFF80020F1DD /* HomeFlowProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
