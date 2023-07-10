@@ -8,10 +8,7 @@
 import UIKit
 
 protocol CoordinatorFactory {
-    
+    func makeOnboardingCoordinator(router: Router) -> Coordinator & OnboardingCoordinatorFinishable
     func makeTabbarCoordinator() -> (configurator: Coordinator, toPresent: Presentable?)
-    
-//    func makeProfileCoordinator(router: Router) -> Coordinator & ProfileCoordinatorOutput
-    
     func makeHomeCoordinator(navigationController: UINavigationController?) -> Coordinator
 }

@@ -6,5 +6,5 @@
 //
 
 protocol HomeFlowProtocol: Presentable {
-    var onMyInformation: (() -> Void)? { get set }
+    var onSetting: (() -> Void)? { get set }
 }

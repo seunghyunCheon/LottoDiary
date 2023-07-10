@@ -18,11 +18,24 @@ final class AppCoordinator: BaseCoordinator {
     }
     
     override func start() {
-        runMainFlow()
+        runOnboardingFlow()
+    }
+    
+    private func runOnboardingFlow() {
+        let coordinator = coordinatorFactory.makeOnboardingCoordinator(router: router)
+        coordinator.finishFlow = { [weak self, weak coordinator] in
+            self?.removeDependency(coordinator)
+            self?.runMyInformationFlow()
+        }
+        addDependency(coordinator)
+        coordinator.start()
+    }
+    
+    private func runMyInformationFlow() {
+        print("info tapped")
     }
     
     private func runMainFlow() {
-        
         let (coordinator, module) = coordinatorFactory.makeTabbarCoordinator()
         addDependency(coordinator)
         router.setRootModule(module)

@@ -9,7 +9,7 @@ import UIKit
 
 final class HomeViewController: UIViewController, HomeFlowProtocol {
     
-    var onMyInformation: (() -> Void)?
+    var onSetting: (() -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()

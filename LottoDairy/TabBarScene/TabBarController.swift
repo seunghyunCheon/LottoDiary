@@ -28,7 +28,6 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, Ta
     }
     
     func configureViewControllers() {
-        
         let homeViewController = UINavigationController()
         homeViewController.tabBarItem.title = "Home"
         self.viewControllers = [homeViewController]
@@ -37,7 +36,6 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, Ta
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        
         guard let controller = viewControllers?[selectedIndex] as? UINavigationController else { return }
         
         if selectedIndex == 0 {
