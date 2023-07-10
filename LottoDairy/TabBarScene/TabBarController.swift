@@ -9,7 +9,7 @@ import UIKit
 
 final class TabBarController: UITabBarController, UITabBarControllerDelegate, TabBarFlowProtocol {
     
-    var onViewDidLoad: ((UINavigationController) -> ())?
+    var onViewWillAppear: ((UINavigationController) -> ())?
     
     var onHomeFlowSelect: ((UINavigationController) -> ())?
     
@@ -17,14 +17,19 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, Ta
         super.viewDidLoad()
         
         configureViewControllers()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         if let controller = viewControllers?.first as? UINavigationController {
-            onViewDidLoad?(controller)
+            onViewWillAppear?(controller)
         }
     }
     
     func configureViewControllers() {
         
-        let homeViewController = UINavigationController(rootViewController: HomeViewController())
+        let homeViewController = UINavigationController()
         homeViewController.tabBarItem.title = "Home"
         self.viewControllers = [homeViewController]
         

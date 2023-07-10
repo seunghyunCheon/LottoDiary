@@ -8,6 +8,6 @@
 import UIKit
 
 protocol TabBarFlowProtocol: AnyObject {
-    var onViewDidLoad: ((UINavigationController) -> ())? { get set }
+    var onViewWillAppear: ((UINavigationController) -> ())? { get set }
     var onHomeFlowSelect: ((UINavigationController) -> ())? { get set }
 }
