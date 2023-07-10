@@ -18,7 +18,7 @@ final class TabBarCoordinator: BaseCoordinator {
     }
     
     override func start() {
-        tabBarFlow.onViewDidLoad = runHomeFlow()
+        tabBarFlow.onViewWillAppear = runHomeFlow()
         tabBarFlow.onHomeFlowSelect = runHomeFlow()
     }
     

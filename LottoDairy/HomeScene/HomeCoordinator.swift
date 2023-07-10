@@ -19,5 +19,13 @@ final class HomeCoordinator: BaseCoordinator {
     
     override func start() {
         
+        var homeFlow = moduleFactory.makeHomeFlow()
+        homeFlow.onMyInformation = { [weak self] in            self?.runMyInformationFlow()
+        }
+        router.setRootModule(homeFlow)
+    }
+    
+    private func runMyInformationFlow() {
+        
     }
 }
