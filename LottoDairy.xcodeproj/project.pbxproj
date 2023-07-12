@@ -22,6 +22,8 @@
 		6215034D2A5E699C00431BBB /* gmarketSansTTFMedium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6215034A2A5E699C00431BBB /* gmarketSansTTFMedium.ttf */; };
 		6215034E2A5E699C00431BBB /* gmarketSansTTFBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6215034B2A5E699C00431BBB /* gmarketSansTTFBold.ttf */; };
 		621503522A5E6EC900431BBB /* UIFont+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 621503512A5E6EC900431BBB /* UIFont+Extensions.swift */; };
+		621503542A5E7AC700431BBB /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 621503532A5E7AC700431BBB /* Colors.xcassets */; };
+		621503562A5E7B0500431BBB /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 621503552A5E7B0500431BBB /* UIColor+Extensions.swift */; };
 		629C1F532A4ABD0F00540FA4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F522A4ABD0F00540FA4 /* AppDelegate.swift */; };
 		629C1F552A4ABD0F00540FA4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F542A4ABD0F00540FA4 /* SceneDelegate.swift */; };
 		629C1F5D2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F5B2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld */; };
@@ -54,6 +56,8 @@
 		6215034A2A5E699C00431BBB /* gmarketSansTTFMedium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = gmarketSansTTFMedium.ttf; sourceTree = "<group>"; };
 		6215034B2A5E699C00431BBB /* gmarketSansTTFBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = gmarketSansTTFBold.ttf; sourceTree = "<group>"; };
 		621503512A5E6EC900431BBB /* UIFont+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extensions.swift"; sourceTree = "<group>"; };
+		621503532A5E7AC700431BBB /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		621503552A5E7B0500431BBB /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		629C1F4F2A4ABD0F00540FA4 /* LottoDairy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LottoDairy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		629C1F522A4ABD0F00540FA4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		629C1F542A4ABD0F00540FA4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -139,6 +143,7 @@
 				621503492A5E699C00431BBB /* gmarketSansTTFLight.ttf */,
 				6215034A2A5E699C00431BBB /* gmarketSansTTFMedium.ttf */,
 				629C1F5E2A4ABD1000540FA4 /* Assets.xcassets */,
+				621503532A5E7AC700431BBB /* Colors.xcassets */,
 				629C1F602A4ABD1000540FA4 /* LaunchScreen.storyboard */,
 			);
 			path = Resource;
@@ -192,6 +197,7 @@
 			isa = PBXGroup;
 			children = (
 				621503512A5E6EC900431BBB /* UIFont+Extensions.swift */,
+				621503552A5E7B0500431BBB /* UIColor+Extensions.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -309,6 +315,7 @@
 				6215034C2A5E699C00431BBB /* gmarketSansTTFLight.ttf in Resources */,
 				629C1F622A4ABD1000540FA4 /* LaunchScreen.storyboard in Resources */,
 				629C1F5F2A4ABD1000540FA4 /* Assets.xcassets in Resources */,
+				621503542A5E7AC700431BBB /* Colors.xcassets in Resources */,
 				6215034D2A5E699C00431BBB /* gmarketSansTTFMedium.ttf in Resources */,
 				6215034E2A5E699C00431BBB /* gmarketSansTTFBold.ttf in Resources */,
 			);
@@ -332,6 +339,7 @@
 				621503232A4E7CAE00431BBB /* Router.swift in Sources */,
 				629C1F532A4ABD0F00540FA4 /* AppDelegate.swift in Sources */,
 				621503522A5E6EC900431BBB /* UIFont+Extensions.swift in Sources */,
+				621503562A5E7B0500431BBB /* UIColor+Extensions.swift in Sources */,
 				80603AD62A4AC839003D5274 /* Coordinator.swift in Sources */,
 				80773A762A55BA1C0020F1DD /* ModuleFactoryImp.swift in Sources */,
 				80603AD82A4AC874003D5274 /* BaseCoordinator.swift in Sources */,
