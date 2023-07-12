@@ -24,6 +24,7 @@
 		621503522A5E6EC900431BBB /* UIFont+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 621503512A5E6EC900431BBB /* UIFont+Extensions.swift */; };
 		621503542A5E7AC700431BBB /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 621503532A5E7AC700431BBB /* Colors.xcassets */; };
 		621503562A5E7B0500431BBB /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 621503552A5E7B0500431BBB /* UIColor+Extensions.swift */; };
+		621503582A5E8E2300431BBB /* UIControl+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 621503572A5E8E2300431BBB /* UIControl+Extensions.swift */; };
 		629C1F532A4ABD0F00540FA4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F522A4ABD0F00540FA4 /* AppDelegate.swift */; };
 		629C1F552A4ABD0F00540FA4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F542A4ABD0F00540FA4 /* SceneDelegate.swift */; };
 		629C1F5D2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F5B2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld */; };
@@ -58,6 +59,7 @@
 		621503512A5E6EC900431BBB /* UIFont+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extensions.swift"; sourceTree = "<group>"; };
 		621503532A5E7AC700431BBB /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		621503552A5E7B0500431BBB /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
+		621503572A5E8E2300431BBB /* UIControl+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+Extensions.swift"; sourceTree = "<group>"; };
 		629C1F4F2A4ABD0F00540FA4 /* LottoDairy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LottoDairy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		629C1F522A4ABD0F00540FA4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		629C1F542A4ABD0F00540FA4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 			children = (
 				621503512A5E6EC900431BBB /* UIFont+Extensions.swift */,
 				621503552A5E7B0500431BBB /* UIColor+Extensions.swift */,
+				621503572A5E8E2300431BBB /* UIControl+Extensions.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 				6215031F2A4E792700431BBB /* Presentable.swift in Sources */,
 				80773A702A55AF770020F1DD /* HomeViewController.swift in Sources */,
 				621503232A4E7CAE00431BBB /* Router.swift in Sources */,
+				621503582A5E8E2300431BBB /* UIControl+Extensions.swift in Sources */,
 				629C1F532A4ABD0F00540FA4 /* AppDelegate.swift in Sources */,
 				621503522A5E6EC900431BBB /* UIFont+Extensions.swift in Sources */,
 				621503562A5E7B0500431BBB /* UIColor+Extensions.swift in Sources */,
