@@ -12,6 +12,6 @@ final class OnboardingViewController: UIViewController, OnboardingFlowProtocol {
     var onSetting: (() -> Void)?
     
     override func viewDidLoad() {
-        self.view.backgroundColor = .red
+        self.view.backgroundColor = .white
     }
 }

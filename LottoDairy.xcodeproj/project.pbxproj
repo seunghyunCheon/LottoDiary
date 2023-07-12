@@ -18,6 +18,12 @@
 		621503432A5BEF0400431BBB /* OnboardingModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 621503422A5BEF0400431BBB /* OnboardingModuleFactory.swift */; };
 		621503452A5BF06100431BBB /* OnboardingFlowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 621503442A5BF06100431BBB /* OnboardingFlowProtocol.swift */; };
 		621503472A5BF12900431BBB /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 621503462A5BF12900431BBB /* OnboardingViewController.swift */; };
+		6215034C2A5E699C00431BBB /* gmarketSansTTFLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 621503492A5E699C00431BBB /* gmarketSansTTFLight.ttf */; };
+		6215034D2A5E699C00431BBB /* gmarketSansTTFMedium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6215034A2A5E699C00431BBB /* gmarketSansTTFMedium.ttf */; };
+		6215034E2A5E699C00431BBB /* gmarketSansTTFBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6215034B2A5E699C00431BBB /* gmarketSansTTFBold.ttf */; };
+		621503522A5E6EC900431BBB /* UIFont+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 621503512A5E6EC900431BBB /* UIFont+Extensions.swift */; };
+		621503542A5E7AC700431BBB /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 621503532A5E7AC700431BBB /* Colors.xcassets */; };
+		621503562A5E7B0500431BBB /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 621503552A5E7B0500431BBB /* UIColor+Extensions.swift */; };
 		629C1F532A4ABD0F00540FA4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F522A4ABD0F00540FA4 /* AppDelegate.swift */; };
 		629C1F552A4ABD0F00540FA4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F542A4ABD0F00540FA4 /* SceneDelegate.swift */; };
 		629C1F5D2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F5B2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld */; };
@@ -46,6 +52,12 @@
 		621503422A5BEF0400431BBB /* OnboardingModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingModuleFactory.swift; sourceTree = "<group>"; };
 		621503442A5BF06100431BBB /* OnboardingFlowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFlowProtocol.swift; sourceTree = "<group>"; };
 		621503462A5BF12900431BBB /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		621503492A5E699C00431BBB /* gmarketSansTTFLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = gmarketSansTTFLight.ttf; sourceTree = "<group>"; };
+		6215034A2A5E699C00431BBB /* gmarketSansTTFMedium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = gmarketSansTTFMedium.ttf; sourceTree = "<group>"; };
+		6215034B2A5E699C00431BBB /* gmarketSansTTFBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = gmarketSansTTFBold.ttf; sourceTree = "<group>"; };
+		621503512A5E6EC900431BBB /* UIFont+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extensions.swift"; sourceTree = "<group>"; };
+		621503532A5E7AC700431BBB /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		621503552A5E7B0500431BBB /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		629C1F4F2A4ABD0F00540FA4 /* LottoDairy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LottoDairy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		629C1F522A4ABD0F00540FA4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		629C1F542A4ABD0F00540FA4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -126,7 +138,12 @@
 		6215032B2A4EBAD600431BBB /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				621503482A5E694900431BBB /* Fonts */,
+				6215034B2A5E699C00431BBB /* gmarketSansTTFBold.ttf */,
+				621503492A5E699C00431BBB /* gmarketSansTTFLight.ttf */,
+				6215034A2A5E699C00431BBB /* gmarketSansTTFMedium.ttf */,
 				629C1F5E2A4ABD1000540FA4 /* Assets.xcassets */,
+				621503532A5E7AC700431BBB /* Colors.xcassets */,
 				629C1F602A4ABD1000540FA4 /* LaunchScreen.storyboard */,
 			);
 			path = Resource;
@@ -161,6 +178,30 @@
 			path = OnboardingScene;
 			sourceTree = "<group>";
 		};
+		621503482A5E694900431BBB /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		6215034F2A5E6EB300431BBB /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				621503502A5E6EBA00431BBB /* Extension */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		621503502A5E6EBA00431BBB /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				621503512A5E6EC900431BBB /* UIFont+Extensions.swift */,
+				621503552A5E7B0500431BBB /* UIColor+Extensions.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		629C1F462A4ABD0F00540FA4 = {
 			isa = PBXGroup;
 			children = (
@@ -180,6 +221,7 @@
 		629C1F512A4ABD0F00540FA4 /* LottoDairy */ = {
 			isa = PBXGroup;
 			children = (
+				6215034F2A5E6EB300431BBB /* Support */,
 				6215032B2A4EBAD600431BBB /* Resource */,
 				621503262A4EB91900431BBB /* Coordinator */,
 				80603AD22A4AC6F1003D5274 /* Application */,
@@ -270,8 +312,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6215034C2A5E699C00431BBB /* gmarketSansTTFLight.ttf in Resources */,
 				629C1F622A4ABD1000540FA4 /* LaunchScreen.storyboard in Resources */,
 				629C1F5F2A4ABD1000540FA4 /* Assets.xcassets in Resources */,
+				621503542A5E7AC700431BBB /* Colors.xcassets in Resources */,
+				6215034D2A5E699C00431BBB /* gmarketSansTTFMedium.ttf in Resources */,
+				6215034E2A5E699C00431BBB /* gmarketSansTTFBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,6 +338,8 @@
 				80773A702A55AF770020F1DD /* HomeViewController.swift in Sources */,
 				621503232A4E7CAE00431BBB /* Router.swift in Sources */,
 				629C1F532A4ABD0F00540FA4 /* AppDelegate.swift in Sources */,
+				621503522A5E6EC900431BBB /* UIFont+Extensions.swift in Sources */,
+				621503562A5E7B0500431BBB /* UIColor+Extensions.swift in Sources */,
 				80603AD62A4AC839003D5274 /* Coordinator.swift in Sources */,
 				80773A762A55BA1C0020F1DD /* ModuleFactoryImp.swift in Sources */,
 				80603AD82A4AC874003D5274 /* BaseCoordinator.swift in Sources */,
