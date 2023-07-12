@@ -35,8 +35,8 @@ extension UIFont {
 // MARK: - Initializers
 
 extension UIFont {
-    static func gmarketSans(size: Size, family: Family, weight: CustomWeight) -> UIFont {
-        guard let customFont =  UIFont(name: UIFont.stringName(family, weight), size: size.rawValue) else {
+    static func gmarketSans(size: Size, weight: CustomWeight) -> UIFont {
+        guard let customFont =  UIFont(name: UIFont.stringName(.gmarketSans, weight), size: size.rawValue) else {
             return UIFont.systemFont(ofSize: size.rawValue)
         }
         
