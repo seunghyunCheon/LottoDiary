@@ -39,6 +39,7 @@
 		80773A742A55B99E0020F1DD /* HomeModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80773A732A55B99E0020F1DD /* HomeModuleFactory.swift */; };
 		80773A762A55BA1C0020F1DD /* ModuleFactoryImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80773A752A55BA1C0020F1DD /* ModuleFactoryImp.swift */; };
 		8080DDBB2A604A0500364CF1 /* TabBarComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8080DDBA2A604A0500364CF1 /* TabBarComponents.swift */; };
+		8080DDBE2A60540B00364CF1 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8080DDBD2A60540B00364CF1 /* TabBarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,6 +77,7 @@
 		80773A732A55B99E0020F1DD /* HomeModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModuleFactory.swift; sourceTree = "<group>"; };
 		80773A752A55BA1C0020F1DD /* ModuleFactoryImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleFactoryImp.swift; sourceTree = "<group>"; };
 		8080DDBA2A604A0500364CF1 /* TabBarComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarComponents.swift; sourceTree = "<group>"; };
+		8080DDBD2A60540B00364CF1 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +165,7 @@
 		621503312A559C7300431BBB /* TabBarScene */ = {
 			isa = PBXGroup;
 			children = (
+				8080DDBC2A60530F00364CF1 /* Views */,
 				621503322A559C9600431BBB /* TabBarController.swift */,
 				621503342A559CB800431BBB /* TabBarCoordinator.swift */,
 				621503362A55A44900431BBB /* TabBarFlowProtocol.swift */,
@@ -257,6 +260,14 @@
 			path = HomeScene;
 			sourceTree = "<group>";
 		};
+		8080DDBC2A60530F00364CF1 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8080DDBD2A60540B00364CF1 /* TabBarView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -332,6 +343,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				80773A742A55B99E0020F1DD /* HomeModuleFactory.swift in Sources */,
+				8080DDBE2A60540B00364CF1 /* TabBarView.swift in Sources */,
 				621503302A559BB200431BBB /* CoordinatorFactoryImp.swift in Sources */,
 				621503332A559C9600431BBB /* TabBarController.swift in Sources */,
 				8080DDBB2A604A0500364CF1 /* TabBarComponents.swift in Sources */,
@@ -502,7 +514,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -530,7 +542,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

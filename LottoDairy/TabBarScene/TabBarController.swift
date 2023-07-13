@@ -16,6 +16,7 @@ final class TabBarController: UITabBarController, TabBarFlowProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureTabBar()
         configureViewControllers()
     }
     
@@ -27,7 +28,12 @@ final class TabBarController: UITabBarController, TabBarFlowProtocol {
         }
     }
     
-    func configureViewControllers() {
+    private func configureTabBar() {
+        setValue(TabBarView(frame: tabBar.frame), forKey: "tabBar")
+        delegate = self
+    }
+    
+    private func configureViewControllers() {
         self.viewControllers = TabBarComponents.allCases.map { makeTabBarViewControllers($0) }
         selectedIndex = 1
     }
@@ -44,10 +50,16 @@ extension TabBarController: UITabBarControllerDelegate {
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         guard let controller = viewControllers?[selectedIndex] as? UINavigationController else { return }
-        
-        // 현재 문제 : UITabBarControllerDelegate이 작동하지 않는다.
         if selectedIndex == 1 {
             onHomeFlowSelect?(controller)
         }
     }
+    
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        guard let selectedIndex = tabBarController.viewControllers?.firstIndex(of: viewController) else {
+            return true
+        }
+        return selectedIndex == 2 ? false : true
+    }
+
 }
