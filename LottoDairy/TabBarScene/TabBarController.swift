@@ -28,18 +28,25 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, Ta
     }
     
     func configureViewControllers() {
-        let homeViewController = UINavigationController()
-        homeViewController.tabBarItem.title = "Home"
-        self.viewControllers = [homeViewController]
+        self.viewControllers = TabBarComponents.allCases.map { makeTabBarViewControllers($0) }
+        selectedIndex = 1
         
-        selectedIndex = 0
     }
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         guard let controller = viewControllers?[selectedIndex] as? UINavigationController else { return }
         
-        if selectedIndex == 0 {
+        // 현재 문제 : 아래 코드가 실행되지 않아 flow 연결이 되지 않는다.
+        if selectedIndex == 1 {
             onHomeFlowSelect?(controller)
         }
+    }
+    
+    // MARK: Functions - Private
+    private func makeTabBarViewControllers(_ type: TabBarComponents) -> UINavigationController {
+        let viewController = UINavigationController()
+        viewController.tabBarItem.title = type.title
+        viewController.tabBarItem.image = UIImage(systemName: type.systemName)
+        return viewController
     }
 }

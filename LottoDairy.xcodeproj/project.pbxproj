@@ -38,6 +38,7 @@
 		80773A722A55AFF80020F1DD /* HomeFlowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80773A712A55AFF80020F1DD /* HomeFlowProtocol.swift */; };
 		80773A742A55B99E0020F1DD /* HomeModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80773A732A55B99E0020F1DD /* HomeModuleFactory.swift */; };
 		80773A762A55BA1C0020F1DD /* ModuleFactoryImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80773A752A55BA1C0020F1DD /* ModuleFactoryImp.swift */; };
+		8080DDBB2A604A0500364CF1 /* TabBarComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8080DDBA2A604A0500364CF1 /* TabBarComponents.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +75,7 @@
 		80773A712A55AFF80020F1DD /* HomeFlowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFlowProtocol.swift; sourceTree = "<group>"; };
 		80773A732A55B99E0020F1DD /* HomeModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModuleFactory.swift; sourceTree = "<group>"; };
 		80773A752A55BA1C0020F1DD /* ModuleFactoryImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleFactoryImp.swift; sourceTree = "<group>"; };
+		8080DDBA2A604A0500364CF1 /* TabBarComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarComponents.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +166,7 @@
 				621503322A559C9600431BBB /* TabBarController.swift */,
 				621503342A559CB800431BBB /* TabBarCoordinator.swift */,
 				621503362A55A44900431BBB /* TabBarFlowProtocol.swift */,
+				8080DDBA2A604A0500364CF1 /* TabBarComponents.swift */,
 			);
 			path = TabBarScene;
 			sourceTree = "<group>";
@@ -331,6 +334,7 @@
 				80773A742A55B99E0020F1DD /* HomeModuleFactory.swift in Sources */,
 				621503302A559BB200431BBB /* CoordinatorFactoryImp.swift in Sources */,
 				621503332A559C9600431BBB /* TabBarController.swift in Sources */,
+				8080DDBB2A604A0500364CF1 /* TabBarComponents.swift in Sources */,
 				80773A6E2A55AE9E0020F1DD /* HomeCoordinator.swift in Sources */,
 				621503472A5BF12900431BBB /* OnboardingViewController.swift in Sources */,
 				621503452A5BF06100431BBB /* OnboardingFlowProtocol.swift in Sources */,
@@ -491,6 +495,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F2W258F5P6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LottoDairy/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -518,6 +523,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F2W258F5P6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LottoDairy/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
