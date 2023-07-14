@@ -33,6 +33,7 @@
 		80603AD82A4AC874003D5274 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80603AD72A4AC874003D5274 /* BaseCoordinator.swift */; };
 		80603ADA2A4E6FE2003D5274 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80603AD92A4E6FE2003D5274 /* AppCoordinator.swift */; };
 		80603ADE2A4E9FB0003D5274 /* RouterImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80603ADD2A4E9FB0003D5274 /* RouterImp.swift */; };
+		8060B41F2A61A66800726C83 /* LottoQRButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8060B41E2A61A66800726C83 /* LottoQRButton.swift */; };
 		80773A6E2A55AE9E0020F1DD /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80773A6D2A55AE9E0020F1DD /* HomeCoordinator.swift */; };
 		80773A702A55AF770020F1DD /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80773A6F2A55AF770020F1DD /* HomeViewController.swift */; };
 		80773A722A55AFF80020F1DD /* HomeFlowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80773A712A55AFF80020F1DD /* HomeFlowProtocol.swift */; };
@@ -71,6 +72,7 @@
 		80603AD72A4AC874003D5274 /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		80603AD92A4E6FE2003D5274 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		80603ADD2A4E9FB0003D5274 /* RouterImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterImp.swift; sourceTree = "<group>"; };
+		8060B41E2A61A66800726C83 /* LottoQRButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoQRButton.swift; sourceTree = "<group>"; };
 		80773A6D2A55AE9E0020F1DD /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		80773A6F2A55AF770020F1DD /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		80773A712A55AFF80020F1DD /* HomeFlowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFlowProtocol.swift; sourceTree = "<group>"; };
@@ -169,7 +171,6 @@
 				621503322A559C9600431BBB /* TabBarController.swift */,
 				621503342A559CB800431BBB /* TabBarCoordinator.swift */,
 				621503362A55A44900431BBB /* TabBarFlowProtocol.swift */,
-				8080DDBA2A604A0500364CF1 /* TabBarComponents.swift */,
 			);
 			path = TabBarScene;
 			sourceTree = "<group>";
@@ -263,7 +264,9 @@
 		8080DDBC2A60530F00364CF1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				8080DDBA2A604A0500364CF1 /* TabBarComponents.swift */,
 				8080DDBD2A60540B00364CF1 /* TabBarView.swift */,
+				8060B41E2A61A66800726C83 /* LottoQRButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -345,6 +348,7 @@
 				80773A742A55B99E0020F1DD /* HomeModuleFactory.swift in Sources */,
 				8080DDBE2A60540B00364CF1 /* TabBarView.swift in Sources */,
 				621503302A559BB200431BBB /* CoordinatorFactoryImp.swift in Sources */,
+				8060B41F2A61A66800726C83 /* LottoQRButton.swift in Sources */,
 				621503332A559C9600431BBB /* TabBarController.swift in Sources */,
 				8080DDBB2A604A0500364CF1 /* TabBarComponents.swift in Sources */,
 				80773A6E2A55AE9E0020F1DD /* HomeCoordinator.swift in Sources */,

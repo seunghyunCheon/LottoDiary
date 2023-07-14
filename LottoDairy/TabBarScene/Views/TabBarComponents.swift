@@ -41,4 +41,10 @@ enum TabBarComponents: CaseIterable {
             return ""
         }
     }
+
+    enum LottoQR {
+        static let title = "로또 QR"
+        static let systemName = "qrcode"
+    }
+
 }
