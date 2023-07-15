@@ -11,8 +11,6 @@ final class TabBarView: UITabBar {
 
     private var shapeLayer: CALayer?
 
-    private let lottoQRButton = LottoQRButton()
-
     enum Constraints {
         static let lottoQRButtonSize: CGFloat = 80
         static let halfLottoQRButtonSize: CGFloat = 80 / 2
@@ -38,9 +36,13 @@ final class TabBarView: UITabBar {
     }
 
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        guard !clipsToBounds && !isHidden && alpha > .zero else { return nil }
-
-        return self.lottoQRButton.frame.contains(point) ? self.lottoQRButton : super.hitTest(point, with: event)
+        guard !clipsToBounds && !isHidden && alpha > 0 else { return nil }
+        for member in subviews.reversed() {
+            let subPoint = member.convert(point, from: self)
+            guard let result = member.hitTest(subPoint, with: event) else { continue }
+            return result
+        }
+        return nil
     }
 
     private func configureTabBar() {
@@ -53,15 +55,14 @@ final class TabBarView: UITabBar {
     }
 
     private func configureLottoQRButton() {
-        self.addSubview(lottoQRButton)
-
         let x = (self.bounds.width / 2) - Constraints.halfLottoQRButtonSize
-        lottoQRButton.frame = CGRect(x: x,
-                                     y: -Constraints.halfLottoQRButtonSize,
-                                     width: Constraints.lottoQRButtonSize,
-                                     height: Constraints.lottoQRButtonSize)
+        let lottoQRButton = LottoQRButton(frame: CGRect(x: x,
+                                                        y: -Constraints.halfLottoQRButtonSize,
+                                                        width: Constraints.lottoQRButtonSize,
+                                                        height: Constraints.lottoQRButtonSize))
         lottoQRButton.clipsToBounds = true
         lottoQRButton.layer.cornerRadius = Constraints.halfLottoQRButtonSize
+        self.addSubview(lottoQRButton)
     }
 
     private func configureCurveShape() {
