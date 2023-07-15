@@ -9,8 +9,6 @@ import UIKit
 
 final class LottoQRButton: UIButton {
 
-    private var buttonConfiguration = UIButton.Configuration.filled()
-
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -24,25 +22,23 @@ final class LottoQRButton: UIButton {
     }
 
     private func configureLottoQRButton() {
-        buttonConfiguration.baseBackgroundColor = .designSystem(.mainBlue)
-        self.configuration = buttonConfiguration
+        self.backgroundColor = .designSystem(.mainBlue)
+        self.alignTextBelow(spacing: 7)
     }
 
     private func configureTextAttribute() {
-        var textAttribute = AttributedString(TabBarComponents.LottoQR.title)
-        textAttribute.font = .gmarketSans(size: .caption, weight: .bold)
+        let attribute: [NSAttributedString.Key: Any] = [
+            .font: UIFont.gmarketSans(size: .caption, weight: .bold),
+            .foregroundColor: UIColor.white
+        ]
+        let attributedString = NSAttributedString(string: TabBarComponents.LottoQR.title, attributes: attribute)
 
-        buttonConfiguration.attributedSubtitle = textAttribute
-        buttonConfiguration.titleAlignment = .center
+        setAttributedTitle(attributedString, for: .normal)
     }
 
     private func configureImage() {
-        let image = UIImage(systemName: TabBarComponents.LottoQR.systemName)
-        let imageConfiguration = UIImage.SymbolConfiguration(pointSize: 20)
-
-        buttonConfiguration.preferredSymbolConfigurationForImage = imageConfiguration
-        buttonConfiguration.image = image
-        buttonConfiguration.imagePadding = 5
-        buttonConfiguration.imagePlacement = .top
+        let imageConfiguration = UIImage.SymbolConfiguration(pointSize: 25)
+        let image = UIImage(systemName: TabBarComponents.LottoQR.systemName, withConfiguration: imageConfiguration)
+        self.setImage(image, for: .normal)
     }
 }
