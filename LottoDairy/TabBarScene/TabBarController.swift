@@ -34,11 +34,11 @@ final class TabBarController: UITabBarController, TabBarFlowProtocol {
     }
     
     private func configureViewControllers() {
-        self.viewControllers = TabBarComponents.allCases.map { makeTabBarViewControllers($0) }
+        self.viewControllers = TabBarComponents.allCases.map { makeTabBarNavigationControllers($0) }
         selectedIndex = 1
     }
     
-    private func makeTabBarViewControllers(_ type: TabBarComponents) -> UINavigationController {
+    private func makeTabBarNavigationControllers(_ type: TabBarComponents) -> UINavigationController {
         let viewController = UINavigationController()
         viewController.tabBarItem.title = type.title
         viewController.tabBarItem.image = UIImage(systemName: type.systemName)
