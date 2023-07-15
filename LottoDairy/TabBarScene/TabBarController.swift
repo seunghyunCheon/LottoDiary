@@ -34,7 +34,7 @@ final class TabBarController: UITabBarController, TabBarFlowProtocol {
     }
     
     private func configureViewControllers() {
-        self.viewControllers = TabBarComponents.allCases.map { makeTabBarNavigationControllers($0) }
+        viewControllers = TabBarComponents.allCases.map { makeTabBarNavigationControllers($0) }
         selectedIndex = 1
     }
     

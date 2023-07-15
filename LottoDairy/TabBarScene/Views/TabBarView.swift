@@ -46,23 +46,23 @@ final class TabBarView: UITabBar {
     }
 
     private func configureTabBar() {
-        self.barStyle = .black
-        self.tintColor = .designSystem(.white)
-        self.items?.forEach { $0.setTitleTextAttributes(
+        barStyle = .black
+        tintColor = .designSystem(.white)
+        items?.forEach { $0.setTitleTextAttributes(
             [.font : UIFont.gmarketSans(size: .caption, weight: .medium)],
             for: .normal)
         }
     }
 
     private func configureLottoQRButton() {
-        let x = (self.bounds.width / 2) - Constraints.halfLottoQRButtonSize
+        let x = (bounds.width / 2) - Constraints.halfLottoQRButtonSize
         let lottoQRButton = LottoQRButton(frame: CGRect(x: x,
                                                         y: -Constraints.halfLottoQRButtonSize,
                                                         width: Constraints.lottoQRButtonSize,
                                                         height: Constraints.lottoQRButtonSize))
         lottoQRButton.clipsToBounds = true
         lottoQRButton.layer.cornerRadius = Constraints.halfLottoQRButtonSize
-        self.addSubview(lottoQRButton)
+        addSubview(lottoQRButton)
     }
 
     private func configureCurveShape() {
@@ -71,9 +71,9 @@ final class TabBarView: UITabBar {
         shapeLayer.fillColor = UIColor.designSystem(.gray2B2C35)?.cgColor
 
         if let oldShapeLayer = self.shapeLayer {
-            self.layer.replaceSublayer(oldShapeLayer, with: shapeLayer)
+            layer.replaceSublayer(oldShapeLayer, with: shapeLayer)
         } else {
-            self.layer.insertSublayer(shapeLayer, at: .zero)
+            layer.insertSublayer(shapeLayer, at: .zero)
         }
         self.shapeLayer = shapeLayer
     }

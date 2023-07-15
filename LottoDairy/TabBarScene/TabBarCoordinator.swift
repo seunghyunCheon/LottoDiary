@@ -25,8 +25,8 @@ final class TabBarCoordinator: BaseCoordinator {
     private func runHomeFlow() -> ((UINavigationController) -> ()) {
         return { [unowned self] navController in
           if navController.viewControllers.isEmpty == true {
-              let homeCoordinator = self.coordinatorFactory.makeHomeCoordinator(navigationController: navController)
-            self.addDependency(homeCoordinator)
+              let homeCoordinator = coordinatorFactory.makeHomeCoordinator(navigationController: navController)
+            addDependency(homeCoordinator)
             homeCoordinator.start()
           }
         }

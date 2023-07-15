@@ -22,8 +22,8 @@ final class LottoQRButton: UIButton {
     }
 
     private func configureLottoQRButton() {
-        self.backgroundColor = .designSystem(.mainBlue)
-        self.alignTextBelow(spacing: 7)
+        backgroundColor = .designSystem(.mainBlue)
+        alignTextBelow(spacing: 7)
     }
 
     private func configureTextAttribute() {
@@ -39,6 +39,6 @@ final class LottoQRButton: UIButton {
     private func configureImage() {
         let imageConfiguration = UIImage.SymbolConfiguration(pointSize: 25)
         let image = UIImage(systemName: TabBarComponents.LottoQR.systemName, withConfiguration: imageConfiguration)
-        self.setImage(image, for: .normal)
+        setImage(image, for: .normal)
     }
 }
