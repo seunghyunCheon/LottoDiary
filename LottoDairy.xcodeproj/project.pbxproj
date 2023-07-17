@@ -26,6 +26,10 @@
 		621503562A5E7B0500431BBB /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 621503552A5E7B0500431BBB /* UIColor+Extensions.swift */; };
 		621503582A5E8E2300431BBB /* UIControl+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 621503572A5E8E2300431BBB /* UIControl+Extensions.swift */; };
 		6215035A2A5E8EBB00431BBB /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 621503592A5E8EBB00431BBB /* OnboardingViewModel.swift */; };
+		624BB0CD2A652EC8002A3109 /* GoalSettingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0CC2A652EC8002A3109 /* GoalSettingCoordinator.swift */; };
+		624BB0CF2A652FB9002A3109 /* GoalSettingModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0CE2A652FB9002A3109 /* GoalSettingModuleFactory.swift */; };
+		624BB0D12A6530C0002A3109 /* GoalSettingFlowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0D02A6530C0002A3109 /* GoalSettingFlowProtocol.swift */; };
+		624BB0D32A653299002A3109 /* GoalSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0D22A653299002A3109 /* GoalSettingViewController.swift */; };
 		629C1F532A4ABD0F00540FA4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F522A4ABD0F00540FA4 /* AppDelegate.swift */; };
 		629C1F552A4ABD0F00540FA4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F542A4ABD0F00540FA4 /* SceneDelegate.swift */; };
 		629C1F5D2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F5B2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld */; };
@@ -62,6 +66,10 @@
 		621503552A5E7B0500431BBB /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		621503572A5E8E2300431BBB /* UIControl+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+Extensions.swift"; sourceTree = "<group>"; };
 		621503592A5E8EBB00431BBB /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		624BB0CC2A652EC8002A3109 /* GoalSettingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSettingCoordinator.swift; sourceTree = "<group>"; };
+		624BB0CE2A652FB9002A3109 /* GoalSettingModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSettingModuleFactory.swift; sourceTree = "<group>"; };
+		624BB0D02A6530C0002A3109 /* GoalSettingFlowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSettingFlowProtocol.swift; sourceTree = "<group>"; };
+		624BB0D22A653299002A3109 /* GoalSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSettingViewController.swift; sourceTree = "<group>"; };
 		629C1F4F2A4ABD0F00540FA4 /* LottoDairy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LottoDairy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		629C1F522A4ABD0F00540FA4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		629C1F542A4ABD0F00540FA4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -98,6 +106,7 @@
 				621503202A4E79D000431BBB /* CoordinatorFactory.swift */,
 				80773A732A55B99E0020F1DD /* HomeModuleFactory.swift */,
 				621503422A5BEF0400431BBB /* OnboardingModuleFactory.swift */,
+				624BB0CE2A652FB9002A3109 /* GoalSettingModuleFactory.swift */,
 			);
 			path = Factories;
 			sourceTree = "<group>";
@@ -208,6 +217,16 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		624BB0CB2A652EAD002A3109 /* GoalSettingScene */ = {
+			isa = PBXGroup;
+			children = (
+				624BB0CC2A652EC8002A3109 /* GoalSettingCoordinator.swift */,
+				624BB0D02A6530C0002A3109 /* GoalSettingFlowProtocol.swift */,
+				624BB0D22A653299002A3109 /* GoalSettingViewController.swift */,
+			);
+			path = GoalSettingScene;
+			sourceTree = "<group>";
+		};
 		629C1F462A4ABD0F00540FA4 = {
 			isa = PBXGroup;
 			children = (
@@ -232,6 +251,7 @@
 				621503262A4EB91900431BBB /* Coordinator */,
 				80603AD22A4AC6F1003D5274 /* Application */,
 				6215033D2A5BE91A00431BBB /* OnboardingScene */,
+				624BB0CB2A652EAD002A3109 /* GoalSettingScene */,
 				621503312A559C7300431BBB /* TabBarScene */,
 				80773A6C2A55AE8C0020F1DD /* HomeScene */,
 				629C1F632A4ABD1000540FA4 /* Info.plist */,
@@ -336,12 +356,16 @@
 			files = (
 				80773A742A55B99E0020F1DD /* HomeModuleFactory.swift in Sources */,
 				621503302A559BB200431BBB /* CoordinatorFactoryImp.swift in Sources */,
+				624BB0CF2A652FB9002A3109 /* GoalSettingModuleFactory.swift in Sources */,
+				624BB0D12A6530C0002A3109 /* GoalSettingFlowProtocol.swift in Sources */,
 				621503332A559C9600431BBB /* TabBarController.swift in Sources */,
+				624BB0D32A653299002A3109 /* GoalSettingViewController.swift in Sources */,
 				80773A6E2A55AE9E0020F1DD /* HomeCoordinator.swift in Sources */,
 				6215035A2A5E8EBB00431BBB /* OnboardingViewModel.swift in Sources */,
 				621503472A5BF12900431BBB /* OnboardingViewController.swift in Sources */,
 				621503452A5BF06100431BBB /* OnboardingFlowProtocol.swift in Sources */,
 				6215031F2A4E792700431BBB /* Presentable.swift in Sources */,
+				624BB0CD2A652EC8002A3109 /* GoalSettingCoordinator.swift in Sources */,
 				80773A702A55AF770020F1DD /* HomeViewController.swift in Sources */,
 				621503232A4E7CAE00431BBB /* Router.swift in Sources */,
 				621503582A5E8E2300431BBB /* UIControl+Extensions.swift in Sources */,

@@ -15,6 +15,12 @@ final class CoordinatorFactoryImp: CoordinatorFactory {
         return coordinator
     }
     
+    func makeGoalSettingCoordinator(router: Router) -> Coordinator & GoalSettingCoordinatorFinishable {
+        let coordinator = GoalSettingCoordinator(router: router, factory: ModuleFactoryImp())
+        
+        return coordinator
+    }
+    
     func makeTabbarCoordinator() -> (configurator: Coordinator, toPresent: Presentable?) {
         let controller = TabBarController()
         let coordinator = TabBarCoordinator(tabBarFlow: controller, coordinatorFactory: CoordinatorFactoryImp())

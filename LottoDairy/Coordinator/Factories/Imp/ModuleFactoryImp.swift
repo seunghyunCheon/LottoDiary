@@ -5,7 +5,10 @@
 //  Created by Sunny on 2023/07/05.
 //
 
-final class ModuleFactoryImp: HomeModuleFactory, OnboardingModuleFactory {
+final class ModuleFactoryImp:
+    HomeModuleFactory,
+    OnboardingModuleFactory,
+    GoalSettingModuleFactory {
     
     func makeHomeFlow() -> HomeFlowProtocol {
         return HomeViewController()
@@ -13,7 +16,12 @@ final class ModuleFactoryImp: HomeModuleFactory, OnboardingModuleFactory {
     
     func makeOnboardingFlow() -> OnboardingFlowProtocol {
         let viewModel = OnboardingViewModel()
+        
         return OnboardingViewController(viewModel: viewModel)
+    }
+    
+    func makeGoalSettingFlow() -> GoalSettingFlowProtocol {
+        return GoalSettingViewController()
     }
 }
 

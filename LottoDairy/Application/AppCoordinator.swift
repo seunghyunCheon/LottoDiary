@@ -32,7 +32,13 @@ final class AppCoordinator: BaseCoordinator {
     }
     
     private func runMyInformationFlow() {
-        print("info tapped")
+        let coordinator = coordinatorFactory.makeGoalSettingCoordinator(router: router)
+        coordinator.finishFlow = { [weak self, weak coordinator] in
+            self?.removeDependency(coordinator)
+            self?.runMainFlow()
+        }
+        addDependency(coordinator)
+        coordinator.start()
     }
     
     private func runMainFlow() {
