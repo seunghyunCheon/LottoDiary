@@ -17,12 +17,16 @@ final class TabBarView: UITabBar {
         static let pathRadius: CGFloat = halfLottoQRButtonSize + 5
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
         configureTabBar()
     }
-    
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func sizeThatFits(_ size: CGSize) -> CGSize {
         var sizeThatFits = super.sizeThatFits(size)
         sizeThatFits.height = sizeThatFits.height + 5
