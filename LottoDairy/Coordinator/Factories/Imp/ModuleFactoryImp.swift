@@ -12,6 +12,8 @@ final class ModuleFactoryImp: HomeModuleFactory, OnboardingModuleFactory {
     }
     
     func makeOnboardingFlow() -> OnboardingFlowProtocol {
-        return OnboardingViewController()
+        let viewModel = OnboardingViewModel()
+        return OnboardingViewController(viewModel: viewModel)
     }
 }
+

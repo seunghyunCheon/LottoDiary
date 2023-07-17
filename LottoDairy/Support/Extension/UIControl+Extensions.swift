@@ -1,54 +1,57 @@
 //
-//  UIControl+Extensions.swift
-//  LottoDairy
 //
-//  Created by Brody on 2023/07/12.
+//  Created by Brody on 2023/07/17
 //
 
-import Combine
 import UIKit
+import Combine
 
 extension UIControl {
-    class InteractionSubscription<S: Subscriber>: Subscription where S.Input == UIControl {
-        private let subscriber: S?
-        private let control: UIControl
-        private let event: UIControl.Event
-        
-        init(subscriber: S, control: UIControl, event: UIControl.Event) {
-            self.subscriber = subscriber
-            self.control = control
-            self.event = event
-            
-            self.control.addTarget(self, action: #selector(handleEvent), for: event)
-        }
-        
-        func request(_ demand: Subscribers.Demand) { }
-        func cancel() { }
-        
-        @objc func handleEvent(_ sender: UIControl) {
-            _ = subscriber?.receive(sender)
-        }
-    }
-    
-    struct InteractionPublisher: Publisher {
-        typealias Output = UIControl
+    struct EventPublisher: Publisher {
+        typealias Output = Void
         typealias Failure = Never
         
-        private let control: UIControl
-        private let event: UIControl.Event
+        fileprivate var control: UIControl
+        fileprivate var event: Event
         
-        init(control: UIControl, event: UIControl.Event) {
-            self.control = control
-            self.event = event
-        }
-        
-        func receive<S>(subscriber: S) where S : Subscriber, Never == S.Failure, UIControl == S.Input {
-            let subscription = InteractionSubscription(subscriber: subscriber, control: control, event: event)
+        func receive<S: Subscriber>(subscriber: S) where S.Input == Output, S.Failure == Failure {
+            let subscription = EventSubscription<S>()
+            subscription.target = subscriber
+            
             subscriber.receive(subscription: subscription)
+            
+            control.addTarget(
+                subscription,
+                action: #selector(subscription.trigger),
+                for: event
+            )
         }
     }
-    
-    func publisher(for event: UIControl.Event) -> UIControl.InteractionPublisher {
-        return InteractionPublisher(control: self, event: event)
+}
+
+private extension UIControl {
+    class EventSubscription<Target: Subscriber>: Subscription where Target.Input == Void {
+        
+        var target: Target?
+        
+        func request(_ demand: Subscribers.Demand) { }
+        
+        func cancel() {
+            target = nil
+        }
+        
+        @objc
+        func trigger() {
+            _ = target?.receive(())
+        }
+    }
+}
+
+extension UIControl {
+    func publisher(for event: Event) -> EventPublisher {
+        EventPublisher(
+            control: self,
+            event: event
+        )
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class OnboardingViewController: UIViewController, OnboardingFlowProtocol {
     
@@ -52,11 +53,26 @@ final class OnboardingViewController: UIViewController, OnboardingFlowProtocol {
         return stackView
     }()
     
+    var viewModel: OnboardingViewModel
     var onSetting: (() -> Void)?
+    
+    private var cancellables: Set<AnyCancellable> = []
+    
+    // MARK: - Initializers
+
+    init(viewModel: OnboardingViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         setupRootView()
         setupLayout()
+        bindViewModel()
     }
     
     private func setupRootView() {
@@ -64,19 +80,33 @@ final class OnboardingViewController: UIViewController, OnboardingFlowProtocol {
     }
     
     private func setupLayout() {
-        self.view.addSubview(settingStackView)
-        settingStackView.addArrangedSubview(titleLabel)
-        settingStackView.addArrangedSubview(subTitleLabel)
-        settingStackView.addArrangedSubview(goalSettingButton)
+        self.view.addSubview(self.settingStackView)
+        self.settingStackView.addArrangedSubview(self.titleLabel)
+        self.settingStackView.addArrangedSubview(self.subTitleLabel)
+        self.settingStackView.addArrangedSubview(self.goalSettingButton)
         
-        self.view.addSubview(settingStackView)
+        self.view.addSubview(self.settingStackView)
         
         NSLayoutConstraint.activate([
-            settingStackView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            settingStackView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            self.settingStackView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            self.settingStackView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
             
-            goalSettingButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5),
-            goalSettingButton.heightAnchor.constraint(equalTo: goalSettingButton.widthAnchor, multiplier: 0.25)
+            self.goalSettingButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5),
+            self.goalSettingButton.heightAnchor.constraint(equalTo: self.goalSettingButton.widthAnchor, multiplier: 0.25)
         ])
+    }
+    
+    private func bindViewModel() {
+        let input = OnboardingViewModel.Input(
+            goalSettingButtonDidTab: goalSettingButton.publisher(for: .touchUpInside).eraseToAnyPublisher()
+        )
+        
+        let output = viewModel.transform(input: input)
+        
+        output.settingPageRequested
+            .sink { [weak self] in
+                self?.onSetting?()
+            }
+            .store(in: &cancellables)
     }
 }
