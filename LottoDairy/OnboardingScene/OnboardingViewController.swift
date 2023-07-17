@@ -76,23 +76,23 @@ final class OnboardingViewController: UIViewController, OnboardingFlowProtocol {
     }
     
     private func setupRootView() {
-        self.view.backgroundColor = .designSystem(.gray17181D)
+        view.backgroundColor = .designSystem(.gray17181D)
     }
     
     private func setupLayout() {
-        self.view.addSubview(self.settingStackView)
-        self.settingStackView.addArrangedSubview(self.titleLabel)
-        self.settingStackView.addArrangedSubview(self.subTitleLabel)
-        self.settingStackView.addArrangedSubview(self.goalSettingButton)
+        view.addSubview(settingStackView)
+        settingStackView.addArrangedSubview(titleLabel)
+        settingStackView.addArrangedSubview(subTitleLabel)
+        settingStackView.addArrangedSubview(goalSettingButton)
         
-        self.view.addSubview(self.settingStackView)
+        view.addSubview(settingStackView)
         
         NSLayoutConstraint.activate([
-            self.settingStackView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            self.settingStackView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            settingStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            settingStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             
-            self.goalSettingButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5),
-            self.goalSettingButton.heightAnchor.constraint(equalTo: self.goalSettingButton.widthAnchor, multiplier: 0.25)
+            goalSettingButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),
+            goalSettingButton.heightAnchor.constraint(equalTo: goalSettingButton.widthAnchor, multiplier: 0.25)
         ])
     }
     
