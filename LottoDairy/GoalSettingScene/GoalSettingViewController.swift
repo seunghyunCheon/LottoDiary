@@ -144,4 +144,53 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
             notificationTextField.topAnchor.constraint(equalTo: notificationLabel.bottomAnchor, constant: 20)
         ])
     }
+    
+    // MARK: - PickerView
+    
+    private func createPickerView() {
+        let pickerView = UIPickerView()
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        notificationTextField.tintColor = .clear
+        
+        let toolBar = UIToolbar(frame: .init(x: 0, y: 0, width: 100, height: 35))
+        toolBar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "확인", style: .done, target: self, action: #selector(doneButtonDidTap))
+        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let cancelButton = UIBarButtonItem(title: "취소", style: .done, target: self, action: #selector(cancelButtonDidTap))
+        toolBar.setItems([cancelButton , space , doneButton], animated: true)
+        toolBar.isUserInteractionEnabled = true
+        
+        notificationTextField.inputView = pickerView
+        notificationTextField.inputAccessoryView = toolBar
+    }
+    
+    @objc
+    func doneButtonDidTap() {
+        notificationTextField.resignFirstResponder()
+    }
+    
+    @objc
+    func cancelButtonDidTap() {
+        notificationTextField.resignFirstResponder()
+    }
+}
+
+extension GoalSettingViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return notificationCycleList.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return notificationCycleList[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        notificationTextField.text = notificationCycleList[row]
+    }
 }
