@@ -30,6 +30,7 @@
 		624BB0CF2A652FB9002A3109 /* GoalSettingModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0CE2A652FB9002A3109 /* GoalSettingModuleFactory.swift */; };
 		624BB0D12A6530C0002A3109 /* GoalSettingFlowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0D02A6530C0002A3109 /* GoalSettingFlowProtocol.swift */; };
 		624BB0D32A653299002A3109 /* GoalSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0D22A653299002A3109 /* GoalSettingViewController.swift */; };
+		624BB0D92A666342002A3109 /* LottoDiaryTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0D82A666342002A3109 /* LottoDiaryTextField.swift */; };
 		629C1F532A4ABD0F00540FA4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F522A4ABD0F00540FA4 /* AppDelegate.swift */; };
 		629C1F552A4ABD0F00540FA4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F542A4ABD0F00540FA4 /* SceneDelegate.swift */; };
 		629C1F5D2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F5B2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld */; };
@@ -70,6 +71,7 @@
 		624BB0CE2A652FB9002A3109 /* GoalSettingModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSettingModuleFactory.swift; sourceTree = "<group>"; };
 		624BB0D02A6530C0002A3109 /* GoalSettingFlowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSettingFlowProtocol.swift; sourceTree = "<group>"; };
 		624BB0D22A653299002A3109 /* GoalSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSettingViewController.swift; sourceTree = "<group>"; };
+		624BB0D82A666342002A3109 /* LottoDiaryTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoDiaryTextField.swift; sourceTree = "<group>"; };
 		629C1F4F2A4ABD0F00540FA4 /* LottoDairy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LottoDairy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		629C1F522A4ABD0F00540FA4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		629C1F542A4ABD0F00540FA4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -227,6 +229,14 @@
 			path = GoalSettingScene;
 			sourceTree = "<group>";
 		};
+		624BB0D72A666301002A3109 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				624BB0D82A666342002A3109 /* LottoDiaryTextField.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		629C1F462A4ABD0F00540FA4 = {
 			isa = PBXGroup;
 			children = (
@@ -246,6 +256,7 @@
 		629C1F512A4ABD0F00540FA4 /* LottoDairy */ = {
 			isa = PBXGroup;
 			children = (
+				624BB0D72A666301002A3109 /* Common */,
 				6215034F2A5E6EB300431BBB /* Support */,
 				6215032B2A4EBAD600431BBB /* Resource */,
 				621503262A4EB91900431BBB /* Coordinator */,
@@ -362,6 +373,7 @@
 				624BB0D32A653299002A3109 /* GoalSettingViewController.swift in Sources */,
 				80773A6E2A55AE9E0020F1DD /* HomeCoordinator.swift in Sources */,
 				6215035A2A5E8EBB00431BBB /* OnboardingViewModel.swift in Sources */,
+				624BB0D92A666342002A3109 /* LottoDiaryTextField.swift in Sources */,
 				621503472A5BF12900431BBB /* OnboardingViewController.swift in Sources */,
 				621503452A5BF06100431BBB /* OnboardingFlowProtocol.swift in Sources */,
 				6215031F2A4E792700431BBB /* Presentable.swift in Sources */,
