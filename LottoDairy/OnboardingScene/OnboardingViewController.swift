@@ -76,7 +76,7 @@ final class OnboardingViewController: UIViewController, OnboardingFlowProtocol {
     }
     
     private func setupRootView() {
-        view.backgroundColor = .designSystem(.gray17181D)
+        view.backgroundColor = .designSystem(.backgroundBlack)
     }
     
     private func setupLayout() {
@@ -93,7 +93,7 @@ final class OnboardingViewController: UIViewController, OnboardingFlowProtocol {
             
             goalSettingButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),
             goalSettingButton.heightAnchor.constraint(equalTo: goalSettingButton.widthAnchor, multiplier: 0.25)
-        ])
+        ]) 
     }
     
     private func bindViewModel() {
