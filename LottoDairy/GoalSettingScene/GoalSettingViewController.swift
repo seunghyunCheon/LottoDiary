@@ -9,6 +9,7 @@ import UIKit
 
 final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol {
     
+    // MARK: - UI
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "내 정보"
@@ -72,11 +73,32 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
         return stackView
     }()
     
+    private let notificationLabel: UILabel = {
+        let label = UILabel()
+        label.text = "일정 주기마다 로또 경고 알림"
+        label.font = .gmarketSans(size: .title2, weight: .bold)
+        label.textColor = .designSystem(.white)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
+    private let notificationTextField: LottoDiaryTextField = {
+        let textField = LottoDiaryTextField(placeholder: "주기를 선택해주세요", type: .letter, align: .left)
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        
+        return textField
+    }()
+    
+    // MARK: - Properties
+    
     var onMain: (() -> Void)?
+    private let notificationCycleList = ["설정 안함", "하루", "일주일", "한달"]
     
     override func viewDidLoad() {
         setupRootView()
         setupLayout()
+        createPickerView()
     }
     
     private func setupRootView() {
@@ -108,6 +130,18 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
             goalSettingStackView.leadingAnchor.constraint(equalTo: safe.leadingAnchor, constant: 10),
             goalSettingStackView.trailingAnchor.constraint(equalTo: safe.trailingAnchor, constant: -10),
             goalSettingStackView.topAnchor.constraint(equalTo: nickNameStackView.bottomAnchor, constant: 20)
+        ])
+        
+        view.addSubview(notificationLabel)
+        NSLayoutConstraint.activate([
+            notificationLabel.leadingAnchor.constraint(equalTo: safe.leadingAnchor, constant: 10),
+            notificationLabel.topAnchor.constraint(equalTo: goalSettingStackView.bottomAnchor, constant: 30)
+        ])
+        
+        view.addSubview(notificationTextField)
+        NSLayoutConstraint.activate([
+            notificationTextField.leadingAnchor.constraint(equalTo: safe.leadingAnchor, constant: 10),
+            notificationTextField.topAnchor.constraint(equalTo: notificationLabel.bottomAnchor, constant: 20)
         ])
     }
 }
