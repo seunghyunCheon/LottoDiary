@@ -9,7 +9,10 @@ import Combine
 
 protocol GoalSettingUseCase {
     var nickname: String { get set }
+    var goalAmount: Int? { get set }
     var nicknameValidationState: CurrentValueSubject<NickNameValidationState, Never> { get }
-    func validate(text: String)
+    var goalAmountValidationState: CurrentValueSubject<GoalAmountValidationState, Never> { get }
+    func validateNickname(_ text: String)
+    func validateAmount(_ text: String)
     func signUp() -> AnyPublisher<Bool, Error>
 }

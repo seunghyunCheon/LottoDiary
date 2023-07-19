@@ -14,11 +14,12 @@ final class GoalSettingViewModel {
     
     struct Input {
         let nicknameTextFieldDidEditEvent: AnyPublisher<String, Never>
+        let goalSettingTextFieldDidEditEvent: AnyPublisher<String, Never>
     }
     
     struct Output {
-        var nicknameTextFieldText = CurrentValueSubject<String?, Never>("")
         var validationErrorMessage = CurrentValueSubject<String?, Never>("")
+        var goalAmountFieldText = CurrentValueSubject<String?, Never>("")
     }
     
     private var cancellables: Set<AnyCancellable> = []
@@ -35,7 +36,13 @@ final class GoalSettingViewModel {
     private func configureInput(_ input: Input) {
         input.nicknameTextFieldDidEditEvent
             .sink { [weak self] nickname in
-                self?.goalSettingUseCase.validate(text: nickname)
+                self?.goalSettingUseCase.validateNickname(nickname)
+            }
+            .store(in: &cancellables)
+        
+        input.goalSettingTextFieldDidEditEvent
+            .sink { [weak self] amount in
+                self?.goalSettingUseCase.validateAmount(amount)
             }
             .store(in: &cancellables)
     }
@@ -45,8 +52,12 @@ final class GoalSettingViewModel {
         
         self.goalSettingUseCase.nicknameValidationState
             .sink { [weak self] state in
-                output.nicknameTextFieldText.send(self?.goalSettingUseCase.nickname)
                 output.validationErrorMessage.send(state.description)
+            }
+            .store(in: &cancellables)
+        
+        self.goalSettingUseCase.goalAmountValidationState
+            .sink { [weak self] state in                output.goalAmountFieldText.send(self?.goalSettingUseCase.goalAmount?.convertToDecimal())
             }
             .store(in: &cancellables)
         

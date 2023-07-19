@@ -67,7 +67,7 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
         return label
     }()
     
-    private let goalSettingTextField: UITextField = {
+    private let goalSettingTextField: LottoDiaryTextField = {
         return LottoDiaryTextField(placeholder: "목표금액을 입력해주세요", type: .number, align: .right)
     }()
     
@@ -199,19 +199,21 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     
     private func bindViewModel() {
         let input = GoalSettingViewModel.Input(
-            nicknameTextFieldDidEditEvent: nickNameTextField.textPublisher
+            nicknameTextFieldDidEditEvent: nickNameTextField.textPublisher,
+            goalSettingTextFieldDidEditEvent: goalSettingTextField.textPublisher
         )
         
         let output = viewModel.transform(from: input)
-        output.nicknameTextFieldText
-            .sink { nickname in
-                print(nickname)
-            }
-            .store(in: &cancellables)
         
         output.validationErrorMessage
             .sink { [weak self] errorMessage in
                 self?.nicknameValidationLabel.text = errorMessage
+            }
+            .store(in: &cancellables)
+        
+        output.goalAmountFieldText
+            .sink { [weak self] goalAmount in
+                self?.goalSettingTextField.text = goalAmount
             }
             .store(in: &cancellables)
     }
