@@ -31,6 +31,8 @@
 		624BB0D12A6530C0002A3109 /* GoalSettingFlowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0D02A6530C0002A3109 /* GoalSettingFlowProtocol.swift */; };
 		624BB0D32A653299002A3109 /* GoalSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0D22A653299002A3109 /* GoalSettingViewController.swift */; };
 		624BB0D92A666342002A3109 /* LottoDiaryTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0D82A666342002A3109 /* LottoDiaryTextField.swift */; };
+		624BB0DF2A67B319002A3109 /* SignUpUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0DE2A67B319002A3109 /* SignUpUseCase.swift */; };
+		624BB0E32A67B4BC002A3109 /* SignUpValidationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0E22A67B4BC002A3109 /* SignUpValidationState.swift */; };
 		629C1F532A4ABD0F00540FA4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F522A4ABD0F00540FA4 /* AppDelegate.swift */; };
 		629C1F552A4ABD0F00540FA4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F542A4ABD0F00540FA4 /* SceneDelegate.swift */; };
 		629C1F5D2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F5B2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld */; };
@@ -72,6 +74,8 @@
 		624BB0D02A6530C0002A3109 /* GoalSettingFlowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSettingFlowProtocol.swift; sourceTree = "<group>"; };
 		624BB0D22A653299002A3109 /* GoalSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSettingViewController.swift; sourceTree = "<group>"; };
 		624BB0D82A666342002A3109 /* LottoDiaryTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoDiaryTextField.swift; sourceTree = "<group>"; };
+		624BB0DE2A67B319002A3109 /* SignUpUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpUseCase.swift; sourceTree = "<group>"; };
+		624BB0E22A67B4BC002A3109 /* SignUpValidationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpValidationState.swift; sourceTree = "<group>"; };
 		629C1F4F2A4ABD0F00540FA4 /* LottoDairy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LottoDairy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		629C1F522A4ABD0F00540FA4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		629C1F542A4ABD0F00540FA4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -237,6 +241,54 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
+		624BB0DA2A67B2C1002A3109 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				624BB0DB2A67B2D9002A3109 /* UseCase */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		624BB0DB2A67B2D9002A3109 /* UseCase */ = {
+			isa = PBXGroup;
+			children = (
+				624BB0DC2A67B2E9002A3109 /* Account */,
+			);
+			path = UseCase;
+			sourceTree = "<group>";
+		};
+		624BB0DC2A67B2E9002A3109 /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				624BB0DD2A67B307002A3109 /* Protocol */,
+			);
+			path = Account;
+			sourceTree = "<group>";
+		};
+		624BB0DD2A67B307002A3109 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				624BB0DE2A67B319002A3109 /* SignUpUseCase.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		624BB0E02A67B4A1002A3109 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				624BB0E12A67B4A6002A3109 /* Constant */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		624BB0E12A67B4A6002A3109 /* Constant */ = {
+			isa = PBXGroup;
+			children = (
+				624BB0E22A67B4BC002A3109 /* SignUpValidationState.swift */,
+			);
+			path = Constant;
+			sourceTree = "<group>";
+		};
 		629C1F462A4ABD0F00540FA4 = {
 			isa = PBXGroup;
 			children = (
@@ -256,6 +308,8 @@
 		629C1F512A4ABD0F00540FA4 /* LottoDairy */ = {
 			isa = PBXGroup;
 			children = (
+				624BB0E02A67B4A1002A3109 /* Util */,
+				624BB0DA2A67B2C1002A3109 /* Domain */,
 				624BB0D72A666301002A3109 /* Common */,
 				6215034F2A5E6EB300431BBB /* Support */,
 				6215032B2A4EBAD600431BBB /* Resource */,
@@ -377,6 +431,7 @@
 				621503472A5BF12900431BBB /* OnboardingViewController.swift in Sources */,
 				621503452A5BF06100431BBB /* OnboardingFlowProtocol.swift in Sources */,
 				6215031F2A4E792700431BBB /* Presentable.swift in Sources */,
+				624BB0E32A67B4BC002A3109 /* SignUpValidationState.swift in Sources */,
 				624BB0CD2A652EC8002A3109 /* GoalSettingCoordinator.swift in Sources */,
 				80773A702A55AF770020F1DD /* HomeViewController.swift in Sources */,
 				621503232A4E7CAE00431BBB /* Router.swift in Sources */,
@@ -397,6 +452,7 @@
 				621503352A559CB800431BBB /* TabBarCoordinator.swift in Sources */,
 				80603ADA2A4E6FE2003D5274 /* AppCoordinator.swift in Sources */,
 				80773A722A55AFF80020F1DD /* HomeFlowProtocol.swift in Sources */,
+				624BB0DF2A67B319002A3109 /* SignUpUseCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
