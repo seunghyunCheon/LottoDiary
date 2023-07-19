@@ -38,7 +38,7 @@ final class DefaultGoalSettingUseCase: GoalSettingUseCase {
             return
         }
         
-        guard nicknameText.range(of: "^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]$", options: .regularExpression) == nil else {
+        guard nicknameText.range(of: "^[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9]+$", options: .regularExpression) != nil else {
             self.nicknameValidationState.send(.invalidLetterIncluded)
             return
         }

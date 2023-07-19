@@ -47,6 +47,16 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
         return stackView
     }()
     
+    private let nicknameValidationLabel: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.font = .gmarketSans(size: .subheadLine, weight: .bold)
+        label.textColor = .systemRed
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
     private let goalSettingLabel: UILabel = {
         let label = UILabel()
         label.text = "6월 목표금액"
@@ -129,10 +139,19 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
         view.addSubview(nickNameStackView)
         nickNameStackView.addArrangedSubview(nickNameLabel)
         nickNameStackView.addArrangedSubview(nickNameTextField)
+        nickNameTextField.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             nickNameStackView.leadingAnchor.constraint(equalTo: safe.leadingAnchor, constant: 10),
             nickNameStackView.trailingAnchor.constraint(equalTo: safe.trailingAnchor, constant: -10),
             nickNameStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
+            
+            nickNameTextField.heightAnchor.constraint(equalToConstant: 30)
+        ])
+        
+        view.addSubview(nicknameValidationLabel)
+        NSLayoutConstraint.activate([
+            nicknameValidationLabel.trailingAnchor.constraint(equalTo: nickNameStackView.trailingAnchor),
+            nicknameValidationLabel.topAnchor.constraint(equalTo: nickNameStackView.bottomAnchor, constant: 10)
         ])
         
         view.addSubview(goalSettingStackView)
@@ -141,7 +160,7 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
         NSLayoutConstraint.activate([
             goalSettingStackView.leadingAnchor.constraint(equalTo: safe.leadingAnchor, constant: 10),
             goalSettingStackView.trailingAnchor.constraint(equalTo: safe.trailingAnchor, constant: -10),
-            goalSettingStackView.topAnchor.constraint(equalTo: nickNameStackView.bottomAnchor, constant: 20)
+            goalSettingStackView.topAnchor.constraint(equalTo: nicknameValidationLabel.bottomAnchor, constant: 10)
         ])
         
         view.addSubview(notificationLabel)
@@ -191,8 +210,8 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
             .store(in: &cancellables)
         
         output.validationErrorMessage
-            .sink { errorMessage in
-                print(errorMessage)
+            .sink { [weak self] errorMessage in
+                self?.nicknameValidationLabel.text = errorMessage
             }
             .store(in: &cancellables)
     }
