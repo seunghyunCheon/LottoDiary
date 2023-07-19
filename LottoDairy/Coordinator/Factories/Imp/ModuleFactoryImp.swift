@@ -21,7 +21,10 @@ final class ModuleFactoryImp:
     }
     
     func makeGoalSettingFlow() -> GoalSettingFlowProtocol {
-        return GoalSettingViewController()
+        let goalSettingUseCase = DefaultGoalSettingUseCase()
+        let viewModel = GoalSettingViewModel(goalSettingUseCase: goalSettingUseCase)
+        
+        return GoalSettingViewController(viewModel: viewModel)
     }
 }
 

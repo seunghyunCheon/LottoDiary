@@ -1,5 +1,5 @@
 //
-//  DefaultSignUpUseCase.swift
+//  DefaultGoalSettingUseCase.swift
 //  LottoDairy
 //
 //  Created by Brody on 2023/07/19.
@@ -8,10 +8,10 @@
 import Foundation
 import Combine
 
-final class DefaultSignUpUseCase: SignUpUseCase {
+final class DefaultGoalSettingUseCase: GoalSettingUseCase {
     
     var nickname: String = ""
-    var nicknameValidationState = CurrentValueSubject<SignUpValidationState, Never>(SignUpValidationState.empty)
+    var nicknameValidationState = CurrentValueSubject<NickNameValidationState, Never>(NickNameValidationState.empty)
     
     func validate(text: String) {
         self.nickname = text
@@ -38,7 +38,7 @@ final class DefaultSignUpUseCase: SignUpUseCase {
             return
         }
         
-        guard nicknameText.range(of: "[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9]", options: .regularExpression) == nil else {
+        guard nicknameText.range(of: "^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]$", options: .regularExpression) == nil else {
             self.nicknameValidationState.send(.invalidLetterIncluded)
             return
         }

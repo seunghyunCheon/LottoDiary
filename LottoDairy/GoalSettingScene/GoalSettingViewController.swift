@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol {
     
@@ -91,14 +92,25 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     }()
     
     // MARK: - Properties
-    
     var onMain: (() -> Void)?
+    private let viewModel: GoalSettingViewModel
+    private var cancellables = Set<AnyCancellable>()
     private let notificationCycleList = ["설정 안함", "하루", "일주일", "한달"]
+    
+    init(viewModel: GoalSettingViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         setupRootView()
         setupLayout()
         createPickerView()
+        bindViewModel()
     }
     
     private func setupRootView() {
@@ -164,6 +176,25 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
         
         notificationTextField.inputView = pickerView
         notificationTextField.inputAccessoryView = toolBar
+    }
+    
+    private func bindViewModel() {
+        let input = GoalSettingViewModel.Input(
+            nicknameTextFieldDidEditEvent: nickNameTextField.textPublisher
+        )
+        
+        let output = viewModel.transform(from: input)
+        output.nicknameTextFieldText
+            .sink { nickname in
+                print(nickname)
+            }
+            .store(in: &cancellables)
+        
+        output.validationErrorMessage
+            .sink { errorMessage in
+                print(errorMessage)
+            }
+            .store(in: &cancellables)
     }
     
     @objc

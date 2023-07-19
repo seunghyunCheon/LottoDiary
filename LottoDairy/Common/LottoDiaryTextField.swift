@@ -6,11 +6,18 @@
 //
 
 import UIKit
+import Combine
 
 final class LottoDiaryTextField: UITextField {
     enum TextFieldType {
         case letter
         case number
+    }
+    
+    var textPublisher: AnyPublisher<String, Never> {
+        self.publisher(for: .editingChanged)
+            .compactMap { self.text }
+            .eraseToAnyPublisher()
     }
     
     convenience init(placeholder: String, type: TextFieldType, align: NSTextAlignment) {

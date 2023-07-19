@@ -5,7 +5,7 @@
 //  Created by Brody on 2023/07/19.
 //
 
-enum SignUpValidationState {
+enum NickNameValidationState {
     case empty
     case lowerboundViolated
     case upperboundViolated
