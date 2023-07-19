@@ -33,6 +33,7 @@
 		624BB0D92A666342002A3109 /* LottoDiaryTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0D82A666342002A3109 /* LottoDiaryTextField.swift */; };
 		624BB0DF2A67B319002A3109 /* SignUpUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0DE2A67B319002A3109 /* SignUpUseCase.swift */; };
 		624BB0E32A67B4BC002A3109 /* SignUpValidationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0E22A67B4BC002A3109 /* SignUpValidationState.swift */; };
+		624BB0E52A67B9CA002A3109 /* DefaultSignUpUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0E42A67B9CA002A3109 /* DefaultSignUpUseCase.swift */; };
 		629C1F532A4ABD0F00540FA4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F522A4ABD0F00540FA4 /* AppDelegate.swift */; };
 		629C1F552A4ABD0F00540FA4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F542A4ABD0F00540FA4 /* SceneDelegate.swift */; };
 		629C1F5D2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F5B2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld */; };
@@ -76,6 +77,7 @@
 		624BB0D82A666342002A3109 /* LottoDiaryTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoDiaryTextField.swift; sourceTree = "<group>"; };
 		624BB0DE2A67B319002A3109 /* SignUpUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpUseCase.swift; sourceTree = "<group>"; };
 		624BB0E22A67B4BC002A3109 /* SignUpValidationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpValidationState.swift; sourceTree = "<group>"; };
+		624BB0E42A67B9CA002A3109 /* DefaultSignUpUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSignUpUseCase.swift; sourceTree = "<group>"; };
 		629C1F4F2A4ABD0F00540FA4 /* LottoDairy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LottoDairy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		629C1F522A4ABD0F00540FA4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		629C1F542A4ABD0F00540FA4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 			isa = PBXGroup;
 			children = (
 				624BB0DD2A67B307002A3109 /* Protocol */,
+				624BB0E42A67B9CA002A3109 /* DefaultSignUpUseCase.swift */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -433,6 +436,7 @@
 				6215031F2A4E792700431BBB /* Presentable.swift in Sources */,
 				624BB0E32A67B4BC002A3109 /* SignUpValidationState.swift in Sources */,
 				624BB0CD2A652EC8002A3109 /* GoalSettingCoordinator.swift in Sources */,
+				624BB0E52A67B9CA002A3109 /* DefaultSignUpUseCase.swift in Sources */,
 				80773A702A55AF770020F1DD /* HomeViewController.swift in Sources */,
 				621503232A4E7CAE00431BBB /* Router.swift in Sources */,
 				621503582A5E8E2300431BBB /* UIControl+Extensions.swift in Sources */,

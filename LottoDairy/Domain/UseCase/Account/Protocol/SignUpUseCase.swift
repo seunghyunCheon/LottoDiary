@@ -9,5 +9,7 @@ import Combine
 
 protocol SignUpUseCase {
     var nickname: String { get set }
-    var nicknameValidationState: 
+    var nicknameValidationState: CurrentValueSubject<SignUpValidationState, Never> { get }
+    func validate(text: String)
+    func signUp() -> AnyPublisher<Bool, Error>
 }
