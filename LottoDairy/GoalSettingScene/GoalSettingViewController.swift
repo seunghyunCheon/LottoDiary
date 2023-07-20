@@ -59,7 +59,7 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     
     private let goalSettingLabel: UILabel = {
         let label = UILabel()
-        label.text = "6월 목표금액"
+        label.text = "6월 목표금액 (원)"
         label.font = .gmarketSans(size: .subheadLine, weight: .bold)
         label.textColor = .designSystem(.white)
         label.textAlignment = .left
@@ -111,11 +111,25 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
         return textField
     }()
     
+    private let okButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("확인", for: .normal)
+        button.titleLabel?.font = .gmarketSans(size: .title3, weight: .bold)
+        button.isEnabled = false
+        button.backgroundColor = .designSystem(.gray63626B)
+        button.tintColor = .designSystem(.grayD8D8D8)
+        button.alpha = 0.3
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.cornerRadius = 15
+        
+        return button
+    }()
+    
     // MARK: - Properties
     var onMain: (() -> Void)?
     private let viewModel: GoalSettingViewModel
     private var cancellables = Set<AnyCancellable>()
-    private let notificationCycleList = ["설정 안함", "하루", "일주일", "한달"]
+    private var notificationCycleList: [NotificationCycle] = []
     
     init(viewModel: GoalSettingViewModel) {
         self.viewModel = viewModel
@@ -190,6 +204,14 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
             notificationTextField.leadingAnchor.constraint(equalTo: safe.leadingAnchor, constant: 10),
             notificationTextField.topAnchor.constraint(equalTo: notificationLabel.bottomAnchor, constant: 20)
         ])
+        
+        view.addSubview(okButton)
+        NSLayoutConstraint.activate([
+            okButton.bottomAnchor.constraint(equalTo: safe.bottomAnchor, constant: -10),
+            okButton.leadingAnchor.constraint(equalTo: safe.leadingAnchor, constant: 10),
+            okButton.trailingAnchor.constraint(equalTo: safe.trailingAnchor, constant: -10),
+            okButton.heightAnchor.constraint(equalToConstant: 50),
+        ])
     }
     
     // MARK: - PickerView
@@ -205,8 +227,8 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
         
         let doneButton = UIBarButtonItem(title: "확인", style: .done, target: self, action: #selector(doneButtonDidTap))
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-        let cancelButton = UIBarButtonItem(title: "취소", style: .done, target: self, action: #selector(cancelButtonDidTap))
-        toolBar.setItems([cancelButton , space , doneButton], animated: true)
+        
+        toolBar.setItems([space , doneButton], animated: true)
         toolBar.isUserInteractionEnabled = true
         
         notificationTextField.inputView = pickerView
@@ -215,8 +237,10 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     
     private func bindViewModel() {
         let input = GoalSettingViewModel.Input(
+            viewDidLoadEvent: Just(()),
             nicknameTextFieldDidEditEvent: nickNameTextField.textPublisher,
-            goalSettingTextFieldDidEditEvent: goalSettingTextField.textPublisher
+            goalSettingTextFieldDidEditEvent: goalSettingTextField.textPublisher,
+            notificationTextFieldDidEditEvent: notificationTextField.textPublisher
         )
         
         let output = viewModel.transform(from: input)
@@ -238,15 +262,16 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
                 self?.goalAmountValidationLabel.text = errorMessage
             }
             .store(in: &cancellables)
+        
+        output.notificationCycleList
+            .sink { [weak self] notificationCycleList in
+                self?.notificationCycleList = notificationCycleList
+            }
+            .store(in: &cancellables)
     }
     
     @objc
     func doneButtonDidTap() {
-        notificationTextField.resignFirstResponder()
-    }
-    
-    @objc
-    func cancelButtonDidTap() {
         notificationTextField.resignFirstResponder()
     }
 }
@@ -261,10 +286,10 @@ extension GoalSettingViewController: UIPickerViewDataSource, UIPickerViewDelegat
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return notificationCycleList[row]
+        return notificationCycleList[row].rawValue
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        notificationTextField.text = notificationCycleList[row]
+        notificationTextField.text = notificationCycleList[row].rawValue
     }
 }

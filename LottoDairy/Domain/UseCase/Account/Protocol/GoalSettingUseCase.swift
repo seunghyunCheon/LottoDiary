@@ -12,7 +12,9 @@ protocol GoalSettingUseCase {
     var goalAmount: Int? { get set }
     var nicknameValidationState: CurrentValueSubject<NickNameValidationState, Never> { get }
     var goalAmountValidationState: CurrentValueSubject<GoalAmountValidationState, Never> { get }
+    var notificationCycleList: CurrentValueSubject<[NotificationCycle], Never> { get }
     func validateNickname(_ text: String)
     func validateAmount(_ text: String)
+    func loadNotificationCycle()
     func signUp() -> AnyPublisher<Bool, Error>
 }

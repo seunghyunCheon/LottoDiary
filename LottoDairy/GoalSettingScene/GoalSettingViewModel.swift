@@ -13,14 +13,17 @@ final class GoalSettingViewModel {
     private let goalSettingUseCase: GoalSettingUseCase
     
     struct Input {
+        let viewDidLoadEvent: Just<Void>
         let nicknameTextFieldDidEditEvent: AnyPublisher<String, Never>
         let goalSettingTextFieldDidEditEvent: AnyPublisher<String, Never>
+        let notificationTextFieldDidEditEvent: AnyPublisher<String, Never>
     }
     
     struct Output {
         var nicknameValidationErrorMessage = CurrentValueSubject<String?, Never>("")
         var goalAmountValidationErrorMessage = CurrentValueSubject<String?, Never>("")
         var goalAmountFieldText = CurrentValueSubject<String?, Never>("")
+        var notificationCycleList = CurrentValueSubject<[NotificationCycle], Never>([])
     }
     
     private var cancellables: Set<AnyCancellable> = []
@@ -31,10 +34,16 @@ final class GoalSettingViewModel {
     
     func transform(from input: Input) -> Output {
         self.configureInput(input)
-        return createOutput(from: input)
+        return configureOutput(from: input)
     }
     
     private func configureInput(_ input: Input) {
+        input.viewDidLoadEvent
+            .sink { [weak self] in
+                self?.goalSettingUseCase.loadNotificationCycle()
+            }
+            .store(in: &cancellables)
+
         input.nicknameTextFieldDidEditEvent
             .sink { [weak self] nickname in
                 self?.goalSettingUseCase.validateNickname(nickname)
@@ -46,11 +55,11 @@ final class GoalSettingViewModel {
                 self?.goalSettingUseCase.validateAmount(amount)
             }
             .store(in: &cancellables)
+        
     }
     
-    private func createOutput(from input: Input) -> Output {
+    private func configureOutput(from input: Input) -> Output {
         let output = Output()
-        
         self.goalSettingUseCase.nicknameValidationState
             .sink { state in
                 output.nicknameValidationErrorMessage.send(state.description)
@@ -60,6 +69,12 @@ final class GoalSettingViewModel {
         self.goalSettingUseCase.goalAmountValidationState
             .sink { [weak self] state in                output.goalAmountFieldText.send(self?.goalSettingUseCase.goalAmount?.convertToDecimal())
                 output.goalAmountValidationErrorMessage.send(state.description)
+            }
+            .store(in: &cancellables)
+        
+        self.goalSettingUseCase.notificationCycleList
+            .sink { notificationCycleList in
+                output.notificationCycleList.send(notificationCycleList)
             }
             .store(in: &cancellables)
         

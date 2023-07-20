@@ -38,6 +38,7 @@
 		624BB0E92A67EED2002A3109 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0E82A67EED2002A3109 /* String+Extensions.swift */; };
 		624BB0EB2A67F014002A3109 /* GoalAmountValidationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0EA2A67F014002A3109 /* GoalAmountValidationState.swift */; };
 		624BB0ED2A67F73B002A3109 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0EC2A67F73B002A3109 /* Int+Extensions.swift */; };
+		624BB0EF2A6903DA002A3109 /* NotificationCycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0EE2A6903DA002A3109 /* NotificationCycle.swift */; };
 		629C1F532A4ABD0F00540FA4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F522A4ABD0F00540FA4 /* AppDelegate.swift */; };
 		629C1F552A4ABD0F00540FA4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F542A4ABD0F00540FA4 /* SceneDelegate.swift */; };
 		629C1F5D2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F5B2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld */; };
@@ -86,6 +87,7 @@
 		624BB0E82A67EED2002A3109 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		624BB0EA2A67F014002A3109 /* GoalAmountValidationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalAmountValidationState.swift; sourceTree = "<group>"; };
 		624BB0EC2A67F73B002A3109 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
+		624BB0EE2A6903DA002A3109 /* NotificationCycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCycle.swift; sourceTree = "<group>"; };
 		629C1F4F2A4ABD0F00540FA4 /* LottoDairy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LottoDairy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		629C1F522A4ABD0F00540FA4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		629C1F542A4ABD0F00540FA4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -300,6 +302,7 @@
 			children = (
 				624BB0E22A67B4BC002A3109 /* NickNameValidationState.swift */,
 				624BB0EA2A67F014002A3109 /* GoalAmountValidationState.swift */,
+				624BB0EE2A6903DA002A3109 /* NotificationCycle.swift */,
 			);
 			path = Constant;
 			sourceTree = "<group>";
@@ -459,6 +462,7 @@
 				624BB0EB2A67F014002A3109 /* GoalAmountValidationState.swift in Sources */,
 				621503562A5E7B0500431BBB /* UIColor+Extensions.swift in Sources */,
 				80603AD62A4AC839003D5274 /* Coordinator.swift in Sources */,
+				624BB0EF2A6903DA002A3109 /* NotificationCycle.swift in Sources */,
 				80773A762A55BA1C0020F1DD /* ModuleFactoryImp.swift in Sources */,
 				80603AD82A4AC874003D5274 /* BaseCoordinator.swift in Sources */,
 				629C1F5D2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld in Sources */,
