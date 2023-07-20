@@ -18,7 +18,8 @@ final class GoalSettingViewModel {
     }
     
     struct Output {
-        var validationErrorMessage = CurrentValueSubject<String?, Never>("")
+        var nicknameValidationErrorMessage = CurrentValueSubject<String?, Never>("")
+        var goalAmountValidationErrorMessage = CurrentValueSubject<String?, Never>("")
         var goalAmountFieldText = CurrentValueSubject<String?, Never>("")
     }
     
@@ -51,13 +52,14 @@ final class GoalSettingViewModel {
         let output = Output()
         
         self.goalSettingUseCase.nicknameValidationState
-            .sink { [weak self] state in
-                output.validationErrorMessage.send(state.description)
+            .sink { state in
+                output.nicknameValidationErrorMessage.send(state.description)
             }
             .store(in: &cancellables)
         
         self.goalSettingUseCase.goalAmountValidationState
             .sink { [weak self] state in                output.goalAmountFieldText.send(self?.goalSettingUseCase.goalAmount?.convertToDecimal())
+                output.goalAmountValidationErrorMessage.send(state.description)
             }
             .store(in: &cancellables)
         

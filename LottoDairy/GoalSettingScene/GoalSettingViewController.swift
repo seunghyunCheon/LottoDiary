@@ -84,6 +84,16 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
         return stackView
     }()
     
+    private let goalAmountValidationLabel: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.font = .gmarketSans(size: .subheadLine, weight: .bold)
+        label.textColor = .systemRed
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
     private let notificationLabel: UILabel = {
         let label = UILabel()
         label.text = "일정 주기마다 로또 경고 알림"
@@ -163,10 +173,16 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
             goalSettingStackView.topAnchor.constraint(equalTo: nicknameValidationLabel.bottomAnchor, constant: 10)
         ])
         
+        view.addSubview(goalAmountValidationLabel)
+        NSLayoutConstraint.activate([
+            goalAmountValidationLabel.trailingAnchor.constraint(equalTo: goalSettingStackView.trailingAnchor),
+            goalAmountValidationLabel.topAnchor.constraint(equalTo: goalSettingStackView.bottomAnchor, constant: 10)
+        ])
+        
         view.addSubview(notificationLabel)
         NSLayoutConstraint.activate([
             notificationLabel.leadingAnchor.constraint(equalTo: safe.leadingAnchor, constant: 10),
-            notificationLabel.topAnchor.constraint(equalTo: goalSettingStackView.bottomAnchor, constant: 30)
+            notificationLabel.topAnchor.constraint(equalTo: goalAmountValidationLabel.bottomAnchor, constant: 30)
         ])
         
         view.addSubview(notificationTextField)
@@ -205,7 +221,7 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
         
         let output = viewModel.transform(from: input)
         
-        output.validationErrorMessage
+        output.nicknameValidationErrorMessage
             .sink { [weak self] errorMessage in
                 self?.nicknameValidationLabel.text = errorMessage
             }
@@ -214,6 +230,12 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
         output.goalAmountFieldText
             .sink { [weak self] goalAmount in
                 self?.goalSettingTextField.text = goalAmount
+            }
+            .store(in: &cancellables)
+        
+        output.goalAmountValidationErrorMessage
+            .sink { [weak self] errorMessage in
+                self?.goalAmountValidationLabel.text = errorMessage
             }
             .store(in: &cancellables)
     }
