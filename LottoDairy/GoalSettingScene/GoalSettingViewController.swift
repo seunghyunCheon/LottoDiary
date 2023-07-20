@@ -147,6 +147,10 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
         bindViewModel()
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     private func setupRootView() {
         view.backgroundColor = .designSystem(.backgroundBlack)
     }
@@ -236,11 +240,11 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     }
     
     private func bindViewModel() {
+        
         let input = GoalSettingViewModel.Input(
             viewDidLoadEvent: Just(()),
             nicknameTextFieldDidEditEvent: nickNameTextField.textPublisher,
-            goalSettingTextFieldDidEditEvent: goalSettingTextField.textPublisher,
-            notificationTextFieldDidEditEvent: notificationTextField.textPublisher
+            goalSettingTextFieldDidEditEvent: goalSettingTextField.textPublisher
         )
         
         let output = viewModel.transform(from: input)
@@ -290,6 +294,7 @@ extension GoalSettingViewController: UIPickerViewDataSource, UIPickerViewDelegat
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        self.viewModel.notificationTextFieldDidEdit(notificationCycleList[row].rawValue)
         notificationTextField.text = notificationCycleList[row].rawValue
     }
 }

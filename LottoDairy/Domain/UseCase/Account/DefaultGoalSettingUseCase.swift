@@ -15,6 +15,7 @@ final class DefaultGoalSettingUseCase: GoalSettingUseCase {
     var goalAmount: Int?
     var goalAmountValidationState = CurrentValueSubject<GoalAmountValidationState, Never>(GoalAmountValidationState.empty)
     var notificationCycleList = CurrentValueSubject<[NotificationCycle], Never>([])
+    var selectedNotificationCycle: NotificationCycle?
     
     func validateNickname(_ text: String) {
         self.nickname = text
@@ -32,6 +33,10 @@ final class DefaultGoalSettingUseCase: GoalSettingUseCase {
     
     func loadNotificationCycle() {
         self.notificationCycleList.send(NotificationCycle.allCases)
+    }
+    
+    func setNotificationCycle(_ text: String) {
+        self.selectedNotificationCycle = NotificationCycle(rawValue: text)
     }
     
     private func updateNicknameValidationState(of nicknameText: String) {

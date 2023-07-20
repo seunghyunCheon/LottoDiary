@@ -16,7 +16,6 @@ final class GoalSettingViewModel {
         let viewDidLoadEvent: Just<Void>
         let nicknameTextFieldDidEditEvent: AnyPublisher<String, Never>
         let goalSettingTextFieldDidEditEvent: AnyPublisher<String, Never>
-        let notificationTextFieldDidEditEvent: AnyPublisher<String, Never>
     }
     
     struct Output {
@@ -37,6 +36,10 @@ final class GoalSettingViewModel {
         return configureOutput(from: input)
     }
     
+    func notificationTextFieldDidEdit(_ text: String) {
+        self.goalSettingUseCase.setNotificationCycle(text)
+    }
+    
     private func configureInput(_ input: Input) {
         input.viewDidLoadEvent
             .sink { [weak self] in
@@ -55,7 +58,6 @@ final class GoalSettingViewModel {
                 self?.goalSettingUseCase.validateAmount(amount)
             }
             .store(in: &cancellables)
-        
     }
     
     private func configureOutput(from input: Input) -> Output {

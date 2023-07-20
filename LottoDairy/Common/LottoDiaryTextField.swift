@@ -20,6 +20,15 @@ final class LottoDiaryTextField: UITextField {
             .eraseToAnyPublisher()
     }
     
+//    lazy var pickerPublisher: AnyPublisher<String, Never> = {
+//        NotificationCenter.default.publisher(
+//            for: UITextField.textDidChangeNotification,
+//            object: self
+//        )
+//        .compactMap { ($0.object as? UITextField)?.text }
+//        .eraseToAnyPublisher()
+//    }()
+    
     convenience init(placeholder: String, type: TextFieldType, align: NSTextAlignment) {
         self.init(frame: .zero)
         
