@@ -244,7 +244,8 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
         let input = GoalSettingViewModel.Input(
             viewDidLoadEvent: Just(()),
             nicknameTextFieldDidEditEvent: nickNameTextField.textPublisher,
-            goalSettingTextFieldDidEditEvent: goalSettingTextField.textPublisher
+            goalSettingTextFieldDidEditEvent: goalSettingTextField.textPublisher,
+            notificationTextFieldDidEditEvent: notificationTextField.pickerPublisher
         )
         
         let output = viewModel.transform(from: input)
@@ -294,7 +295,7 @@ extension GoalSettingViewController: UIPickerViewDataSource, UIPickerViewDelegat
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.viewModel.notificationTextFieldDidEdit(notificationCycleList[row].rawValue)
+        self.notificationTextField.pickerPublisher.send(notificationCycleList[row].rawValue)
         notificationTextField.text = notificationCycleList[row].rawValue
     }
 }
