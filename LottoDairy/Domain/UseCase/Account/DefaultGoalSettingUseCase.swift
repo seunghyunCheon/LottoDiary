@@ -10,11 +10,24 @@ import Combine
 
 final class DefaultGoalSettingUseCase: GoalSettingUseCase {
     
-    var nickname: String = ""
     var nicknameValidationState = CurrentValueSubject<NickNameValidationState, Never>(NickNameValidationState.empty)
-    var goalAmount: Int?
     var goalAmountValidationState = CurrentValueSubject<GoalAmountValidationState, Never>(GoalAmountValidationState.empty)
+    var notificationFieldEnabled = CurrentValueSubject<Bool, Never>(false)
     var notificationCycleList = CurrentValueSubject<[NotificationCycle], Never>([])
+    var okButtonEnabled: AnyPublisher<Bool, Never> {
+        Publishers.CombineLatest3(
+            nicknameValidationState,
+            goalAmountValidationState,
+            notificationFieldEnabled
+        )
+        .map { (nickNameValidation, goalAmountValidation, cycleValidation) in
+            return nickNameValidation == .success && goalAmountValidation == .success && cycleValidation
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    var nickname: String = ""
+    var goalAmount: Int?
     var selectedNotificationCycle: NotificationCycle?
     
     func validateNickname(_ text: String) {
@@ -37,6 +50,7 @@ final class DefaultGoalSettingUseCase: GoalSettingUseCase {
     
     func setNotificationCycle(_ text: String) {
         self.selectedNotificationCycle = NotificationCycle(rawValue: text)
+        self.notificationFieldEnabled.send((true))
     }
     
     private func updateNicknameValidationState(of nicknameText: String) {

@@ -24,6 +24,7 @@ final class GoalSettingViewModel {
         var goalAmountValidationErrorMessage = CurrentValueSubject<String?, Never>("")
         var goalAmountFieldText = CurrentValueSubject<String?, Never>("")
         var notificationCycleList = CurrentValueSubject<[NotificationCycle], Never>([])
+        var okButtonEnabled = CurrentValueSubject<Bool, Never>(false)
     }
     
     private var cancellables: Set<AnyCancellable> = []
@@ -80,6 +81,12 @@ final class GoalSettingViewModel {
         self.goalSettingUseCase.notificationCycleList
             .sink { notificationCycleList in
                 output.notificationCycleList.send(notificationCycleList)
+            }
+            .store(in: &cancellables)
+        
+        self.goalSettingUseCase.okButtonEnabled
+            .sink { state in
+                output.okButtonEnabled.send((state))
             }
             .store(in: &cancellables)
         

@@ -273,12 +273,30 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
                 self?.notificationCycleList = notificationCycleList
             }
             .store(in: &cancellables)
+        
+        bindOkButton(with: output)
     }
     
     @objc
     func doneButtonDidTap() {
         notificationTextField.resignFirstResponder()
     }
+    
+    private func bindOkButton(with output: GoalSettingViewModel.Output) {
+        output.okButtonEnabled
+            .sink { [weak self] state in
+                self?.okButton.isEnabled = state
+                if state {
+                    self?.okButton.alpha = 1.0
+                    self?.okButton.backgroundColor = .designSystem(.mainBlue)
+                } else {
+                    self?.okButton.alpha = 0.3
+                    self?.okButton.backgroundColor = .designSystem(.gray63626B)
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
 }
 
 extension GoalSettingViewController: UIPickerViewDataSource, UIPickerViewDelegate {
