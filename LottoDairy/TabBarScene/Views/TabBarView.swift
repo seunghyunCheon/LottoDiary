@@ -11,7 +11,7 @@ final class TabBarView: UITabBar {
 
     private var shapeLayer: CALayer?
 
-    enum Constraints {
+    private enum Constraints {
         static let lottoQRButtonSize: CGFloat = 80
         static let halfLottoQRButtonSize: CGFloat = 80 / 2
         static let pathRadius: CGFloat = halfLottoQRButtonSize + 5
