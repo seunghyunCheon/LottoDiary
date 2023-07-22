@@ -39,6 +39,8 @@
 		624BB0EB2A67F014002A3109 /* GoalAmountValidationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0EA2A67F014002A3109 /* GoalAmountValidationState.swift */; };
 		624BB0ED2A67F73B002A3109 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0EC2A67F73B002A3109 /* Int+Extensions.swift */; };
 		624BB0EF2A6903DA002A3109 /* NotificationCycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0EE2A6903DA002A3109 /* NotificationCycle.swift */; };
+		626845302A6BE38700569D02 /* UserDefaultsPersistenceServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6268452F2A6BE38700569D02 /* UserDefaultsPersistenceServiceProtocol.swift */; };
+		626845342A6BE71C00569D02 /* UserDefaultsPersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626845332A6BE71C00569D02 /* UserDefaultsPersistenceService.swift */; };
 		629C1F532A4ABD0F00540FA4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F522A4ABD0F00540FA4 /* AppDelegate.swift */; };
 		629C1F552A4ABD0F00540FA4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F542A4ABD0F00540FA4 /* SceneDelegate.swift */; };
 		629C1F5D2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F5B2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld */; };
@@ -88,6 +90,8 @@
 		624BB0EA2A67F014002A3109 /* GoalAmountValidationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalAmountValidationState.swift; sourceTree = "<group>"; };
 		624BB0EC2A67F73B002A3109 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
 		624BB0EE2A6903DA002A3109 /* NotificationCycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCycle.swift; sourceTree = "<group>"; };
+		6268452F2A6BE38700569D02 /* UserDefaultsPersistenceServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsPersistenceServiceProtocol.swift; sourceTree = "<group>"; };
+		626845332A6BE71C00569D02 /* UserDefaultsPersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsPersistenceService.swift; sourceTree = "<group>"; };
 		629C1F4F2A4ABD0F00540FA4 /* LottoDairy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LottoDairy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		629C1F522A4ABD0F00540FA4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		629C1F542A4ABD0F00540FA4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -307,6 +311,38 @@
 			path = Constant;
 			sourceTree = "<group>";
 		};
+		6268452D2A6BE36600569D02 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				6268452E2A6BE37000569D02 /* Interfaces */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		6268452E2A6BE37000569D02 /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				6268452F2A6BE38700569D02 /* UserDefaultsPersistenceServiceProtocol.swift */,
+			);
+			path = Interfaces;
+			sourceTree = "<group>";
+		};
+		626845312A6BE3B000569D02 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				626845322A6BE70700569D02 /* Persistences */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		626845322A6BE70700569D02 /* Persistences */ = {
+			isa = PBXGroup;
+			children = (
+				626845332A6BE71C00569D02 /* UserDefaultsPersistenceService.swift */,
+			);
+			path = Persistences;
+			sourceTree = "<group>";
+		};
 		629C1F462A4ABD0F00540FA4 = {
 			isa = PBXGroup;
 			children = (
@@ -326,13 +362,15 @@
 		629C1F512A4ABD0F00540FA4 /* LottoDairy */ = {
 			isa = PBXGroup;
 			children = (
-				624BB0E02A67B4A1002A3109 /* Util */,
-				624BB0DA2A67B2C1002A3109 /* Domain */,
-				624BB0D72A666301002A3109 /* Common */,
-				6215034F2A5E6EB300431BBB /* Support */,
-				6215032B2A4EBAD600431BBB /* Resource */,
-				621503262A4EB91900431BBB /* Coordinator */,
 				80603AD22A4AC6F1003D5274 /* Application */,
+				6215032B2A4EBAD600431BBB /* Resource */,
+				6215034F2A5E6EB300431BBB /* Support */,
+				621503262A4EB91900431BBB /* Coordinator */,
+				624BB0E02A67B4A1002A3109 /* Util */,
+				624BB0D72A666301002A3109 /* Common */,
+				624BB0DA2A67B2C1002A3109 /* Domain */,
+				6268452D2A6BE36600569D02 /* Data */,
+				626845312A6BE3B000569D02 /* Service */,
 				6215033D2A5BE91A00431BBB /* OnboardingScene */,
 				624BB0CB2A652EAD002A3109 /* GoalSettingScene */,
 				621503312A559C7300431BBB /* TabBarScene */,
@@ -441,6 +479,7 @@
 				621503302A559BB200431BBB /* CoordinatorFactoryImp.swift in Sources */,
 				624BB0CF2A652FB9002A3109 /* GoalSettingModuleFactory.swift in Sources */,
 				624BB0D12A6530C0002A3109 /* GoalSettingFlowProtocol.swift in Sources */,
+				626845342A6BE71C00569D02 /* UserDefaultsPersistenceService.swift in Sources */,
 				621503332A559C9600431BBB /* TabBarController.swift in Sources */,
 				624BB0D32A653299002A3109 /* GoalSettingViewController.swift in Sources */,
 				80773A6E2A55AE9E0020F1DD /* HomeCoordinator.swift in Sources */,
@@ -465,6 +504,7 @@
 				624BB0EF2A6903DA002A3109 /* NotificationCycle.swift in Sources */,
 				80773A762A55BA1C0020F1DD /* ModuleFactoryImp.swift in Sources */,
 				80603AD82A4AC874003D5274 /* BaseCoordinator.swift in Sources */,
+				626845302A6BE38700569D02 /* UserDefaultsPersistenceServiceProtocol.swift in Sources */,
 				629C1F5D2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld in Sources */,
 				621503372A55A44900431BBB /* TabBarFlowProtocol.swift in Sources */,
 				624BB0E72A67BFB6002A3109 /* GoalSettingViewModel.swift in Sources */,
