@@ -18,7 +18,5 @@ final class DefaultUserRepository: UserRepository {
     func saveUserInfo(nickname: String, notificationCycle: String) {
         self.userDefaultsPersistenceService.set(key: UserDefaults.Keys.nickname, value: nickname)
         self.userDefaultsPersistenceService.set(key: UserDefaults.Keys.notificationCycle, value: notificationCycle)
-        let nickname: String? = self.userDefaultsPersistenceService.get(key: UserDefaults.Keys.nickname)
-        print(nickname)
     }
 }

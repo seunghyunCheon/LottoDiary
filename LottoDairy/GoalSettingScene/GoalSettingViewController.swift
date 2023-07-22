@@ -245,7 +245,8 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
             viewDidLoadEvent: Just(()),
             nicknameTextFieldDidEditEvent: nickNameTextField.textPublisher,
             goalSettingTextFieldDidEditEvent: goalSettingTextField.textPublisher,
-            notificationTextFieldDidEditEvent: notificationTextField.pickerPublisher
+            notificationTextFieldDidEditEvent: notificationTextField.pickerPublisher,
+            okButtonDidTapEvent: okButton.publisher(for: .touchUpInside).eraseToAnyPublisher()
         )
         
         let output = viewModel.transform(from: input)

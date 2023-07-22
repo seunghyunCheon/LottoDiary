@@ -17,6 +17,7 @@ final class GoalSettingViewModel {
         let nicknameTextFieldDidEditEvent: AnyPublisher<String, Never>
         let goalSettingTextFieldDidEditEvent: AnyPublisher<String, Never>
         let notificationTextFieldDidEditEvent: PassthroughSubject<String, Never>
+        let okButtonDidTapEvent: AnyPublisher<Void, Never>
     }
     
     struct Output {
@@ -60,6 +61,12 @@ final class GoalSettingViewModel {
         input.notificationTextFieldDidEditEvent
             .sink { [weak self] selectedCycle in
                 self?.goalSettingUseCase.setNotificationCycle(selectedCycle)
+            }
+            .store(in: &cancellables)
+        
+        input.okButtonDidTapEvent
+            .sink { [weak self] in
+                self?.goalSettingUseCase.signUp()
             }
             .store(in: &cancellables)
     }

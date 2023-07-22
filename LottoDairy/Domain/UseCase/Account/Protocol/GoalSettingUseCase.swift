@@ -21,5 +21,5 @@ protocol GoalSettingUseCase {
     func validateAmount(_ text: String)
     func loadNotificationCycle()
     func setNotificationCycle(_ text: String)
-    func signUp() -> AnyPublisher<Bool, Error>
+    func signUp()
 }

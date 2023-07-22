@@ -52,7 +52,6 @@ final class DefaultGoalSettingUseCase: GoalSettingUseCase {
         }
         
         userRepository.saveUserInfo(nickname: self.nickname, notificationCycle: notificationCycle)
-        Just(true).setFailureType(to: Error.self).eraseToAnyPublisher()
     }
     
     func loadNotificationCycle() {
