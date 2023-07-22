@@ -21,7 +21,9 @@ final class ModuleFactoryImp:
     }
     
     func makeGoalSettingFlow() -> GoalSettingFlowProtocol {
-        let goalSettingUseCase = DefaultGoalSettingUseCase()
+        let userDefaultService = UserDefaultsPersistenceService.shared
+        let userRepository = DefaultUserRepository(userDefaultPersistenceService: userDefaultService)
+        let goalSettingUseCase = DefaultGoalSettingUseCase(userRepository: userRepository)
         let viewModel = GoalSettingViewModel(goalSettingUseCase: goalSettingUseCase)
         
         return GoalSettingViewController(viewModel: viewModel)

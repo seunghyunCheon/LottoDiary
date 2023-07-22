@@ -30,6 +30,12 @@ final class DefaultGoalSettingUseCase: GoalSettingUseCase {
     var goalAmount: Int?
     var selectedNotificationCycle: NotificationCycle?
     
+    private let userRepository: UserRepository
+    
+    init(userRepository: UserRepository) {
+        self.userRepository = userRepository
+    }
+    
     func validateNickname(_ text: String) {
         self.nickname = text
         self.updateNicknameValidationState(of: text)
@@ -40,7 +46,12 @@ final class DefaultGoalSettingUseCase: GoalSettingUseCase {
         self.updateGoalAmountValidationState()
     }
 
-    func signUp() -> AnyPublisher<Bool, Error> {
+    func signUp() {
+        guard let notificationCycle = selectedNotificationCycle?.rawValue else {
+            return
+        }
+        
+        userRepository.saveUserInfo(nickname: self.nickname, notificationCycle: notificationCycle)
         Just(true).setFailureType(to: Error.self).eraseToAnyPublisher()
     }
     
