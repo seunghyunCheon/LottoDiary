@@ -41,6 +41,9 @@
 		624BB0EF2A6903DA002A3109 /* NotificationCycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0EE2A6903DA002A3109 /* NotificationCycle.swift */; };
 		626845302A6BE38700569D02 /* UserDefaultsPersistenceServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6268452F2A6BE38700569D02 /* UserDefaultsPersistenceServiceProtocol.swift */; };
 		626845342A6BE71C00569D02 /* UserDefaultsPersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626845332A6BE71C00569D02 /* UserDefaultsPersistenceService.swift */; };
+		626845392A6BEBDE00569D02 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626845382A6BEBDE00569D02 /* UserRepository.swift */; };
+		6268453B2A6BEC4400569D02 /* DefaultUserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6268453A2A6BEC4400569D02 /* DefaultUserRepository.swift */; };
+		6268453D2A6BECE800569D02 /* UserDefaults+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6268453C2A6BECE800569D02 /* UserDefaults+Extensions.swift */; };
 		629C1F532A4ABD0F00540FA4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F522A4ABD0F00540FA4 /* AppDelegate.swift */; };
 		629C1F552A4ABD0F00540FA4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F542A4ABD0F00540FA4 /* SceneDelegate.swift */; };
 		629C1F5D2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F5B2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld */; };
@@ -92,6 +95,9 @@
 		624BB0EE2A6903DA002A3109 /* NotificationCycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCycle.swift; sourceTree = "<group>"; };
 		6268452F2A6BE38700569D02 /* UserDefaultsPersistenceServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsPersistenceServiceProtocol.swift; sourceTree = "<group>"; };
 		626845332A6BE71C00569D02 /* UserDefaultsPersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsPersistenceService.swift; sourceTree = "<group>"; };
+		626845382A6BEBDE00569D02 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
+		6268453A2A6BEC4400569D02 /* DefaultUserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultUserRepository.swift; sourceTree = "<group>"; };
+		6268453C2A6BECE800569D02 /* UserDefaults+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extensions.swift"; sourceTree = "<group>"; };
 		629C1F4F2A4ABD0F00540FA4 /* LottoDairy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LottoDairy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		629C1F522A4ABD0F00540FA4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		629C1F542A4ABD0F00540FA4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -237,6 +243,7 @@
 				621503572A5E8E2300431BBB /* UIControl+Extensions.swift */,
 				624BB0E82A67EED2002A3109 /* String+Extensions.swift */,
 				624BB0EC2A67F73B002A3109 /* Int+Extensions.swift */,
+				6268453C2A6BECE800569D02 /* UserDefaults+Extensions.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -263,6 +270,7 @@
 		624BB0DA2A67B2C1002A3109 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				626845362A6BEBBE00569D02 /* Interfaces */,
 				624BB0DB2A67B2D9002A3109 /* UseCase */,
 			);
 			path = Domain;
@@ -314,6 +322,7 @@
 		6268452D2A6BE36600569D02 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				626845352A6BEB5900569D02 /* Repository */,
 				6268452E2A6BE37000569D02 /* Interfaces */,
 			);
 			path = Data;
@@ -341,6 +350,30 @@
 				626845332A6BE71C00569D02 /* UserDefaultsPersistenceService.swift */,
 			);
 			path = Persistences;
+			sourceTree = "<group>";
+		};
+		626845352A6BEB5900569D02 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				6268453A2A6BEC4400569D02 /* DefaultUserRepository.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		626845362A6BEBBE00569D02 /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				626845372A6BEBCB00569D02 /* Repositories */,
+			);
+			path = Interfaces;
+			sourceTree = "<group>";
+		};
+		626845372A6BEBCB00569D02 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				626845382A6BEBDE00569D02 /* UserRepository.swift */,
+			);
+			path = Repositories;
 			sourceTree = "<group>";
 		};
 		629C1F462A4ABD0F00540FA4 = {
@@ -501,8 +534,11 @@
 				624BB0EB2A67F014002A3109 /* GoalAmountValidationState.swift in Sources */,
 				621503562A5E7B0500431BBB /* UIColor+Extensions.swift in Sources */,
 				80603AD62A4AC839003D5274 /* Coordinator.swift in Sources */,
+				6268453B2A6BEC4400569D02 /* DefaultUserRepository.swift in Sources */,
 				624BB0EF2A6903DA002A3109 /* NotificationCycle.swift in Sources */,
+				6268453D2A6BECE800569D02 /* UserDefaults+Extensions.swift in Sources */,
 				80773A762A55BA1C0020F1DD /* ModuleFactoryImp.swift in Sources */,
+				626845392A6BEBDE00569D02 /* UserRepository.swift in Sources */,
 				80603AD82A4AC874003D5274 /* BaseCoordinator.swift in Sources */,
 				626845302A6BE38700569D02 /* UserDefaultsPersistenceServiceProtocol.swift in Sources */,
 				629C1F5D2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld in Sources */,
