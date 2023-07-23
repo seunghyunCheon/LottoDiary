@@ -52,9 +52,11 @@ final class TabBarView: UITabBar {
     private func configureTabBar() {
         barStyle = .black
         tintColor = .designSystem(.white)
-        items?.forEach { $0.setTitleTextAttributes(
+        items?.forEach { tabBarItem in
+            tabBarItem.setTitleTextAttributes(
             [.font : UIFont.gmarketSans(size: .caption, weight: .medium)],
-            for: .normal)
+            for: .normal
+            )
         }
     }
 
