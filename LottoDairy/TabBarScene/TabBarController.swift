@@ -13,6 +13,8 @@ final class TabBarController: UITabBarController, TabBarFlowProtocol {
     
     var onHomeFlowSelect: ((UINavigationController) -> ())?
     
+    var onLottoQRFlowSelect: ((UINavigationController) -> ())?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
