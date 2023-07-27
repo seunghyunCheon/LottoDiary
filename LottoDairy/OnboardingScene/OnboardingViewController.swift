@@ -10,9 +10,15 @@ import Combine
 
 final class OnboardingViewController: UIViewController, OnboardingFlowProtocol {
     
+    private enum Constant {
+        static let title = "목표금액을 설정해 주세요!"
+        static let subtitle = "매달 지출목표를 설정해서 지출을 줄여보세요."
+        static let goalSettingText = "목표 입력하기"
+    }
+    
     private let titleLabel: LottoLabel = {
         let label = LottoLabel(
-            text: "목표금액을 설정해 주세요!",
+            text: Constant.title,
             font: .gmarketSans(size: .title2, weight: .bold)
         )
 
@@ -21,7 +27,7 @@ final class OnboardingViewController: UIViewController, OnboardingFlowProtocol {
     
     private let subTitleLabel: LottoLabel = {
         let label = LottoLabel(
-            text: "매달 지출목표를 설정해서 지출을 줄여보세요.",
+            text: Constant.subtitle,
             font: .gmarketSans(size: .body, weight: .medium)
         )
         
@@ -30,7 +36,7 @@ final class OnboardingViewController: UIViewController, OnboardingFlowProtocol {
     
     private let goalSettingButton: UIButton = {
         let button = UIButton()
-        button.setTitle("목표 입력하기", for: .normal)
+        button.setTitle(Constant.goalSettingText, for: .normal)
         button.titleLabel?.font = .gmarketSans(size: .body, weight: .medium)
         button.setTitleColor(.designSystem(.white), for: .normal)
         button.backgroundColor = .designSystem(.mainOrange)
