@@ -12,11 +12,15 @@ import CoreData
 
 extension GoalAmountEntity {
 
+    @NSManaged public var goalAmount: Int16
+    
     @nonobjc public class func fetchRequest() -> NSFetchRequest<GoalAmountEntity> {
         return NSFetchRequest<GoalAmountEntity>(entityName: "GoalAmountEntity")
     }
-
-    @NSManaged public var goalAmount: Int16
+    
+    func update(_ goalAmount: Int16) {
+        self.goalAmount = goalAmount
+    }
 }
 
 extension GoalAmountEntity : Identifiable { }

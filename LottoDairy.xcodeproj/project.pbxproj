@@ -53,6 +53,8 @@
 		62AFA0972A7258B200C9D86C /* GoalAmountEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62AFA0952A7258B200C9D86C /* GoalAmountEntity+CoreDataProperties.swift */; };
 		62AFA0992A72593100C9D86C /* CoreDataPersistenceServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62AFA0982A72593100C9D86C /* CoreDataPersistenceServiceProtocol.swift */; };
 		62AFA09B2A7259F800C9D86C /* CoreDataPersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62AFA09A2A7259F800C9D86C /* CoreDataPersistenceService.swift */; };
+		62AFA09D2A725B8F00C9D86C /* CoreDataGoalAmountEntityPersistenceServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62AFA09C2A725B8F00C9D86C /* CoreDataGoalAmountEntityPersistenceServiceProtocol.swift */; };
+		62AFA09F2A725C7100C9D86C /* CoreDataGoalAmountEntityPersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62AFA09E2A725C7100C9D86C /* CoreDataGoalAmountEntityPersistenceService.swift */; };
 		80603AD62A4AC839003D5274 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80603AD52A4AC839003D5274 /* Coordinator.swift */; };
 		80603AD82A4AC874003D5274 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80603AD72A4AC874003D5274 /* BaseCoordinator.swift */; };
 		80603ADA2A4E6FE2003D5274 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80603AD92A4E6FE2003D5274 /* AppCoordinator.swift */; };
@@ -113,6 +115,8 @@
 		62AFA0952A7258B200C9D86C /* GoalAmountEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GoalAmountEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		62AFA0982A72593100C9D86C /* CoreDataPersistenceServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPersistenceServiceProtocol.swift; sourceTree = "<group>"; };
 		62AFA09A2A7259F800C9D86C /* CoreDataPersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPersistenceService.swift; sourceTree = "<group>"; };
+		62AFA09C2A725B8F00C9D86C /* CoreDataGoalAmountEntityPersistenceServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataGoalAmountEntityPersistenceServiceProtocol.swift; sourceTree = "<group>"; };
+		62AFA09E2A725C7100C9D86C /* CoreDataGoalAmountEntityPersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataGoalAmountEntityPersistenceService.swift; sourceTree = "<group>"; };
 		80603AD52A4AC839003D5274 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		80603AD72A4AC874003D5274 /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		80603AD92A4E6FE2003D5274 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
@@ -341,6 +345,7 @@
 			children = (
 				6268452F2A6BE38700569D02 /* UserDefaultsPersistenceServiceProtocol.swift */,
 				62AFA0982A72593100C9D86C /* CoreDataPersistenceServiceProtocol.swift */,
+				62AFA09C2A725B8F00C9D86C /* CoreDataGoalAmountEntityPersistenceServiceProtocol.swift */,
 			);
 			path = Interfaces;
 			sourceTree = "<group>";
@@ -360,6 +365,7 @@
 				62AFA0952A7258B200C9D86C /* GoalAmountEntity+CoreDataProperties.swift */,
 				626845332A6BE71C00569D02 /* UserDefaultsPersistenceService.swift */,
 				62AFA09A2A7259F800C9D86C /* CoreDataPersistenceService.swift */,
+				62AFA09E2A725C7100C9D86C /* CoreDataGoalAmountEntityPersistenceService.swift */,
 			);
 			path = Persistences;
 			sourceTree = "<group>";
@@ -533,6 +539,7 @@
 				621503472A5BF12900431BBB /* OnboardingViewController.swift in Sources */,
 				621503452A5BF06100431BBB /* OnboardingFlowProtocol.swift in Sources */,
 				6215031F2A4E792700431BBB /* Presentable.swift in Sources */,
+				62AFA09F2A725C7100C9D86C /* CoreDataGoalAmountEntityPersistenceService.swift in Sources */,
 				624BB0E92A67EED2002A3109 /* String+Extensions.swift in Sources */,
 				62AFA09B2A7259F800C9D86C /* CoreDataPersistenceService.swift in Sources */,
 				62AFA0992A72593100C9D86C /* CoreDataPersistenceServiceProtocol.swift in Sources */,
@@ -540,6 +547,7 @@
 				624BB0CD2A652EC8002A3109 /* GoalSettingCoordinator.swift in Sources */,
 				624BB0E52A67B9CA002A3109 /* DefaultGoalSettingUseCase.swift in Sources */,
 				80773A702A55AF770020F1DD /* HomeViewController.swift in Sources */,
+				62AFA09D2A725B8F00C9D86C /* CoreDataGoalAmountEntityPersistenceServiceProtocol.swift in Sources */,
 				621503232A4E7CAE00431BBB /* Router.swift in Sources */,
 				624BB0ED2A67F73B002A3109 /* Int+Extensions.swift in Sources */,
 				621503582A5E8E2300431BBB /* UIControl+Extensions.swift in Sources */,
