@@ -12,6 +12,7 @@ import CoreData
 
 extension GoalAmountEntity {
 
+    @NSManaged public var date: Date
     @NSManaged public var goalAmount: Int16
     
     @nonobjc public class func fetchRequest() -> NSFetchRequest<GoalAmountEntity> {
@@ -20,6 +21,7 @@ extension GoalAmountEntity {
     
     func update(_ goalAmount: Int16) {
         self.goalAmount = goalAmount
+        self.date = Date()
     }
 }
 

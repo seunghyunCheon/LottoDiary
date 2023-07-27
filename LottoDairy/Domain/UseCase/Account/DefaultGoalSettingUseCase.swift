@@ -8,6 +8,17 @@
 import Foundation
 import Combine
 
+fileprivate enum GoalSettingUseCaseError: LocalizedError {
+    case signUpError
+    
+    var errorDescription: String? {
+        switch self {
+        case .signUpError:
+            return "회원가입에 실패했습니다."
+        }
+    }
+}
+
 final class DefaultGoalSettingUseCase: GoalSettingUseCase {
     
     var nicknameValidationState = CurrentValueSubject<NickNameValidationState, Never>(NickNameValidationState.empty)
@@ -46,12 +57,13 @@ final class DefaultGoalSettingUseCase: GoalSettingUseCase {
         self.updateGoalAmountValidationState()
     }
 
-    func signUp() {
-        guard let notificationCycle = selectedNotificationCycle?.rawValue else {
-            return
+    func signUp() -> AnyPublisher<Int, Error> {
+        guard let notificationCycle = selectedNotificationCycle?.rawValue,
+              let goalAmount else {
+            return Fail(error: GoalSettingUseCaseError.signUpError).eraseToAnyPublisher()
         }
         
-        userRepository.saveUserInfo(nickname: self.nickname, notificationCycle: notificationCycle)
+        return userRepository.saveUserInfo(nickname: self.nickname, notificationCycle: notificationCycle, goalAmount: goalAmount)
     }
     
     func loadNotificationCycle() {

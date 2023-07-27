@@ -10,6 +10,7 @@ import Foundation
 import Combine
 
 final class GoalSettingViewModel {
+    
     private let goalSettingUseCase: GoalSettingUseCase
     
     struct Input {
@@ -26,6 +27,8 @@ final class GoalSettingViewModel {
         var goalAmountFieldText = CurrentValueSubject<String?, Never>("")
         var notificationCycleList = CurrentValueSubject<[NotificationCycle], Never>([])
         var okButtonEnabled = CurrentValueSubject<Bool, Never>(false)
+        var signUpDidEnd = CurrentValueSubject<Void, Never>(())
+        var signUpDidFail = CurrentValueSubject<String, Never>("")
     }
     
     private var cancellables: Set<AnyCancellable> = []
@@ -63,12 +66,6 @@ final class GoalSettingViewModel {
                 self?.goalSettingUseCase.setNotificationCycle(selectedCycle)
             }
             .store(in: &cancellables)
-        
-        input.okButtonDidTapEvent
-            .sink { [weak self] in
-                self?.goalSettingUseCase.signUp()
-            }
-            .store(in: &cancellables)
     }
     
     private func configureOutput(from input: Input) -> Output {
@@ -97,6 +94,27 @@ final class GoalSettingViewModel {
             }
             .store(in: &cancellables)
         
+        self.bindSignUp(from: input, with: output)
+        
         return output
+    }
+    
+    private func bindSignUp(from input: Input, with output: Output) {
+        input.okButtonDidTapEvent
+            .flatMap { [weak self] _ -> AnyPublisher<Int, Error> in
+                guard let self else {
+                    return Empty().eraseToAnyPublisher()
+                }
+                
+                return self.goalSettingUseCase.signUp()
+            }
+            .sink(receiveCompletion: { completion in
+                if case .failure(let error) = completion {
+                    output.signUpDidFail.send(error.localizedDescription)
+                }
+            }, receiveValue: { _ in
+                output.signUpDidEnd.send(())
+            })
+            .store(in: &cancellables)
     }
 }

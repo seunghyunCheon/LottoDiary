@@ -31,7 +31,7 @@ final class CoreDataGoalAmountEntityPersistenceService: CoreDataGoalAmountEntity
         self.coreDataPersistenceService = coreDataPersistenceService
     }
     
-    func saveGoalAmountEntity(_ goalAmount: Int16) -> AnyPublisher<Int16, Error> {
+    func saveGoalAmountEntity(_ goalAmount: Int) -> AnyPublisher<Int, Error> {
         guard let context = coreDataPersistenceService.backgroundContext else {
             return Fail(error: CoreDataGoalAmountEntityPersistenceServiceError.failedToInitializeCoreDataContainer).eraseToAnyPublisher()
         }
@@ -39,7 +39,7 @@ final class CoreDataGoalAmountEntityPersistenceService: CoreDataGoalAmountEntity
         return Future { promise in
             context.perform {
                 let goalAmountEntity = GoalAmountEntity(context: context)
-                goalAmountEntity.update(goalAmount)
+                goalAmountEntity.update(Int16(goalAmount))
                 do {
                     try context.save()
                     promise(.success(goalAmount))
