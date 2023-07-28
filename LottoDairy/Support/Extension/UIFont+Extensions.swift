@@ -12,24 +12,24 @@ extension UIFont {
         case gmarketSans
     }
     
-    enum CustomWeight: String {
-        case light = "Light"
-        case medium = "Medium"
-        case bold = "Bold"
-    }
-    
-    enum Size: CGFloat {
-        case largeTitle = 33
-        case title1 = 27, title2 = 21, title3 = 19
-        case body = 16
-        case callout = 15
-        case subheadLine = 14
-        case caption = 11
-    }
-    
     private class func stringName(_ family: Family, _ weight: CustomWeight) -> String {
         return "\(family.rawValue)TTF\(weight.rawValue)"
     }
+}
+
+enum CustomWeight: String {
+    case light = "Light"
+    case medium = "Medium"
+    case bold = "Bold"
+}
+
+enum Size: CGFloat {
+    case largeTitle = 33
+    case title1 = 27, title2 = 21, title3 = 19
+    case body = 16
+    case callout = 15
+    case subheadLine = 14
+    case caption = 11
 }
 
 // MARK: - Initializers
