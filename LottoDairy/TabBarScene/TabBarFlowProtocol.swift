@@ -10,4 +10,5 @@ import UIKit
 protocol TabBarFlowProtocol: AnyObject {
     var onViewWillAppear: ((UINavigationController) -> ())? { get set }
     var onHomeFlowSelect: ((UINavigationController) -> ())? { get set }
+    var onLottoQRFlowSelect: ((UINavigationController) -> ())? { get set }
 }
