@@ -13,8 +13,6 @@ final class HomeView: UIView {
         super.init(frame: frame)
 
         configureHomeStackView()
-
-        self.backgroundColor = .brown
     }
 
     required init(coder: NSCoder) {
