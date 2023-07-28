@@ -1,5 +1,5 @@
 //
-//  ImageInformationStackView.swift
+//  ImageInformationView.swift
 //  LottoDairy
 //
 //  Created by Sunny on 2023/07/28.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ImageInformationStackView: UIView {
+final class ImageInformationView: UIView {
 
     private let imageLabel: UILabel = {
         let label = GmarketSansLabel(text: "이 돈이면", alignment: .left, size: .title3, weight: .bold)
@@ -35,12 +35,6 @@ final class ImageInformationStackView: UIView {
     init() {
         super.init(frame: .zero)
 
-        configureImageInformationStackView()
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
         setupImageInformationStackView()
     }
 
@@ -51,10 +45,12 @@ final class ImageInformationStackView: UIView {
     private func setupImageInformationStackView() {
         addSubviews([imageLabel, imageView, imageExplanationView])
 
-        let topAchorGap: CGFloat = frame.height * 0.04
-        let imageViewHeight: CGFloat = frame.height * 0.52
+        let height = UIScreen.main.bounds.height * 0.344
+        let topAchorGap: CGFloat = height * 0.07
+        let imageViewHeight: CGFloat = height * 0.52
 
         NSLayoutConstraint.activate([
+            self.heightAnchor.constraint(equalToConstant: height),
             imageLabel.topAnchor.constraint(equalTo: topAnchor),
             imageLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             imageLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -66,12 +62,7 @@ final class ImageInformationStackView: UIView {
 
             imageExplanationView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: topAchorGap),
             imageExplanationView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            imageExplanationView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            imageExplanationView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            imageExplanationView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
-    }
-
-    private func configureImageInformationStackView() {
-        translatesAutoresizingMaskIntoConstraints = false
     }
 }

@@ -50,7 +50,7 @@ class DoubleLabelView: UIView {
         secondLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubviews([firstLabel, secondLabel])
 
-        let gabOfTop: CGFloat = 16
+        let gabOfTop: CGFloat = 20
         NSLayoutConstraint.activate([
             firstLabel.topAnchor.constraint(equalTo: topAnchor),
             firstLabel.leadingAnchor.constraint(equalTo: leadingAnchor),

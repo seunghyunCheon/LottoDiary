@@ -42,12 +42,6 @@ final class InformationView: UIView {
     init() {
         super.init(frame: .zero)
 
-        configureInformationStackView()
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
         setupInformationStackView()
     }
 
@@ -60,12 +54,18 @@ final class InformationView: UIView {
         let moneyInformationStackView = setupMoneyInformationStackView()
         addSubviews([nickNameView, explanationLabel, moneyInformationStackView])
 
-        let nickNameViewHeight: CGFloat = frame.height * 0.162
-        let explanationLabelGap: CGFloat = frame.height * 0.08
-        let explanationLabelHeight: CGFloat = frame.height * 0.3
-        let moneyInformationStackViewGap: CGFloat = frame.height * 0.07
+        let height = UIScreen.main.bounds.height * 0.293
+        let nickNameViewHeight: CGFloat = height * 0.127
+        let explanationLabelGap: CGFloat = height * 0.12
+        let explanationLabelHeight: CGFloat = height * 0.27
+
+        let moneyInformationStackViewGap: CGFloat = height * 0.085
+//        let moneyInformationStavkViewHeight: CGFloat = height * 0.488
+        moneyInformationStackView.backgroundColor = .systemPink
 
         NSLayoutConstraint.activate([
+
+            self.heightAnchor.constraint(equalToConstant: height),
             nickNameView.topAnchor.constraint(equalTo: topAnchor),
             nickNameView.leadingAnchor.constraint(equalTo: leadingAnchor),
             nickNameView.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -79,12 +79,9 @@ final class InformationView: UIView {
             moneyInformationStackView.topAnchor.constraint(equalTo: explanationLabel.bottomAnchor, constant: moneyInformationStackViewGap),
             moneyInformationStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             moneyInformationStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+//            moneyInformationStackView.heightAnchor.constraint(equalToConstant: moneyInformationStavkViewHeight)
             moneyInformationStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
-    }
-
-    private func configureInformationStackView() {
-        translatesAutoresizingMaskIntoConstraints = false
     }
 
     private func setupNickNameView() -> UIView {

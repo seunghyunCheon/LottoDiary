@@ -19,21 +19,22 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
     }
 
     private func setupView() {
-        let homeView = HomeView(frame: .zero)
+        let homeView = HomeView(frame: view.bounds)
         view.addSubview(homeView)
 
-        let horizontalConstant: CGFloat = view.frame.width * 0.054
-        let bottomAnchor: CGFloat = 100
-
-        NSLayoutConstraint.activate([
-            homeView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            homeView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: horizontalConstant),
-            homeView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -horizontalConstant),
-            homeView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -bottomAnchor)
-        ])
+//        let horizontalConstant: CGFloat = view.frame.width * 0.054
+//        let bottomAnchor: CGFloat = 100
+//
+//        NSLayoutConstraint.activate([
+//            homeView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+//            homeView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: horizontalConstant),
+//            homeView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -horizontalConstant),
+//            homeView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -bottomAnchor)
+//        ])
     }
 
     private func configureView() {
         self.navigationController?.isNavigationBarHidden = true
+        self.view.backgroundColor = .designSystem(.backgroundBlack)
     }
 }
