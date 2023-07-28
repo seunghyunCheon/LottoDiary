@@ -46,7 +46,7 @@
 		6268453D2A6BECE800569D02 /* UserDefaults+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6268453C2A6BECE800569D02 /* UserDefaults+Extensions.swift */; };
 		629C1F532A4ABD0F00540FA4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F522A4ABD0F00540FA4 /* AppDelegate.swift */; };
 		629C1F552A4ABD0F00540FA4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F542A4ABD0F00540FA4 /* SceneDelegate.swift */; };
-		629C1F5D2A4ABD0F00540FA4 /* LottoDairyModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F5B2A4ABD0F00540FA4 /* LottoDairyModel.xcdatamodeld */; };
+		629C1F5D2A4ABD0F00540FA4 /* LottoDiaryModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 629C1F5B2A4ABD0F00540FA4 /* LottoDiaryModel.xcdatamodeld */; };
 		629C1F5F2A4ABD1000540FA4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 629C1F5E2A4ABD1000540FA4 /* Assets.xcassets */; };
 		629C1F622A4ABD1000540FA4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 629C1F602A4ABD1000540FA4 /* LaunchScreen.storyboard */; };
 		62AFA0962A7258B200C9D86C /* GoalAmountEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62AFA0942A7258B200C9D86C /* GoalAmountEntity+CoreDataClass.swift */; };
@@ -427,7 +427,7 @@
 				621503312A559C7300431BBB /* TabBarScene */,
 				80773A6C2A55AE8C0020F1DD /* HomeScene */,
 				629C1F632A4ABD1000540FA4 /* Info.plist */,
-				629C1F5B2A4ABD0F00540FA4 /* LottoDairyModel.xcdatamodeld */,
+				629C1F5B2A4ABD0F00540FA4 /* LottoDiaryModel.xcdatamodeld */,
 			);
 			path = LottoDairy;
 			sourceTree = "<group>";
@@ -565,7 +565,7 @@
 				626845302A6BE38700569D02 /* UserDefaultsPersistenceServiceProtocol.swift in Sources */,
 				62AFA0972A7258B200C9D86C /* GoalAmountEntity+CoreDataProperties.swift in Sources */,
 				62AFA0962A7258B200C9D86C /* GoalAmountEntity+CoreDataClass.swift in Sources */,
-				629C1F5D2A4ABD0F00540FA4 /* LottoDairyModel.xcdatamodeld in Sources */,
+				629C1F5D2A4ABD0F00540FA4 /* LottoDiaryModel.xcdatamodeld in Sources */,
 				621503372A55A44900431BBB /* TabBarFlowProtocol.swift in Sources */,
 				624BB0E72A67BFB6002A3109 /* GoalSettingViewModel.swift in Sources */,
 				621503432A5BEF0400431BBB /* OnboardingModuleFactory.swift in Sources */,
@@ -786,13 +786,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		629C1F5B2A4ABD0F00540FA4 /* LottoDairyModel.xcdatamodeld */ = {
+		629C1F5B2A4ABD0F00540FA4 /* LottoDiaryModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				629C1F5C2A4ABD0F00540FA4 /* LottoDairy.xcdatamodel */,
 			);
 			currentVersion = 629C1F5C2A4ABD0F00540FA4 /* LottoDairy.xcdatamodel */;
-			path = LottoDairyModel.xcdatamodeld;
+			path = LottoDiaryModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

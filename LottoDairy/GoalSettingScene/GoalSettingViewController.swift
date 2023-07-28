@@ -10,6 +10,12 @@ import Combine
 
 final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol {
     
+    private enum Constant {
+        static let errorTitle = "오류"
+        static let errorMessage = "정보를 저장하지 못했습니다"
+        static let errorOkButtonText = "확인"
+    }
+    
     // MARK: - UI
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -240,7 +246,6 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     }
     
     private func bindViewModel() {
-        
         let input = GoalSettingViewModel.Input(
             viewDidLoadEvent: Just(()),
             nicknameTextFieldDidEditEvent: nickNameTextField.textPublisher,
@@ -275,6 +280,25 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
             }
             .store(in: &cancellables)
         
+        output.signUpDidEnd
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] state in
+                if state { self?.onMain?() }
+            }
+            .store(in: &cancellables)
+        
+        output.signUpDidFail
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] errorMessage in
+                if !errorMessage.isEmpty {
+                    #if DEBUG
+                    print(errorMessage)
+                    #endif
+                    self?.presentErrorAlert()
+                }
+            }
+            .store(in: &cancellables)
+        
         bindOkButton(with: output)
     }
     
@@ -298,6 +322,16 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
             .store(in: &cancellables)
     }
     
+    private func presentErrorAlert() {
+        let sheet = UIAlertController(
+            title: Constant.errorTitle,
+            message: Constant.errorMessage,
+            preferredStyle: .alert
+        )
+        
+        sheet.addAction(UIAlertAction(title: Constant.errorOkButtonText, style: .default))
+        present(sheet, animated: true)
+    }
 }
 
 extension GoalSettingViewController: UIPickerViewDataSource, UIPickerViewDelegate {

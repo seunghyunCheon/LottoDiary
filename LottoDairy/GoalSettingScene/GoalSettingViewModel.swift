@@ -27,7 +27,7 @@ final class GoalSettingViewModel {
         var goalAmountFieldText = CurrentValueSubject<String?, Never>("")
         var notificationCycleList = CurrentValueSubject<[NotificationCycle], Never>([])
         var okButtonEnabled = CurrentValueSubject<Bool, Never>(false)
-        var signUpDidEnd = CurrentValueSubject<Void, Never>(())
+        var signUpDidEnd = CurrentValueSubject<Bool, Never>(false)
         var signUpDidFail = CurrentValueSubject<String, Never>("")
     }
     
@@ -113,7 +113,7 @@ final class GoalSettingViewModel {
                     output.signUpDidFail.send(error.localizedDescription)
                 }
             }, receiveValue: { _ in
-                output.signUpDidEnd.send(())
+                output.signUpDidEnd.send(true)
             })
             .store(in: &cancellables)
     }
