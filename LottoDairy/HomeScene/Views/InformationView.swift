@@ -29,15 +29,9 @@ final class InformationView: UIView {
         return view
     }()
 
-    private let goal = DoubleLabelView(title: "목표",
-                                    money: "100,000원",
-                                    backgroundColor: .red)
-    private let buy = DoubleLabelView(title: "구매금액",
-                                   money: "200,000원",
-                                   backgroundColor: .systemGreen)
-    private let win = DoubleLabelView(title: "당첨금액",
-                                   money: "4000원",
-                                   backgroundColor: .blue)
+    private let goal = DoubleLabelView(first: "목표", second: "10,000원", image: nil)
+    private let buy = DoubleLabelView(first: "구매 금액", second: "20,000원", image: nil)
+    private let win = DoubleLabelView(first: "당첨 금액", second: "3,000원", image: nil)
 
     init() {
         super.init(frame: .zero)
@@ -54,17 +48,13 @@ final class InformationView: UIView {
         let moneyInformationStackView = setupMoneyInformationStackView()
         addSubviews([nickNameView, explanationLabel, moneyInformationStackView])
 
-        let height = UIScreen.main.bounds.height * 0.293
+        let height = UIScreen.main.bounds.height * 0.35
         let nickNameViewHeight: CGFloat = height * 0.127
-        let explanationLabelGap: CGFloat = height * 0.12
+        let explanationLabelGap: CGFloat = height * 0.1
         let explanationLabelHeight: CGFloat = height * 0.27
-
-        let moneyInformationStackViewGap: CGFloat = height * 0.085
-//        let moneyInformationStavkViewHeight: CGFloat = height * 0.488
-        moneyInformationStackView.backgroundColor = .systemPink
+        let moneyInformationStackViewGap: CGFloat = height * 0.03
 
         NSLayoutConstraint.activate([
-
             self.heightAnchor.constraint(equalToConstant: height),
             nickNameView.topAnchor.constraint(equalTo: topAnchor),
             nickNameView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -79,7 +69,6 @@ final class InformationView: UIView {
             moneyInformationStackView.topAnchor.constraint(equalTo: explanationLabel.bottomAnchor, constant: moneyInformationStackViewGap),
             moneyInformationStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             moneyInformationStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-//            moneyInformationStackView.heightAnchor.constraint(equalToConstant: moneyInformationStavkViewHeight)
             moneyInformationStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
@@ -107,10 +96,12 @@ final class InformationView: UIView {
     private func setupMoneyInformationStackView() -> UIStackView {
         let moneyInformationStackView: UIStackView = {
             let stackView = UIStackView()
-            stackView.axis = .horizontal
+            stackView.axis = .vertical
             stackView.distribution = .fillEqually
-            stackView.spacing = 15
             stackView.translatesAutoresizingMaskIntoConstraints = false
+            stackView.backgroundColor = .designSystem(.gray2D2B35)
+            stackView.clipsToBounds = true
+            stackView.layer.cornerRadius = 15
             return stackView
         }()
         moneyInformationStackView.addArrangedSubviews([goal, buy, win])
