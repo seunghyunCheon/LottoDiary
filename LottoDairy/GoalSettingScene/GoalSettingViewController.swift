@@ -11,15 +11,21 @@ import Combine
 final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol {
     
     private enum Constant {
+        static let titleText = "내 정보"
+        static let nicknameText = "닉네임"
+        static let placeholderText = "Jane"
+        static let goalSettingText = "6월 목표금액 (원)"
+        static let goalSettingPlaceholderText = "목표금액을 입력해주세요"
         static let errorTitle = "오류"
         static let errorMessage = "정보를 저장하지 못했습니다"
         static let errorOkButtonText = "확인"
     }
     
     // MARK: - UI
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "내 정보"
+        label.text = Constant.titleText
         label.font = .gmarketSans(size: .title1, weight: .bold)
         label.textColor = .designSystem(.white)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -29,7 +35,7 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     
     private let nickNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "닉네임"
+        label.text = Constant.nicknameText
         label.font = .gmarketSans(size: .subheadLine, weight: .bold)
         label.textColor = .designSystem(.white)
         
@@ -37,7 +43,7 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     }()
     
     private let nickNameTextField: LottoDiaryTextField = {
-        return LottoDiaryTextField(placeholder: "Jane", type: .letter, align: .right)
+        return LottoDiaryTextField(placeholder: Constant.placeholderText, type: .letter, align: .right)
     }()
     
     private let nickNameStackView: UIStackView = {
@@ -65,7 +71,7 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     
     private let goalSettingLabel: UILabel = {
         let label = UILabel()
-        label.text = "6월 목표금액 (원)"
+        label.text = Constant.goalSettingText
         label.font = .gmarketSans(size: .subheadLine, weight: .bold)
         label.textColor = .designSystem(.white)
         label.textAlignment = .left
@@ -74,7 +80,11 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     }()
     
     private let goalSettingTextField: LottoDiaryTextField = {
-        return LottoDiaryTextField(placeholder: "목표금액을 입력해주세요", type: .number, align: .right)
+        return LottoDiaryTextField(
+            placeholder: Constant.goalSettingPlaceholderText,
+            type: .number,
+            align: .right
+        )
     }()
     
     private let goalSettingStackView: UIStackView = {
@@ -131,11 +141,12 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
         return button
     }()
     
-    // MARK: - Properties
     var onMain: (() -> Void)?
     private let viewModel: GoalSettingViewModel
     private var cancellables = Set<AnyCancellable>()
     private var notificationCycleList: [NotificationCycle] = []
+    
+    // MARK: - Life Cycle
     
     init(viewModel: GoalSettingViewModel) {
         self.viewModel = viewModel
@@ -156,6 +167,8 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
+    
+    // MARK: - Private Methods
     
     private func setupRootView() {
         view.backgroundColor = .designSystem(.backgroundBlack)
@@ -222,27 +235,6 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
             okButton.trailingAnchor.constraint(equalTo: safe.trailingAnchor, constant: -10),
             okButton.heightAnchor.constraint(equalToConstant: 50),
         ])
-    }
-    
-    // MARK: - PickerView
-    
-    private func createPickerView() {
-        let pickerView = UIPickerView()
-        pickerView.delegate = self
-        pickerView.dataSource = self
-        notificationTextField.tintColor = .clear
-        
-        let toolBar = UIToolbar(frame: .init(x: 0, y: 0, width: 100, height: 35))
-        toolBar.sizeToFit()
-        
-        let doneButton = UIBarButtonItem(title: "확인", style: .done, target: self, action: #selector(doneButtonDidTap))
-        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-        
-        toolBar.setItems([space , doneButton], animated: true)
-        toolBar.isUserInteractionEnabled = true
-        
-        notificationTextField.inputView = pickerView
-        notificationTextField.inputAccessoryView = toolBar
     }
     
     private func bindViewModel() {
@@ -313,7 +305,7 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     }
     
     @objc
-    func doneButtonDidTap() {
+    private func doneButtonDidTap() {
         notificationTextField.resignFirstResponder()
     }
     
@@ -342,7 +334,30 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
         sheet.addAction(UIAlertAction(title: Constant.errorOkButtonText, style: .default))
         present(sheet, animated: true)
     }
+    
+    // MARK: - PickerView
+    
+    private func createPickerView() {
+        let pickerView = UIPickerView()
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        notificationTextField.tintColor = .clear
+        
+        let toolBar = UIToolbar(frame: .init(x: 0, y: 0, width: 100, height: 35))
+        toolBar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "확인", style: .done, target: self, action: #selector(doneButtonDidTap))
+        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        
+        toolBar.setItems([space , doneButton], animated: true)
+        toolBar.isUserInteractionEnabled = true
+        
+        notificationTextField.inputView = pickerView
+        notificationTextField.inputAccessoryView = toolBar
+    }
 }
+
+// MARK: - Extension - PickerView
 
 extension GoalSettingViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {

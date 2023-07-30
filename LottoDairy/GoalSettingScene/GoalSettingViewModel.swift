@@ -11,9 +11,6 @@ import Combine
 
 final class GoalSettingViewModel {
     
-    private let goalSettingUseCase: GoalSettingUseCase
-    private let isEdit: Bool
-    
     struct Input {
         let viewDidLoadEvent: Just<Void>
         let nicknameTextFieldDidEditEvent: AnyPublisher<String, Never>
@@ -25,7 +22,6 @@ final class GoalSettingViewModel {
     struct Output {
         var nicknameText = CurrentValueSubject<String, Never>("")
         var notificationCycleText = CurrentValueSubject<String?, Never>(nil)
-        var goalAmountText = CurrentValueSubject<Int?, Never>(nil)
         var nicknameValidationErrorMessage = CurrentValueSubject<String?, Never>("")
         var goalAmountValidationErrorMessage = CurrentValueSubject<String?, Never>("")
         var goalAmountFieldText = CurrentValueSubject<String?, Never>("")
@@ -35,9 +31,13 @@ final class GoalSettingViewModel {
         var signUpDidFail = CurrentValueSubject<String, Never>("")
     }
     
+    private let goalSettingUseCase: GoalSettingUseCase
+    private let isEdit: Bool
     private var cancellables: Set<AnyCancellable> = []
     
-    init(goalSettingUseCase: GoalSettingUseCase, isEdit: Bool = true) {
+    // MARK: - Life Cycle
+    
+    init(goalSettingUseCase: GoalSettingUseCase, isEdit: Bool = false) {
         self.goalSettingUseCase = goalSettingUseCase
         self.isEdit = isEdit
     }
@@ -47,8 +47,9 @@ final class GoalSettingViewModel {
         return configureOutput(from: input)
     }
     
+    // MARK: - Private Methods
+    
     private func configureInput(_ input: Input) {
-        
         input.viewDidLoadEvent
             .sink { [weak self] in
                 self?.goalSettingUseCase.loadNotificationCycle()

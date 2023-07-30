@@ -9,6 +9,7 @@ import Foundation
 import Combine
 
 fileprivate enum GoalSettingUseCaseError: LocalizedError {
+    
     case signUpError
     
     var errorDescription: String? {
@@ -93,6 +94,8 @@ final class DefaultGoalSettingUseCase: GoalSettingUseCase {
         self.selectedNotificationCycle.value = NotificationCycle(rawValue: text)
         self.notificationFieldEnabled.send((true))
     }
+    
+    // MARK: - Private Methods
     
     private func updateNicknameValidationState(of nicknameText: String) {
         guard !nicknameText.isEmpty else {

@@ -9,6 +9,7 @@ import Foundation
 import Combine
 
 fileprivate enum UserRepositoryError: LocalizedError {
+    
     case failedToFetchDataFromUserDefaults
     
     var errorDescription: String? {
