@@ -293,14 +293,12 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
             .store(in: &cancellables)
         
         output.signUpDidEnd
-            .receive(on: DispatchQueue.main)
             .sink { [weak self] state in
                 if state { self?.onMain?() }
             }
             .store(in: &cancellables)
         
         output.signUpDidFail
-            .receive(on: DispatchQueue.main)
             .sink { [weak self] errorMessage in
                 if !errorMessage.isEmpty {
                     #if DEBUG

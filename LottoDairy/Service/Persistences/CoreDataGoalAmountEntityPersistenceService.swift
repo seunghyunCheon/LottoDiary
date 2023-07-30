@@ -72,6 +72,7 @@ final class CoreDataGoalAmountEntityPersistenceService: CoreDataGoalAmountEntity
                 }
             }
         }
+        .receive(on: DispatchQueue.main)
         .eraseToAnyPublisher()
     }
 }
