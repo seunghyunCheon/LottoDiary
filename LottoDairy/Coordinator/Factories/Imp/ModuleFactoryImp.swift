@@ -12,10 +12,13 @@ final class ModuleFactoryImp: HomeModuleFactory, OnboardingModuleFactory, LottoQ
     }
     
     func makeOnboardingFlow() -> OnboardingFlowProtocol {
-        return OnboardingViewController()
+        let viewModel = OnboardingViewModel()
+        
+        return OnboardingViewController(viewModel: viewModel)
     }
 
     func makeLottoQRFlow() -> LottoQRFlowProtocol {
         return LottoQRViewController()
     }
 }
+
