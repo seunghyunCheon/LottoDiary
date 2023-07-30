@@ -37,41 +37,60 @@ final class DefaultGoalSettingUseCase: GoalSettingUseCase {
         .eraseToAnyPublisher()
     }
     
-    var nickname: String = ""
-    var goalAmount: Int?
-    var selectedNotificationCycle: NotificationCycle?
+    var nickname = CurrentValueSubject<String, Never>("")
+    var goalAmount = CurrentValueSubject<Int?, Never>(nil)
+    var selectedNotificationCycle = CurrentValueSubject<NotificationCycle?, Never>(nil)
     
     private let userRepository: UserRepository
+    private var cancellables = Set<AnyCancellable>()
     
     init(userRepository: UserRepository) {
         self.userRepository = userRepository
     }
     
     func validateNickname(_ text: String) {
-        self.nickname = text
+        self.nickname.value = text
         self.updateNicknameValidationState(of: text)
     }
     
     func validateAmount(_ text: String) {
-        self.goalAmount = text.convertDecimalToInt()
+        self.goalAmount.value = text.convertDecimalToInt()
         self.updateGoalAmountValidationState()
     }
 
     func signUp() -> AnyPublisher<Int, Error> {
-        guard let notificationCycle = selectedNotificationCycle?.rawValue,
-              let goalAmount else {
+        guard let notificationCycle = selectedNotificationCycle.value?.rawValue,
+              let goalAmount = goalAmount.value else {
             return Fail(error: GoalSettingUseCaseError.signUpError).eraseToAnyPublisher()
         }
         
-        return userRepository.saveUserInfo(nickname: self.nickname, notificationCycle: notificationCycle, goalAmount: goalAmount)
+        return userRepository.saveUserInfo(nickname: self.nickname.value, notificationCycle: notificationCycle, goalAmount: goalAmount)
     }
     
     func loadNotificationCycle() {
         self.notificationCycleList.send(NotificationCycle.allCases)
     }
     
+    func loadUserInfo() {
+        userRepository.fetchUserData()
+            .sink { completion in
+                if case .failure(let error) = completion {
+                    print(error.localizedDescription)
+                }
+            } receiveValue: { (nickname, cycle, goalAmount) in
+                self.nickname.value = nickname
+                self.selectedNotificationCycle.value = NotificationCycle(rawValue: cycle)
+                self.goalAmount.value = goalAmount
+                self.nicknameValidationState.send(.success)
+                self.goalAmountValidationState.send(.success)
+                self.notificationFieldEnabled.send(true)
+            }
+            .store(in: &cancellables)
+        
+    }
+    
     func setNotificationCycle(_ text: String) {
-        self.selectedNotificationCycle = NotificationCycle(rawValue: text)
+        self.selectedNotificationCycle.value = NotificationCycle(rawValue: text)
         self.notificationFieldEnabled.send((true))
     }
     
@@ -100,7 +119,7 @@ final class DefaultGoalSettingUseCase: GoalSettingUseCase {
     }
     
     private func updateGoalAmountValidationState() {
-        guard let goalAmount = goalAmount else {
+        guard let goalAmount = goalAmount.value else {
             self.goalAmountValidationState.send(.empty)
             return
         }

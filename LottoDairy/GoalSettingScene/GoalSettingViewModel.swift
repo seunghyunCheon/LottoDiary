@@ -12,6 +12,7 @@ import Combine
 final class GoalSettingViewModel {
     
     private let goalSettingUseCase: GoalSettingUseCase
+    private let isEdit: Bool
     
     struct Input {
         let viewDidLoadEvent: Just<Void>
@@ -22,6 +23,9 @@ final class GoalSettingViewModel {
     }
     
     struct Output {
+        var nicknameText = CurrentValueSubject<String, Never>("")
+        var notificationCycleText = CurrentValueSubject<String?, Never>(nil)
+        var goalAmountText = CurrentValueSubject<Int?, Never>(nil)
         var nicknameValidationErrorMessage = CurrentValueSubject<String?, Never>("")
         var goalAmountValidationErrorMessage = CurrentValueSubject<String?, Never>("")
         var goalAmountFieldText = CurrentValueSubject<String?, Never>("")
@@ -33,8 +37,9 @@ final class GoalSettingViewModel {
     
     private var cancellables: Set<AnyCancellable> = []
     
-    init(goalSettingUseCase: GoalSettingUseCase) {
+    init(goalSettingUseCase: GoalSettingUseCase, isEdit: Bool = true) {
         self.goalSettingUseCase = goalSettingUseCase
+        self.isEdit = isEdit
     }
     
     func transform(from input: Input) -> Output {
@@ -43,9 +48,13 @@ final class GoalSettingViewModel {
     }
     
     private func configureInput(_ input: Input) {
+        
         input.viewDidLoadEvent
             .sink { [weak self] in
                 self?.goalSettingUseCase.loadNotificationCycle()
+                if let self, self.isEdit {
+                    self.goalSettingUseCase.loadUserInfo()
+                }
             }
             .store(in: &cancellables)
 
@@ -77,7 +86,7 @@ final class GoalSettingViewModel {
             .store(in: &cancellables)
         
         self.goalSettingUseCase.goalAmountValidationState
-            .sink { [weak self] state in                output.goalAmountFieldText.send(self?.goalSettingUseCase.goalAmount?.convertToDecimal())
+            .sink { [weak self] state in                output.goalAmountFieldText.send(self?.goalSettingUseCase.goalAmount.value?.convertToDecimal())
                 output.goalAmountValidationErrorMessage.send(state.description)
             }
             .store(in: &cancellables)
@@ -91,6 +100,24 @@ final class GoalSettingViewModel {
         self.goalSettingUseCase.okButtonEnabled
             .sink { state in
                 output.okButtonEnabled.send((state))
+            }
+            .store(in: &cancellables)
+        
+        self.goalSettingUseCase.nickname
+            .sink { nickname in
+                output.nicknameText.send(nickname)
+            }
+            .store(in: &cancellables)
+        
+        self.goalSettingUseCase.goalAmount
+            .sink { goalAmount in
+                output.goalAmountFieldText.send(goalAmount?.convertToDecimal())
+            }
+            .store(in: &cancellables)
+        
+        self.goalSettingUseCase.selectedNotificationCycle
+            .sink { notificationCycle in
+                output.notificationCycleText.send(notificationCycle?.rawValue)
             }
             .store(in: &cancellables)
         

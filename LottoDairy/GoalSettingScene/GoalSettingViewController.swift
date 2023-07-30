@@ -280,6 +280,18 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
             }
             .store(in: &cancellables)
         
+        output.nicknameText
+            .sink { [weak self] nickName in
+                self?.nickNameTextField.text = nickName
+            }
+            .store(in: &cancellables)
+        
+        output.notificationCycleText
+            .sink { [weak self] notificationCycle in
+                self?.notificationTextField.text = notificationCycle
+            }
+            .store(in: &cancellables)
+        
         output.signUpDidEnd
             .receive(on: DispatchQueue.main)
             .sink { [weak self] state in
