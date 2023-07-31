@@ -22,7 +22,8 @@ final class ModuleFactoryImp:
 
     func makeLottoQRFlow() -> LottoQRFlowProtocol {
         return LottoQRViewController()
-    
+    }
+        
     func makeGoalSettingFlow() -> GoalSettingFlowProtocol {
         let goalSettingUseCase = DefaultGoalSettingUseCase()
         let viewModel = GoalSettingViewModel(goalSettingUseCase: goalSettingUseCase)
@@ -30,4 +31,3 @@ final class ModuleFactoryImp:
         return GoalSettingViewController(viewModel: viewModel)
     }
 }
-

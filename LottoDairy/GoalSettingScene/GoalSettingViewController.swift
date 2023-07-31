@@ -49,7 +49,7 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     
     private let nicknameValidationLabel: UILabel = {
         let label = UILabel()
-        label.text = ""
+        label.text = .none
         label.font = .gmarketSans(size: .subheadLine, weight: .bold)
         label.textColor = .systemRed
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -240,7 +240,6 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     }
     
     private func bindViewModel() {
-        
         let input = GoalSettingViewModel.Input(
             viewDidLoadEvent: Just(()),
             nicknameTextFieldDidEditEvent: nickNameTextField.textPublisher,
@@ -296,7 +295,6 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
             }
             .store(in: &cancellables)
     }
-    
 }
 
 extension GoalSettingViewController: UIPickerViewDataSource, UIPickerViewDelegate {
