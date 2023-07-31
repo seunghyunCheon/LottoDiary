@@ -18,7 +18,8 @@ final class AppCoordinator: BaseCoordinator {
     }
     
     override func start() {
-        runOnboardingFlow()
+//        runOnboardingFlow()
+        runMainFlow()
     }
     
     private func runOnboardingFlow() {

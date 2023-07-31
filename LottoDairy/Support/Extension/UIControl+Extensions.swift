@@ -7,6 +7,7 @@ import UIKit
 import Combine
 
 extension UIControl {
+    
     struct EventPublisher: Publisher {
         typealias Output = Void
         typealias Failure = Never
@@ -30,6 +31,7 @@ extension UIControl {
 }
 
 private extension UIControl {
+    
     class EventSubscription<Target: Subscriber>: Subscription where Target.Input == Void {
         
         var target: Target?
@@ -49,7 +51,7 @@ private extension UIControl {
 
 extension UIControl {
     func publisher(for event: Event) -> EventPublisher {
-        EventPublisher(
+        return EventPublisher(
             control: self,
             event: event
         )

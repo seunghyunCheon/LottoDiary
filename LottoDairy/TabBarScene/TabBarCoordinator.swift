@@ -20,15 +20,27 @@ final class TabBarCoordinator: BaseCoordinator {
     override func start() {
         tabBarFlow.onViewWillAppear = runHomeFlow()
         tabBarFlow.onHomeFlowSelect = runHomeFlow()
+        tabBarFlow.onLottoQRFlowSelect = runLottoQRFlow()
     }
     
     private func runHomeFlow() -> ((UINavigationController) -> ()) {
         return { [unowned self] navController in
-          if navController.viewControllers.isEmpty == true {
-              let homeCoordinator = self.coordinatorFactory.makeHomeCoordinator(navigationController: navController)
-            self.addDependency(homeCoordinator)
-            homeCoordinator.start()
-          }
+            if navController.viewControllers.isEmpty == true {
+                let homeCoordinator = coordinatorFactory.makeHomeCoordinator(navigationController: navController)
+                addDependency(homeCoordinator)
+                homeCoordinator.start()
+            }
         }
     }
+
+    private func runLottoQRFlow() -> ((UINavigationController) -> ()) {
+        return { [unowned self] navController in
+            if navController.viewControllers.isEmpty == true {
+                let lottoQRCoordinator = coordinatorFactory.makeLottoQRCoordinator(navigationController: navController)
+                addDependency(lottoQRCoordinator)
+                lottoQRCoordinator.start()
+            }
+        }
+    }
+
 }

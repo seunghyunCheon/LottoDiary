@@ -4,11 +4,11 @@
 //
 //  Created by Sunny on 2023/07/05.
 //
-
 final class ModuleFactoryImp:
     HomeModuleFactory,
     OnboardingModuleFactory,
-    GoalSettingModuleFactory {
+    GoalSettingModuleFactory,
+    LottoQRModuleFactory {
     
     func makeHomeFlow() -> HomeFlowProtocol {
         return HomeViewController()
@@ -19,6 +19,9 @@ final class ModuleFactoryImp:
         
         return OnboardingViewController(viewModel: viewModel)
     }
+
+    func makeLottoQRFlow() -> LottoQRFlowProtocol {
+        return LottoQRViewController()
     
     func makeGoalSettingFlow() -> GoalSettingFlowProtocol {
         let goalSettingUseCase = DefaultGoalSettingUseCase()

@@ -37,6 +37,16 @@ final class CoordinatorFactoryImp: CoordinatorFactory {
         
         return coordinator
     }
+
+    func makeLottoQRCoordinator(navigationController: UINavigationController?) -> Coordinator {
+        let coordinator = LottoQRCoordinator(
+            router: router(navigationController),
+            moduleFactory: ModuleFactoryImp(),
+            coordinatorFactory: CoordinatorFactoryImp()
+        )
+        
+        return coordinator
+    }
     
     private func router(_ navigationController: UINavigationController?) -> Router {
         let navigationController = navigationController ?? UINavigationController()
