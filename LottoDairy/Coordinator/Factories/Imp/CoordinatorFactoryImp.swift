@@ -10,7 +10,11 @@ import UIKit
 final class CoordinatorFactoryImp: CoordinatorFactory {
     
     func makeOnboardingCoordinator(router: Router) -> Coordinator & OnboardingCoordinatorFinishable {
-        let coordinator = OnboardingCoordinator(router: router, factory: ModuleFactoryImp())
+        let coordinator = OnboardingCoordinator(
+            router: router,
+            coordinatorFactory: CoordinatorFactoryImp(),
+            factory: ModuleFactoryImp()
+        )
         
         return coordinator
     }

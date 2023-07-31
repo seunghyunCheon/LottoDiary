@@ -18,22 +18,12 @@ final class AppCoordinator: BaseCoordinator {
     }
     
     override func start() {
-//        runOnboardingFlow()
-        runMainFlow()
+        runOnboardingFlow()
+//        runMainFlow()
     }
     
     private func runOnboardingFlow() {
         let coordinator = coordinatorFactory.makeOnboardingCoordinator(router: router)
-        coordinator.finishFlow = { [weak self, weak coordinator] in
-            self?.removeDependency(coordinator)
-            self?.runMyInformationFlow()
-        }
-        addDependency(coordinator)
-        coordinator.start()
-    }
-    
-    private func runMyInformationFlow() {
-        let coordinator = coordinatorFactory.makeGoalSettingCoordinator(router: router)
         coordinator.finishFlow = { [weak self, weak coordinator] in
             self?.removeDependency(coordinator)
             self?.runMainFlow()
