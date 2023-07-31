@@ -9,6 +9,7 @@ import UIKit
 import Combine
 
 final class LottoDiaryTextField: UITextField {
+    
     enum TextFieldType {
         case letter
         case number

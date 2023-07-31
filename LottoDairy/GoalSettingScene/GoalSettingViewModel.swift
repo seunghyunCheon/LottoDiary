@@ -31,13 +31,19 @@ final class GoalSettingViewModel {
         var signUpDidFail = CurrentValueSubject<String, Never>("")
     }
     
+    private let goalSettingValidationUseCase: GoalSettingValidationUseCase
     private let goalSettingUseCase: GoalSettingUseCase
     private let isEdit: Bool
     private var cancellables: Set<AnyCancellable> = []
     
     // MARK: - Life Cycle
     
-    init(goalSettingUseCase: GoalSettingUseCase, isEdit: Bool = false) {
+    init(
+        isEdit: Bool = true,
+        goalSettingValidationUseCase: GoalSettingValidationUseCase,
+        goalSettingUseCase: GoalSettingUseCase
+    ) {
+        self.goalSettingValidationUseCase = goalSettingValidationUseCase
         self.goalSettingUseCase = goalSettingUseCase
         self.isEdit = isEdit
     }
@@ -55,38 +61,44 @@ final class GoalSettingViewModel {
                 self?.goalSettingUseCase.loadNotificationCycle()
                 if let self, self.isEdit {
                     self.goalSettingUseCase.loadUserInfo()
+                    self.goalSettingValidationUseCase
+                        .activateAllComponent()
                 }
             }
             .store(in: &cancellables)
 
         input.nicknameTextFieldDidEditEvent
             .sink { [weak self] nickname in
-                self?.goalSettingUseCase.validateNickname(nickname)
+                self?.goalSettingValidationUseCase.validateNickname(nickname)
+                self?.goalSettingUseCase.setNickname(nickname)
             }
             .store(in: &cancellables)
         
         input.goalSettingTextFieldDidEditEvent
             .sink { [weak self] amount in
-                self?.goalSettingUseCase.validateAmount(amount)
+                self?.goalSettingValidationUseCase.validateAmount(amount)
+                self?.goalSettingUseCase.setGoalAmount(amount)
             }
             .store(in: &cancellables)
         
         input.notificationTextFieldDidEditEvent
             .sink { [weak self] selectedCycle in
                 self?.goalSettingUseCase.setNotificationCycle(selectedCycle)
+                self?.goalSettingValidationUseCase
+                    .activateNotificationCycle()
             }
             .store(in: &cancellables)
     }
     
     private func configureOutput(from input: Input) -> Output {
         let output = Output()
-        self.goalSettingUseCase.nicknameValidationState
+        self.goalSettingValidationUseCase.nicknameValidationState
             .sink { state in
                 output.nicknameValidationErrorMessage.send(state.description)
             }
             .store(in: &cancellables)
         
-        self.goalSettingUseCase.goalAmountValidationState
+        self.goalSettingValidationUseCase.goalAmountValidationState
             .sink { [weak self] state in                output.goalAmountFieldText.send(self?.goalSettingUseCase.goalAmount.value?.convertToDecimal())
                 output.goalAmountValidationErrorMessage.send(state.description)
             }
@@ -98,7 +110,7 @@ final class GoalSettingViewModel {
             }
             .store(in: &cancellables)
         
-        self.goalSettingUseCase.okButtonEnabled
+        self.goalSettingValidationUseCase.okButtonEnabled
             .sink { state in
                 output.okButtonEnabled.send((state))
             }

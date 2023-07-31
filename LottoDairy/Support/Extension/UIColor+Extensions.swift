@@ -16,7 +16,6 @@ extension UIColor {
         case backgroundBlack
         case grayA09FA7
         case grayD8D8D8
-        case gray17181D
         case gray2B2C35
         case gray2D2B35
         case gray3C3C47

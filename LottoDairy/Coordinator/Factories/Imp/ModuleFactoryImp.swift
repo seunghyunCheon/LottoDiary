@@ -4,11 +4,11 @@
 //
 //  Created by Sunny on 2023/07/05.
 //
-
 final class ModuleFactoryImp:
     HomeModuleFactory,
     OnboardingModuleFactory,
-    GoalSettingModuleFactory {
+    GoalSettingModuleFactory,
+    LottoQRModuleFactory {
     
     func makeHomeFlow() -> HomeFlowProtocol {
         return HomeViewController()
@@ -19,7 +19,11 @@ final class ModuleFactoryImp:
         
         return OnboardingViewController(viewModel: viewModel)
     }
-    
+
+    func makeLottoQRFlow() -> LottoQRFlowProtocol {
+        return LottoQRViewController()
+    }
+        
     func makeGoalSettingFlow() -> GoalSettingFlowProtocol {
         let userDefaultService = UserDefaultsPersistenceService.shared
         let coreDataService = CoreDataPersistenceService.shared
@@ -28,10 +32,13 @@ final class ModuleFactoryImp:
             userDefaultPersistenceService: userDefaultService,
             coreDataGoalAmountEntityPersistenceService: coreDataGoalAmountPersistenceService
         )
+        let goalSettingValidationUseCase = DefaultGoalSettingValidationUseCase()
         let goalSettingUseCase = DefaultGoalSettingUseCase(userRepository: userRepository)
-        let viewModel = GoalSettingViewModel(goalSettingUseCase: goalSettingUseCase)
+        let viewModel = GoalSettingViewModel(
+            goalSettingValidationUseCase: goalSettingValidationUseCase,
+            goalSettingUseCase: goalSettingUseCase
+        )
         
         return GoalSettingViewController(viewModel: viewModel)
     }
 }
-

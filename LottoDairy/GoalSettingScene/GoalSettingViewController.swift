@@ -61,7 +61,7 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     
     private let nicknameValidationLabel: UILabel = {
         let label = UILabel()
-        label.text = ""
+        label.text = .none
         label.font = .gmarketSans(size: .subheadLine, weight: .bold)
         label.textColor = .systemRed
         label.translatesAutoresizingMaskIntoConstraints = false

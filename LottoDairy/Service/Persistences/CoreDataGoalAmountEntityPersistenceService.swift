@@ -63,7 +63,7 @@ final class CoreDataGoalAmountEntityPersistenceService: CoreDataGoalAmountEntity
         return Future { promise in
             context.perform {
                 let goalAmountEntity = GoalAmountEntity(context: context)
-                goalAmountEntity.update(Int16(goalAmount))
+                goalAmountEntity.update(goalAmount)
                 do {
                     try context.save()
                     promise(.success(goalAmount))

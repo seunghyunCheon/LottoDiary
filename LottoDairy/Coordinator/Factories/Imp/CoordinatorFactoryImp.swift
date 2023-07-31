@@ -10,7 +10,11 @@ import UIKit
 final class CoordinatorFactoryImp: CoordinatorFactory {
     
     func makeOnboardingCoordinator(router: Router) -> Coordinator & OnboardingCoordinatorFinishable {
-        let coordinator = OnboardingCoordinator(router: router, factory: ModuleFactoryImp())
+        let coordinator = OnboardingCoordinator(
+            router: router,
+            coordinatorFactory: CoordinatorFactoryImp(),
+            factory: ModuleFactoryImp()
+        )
         
         return coordinator
     }
@@ -30,6 +34,16 @@ final class CoordinatorFactoryImp: CoordinatorFactory {
     
     func makeHomeCoordinator(navigationController: UINavigationController?) -> Coordinator {
         let coordinator = HomeCoordinator(
+            router: router(navigationController),
+            moduleFactory: ModuleFactoryImp(),
+            coordinatorFactory: CoordinatorFactoryImp()
+        )
+        
+        return coordinator
+    }
+
+    func makeLottoQRCoordinator(navigationController: UINavigationController?) -> Coordinator {
+        let coordinator = LottoQRCoordinator(
             router: router(navigationController),
             moduleFactory: ModuleFactoryImp(),
             coordinatorFactory: CoordinatorFactoryImp()
