@@ -122,7 +122,7 @@ class DoubleLabelView: UIView {
 }
 
 fileprivate extension UILabel {
-    func attributedText(first: String, second: String, secondFontSize: Size) {
+    func attributedText(first: String, second: String, secondFontSize: UIFont.Size) {
         let boldAttribute: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.designSystem(.mainOrange) ?? UIColor.orange,
             .font: UIFont.gmarketSans(size: .title1, weight: .medium)
