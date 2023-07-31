@@ -13,12 +13,14 @@ final class OnboardingCoordinator: BaseCoordinator, OnboardingCoordinatorFinisha
     
     var finishFlow: (() -> Void)?
     
-    private let factory: OnboardingModuleFactory
     private let router: Router
+    private let coordinatorFactory: CoordinatorFactory
+    private let factory: OnboardingModuleFactory
     
-    init(router: Router, factory: OnboardingModuleFactory) {
-        self.factory = factory
+    init(router: Router, coordinatorFactory: CoordinatorFactory, factory: OnboardingModuleFactory) {
         self.router = router
+        self.coordinatorFactory = coordinatorFactory
+        self.factory = factory
     }
     
     override func start() {
@@ -29,9 +31,19 @@ final class OnboardingCoordinator: BaseCoordinator, OnboardingCoordinatorFinisha
         var onboardingModule = factory.makeOnboardingFlow()
         
         onboardingModule.onSetting = { [weak self] in
-            self?.finishFlow?()
+            self?.runGoalSettingFlow()
         }
         
         router.setRootModule(onboardingModule)
+    }
+    
+    func runGoalSettingFlow() {
+        let coordinator = coordinatorFactory.makeGoalSettingCoordinator(router: router)
+        coordinator.finishFlow = { [weak self, weak coordinator] in
+            self?.removeDependency(coordinator)
+            self?.finishFlow?()
+        }
+        addDependency(coordinator)
+        coordinator.start()
     }
 }

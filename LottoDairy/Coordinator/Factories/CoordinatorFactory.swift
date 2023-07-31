@@ -9,6 +9,7 @@ import UIKit
 
 protocol CoordinatorFactory {
     func makeOnboardingCoordinator(router: Router) -> Coordinator & OnboardingCoordinatorFinishable
+    func makeGoalSettingCoordinator(router: Router) -> Coordinator & GoalSettingCoordinatorFinishable
     func makeTabbarCoordinator() -> (configurator: Coordinator, toPresent: Presentable?)
     func makeHomeCoordinator(navigationController: UINavigationController?) -> Coordinator
     func makeLottoQRCoordinator(navigationController: UINavigationController?) -> Coordinator
