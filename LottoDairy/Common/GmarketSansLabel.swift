@@ -12,8 +12,8 @@ class GmarketSansLabel: UILabel {
     init(text: String,
          color: UIColor = .white,
          alignment: NSTextAlignment = .center,
-         size: Size,
-         weight: CustomWeight) {
+         size: UIFont.Size,
+         weight: UIFont.CustomWeight) {
         super.init(frame: .zero)
 
         self.text = text
