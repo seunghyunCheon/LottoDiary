@@ -273,6 +273,7 @@
 			isa = PBXGroup;
 			children = (
 				624BB0D82A666342002A3109 /* LottoDiaryTextField.swift */,
+				62AFA0922A723C8B00C9D86C /* LottoLabel.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -350,7 +351,6 @@
 				624BB0E02A67B4A1002A3109 /* Util */,
 				624BB0DA2A67B2C1002A3109 /* Domain */,
 				624BB0D72A666301002A3109 /* Common */,
-				62AFA0912A723C6900C9D86C /* Common */,
 				6215034F2A5E6EB300431BBB /* Support */,
 				6215032B2A4EBAD600431BBB /* Resource */,
 				621503262A4EB91900431BBB /* Coordinator */,
@@ -366,14 +366,6 @@
 			path = LottoDairy;
 			sourceTree = "<group>";
 		};
-		62AFA0912A723C6900C9D86C /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				62AFA0922A723C8B00C9D86C /* LottoLabel.swift */,
-			);
-			path = Common;
-            sourceTree = "<group>";
-        };
 		805FA7052A6D832500089070 /* LottoQRScene */ = {
 			isa = PBXGroup;
 			children = (
