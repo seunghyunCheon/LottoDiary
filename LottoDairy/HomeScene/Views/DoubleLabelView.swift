@@ -9,8 +9,8 @@ import UIKit
 
 class DoubleLabelView: UIView {
 
-    private var firstLabel: UILabel?
-    private var secondLabel: UILabel?
+    private var firstLabel = UILabel()
+    private var secondLabel = UILabel()
     private var imageView: UIImageView?
 
     private let imageViewSize: CGFloat = 37
@@ -19,17 +19,26 @@ class DoubleLabelView: UIView {
         super.init(frame: frame)
     }
 
-    convenience init(first firstVerticalText: String, second secondVerticalText: String, alignment: NSTextAlignment = .left) {
+    convenience init(month: String, percent: String) {
         self.init(frame: .zero)
 
-        self.firstLabel = GmarketSansLabel(text: firstVerticalText,
-                                           alignment: alignment,
-                                           size: .title2,
-                                           weight: .medium)
-        self.secondLabel = GmarketSansLabel(text: secondVerticalText,
-                                            alignment: alignment,
-                                            size: .title2,
-                                            weight: .medium)
+        firstLabel.attributedText(first: "\(month)월", second: "동안", secondFontSize: .callout)
+        secondLabel.attributedText(first: "목표치의 \(percent)%", second: "를 사용하셨습니다.", secondFontSize: .callout)
+
+        firstLabel.textAlignment = .left
+        secondLabel.textAlignment = .left
+        setupCommon()
+        setupVerticalView()
+    }
+
+    convenience init(won: String, riceSoup: String) {
+        self.init(frame: .zero)
+
+        firstLabel.attributedText(first: "\(won)원", second: "으로", secondFontSize: .title3)
+        secondLabel.attributedText(first: "국밥 \(riceSoup) 그릇", second: "먹기 가능", secondFontSize: .title3)
+
+        firstLabel.textAlignment = .center
+        secondLabel.textAlignment = .center
         setupCommon()
         setupVerticalView()
     }
@@ -44,8 +53,8 @@ class DoubleLabelView: UIView {
                                            weight: .medium)
         self.secondLabel = GmarketSansLabel(text: secondHorizontalText,
                                             alignment: .left,
-                                            size: .title2,
-                                            weight: .bold)
+                                            size: .title3,
+                                            weight: .medium)
         setupCommon()
         setupImageView()
         setupHorizontalView()
@@ -57,7 +66,6 @@ class DoubleLabelView: UIView {
     }
 
     private func setupCommon() {
-        guard let firstLabel = firstLabel, let secondLabel = secondLabel else { return }
         firstLabel.translatesAutoresizingMaskIntoConstraints = false
         secondLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubviews([firstLabel, secondLabel])
@@ -71,8 +79,7 @@ class DoubleLabelView: UIView {
     }
 
     private func setupVerticalView() {
-        guard let firstLabel = firstLabel, let secondLabel = secondLabel else { return }
-        let gab: CGFloat = 20
+        let gab: CGFloat = 10
 
         NSLayoutConstraint.activate([
             firstLabel.topAnchor.constraint(equalTo: topAnchor),
@@ -86,7 +93,7 @@ class DoubleLabelView: UIView {
     }
 
     private func setupHorizontalView() {
-        guard let firstLabel = firstLabel, let secondLabel = secondLabel, let imageView = imageView else { return }
+        guard let imageView = imageView else { return }
         let leadingConstant: CGFloat = 15
         let firstLabelWidth: CGFloat = 80
         let firstLabelGab: CGFloat = 5
@@ -111,5 +118,24 @@ class DoubleLabelView: UIView {
         guard let imageView = imageView else { return }
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = imageViewSize / 2
+    }
+}
+
+fileprivate extension UILabel {
+    func attributedText(first: String, second: String, secondFontSize: Size) {
+        let boldAttribute: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor.designSystem(.mainOrange) ?? UIColor.orange,
+            .font: UIFont.gmarketSans(size: .title1, weight: .medium)
+        ]
+        let attributedText = NSMutableAttributedString(string: "\(first) ", attributes: boldAttribute)
+
+        let attribute: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor.white,
+            .font: UIFont.gmarketSans(size: secondFontSize, weight: .medium)
+        ]
+        let secondAttributedText = NSAttributedString(string: second, attributes: attribute)
+        attributedText.append(secondAttributedText)
+
+        self.attributedText = attributedText
     }
 }

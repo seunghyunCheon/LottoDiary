@@ -30,17 +30,17 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
     }()
 
     private let explanationLabel: UIView = {
-        let view = DoubleLabelView(first: "7월 동안", second: "목표치의 75%를 사용하셨습니다.")
+        let view = DoubleLabelView(month: "7", percent: "78")
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
-    private let goal = DoubleLabelView(first: "목표", second: "10,000원", image: nil)
-    private let buy = DoubleLabelView(first: "구매 금액", second: "20,000원", image: nil)
-    private let win = DoubleLabelView(first: "당첨 금액", second: "3,000원", image: nil)
+    private let goalLabel = DoubleLabelView(first: StringLiteral.goalTitle, second: "10,000원", image: nil)
+    private let buyLabel = DoubleLabelView(first: StringLiteral.buyTitle, second: "20,000원", image: nil)
+    private let winLabel = DoubleLabelView(first: StringLiteral.winTitle, second: "3,000원", image: nil)
 
     private let imageLabel: UILabel = {
-        let label = GmarketSansLabel(text: "이 돈이면", alignment: .left, size: .title3, weight: .bold)
+        let label = GmarketSansLabel(text: StringLiteral.imageTitle, alignment: .left, size: .title3, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -50,13 +50,13 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         imageView.backgroundColor = .systemYellow
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 20
+        imageView.layer.cornerRadius = Constant.cornerRadius
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
 
     private let imageExplanationView: UIView = {
-        let view = DoubleLabelView(first: "78000원으로", second: "국밥 7.8개 그릇먹기 가능", alignment: .center)
+        let view = DoubleLabelView(won: "78000", riceSoup: "7.8")
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -84,9 +84,8 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
 
         let height = view.frame.height * 0.35
         let nickNameViewHeight: CGFloat = height * 0.127
-        let explanationLabelGap: CGFloat = height * 0.1
+        let explanationLabelGap: CGFloat = height * 0.07
         let explanationLabelHeight: CGFloat = height * 0.27
-        let moneyInformationStackViewGap: CGFloat = height * 0.03
 
         NSLayoutConstraint.activate([
             informationView.heightAnchor.constraint(equalToConstant: height),
@@ -100,7 +99,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
             explanationLabel.trailingAnchor.constraint(equalTo: informationView.trailingAnchor),
             explanationLabel.heightAnchor.constraint(equalToConstant: explanationLabelHeight),
 
-            moneyInformationStackView.topAnchor.constraint(equalTo: explanationLabel.bottomAnchor, constant: moneyInformationStackViewGap),
+            moneyInformationStackView.topAnchor.constraint(equalTo: explanationLabel.bottomAnchor),
             moneyInformationStackView.leadingAnchor.constraint(equalTo: informationView.leadingAnchor),
             moneyInformationStackView.trailingAnchor.constraint(equalTo: informationView.trailingAnchor),
             moneyInformationStackView.bottomAnchor.constraint(equalTo: informationView.bottomAnchor)
@@ -136,10 +135,10 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
             stackView.translatesAutoresizingMaskIntoConstraints = false
             stackView.backgroundColor = .designSystem(.gray2D2B35)
             stackView.clipsToBounds = true
-            stackView.layer.cornerRadius = 15
+            stackView.layer.cornerRadius = Constant.cornerRadius
             return stackView
         }()
-        moneyInformationStackView.addArrangedSubviews([goal, buy, win])
+        moneyInformationStackView.addArrangedSubviews([goalLabel, buyLabel, winLabel])
 
         return moneyInformationStackView
     }
@@ -149,7 +148,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         imageInformationView.addSubviews([imageLabel, imageView, imageExplanationView])
 
         let height = view.frame.height * 0.344
-        let topAchorGap: CGFloat = height * 0.07
+        let topAchorGap: CGFloat = height * 0.04
         let imageViewHeight: CGFloat = height * 0.52
 
         NSLayoutConstraint.activate([
@@ -197,7 +196,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
 
     private func configureContentView() {
         let horizontalInset = view.frame.width * 0.054
-        let spacing = view.frame.height * 0.047
+        let spacing = view.frame.height * 0.04
 
         contentView.axis = .vertical
         contentView.spacing = spacing
@@ -221,5 +220,16 @@ extension HomeViewController {
         var image: UIImage? {
             return UIImage(systemName: self.rawValue)
         }
+    }
+
+    private enum Constant {
+        static let cornerRadius: CGFloat = 15
+    }
+
+    private enum StringLiteral {
+        static let goalTitle = "목표"
+        static let buyTitle = "구매 금액"
+        static let winTitle = "당첨 금액"
+        static let imageTitle = "이 돈이면"
     }
 }
