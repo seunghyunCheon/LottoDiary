@@ -9,12 +9,12 @@ import UIKit
 
 final class HomeViewController: UIViewController, HomeFlowProtocol {
 
-    // MARK: Properties - View
+    // MARK: Properties - UI
     private let scrollView = UIScrollView()
     private let contentView = UIStackView()
 
-    // MARK: Properties - InformationView
     private let nickNameLabel: UILabel = {
+        // 추후 유저 닉네임 연결
         let label = GmarketSansLabel(text: "Brody님", size: .title2, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -22,8 +22,9 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
 
     private let settingButton: UIButton = {
         let button = UIButton()
-        let gearImage = UIImage(systemName: "gearshape")
+        let gearImage = SystemName.setting.image
         button.setImage(gearImage, for: .normal)
+        button.tintColor = .white
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -38,7 +39,6 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
     private let buy = DoubleLabelView(first: "구매 금액", second: "20,000원", image: nil)
     private let win = DoubleLabelView(first: "당첨 금액", second: "3,000원", image: nil)
 
-    // MARK: Properties - ImageInformationView
     private let imageLabel: UILabel = {
         let label = GmarketSansLabel(text: "이 돈이면", alignment: .left, size: .title3, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -46,8 +46,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
     }()
 
     private let imageView: UIImageView = {
-        let image = UIImage(systemName: "photo")
-        let imageView = UIImageView(image: image)
+        let imageView = UIImageView(image: SystemName.photo.image)
         imageView.backgroundColor = .systemYellow
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
@@ -63,15 +62,18 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
     }()
 
     var onSetting: (() -> Void)?
-    
+
+    // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configureView()
         setupScrollView()
         setupContentView()
+        configureContentView()
     }
 
+    // MARK: Functions - Private
     private func setupInformationView() -> UIView {
         let informationView = UIView()
 
@@ -80,7 +82,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
 
         informationView.addSubviews([nickNameView, explanationLabel, moneyInformationStackView])
 
-        let height = UIScreen.main.bounds.height * 0.35
+        let height = view.frame.height * 0.35
         let nickNameViewHeight: CGFloat = height * 0.127
         let explanationLabelGap: CGFloat = height * 0.1
         let explanationLabelHeight: CGFloat = height * 0.27
@@ -146,7 +148,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         let imageInformationView = UIView()
         imageInformationView.addSubviews([imageLabel, imageView, imageExplanationView])
 
-        let height = UIScreen.main.bounds.height * 0.344
+        let height = view.frame.height * 0.344
         let topAchorGap: CGFloat = height * 0.07
         let imageViewHeight: CGFloat = height * 0.52
 
@@ -179,10 +181,8 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
-        ])
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
 
-        NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
@@ -193,13 +193,33 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         let informationView = setupInformationView()
         let imageInformationView = setupImageInformationView()
         contentView.addArrangedSubviews([informationView, imageInformationView])
+    }
+
+    private func configureContentView() {
+        let horizontalInset = view.frame.width * 0.054
+        let spacing = view.frame.height * 0.047
 
         contentView.axis = .vertical
-        contentView.spacing = 40
+        contentView.spacing = spacing
+        contentView.isLayoutMarginsRelativeArrangement = true
+        contentView.layoutMargins = UIEdgeInsets(top: .zero, left: horizontalInset, bottom: .zero, right: horizontalInset)
     }
 
     private func configureView() {
         self.navigationController?.isNavigationBarHidden = true
         self.view.backgroundColor = .designSystem(.backgroundBlack)
+    }
+}
+
+// MARK: Extension
+extension HomeViewController {
+
+    private enum SystemName: String {
+        case setting = "gearshape"
+        case photo = "photo"
+
+        var image: UIImage? {
+            return UIImage(systemName: self.rawValue)
+        }
     }
 }

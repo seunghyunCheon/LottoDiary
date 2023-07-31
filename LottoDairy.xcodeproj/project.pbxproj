@@ -197,9 +197,6 @@
 			isa = PBXGroup;
 			children = (
 				621503482A5E694900431BBB /* Fonts */,
-				6215034B2A5E699C00431BBB /* gmarketSansTTFBold.ttf */,
-				621503492A5E699C00431BBB /* gmarketSansTTFLight.ttf */,
-				6215034A2A5E699C00431BBB /* gmarketSansTTFMedium.ttf */,
 				629C1F5E2A4ABD1000540FA4 /* Assets.xcassets */,
 				621503532A5E7AC700431BBB /* Colors.xcassets */,
 				629C1F602A4ABD1000540FA4 /* LaunchScreen.storyboard */,
@@ -241,6 +238,9 @@
 		621503482A5E694900431BBB /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				6215034B2A5E699C00431BBB /* gmarketSansTTFBold.ttf */,
+				621503492A5E699C00431BBB /* gmarketSansTTFLight.ttf */,
+				6215034A2A5E699C00431BBB /* gmarketSansTTFMedium.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -284,6 +284,7 @@
 			children = (
 				624BB0D82A666342002A3109 /* LottoDiaryTextField.swift */,
 				62AFA0922A723C8B00C9D86C /* LottoLabel.swift */,
+				80EB03312A72336400455E05 /* GmarketSansLabel.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -420,7 +421,6 @@
 		80EB032A2A7132C000455E05 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				80EB03312A72336400455E05 /* GmarketSansLabel.swift */,
 				80EB033D2A72CF9A00455E05 /* DoubleLabelView.swift */,
 			);
 			path = Views;
