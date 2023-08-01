@@ -381,7 +381,7 @@ extension GoalSettingViewController {
         static let placeholderText = "Jane"
         static let goalSettingText = "6월 목표금액 (원)"
         static let goalSettingPlaceholderText = "목표금액을 입력해주세요"
-        static let notificationText = "일정 주기마다 로또 경고 알림"
+        static let notificationText = "로또 추첨방송 알림"
         static let notificationPlaceholderText = "주기를 선택해주세요"
         static let errorTitle = "오류"
         static let errorMessage = "정보를 저장하지 못했습니다"
