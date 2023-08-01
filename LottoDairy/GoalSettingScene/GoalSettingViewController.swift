@@ -10,22 +10,11 @@ import Combine
 
 final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol {
     
-    private enum Constant {
-        static let titleText = "내 정보"
-        static let nicknameText = "닉네임"
-        static let placeholderText = "Jane"
-        static let goalSettingText = "6월 목표금액 (원)"
-        static let goalSettingPlaceholderText = "목표금액을 입력해주세요"
-        static let errorTitle = "오류"
-        static let errorMessage = "정보를 저장하지 못했습니다"
-        static let errorOkButtonText = "확인"
-    }
-    
     // MARK: - UI
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = Constant.titleText
+        label.text = StringLiteral.titleText
         label.font = .gmarketSans(size: .title1, weight: .bold)
         label.textColor = .designSystem(.white)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -35,7 +24,7 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     
     private let nickNameLabel: UILabel = {
         let label = UILabel()
-        label.text = Constant.nicknameText
+        label.text = StringLiteral.nicknameText
         label.font = .gmarketSans(size: .subheadLine, weight: .bold)
         label.textColor = .designSystem(.white)
         
@@ -43,7 +32,7 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     }()
     
     private let nickNameTextField: LottoDiaryTextField = {
-        return LottoDiaryTextField(placeholder: Constant.placeholderText, type: .letter, align: .right)
+        return LottoDiaryTextField(placeholder: StringLiteral.placeholderText, type: .letter, align: .right)
     }()
     
     private let nickNameStackView: UIStackView = {
@@ -71,7 +60,7 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     
     private let goalSettingLabel: UILabel = {
         let label = UILabel()
-        label.text = Constant.goalSettingText
+        label.text = StringLiteral.goalSettingText
         label.font = .gmarketSans(size: .subheadLine, weight: .bold)
         label.textColor = .designSystem(.white)
         label.textAlignment = .left
@@ -81,7 +70,7 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     
     private let goalSettingTextField: LottoDiaryTextField = {
         return LottoDiaryTextField(
-            placeholder: Constant.goalSettingPlaceholderText,
+            placeholder: StringLiteral.goalSettingPlaceholderText,
             type: .number,
             align: .right
         )
@@ -102,7 +91,7 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     
     private let goalAmountValidationLabel: UILabel = {
         let label = UILabel()
-        label.text = ""
+        label.text = .none
         label.font = .gmarketSans(size: .subheadLine, weight: .bold)
         label.textColor = .systemRed
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -112,7 +101,7 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     
     private let notificationLabel: UILabel = {
         let label = UILabel()
-        label.text = "일정 주기마다 로또 경고 알림"
+        label.text = StringLiteral.notificationText
         label.font = .gmarketSans(size: .title2, weight: .bold)
         label.textColor = .designSystem(.white)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -121,7 +110,11 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     }()
     
     private let notificationTextField: LottoDiaryTextField = {
-        let textField = LottoDiaryTextField(placeholder: "주기를 선택해주세요", type: .letter, align: .left)
+        let textField = LottoDiaryTextField(
+            placeholder: StringLiteral.notificationPlaceholderText,
+            type: .letter,
+            align: .left
+        )
         textField.translatesAutoresizingMaskIntoConstraints = false
         
         return textField
@@ -326,12 +319,12 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     
     private func presentErrorAlert() {
         let sheet = UIAlertController(
-            title: Constant.errorTitle,
-            message: Constant.errorMessage,
+            title: StringLiteral.errorTitle,
+            message: StringLiteral.errorMessage,
             preferredStyle: .alert
         )
         
-        sheet.addAction(UIAlertAction(title: Constant.errorOkButtonText, style: .default))
+        sheet.addAction(UIAlertAction(title: StringLiteral.errorOkButtonText, style: .default))
         present(sheet, animated: true)
     }
     
@@ -375,5 +368,23 @@ extension GoalSettingViewController: UIPickerViewDataSource, UIPickerViewDelegat
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.notificationTextField.pickerPublisher.send(notificationCycleList[row].rawValue)
         notificationTextField.text = notificationCycleList[row].rawValue
+    }
+}
+
+// MARK: - Extension - Constant
+
+extension GoalSettingViewController {
+    
+    private enum StringLiteral {
+        static let titleText = "내 정보"
+        static let nicknameText = "닉네임"
+        static let placeholderText = "Jane"
+        static let goalSettingText = "6월 목표금액 (원)"
+        static let goalSettingPlaceholderText = "목표금액을 입력해주세요"
+        static let notificationText = "일정 주기마다 로또 경고 알림"
+        static let notificationPlaceholderText = "주기를 선택해주세요"
+        static let errorTitle = "오류"
+        static let errorMessage = "정보를 저장하지 못했습니다"
+        static let errorOkButtonText = "확인"
     }
 }

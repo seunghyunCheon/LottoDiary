@@ -10,6 +10,4 @@ import Foundation
 import CoreData
 
 @objc(GoalAmountEntity)
-public class GoalAmountEntity: NSManagedObject {
-
-}
+public class GoalAmountEntity: NSManagedObject { }

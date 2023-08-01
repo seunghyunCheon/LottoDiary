@@ -22,9 +22,9 @@ final class GoalSettingViewModel {
     struct Output {
         var nicknameText = CurrentValueSubject<String, Never>("")
         var notificationCycleText = CurrentValueSubject<String?, Never>(nil)
-        var nicknameValidationErrorMessage = CurrentValueSubject<String?, Never>("")
-        var goalAmountValidationErrorMessage = CurrentValueSubject<String?, Never>("")
-        var goalAmountFieldText = CurrentValueSubject<String?, Never>("")
+        var nicknameValidationErrorMessage = CurrentValueSubject<String?, Never>(.none)
+        var goalAmountValidationErrorMessage = CurrentValueSubject<String?, Never>(.none)
+        var goalAmountFieldText = CurrentValueSubject<String?, Never>(.none)
         var notificationCycleList = CurrentValueSubject<[NotificationCycle], Never>([])
         var okButtonEnabled = CurrentValueSubject<Bool, Never>(false)
         var signUpDidEnd = CurrentValueSubject<Bool, Never>(false)

@@ -67,7 +67,6 @@ final class DefaultGoalSettingUseCase: GoalSettingUseCase {
                 self.goalAmount.value = goalAmount
             }
             .store(in: &cancellables)
-        
     }
     
     func setNotificationCycle(_ text: String) {
