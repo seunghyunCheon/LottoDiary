@@ -38,9 +38,9 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         return view
     }()
 
-    private let goalLabel = DoubleLabelView(first: StringLiteral.goalTitle, second: "10,000원", image: nil)
-    private let buyLabel = DoubleLabelView(first: StringLiteral.buyTitle, second: "20,000원", image: nil)
-    private let winLabel = DoubleLabelView(first: StringLiteral.winTitle, second: "3,000원", image: nil)
+    private lazy var goalLabel = getMoneyHorizontalStackView(type: .buy, money: "10,000원")
+    private lazy var buyLabel = getMoneyHorizontalStackView(type: .buy, money: "20,000원")
+    private lazy var winLabel = getMoneyHorizontalStackView(type: .win, money: "3,000원")
 
     private let imageLabel: UILabel = {
         let label = GmarketSansLabel(text: StringLiteral.imageTitle, alignment: .left, size: .title3, weight: .bold)
@@ -165,12 +165,38 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         return nickNameView
     }
 
+    private func getMoneyHorizontalStackView(type: MoneyInformation, money: String) -> UIStackView {
+        let labelStackView = DoubleLabelView(title: type.title, won: money)
+
+        let imageView: UIImageView = {
+            let imageView = UIImageView(image: type.image)
+            let imageViewSize: CGFloat = 37
+
+            imageView.heightAnchor.constraint(equalToConstant: imageViewSize).isActive = true
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
+            imageView.clipsToBounds = true
+            imageView.layer.cornerRadius = imageViewSize / 2
+            imageView.backgroundColor = .blue
+            return imageView
+        }()
+
+        let moneyHorizontalStackView: UIStackView = {
+            let stackView = UIStackView()
+            stackView.addArrangedSubviews([imageView, labelStackView])
+            stackView.axis = .horizontal
+            stackView.distribution = .fillProportionally
+            stackView.spacing = 15
+            return stackView
+        }()
+        return moneyHorizontalStackView
+    }
+
     private func setupMoneyInformationStackView() -> UIStackView {
         let moneyInformationStackView: UIStackView = {
             let stackView = UIStackView()
             stackView.axis = .vertical
             stackView.distribution = .fillEqually
-            stackView.spacing = 10
+            stackView.spacing = 15
             stackView.translatesAutoresizingMaskIntoConstraints = false
             stackView.backgroundColor = .designSystem(.gray2D2B35)
             stackView.clipsToBounds = true
@@ -229,6 +255,11 @@ extension HomeViewController {
         case setting = "gearshape"
         case photo = "photo"
 
+        // 임시 이미지
+        case goal = "sun.max"
+        case buy = "sun.max.fill"
+        case win = "sun.max.trianglebadge.exclamationmark"
+
         var image: UIImage? {
             return UIImage(systemName: self.rawValue)
         }
@@ -239,9 +270,35 @@ extension HomeViewController {
     }
 
     private enum StringLiteral {
-        static let goalTitle = "목표"
-        static let buyTitle = "구매 금액"
-        static let winTitle = "당첨 금액"
         static let imageTitle = "이 돈이면"
     }
+
+    private enum MoneyInformation {
+        case goal
+        case buy
+        case win
+
+        var image: UIImage? {
+            switch self {
+            case .goal:
+                return SystemName.goal.image
+            case .buy:
+                return SystemName.buy.image
+            case .win:
+                return SystemName.win.image
+            }
+        }
+
+        var title: String {
+            switch self {
+            case .goal:
+                return "목표"
+            case .buy:
+                return "구매 금액"
+            case .win:
+                return "당첨 금액"
+            }
+        }
+    }
+
 }

@@ -11,21 +11,9 @@ final class DoubleLabelView: UIStackView {
 
     private var firstLabel = UILabel()
     private var secondLabel = UILabel()
-    private var imageView: UIImageView?
-
-    private var imageViewSize: CGFloat?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        guard imageView != nil else { return }
-        self.imageViewSize = self.frame.width * 0.106
-        configureHorizontalView()
-        configureMoneyInformationView()
     }
 
     convenience init(month: String, percent: String) {
@@ -36,7 +24,7 @@ final class DoubleLabelView: UIStackView {
 
         firstLabel.textAlignment = .left
         secondLabel.textAlignment = .left
-        configureVerticalStackView()
+        configureVerticalStackView(spacing: 10)
     }
 
     convenience init(won: String, riceSoup: String) {
@@ -47,54 +35,33 @@ final class DoubleLabelView: UIStackView {
 
         firstLabel.textAlignment = .center
         secondLabel.textAlignment = .center
-        configureVerticalStackView()
+        configureVerticalStackView(spacing: 10)
     }
 
-    convenience init(first firstHorizontalText: String, second secondHorizontalText: String, image: UIImage?) {
+    convenience init(title: String, won: String) {
         self.init(frame: .zero)
 
-        self.imageView = UIImageView(image: image)
-        self.firstLabel = GmarketSansLabel(text: firstHorizontalText,
-                                           alignment: .center,
-                                           size: .callout,
-                                           weight: .medium)
-        self.secondLabel = GmarketSansLabel(text: secondHorizontalText,
+        self.firstLabel = GmarketSansLabel(text: title,
+                                           alignment: .left,
+                                           size: .subheadLine,
+                                           weight: .light)
+        self.secondLabel = GmarketSansLabel(text: won,
                                             alignment: .left,
                                             size: .title3,
                                             weight: .medium)
+        configureVerticalStackView(spacing: 5)
     }
 
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func configureVerticalStackView() {
+    private func configureVerticalStackView(spacing: CGFloat) {
         self.addArrangedSubviews([firstLabel, secondLabel])
 
         self.axis = .vertical
         self.distribution = .fillEqually
-        self.spacing = 10
-    }
-
-    private func configureHorizontalView() {
-        guard let imageView = imageView else { return }
-        self.addArrangedSubviews([imageView, firstLabel, secondLabel])
-
-        self.axis = .horizontal
-        self.distribution = .fillProportionally
-        self.spacing = 5
-    }
-
-    private func configureMoneyInformationView() {
-        guard let imageView = imageView, let imageViewSize = imageViewSize else { return }
-        imageView.heightAnchor.constraint(equalToConstant: imageViewSize).isActive = true
-        imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = imageViewSize / 2
-        imageView.backgroundColor = .blue
-
-        let firstLabelWidth: CGFloat = self.frame.width * 0.23
-        firstLabel.widthAnchor.constraint(equalToConstant: firstLabelWidth).isActive = true
+        self.spacing = spacing
     }
 }
 
