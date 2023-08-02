@@ -91,6 +91,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
 
+        guard let tabBarHeight = self.tabBarController?.tabBar.frame.height else { return }
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -100,7 +101,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
             contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -(tabBarHeight + 5)),
             contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
         ])
     }
@@ -122,10 +123,9 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         let height = view.frame.height * 0.35
         let nickNameViewHeight: CGFloat = height * 0.127
         let explanationLabelGap: CGFloat = height * 0.07
-        let explanationLabelHeight: CGFloat = height * 0.27
+        let moneyInformationStackViewGap: CGFloat = 10
 
         NSLayoutConstraint.activate([
-            informationView.heightAnchor.constraint(equalToConstant: height),
             nickNameView.topAnchor.constraint(equalTo: informationView.topAnchor),
             nickNameView.leadingAnchor.constraint(equalTo: informationView.leadingAnchor),
             nickNameView.trailingAnchor.constraint(equalTo: informationView.trailingAnchor),
@@ -134,9 +134,8 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
             explanationLabel.topAnchor.constraint(equalTo: nickNameView.bottomAnchor, constant: explanationLabelGap),
             explanationLabel.leadingAnchor.constraint(equalTo: informationView.leadingAnchor),
             explanationLabel.trailingAnchor.constraint(equalTo: informationView.trailingAnchor),
-            explanationLabel.heightAnchor.constraint(equalToConstant: explanationLabelHeight),
 
-            moneyInformationStackView.topAnchor.constraint(equalTo: explanationLabel.bottomAnchor),
+            moneyInformationStackView.topAnchor.constraint(equalTo: explanationLabel.bottomAnchor, constant: moneyInformationStackViewGap),
             moneyInformationStackView.leadingAnchor.constraint(equalTo: informationView.leadingAnchor),
             moneyInformationStackView.trailingAnchor.constraint(equalTo: informationView.trailingAnchor),
             moneyInformationStackView.bottomAnchor.constraint(equalTo: informationView.bottomAnchor)
@@ -171,6 +170,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
             let stackView = UIStackView()
             stackView.axis = .vertical
             stackView.distribution = .fillEqually
+            stackView.spacing = 10
             stackView.translatesAutoresizingMaskIntoConstraints = false
             stackView.backgroundColor = .designSystem(.gray2D2B35)
             stackView.clipsToBounds = true
@@ -178,6 +178,8 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
             return stackView
         }()
         moneyInformationStackView.addArrangedSubviews([goalLabel, buyLabel, winLabel])
+        moneyInformationStackView.isLayoutMarginsRelativeArrangement = true
+        moneyInformationStackView.layoutMargins = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
 
         return moneyInformationStackView
     }
@@ -189,7 +191,6 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         let height = view.frame.height * 0.344
         let topAchorGap: CGFloat = height * 0.04
         let imageViewHeight: CGFloat = height * 0.52
-        let imageExplanationViewHeight: CGFloat = height * 0.28
 
         NSLayoutConstraint.activate([
             imageInformationView.heightAnchor.constraint(equalToConstant: height),
@@ -204,8 +205,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
 
             imageExplanationView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: topAchorGap),
             imageExplanationView.leadingAnchor.constraint(equalTo: imageInformationView.leadingAnchor),
-            imageExplanationView.trailingAnchor.constraint(equalTo: imageInformationView.trailingAnchor),
-            imageExplanationView.heightAnchor.constraint(equalToConstant: imageExplanationViewHeight)
+            imageExplanationView.trailingAnchor.constraint(equalTo: imageInformationView.trailingAnchor)
         ])
 
         return imageInformationView

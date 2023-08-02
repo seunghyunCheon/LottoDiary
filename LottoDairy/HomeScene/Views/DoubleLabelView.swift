@@ -7,16 +7,25 @@
 
 import UIKit
 
-final class DoubleLabelView: UIView {
+final class DoubleLabelView: UIStackView {
 
     private var firstLabel = UILabel()
     private var secondLabel = UILabel()
     private var imageView: UIImageView?
 
-    private let imageViewSize: CGFloat = 37
+    private var imageViewSize: CGFloat?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        guard imageView != nil else { return }
+        self.imageViewSize = self.frame.width * 0.106
+        configureHorizontalView()
+        configureMoneyInformationView()
     }
 
     convenience init(month: String, percent: String) {
@@ -27,8 +36,7 @@ final class DoubleLabelView: UIView {
 
         firstLabel.textAlignment = .left
         secondLabel.textAlignment = .left
-        setupCommon()
-        setupVerticalView()
+        configureVerticalStackView()
     }
 
     convenience init(won: String, riceSoup: String) {
@@ -39,8 +47,7 @@ final class DoubleLabelView: UIView {
 
         firstLabel.textAlignment = .center
         secondLabel.textAlignment = .center
-        setupCommon()
-        setupVerticalView()
+        configureVerticalStackView()
     }
 
     convenience init(first firstHorizontalText: String, second secondHorizontalText: String, image: UIImage?) {
@@ -55,69 +62,39 @@ final class DoubleLabelView: UIView {
                                             alignment: .left,
                                             size: .title3,
                                             weight: .medium)
-        setupCommon()
-        setupImageView()
-        setupHorizontalView()
-        configureMoneyInformationView()
     }
 
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func setupCommon() {
-        firstLabel.translatesAutoresizingMaskIntoConstraints = false
-        secondLabel.translatesAutoresizingMaskIntoConstraints = false
-        addSubviews([firstLabel, secondLabel])
+    private func configureVerticalStackView() {
+        self.addArrangedSubviews([firstLabel, secondLabel])
+
+        self.axis = .vertical
+        self.distribution = .fillEqually
+        self.spacing = 10
     }
 
-    private func setupImageView() {
+    private func configureHorizontalView() {
         guard let imageView = imageView else { return }
-        imageView.backgroundColor = .blue
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(imageView)
-    }
+        self.addArrangedSubviews([imageView, firstLabel, secondLabel])
 
-    private func setupVerticalView() {
-        let gap: CGFloat = 10
-
-        NSLayoutConstraint.activate([
-            firstLabel.topAnchor.constraint(equalTo: topAnchor),
-            firstLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            firstLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-
-            secondLabel.topAnchor.constraint(equalTo: firstLabel.bottomAnchor, constant: gap),
-            secondLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            secondLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
-        ])
-    }
-
-    private func setupHorizontalView() {
-        guard let imageView = imageView else { return }
-        let leadingConstant: CGFloat = 15
-        let firstLabelWidth: CGFloat = 80
-        let firstLabelGab: CGFloat = 5
-        let secondLabelGab: CGFloat = 13
-
-        NSLayoutConstraint.activate([
-            imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: leadingConstant),
-            imageView.heightAnchor.constraint(equalToConstant: imageViewSize),
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
-            imageView.centerYAnchor.constraint(equalTo: centerYAnchor),
-
-            firstLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: firstLabelGab),
-            firstLabel.widthAnchor.constraint(equalToConstant: firstLabelWidth),
-            firstLabel.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
-
-            secondLabel.leadingAnchor.constraint(equalTo: firstLabel.trailingAnchor, constant: secondLabelGab),
-            secondLabel.centerYAnchor.constraint(equalTo: imageView.centerYAnchor)
-        ])
+        self.axis = .horizontal
+        self.distribution = .fillProportionally
+        self.spacing = 5
     }
 
     private func configureMoneyInformationView() {
-        guard let imageView = imageView else { return }
+        guard let imageView = imageView, let imageViewSize = imageViewSize else { return }
+        imageView.heightAnchor.constraint(equalToConstant: imageViewSize).isActive = true
+        imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = imageViewSize / 2
+        imageView.backgroundColor = .blue
+
+        let firstLabelWidth: CGFloat = self.frame.width * 0.23
+        firstLabel.widthAnchor.constraint(equalToConstant: firstLabelWidth).isActive = true
     }
 }
 
