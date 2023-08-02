@@ -17,6 +17,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         // 추후 유저 닉네임 연결
         let label = GmarketSansLabel(text: "Brody님", size: .title2, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
+
         return label
     }()
 
@@ -26,12 +27,14 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         button.setImage(gearImage, for: .normal)
         button.tintColor = .white
         button.translatesAutoresizingMaskIntoConstraints = false
+
         return button
     }()
 
     private let explanationLabel: UIView = {
         let view = DoubleLabelView(month: "7", percent: "78")
         view.translatesAutoresizingMaskIntoConstraints = false
+
         return view
     }()
 
@@ -42,6 +45,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
     private let imageLabel: UILabel = {
         let label = GmarketSansLabel(text: StringLiteral.imageTitle, alignment: .left, size: .title3, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
+
         return label
     }()
 
@@ -52,12 +56,14 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = Constant.cornerRadius
         imageView.translatesAutoresizingMaskIntoConstraints = false
+
         return imageView
     }()
 
     private let imageExplanationView: UIView = {
         let view = DoubleLabelView(won: "78000", riceSoup: "7.8")
         view.translatesAutoresizingMaskIntoConstraints = false
+
         return view
     }()
 
@@ -104,6 +110,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
             moneyInformationStackView.trailingAnchor.constraint(equalTo: informationView.trailingAnchor),
             moneyInformationStackView.bottomAnchor.constraint(equalTo: informationView.bottomAnchor)
         ])
+
         return informationView
     }
 
@@ -112,6 +119,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
             let view = UIView()
             view.addSubviews([nickNameLabel, settingButton])
             view.translatesAutoresizingMaskIntoConstraints = false
+            
             return view
         }()
 
