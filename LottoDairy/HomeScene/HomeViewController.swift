@@ -98,8 +98,10 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
 
             contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
+            contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
         ])
     }
 
@@ -187,6 +189,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         let height = view.frame.height * 0.344
         let topAchorGap: CGFloat = height * 0.04
         let imageViewHeight: CGFloat = height * 0.52
+        let imageExplanationViewHeight: CGFloat = height * 0.28
 
         NSLayoutConstraint.activate([
             imageInformationView.heightAnchor.constraint(equalToConstant: height),
@@ -201,7 +204,8 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
 
             imageExplanationView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: topAchorGap),
             imageExplanationView.leadingAnchor.constraint(equalTo: imageInformationView.leadingAnchor),
-            imageExplanationView.trailingAnchor.constraint(equalTo: imageInformationView.trailingAnchor)
+            imageExplanationView.trailingAnchor.constraint(equalTo: imageInformationView.trailingAnchor),
+            imageExplanationView.heightAnchor.constraint(equalToConstant: imageExplanationViewHeight)
         ])
 
         return imageInformationView

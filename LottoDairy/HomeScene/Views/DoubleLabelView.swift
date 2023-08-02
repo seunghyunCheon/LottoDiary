@@ -86,7 +86,7 @@ final class DoubleLabelView: UIView {
             firstLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             firstLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
 
-            secondLabel.topAnchor.constraint(equalTo: firstLabel.bottomAnchor, constant: gab),
+            secondLabel.topAnchor.constraint(equalTo: firstLabel.bottomAnchor, constant: gap),
             secondLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             secondLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
