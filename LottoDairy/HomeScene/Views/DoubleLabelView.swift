@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DoubleLabelView: UIView {
+final class DoubleLabelView: UIView {
 
     private var firstLabel = UILabel()
     private var secondLabel = UILabel()
