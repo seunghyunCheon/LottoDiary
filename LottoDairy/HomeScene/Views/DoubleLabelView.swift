@@ -79,7 +79,7 @@ final class DoubleLabelView: UIView {
     }
 
     private func setupVerticalView() {
-        let gab: CGFloat = 10
+        let gap: CGFloat = 10
 
         NSLayoutConstraint.activate([
             firstLabel.topAnchor.constraint(equalTo: topAnchor),
