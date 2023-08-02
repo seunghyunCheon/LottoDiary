@@ -80,6 +80,35 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
     }
 
     // MARK: Functions - Private
+    private func configureView() {
+        self.navigationController?.isNavigationBarHidden = true
+        self.view.backgroundColor = .designSystem(.backgroundBlack)
+    }
+
+    private func setupScrollView() {
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+
+            contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
+        ])
+    }
+
+    private func setupContentView() {
+        let informationView = setupInformationView()
+        let imageInformationView = setupImageInformationView()
+        contentView.addArrangedSubviews([informationView, imageInformationView])
+    }
+
     private func setupInformationView() -> UIView {
         let informationView = UIView()
 
@@ -119,7 +148,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
             let view = UIView()
             view.addSubviews([nickNameLabel, settingButton])
             view.translatesAutoresizingMaskIntoConstraints = false
-            
+
             return view
         }()
 
@@ -178,30 +207,6 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         return imageInformationView
     }
 
-    private func setupScrollView() {
-        view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-
-            contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
-        ])
-    }
-
-    private func setupContentView() {
-        let informationView = setupInformationView()
-        let imageInformationView = setupImageInformationView()
-        contentView.addArrangedSubviews([informationView, imageInformationView])
-    }
-
     private func configureContentView() {
         let horizontalInset = view.frame.width * 0.054
         let spacing = view.frame.height * 0.04
@@ -210,11 +215,6 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         contentView.spacing = spacing
         contentView.isLayoutMarginsRelativeArrangement = true
         contentView.layoutMargins = UIEdgeInsets(top: .zero, left: horizontalInset, bottom: .zero, right: horizontalInset)
-    }
-
-    private func configureView() {
-        self.navigationController?.isNavigationBarHidden = true
-        self.view.backgroundColor = .designSystem(.backgroundBlack)
     }
 }
 
