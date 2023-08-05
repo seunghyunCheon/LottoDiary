@@ -60,7 +60,7 @@ final class DoubleLabelView: UIStackView {
         self.addArrangedSubviews([firstLabel, secondLabel])
 
         self.axis = .vertical
-        self.distribution = .fillEqually
+        self.distribution = .fillProportionally
         self.spacing = spacing
     }
 }

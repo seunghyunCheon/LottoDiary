@@ -18,7 +18,7 @@ final class LottoQRCoordinator: BaseCoordinator {
     }
 
     override func start() {
-        var lottoQRFlow = moduleFactory.makeLottoQRFlow()
+        let lottoQRFlow = moduleFactory.makeLottoQRFlow()
         router.setRootModule(lottoQRFlow)
     }
 

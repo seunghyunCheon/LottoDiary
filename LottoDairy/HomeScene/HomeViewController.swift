@@ -170,7 +170,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
 
         let imageView: UIImageView = {
             let imageView = UIImageView(image: type.image)
-            let imageViewSize: CGFloat = 37
+            let imageViewSize: CGFloat = view.frame.width * 0.095
 
             imageView.heightAnchor.constraint(equalToConstant: imageViewSize).isActive = true
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
@@ -185,6 +185,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
             stackView.addArrangedSubviews([imageView, labelStackView])
             stackView.axis = .horizontal
             stackView.distribution = .fillProportionally
+            stackView.alignment = .center
             stackView.spacing = 15
             return stackView
         }()
