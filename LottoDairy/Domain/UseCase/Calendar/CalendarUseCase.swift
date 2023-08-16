@@ -1,5 +1,5 @@
 //
-//  DateCalculator.swift
+//  CalendarUseCase.swift
 //  LottoDairy
 //
 //  Created by Sunny on 2023/08/17.
@@ -7,16 +7,9 @@
 
 import Foundation
 
-struct DateCalculator {
+final class CalendarUseCase {
 
-    // MARK: Properties - Data
     private let calendar = Calendar(identifier: .gregorian)
-    private var selectedDate: Date
-
-    // MARK: Lifecycle
-    init(baseDate: Date) {
-        self.selectedDate = baseDate
-    }
 
     // MARK: Functions - Public
     func calculateNextMonth(by baseDate: Date) -> Date {
@@ -121,7 +114,7 @@ struct DateCalculator {
     }
 }
 
-extension DateCalculator {
+extension CalendarUseCase {
     enum CalendarError: Error {
         case isFailedGenerateMonthlyDate
     }

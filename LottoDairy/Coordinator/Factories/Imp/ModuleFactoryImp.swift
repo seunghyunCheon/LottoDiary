@@ -33,6 +33,8 @@ final class ModuleFactoryImp:
     }
 
     func makeCalendarFlow() -> CalendarFlowProtocol {
-        return CalendarViewController()
+        let calendarUseCase = CalendarUseCase()
+        let viewModel = CalendarViewModel(calendarUseCase: calendarUseCase)
+        return CalendarViewController(viewModel: viewModel)
     }
 }
