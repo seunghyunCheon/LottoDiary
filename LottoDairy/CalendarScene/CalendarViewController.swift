@@ -7,12 +7,16 @@
 
 import UIKit
 
-class CalendarViewController: UIViewController, CalendarFlowProtocol {
+final class CalendarViewController: UIViewController, CalendarFlowProtocol {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = .yellow
     }
+
+}
+
+extension CalendarViewController {
 
 }
