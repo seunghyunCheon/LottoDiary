@@ -25,7 +25,11 @@ final class CalendarViewModel {
         return threeMonthlyDays
     }
 
-    func updateBaseDate(_ baseDate: Date) {
-        self.baseDate = baseDate
+    func updatePreviousBaseDate() {
+        self.baseDate = calendarUseCase.calculatePreviousMonth(by: baseDate)
+    }
+
+    func updateNextBaseDate() {
+        self.baseDate = calendarUseCase.calculateNextMonth(by: baseDate)
     }
 }

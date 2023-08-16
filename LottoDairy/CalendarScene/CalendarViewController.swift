@@ -76,13 +76,15 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         self.dataSource?.apply(snapshot)
     }
 
-    private func setupCenterXOffset() {
+    @discardableResult
+    private func setupCenterXOffset() -> CGFloat {
         let middleSectionIndex = calendarCollectionView.numberOfSections / 2
         let width = calendarCollectionView.collectionViewLayout.collectionViewContentSize.width
         let numberOfSections = CGFloat(calendarCollectionView.numberOfSections)
         let middleSectionX = width / numberOfSections * CGFloat(middleSectionIndex)
-
         calendarCollectionView.setContentOffset(CGPoint(x: middleSectionX, y: 0), animated: false)
+
+        return middleSectionX
     }
 }
 
@@ -112,26 +114,35 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         switch scrollDirection {
         case .left:
-//            var snapshot = dataSource.snapshot()
-//            snapshot.deleteAllItems()
-//
-//            baseDate = dateCalculator.calculatePreviousMonth(by: baseDate)
-//            snapshot.appendSections([.pre, .now, .next])
-//            snapshot.appendItems([days[0]], toSection: .pre)
-//            snapshot.appendItems([days[1]], toSection: .now)
-//            snapshot.appendItems([days[2]], toSection: .next)
-//            dataSource.apply(snapshot, animatingDifferences: false)
-//
-//            let xPosition = view.frame.width * 1
-//            scrollView.setContentOffset(CGPoint(x: xPosition, y: 0), animated: false)
-//
-//            print(baseDate)
-            print("hello")
+            updateSnapshot(scroll: .left)
+            setupCenterXOffset()
         case .none:
             break
         case .right:
-            print("hi")
+            updateSnapshot(scroll: .right)
+            setupCenterXOffset()
         }
+    }
+
+    private func updateSnapshot(scroll: ScrollDirection) {
+        guard var snapshot = dataSource?.snapshot() else { return }
+        snapshot.deleteAllItems()
+
+        switch scroll {
+        case .left:
+            viewModel.updatePreviousBaseDate()
+        case .right:
+            viewModel.updateNextBaseDate()
+        default:
+            break
+        }
+
+        snapshot.appendSections([.previous, .now, .next])
+        let days = viewModel.getThreeMonthlyDays()
+        snapshot.appendItems([days[0]], toSection: .previous)
+        snapshot.appendItems([days[1]], toSection: .now)
+        snapshot.appendItems([days[2]], toSection: .next)
+        dataSource?.apply(snapshot, animatingDifferences: false)
     }
 
     func scrollViewWillEndDragging(
@@ -139,12 +150,13 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
         withVelocity velocity: CGPoint,
         targetContentOffset: UnsafeMutablePointer<CGPoint>
     ) {
+        let middleOfScrollView = setupCenterXOffset()
         switch targetContentOffset.pointee.x {
         case 0:
             scrollDirection = .left
-        case view.frame.width * 1:
+        case middleOfScrollView:
             scrollDirection = .none
-        case view.frame.width * 2:
+        case middleOfScrollView * 2:
             scrollDirection = .right
         default:
             break
