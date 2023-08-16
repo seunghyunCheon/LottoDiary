@@ -51,6 +51,17 @@ final class CoordinatorFactoryImp: CoordinatorFactory {
         
         return coordinator
     }
+
+    func makeCalendarCoordinator(navigationController: UINavigationController?) -> Coordinator {
+        let coordinator = CalendarCoordinator(
+            router: router(navigationController),
+            moduleFactory: ModuleFactoryImp(),
+            coordinatorFactory: CoordinatorFactoryImp()
+        )
+
+        return coordinator
+    }
+
     
     private func router(_ navigationController: UINavigationController?) -> Router {
         let navigationController = navigationController ?? UINavigationController()
