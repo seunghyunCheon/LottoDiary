@@ -6,30 +6,27 @@
 //
 
 import Foundation
+import Combine
 
 final class CalendarViewModel {
 
     private let calendarUseCase: CalendarUseCase
 
-    private var baseDate: Date = .today
-
-    private var threeMonthlyDays: [[DayComponent]] {
-        return calendarUseCase.getDaysInThreeMonth(for: baseDate)
-    }
+    var baseDate = CurrentValueSubject<Date, Never>(.today)
 
     init(calendarUseCase: CalendarUseCase) {
         self.calendarUseCase = calendarUseCase
     }
 
     func getThreeMonthlyDays() -> [[DayComponent]] {
-        return threeMonthlyDays
+        return calendarUseCase.getDaysInThreeMonth(for: baseDate.value)
     }
 
     func updatePreviousBaseDate() {
-        self.baseDate = calendarUseCase.calculatePreviousMonth(by: baseDate)
+        self.baseDate.value = calendarUseCase.calculatePreviousMonth(by: baseDate.value)
     }
 
     func updateNextBaseDate() {
-        self.baseDate = calendarUseCase.calculateNextMonth(by: baseDate)
+        self.baseDate.value = calendarUseCase.calculateNextMonth(by: baseDate.value)
     }
 }

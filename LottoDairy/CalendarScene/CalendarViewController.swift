@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class CalendarViewController: UIViewController, CalendarFlowProtocol {
 
@@ -32,6 +33,8 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     private var scrollDirection: ScrollDirection = .none
 
     private let viewModel: CalendarViewModel
+    
+    private var cancellables = Set<AnyCancellable>()
 
     init(viewModel: CalendarViewModel) {
         self.viewModel = viewModel
@@ -50,6 +53,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         configureCalendarCollectionViewDataSource()
         configureSnapshot()
         setupCenterXOffset()
+        bindViewModel()
     }
 
     private func setupCalendarView() {
@@ -95,6 +99,14 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
 
         return middleSectionX
     }
+    
+    private func bindViewModel() {
+        viewModel.baseDate
+            .sink { _ in
+                self.updateSnapshot()
+            }
+            .store(in: &cancellables)
+    }
 }
 
 extension CalendarViewController: UICollectionViewDelegateFlowLayout {
@@ -123,28 +135,19 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         switch scrollDirection {
         case .left:
-            updateSnapshot(scroll: .left)
+            viewModel.updatePreviousBaseDate()
             setupCenterXOffset()
         case .none:
             break
         case .right:
-            updateSnapshot(scroll: .right)
+            viewModel.updateNextBaseDate()
             setupCenterXOffset()
         }
     }
 
-    private func updateSnapshot(scroll: ScrollDirection) {
+    private func updateSnapshot() {
         guard var snapshot = dataSource?.snapshot() else { return }
         snapshot.deleteAllItems()
-
-        switch scroll {
-        case .left:
-            viewModel.updatePreviousBaseDate()
-        case .right:
-            viewModel.updateNextBaseDate()
-        default:
-            break
-        }
 
         snapshot.appendSections([.previous, .now, .next])
         let days = viewModel.getThreeMonthlyDays()
