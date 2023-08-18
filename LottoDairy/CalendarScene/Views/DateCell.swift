@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class DateCell: UICollectionViewCell {
 
@@ -16,7 +17,10 @@ final class DateCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
+    
+    var viewModel: DateCellViewModel?
+    
+    var cancellables = Set<AnyCancellable>()
 
     // MARK: Lifecycle
     override func updateConfiguration(using state: UICellConfigurationState) {
@@ -26,8 +30,9 @@ final class DateCell: UICollectionViewCell {
     }
 
     // MARK: Functions - Public
-    func configure(with dayComponent: DayComponent) {
-        numberLabel.text = dayComponent.number
+    func provide(viewModel: DateCellViewModel) {
+        self.viewModel = viewModel
+        bindViewModel()
     }
 
     // MARK: Functions - Private
@@ -39,5 +44,19 @@ final class DateCell: UICollectionViewCell {
             numberLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: topinset),
             numberLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
+    }
+    
+    private func bindViewModel() {
+        viewModel?.$date
+            .sink { [weak self] date in
+                self?.numberLabel.text = date
+            }
+            .store(in: &cancellables)
+        
+        viewModel?.$isIncludeInMonth
+            .sink { [weak self] state in
+                self?.numberLabel.textColor = state ? UIColor.designSystem(.backgroundBlack) : UIColor.designSystem(.grayA09FA7)
+            }
+            .store(in: &cancellables)
     }
 }

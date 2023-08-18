@@ -49,7 +49,8 @@ final class DateCollectionViewCell: UICollectionViewCell {
         ) { collectionView, indexPath, item in
             guard let days = self.days else { return UICollectionViewCell() }
             let dateCollectionViewCell: DateCell = collectionView.dequeue(for: indexPath)
-            dateCollectionViewCell.configure(with: days[indexPath.row])
+            let cellViewModel = DateCellViewModel(dayComponent: days[indexPath.row])
+            dateCollectionViewCell.provide(viewModel: cellViewModel)
             return dateCollectionViewCell
         }
     }

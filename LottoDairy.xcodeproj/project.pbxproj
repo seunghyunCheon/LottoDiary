@@ -26,6 +26,7 @@
 		621503562A5E7B0500431BBB /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 621503552A5E7B0500431BBB /* UIColor+Extensions.swift */; };
 		621503582A5E8E2300431BBB /* UIControl+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 621503572A5E8E2300431BBB /* UIControl+Extensions.swift */; };
 		6215035A2A5E8EBB00431BBB /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 621503592A5E8EBB00431BBB /* OnboardingViewModel.swift */; };
+		624628932A8F39BB00ADE103 /* DateCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624628922A8F39BB00ADE103 /* DateCellViewModel.swift */; };
 		624BB0CD2A652EC8002A3109 /* GoalSettingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0CC2A652EC8002A3109 /* GoalSettingCoordinator.swift */; };
 		624BB0CF2A652FB9002A3109 /* GoalSettingModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0CE2A652FB9002A3109 /* GoalSettingModuleFactory.swift */; };
 		624BB0D12A6530C0002A3109 /* GoalSettingFlowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0D02A6530C0002A3109 /* GoalSettingFlowProtocol.swift */; };
@@ -98,6 +99,7 @@
 		621503552A5E7B0500431BBB /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		621503572A5E8E2300431BBB /* UIControl+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+Extensions.swift"; sourceTree = "<group>"; };
 		621503592A5E8EBB00431BBB /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		624628922A8F39BB00ADE103 /* DateCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCellViewModel.swift; sourceTree = "<group>"; };
 		624BB0CC2A652EC8002A3109 /* GoalSettingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSettingCoordinator.swift; sourceTree = "<group>"; };
 		624BB0CE2A652FB9002A3109 /* GoalSettingModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSettingModuleFactory.swift; sourceTree = "<group>"; };
 		624BB0D02A6530C0002A3109 /* GoalSettingFlowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSettingFlowProtocol.swift; sourceTree = "<group>"; };
@@ -484,6 +486,7 @@
 				80F90CEE2A8D2DBE007E1D23 /* DateCollectionViewCell.swift */,
 				80F90CF02A8D2E29007E1D23 /* MonthlyCollectionViewLayout.swift */,
 				80F90CF62A8D31B7007E1D23 /* DateCell.swift */,
+				624628922A8F39BB00ADE103 /* DateCellViewModel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -569,6 +572,7 @@
 				624BB0D12A6530C0002A3109 /* GoalSettingFlowProtocol.swift in Sources */,
 				621503332A559C9600431BBB /* TabBarController.swift in Sources */,
 				80F90CF32A8D301D007E1D23 /* UICollectionView+Extensions.swift in Sources */,
+				624628932A8F39BB00ADE103 /* DateCellViewModel.swift in Sources */,
 				624BB0D32A653299002A3109 /* GoalSettingViewController.swift in Sources */,
 				8060B4212A62DC2C00726C83 /* UIButton+Extensions.swift in Sources */,
 				8060B41F2A61A66800726C83 /* LottoQRButton.swift in Sources */,
