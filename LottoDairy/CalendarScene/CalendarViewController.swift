@@ -18,6 +18,8 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
 
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         // 임시 사이즈 설정
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
         collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         collectionView.register(DateCollectionViewCell.self)
         collectionView.isPagingEnabled = true
@@ -57,6 +59,8 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     }
 
     private func setupCalendarView() {
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        
         self.view.addSubview(calendarCollectionView)
         
         let safe = view.safeAreaLayoutGuide
