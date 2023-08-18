@@ -10,12 +10,10 @@ import UIKit
 final class CalendarHeaderView: UIView {
     
     // MARK: - UIView
-    
-    var monthLabel: LottoLabel = {
-        let label = LottoLabel(text: "20236월", font: .gmarketSans(size: .title2, weight: .bold))
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        return label
+    var yearAndMonthView: YearAndMonthView = {
+        let stackView = YearAndMonthView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
     
     var switchButton: UIButton = {
@@ -48,7 +46,7 @@ final class CalendarHeaderView: UIView {
     }
     
     private func setup() {
-        self.addSubview(self.monthLabel)
+        self.addSubview(self.yearAndMonthView)
         self.addSubview(self.switchButton)
         self.addSubview(self.weekdayStackView)
         
@@ -63,16 +61,17 @@ final class CalendarHeaderView: UIView {
     
     override func layoutSubviews() {
         NSLayoutConstraint.activate([
-            self.monthLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            self.monthLabel.topAnchor.constraint(equalTo: self.topAnchor),
+            self.yearAndMonthView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15),
+            self.yearAndMonthView.topAnchor.constraint(equalTo: self.topAnchor),
             
             self.switchButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             self.switchButton.topAnchor.constraint(equalTo: self.topAnchor),
             
             self.weekdayStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             self.weekdayStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            self.weekdayStackView.topAnchor.constraint(equalTo: self.monthLabel.bottomAnchor, constant: 30),
+            self.weekdayStackView.topAnchor.constraint(equalTo: self.yearAndMonthView.bottomAnchor, constant: 30),
             self.weekdayStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
+        
     }
 }
