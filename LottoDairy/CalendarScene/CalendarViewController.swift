@@ -22,6 +22,8 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         collectionView.isPagingEnabled = true
         collectionView.delegate = self
         collectionView.dataSource = self.dataSource
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
         return collectionView
     }()
 
@@ -51,8 +53,15 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     }
 
     private func setupCalendarView() {
-        self.calendarCollectionView.frame = self.view.bounds
         self.view.addSubview(calendarCollectionView)
+        
+        let safe = view.safeAreaLayoutGuide
+        NSLayoutConstraint.activate([
+            calendarCollectionView.leadingAnchor.constraint(equalTo: safe.leadingAnchor),
+            calendarCollectionView.trailingAnchor.constraint(equalTo: safe.trailingAnchor),
+            calendarCollectionView.topAnchor.constraint(equalTo: safe.topAnchor),
+            calendarCollectionView.bottomAnchor.constraint(equalTo: safe.bottomAnchor),
+        ])
     }
 
     private func configureCalendarCollectionViewDataSource() {
@@ -150,13 +159,12 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
         withVelocity velocity: CGPoint,
         targetContentOffset: UnsafeMutablePointer<CGPoint>
     ) {
-        let middleOfScrollView = setupCenterXOffset()
         switch targetContentOffset.pointee.x {
         case 0:
             scrollDirection = .left
-        case middleOfScrollView:
+        case self.view.frame.width * 1:
             scrollDirection = .none
-        case middleOfScrollView * 2:
+        case self.view.frame.width * 2:
             scrollDirection = .right
         default:
             break
