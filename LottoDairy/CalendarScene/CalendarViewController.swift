@@ -26,9 +26,12 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         collectionView.delegate = self
         collectionView.dataSource = self.dataSource
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .designSystem(.backgroundBlack)
         
         return collectionView
     }()
+    
+    private var calendarHeaderView = CalendarHeaderView()
 
     private var dataSource: UICollectionViewDiffableDataSource<Section, [DayComponent]>?
 
@@ -49,26 +52,39 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.view.backgroundColor = .yellow
+        
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        self.view.backgroundColor = .designSystem(.backgroundBlack)
+        setupCalendarHeaderView()
         setupCalendarView()
         configureCalendarCollectionViewDataSource()
         configureSnapshot()
         setupCenterXOffset()
         bindViewModel()
     }
+    
+    private func setupCalendarHeaderView() {
+        calendarHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(calendarHeaderView)
+        
+        let safe = view.safeAreaLayoutGuide
+        NSLayoutConstraint.activate([
+            calendarHeaderView.leadingAnchor.constraint(equalTo: safe.leadingAnchor, constant: 15),
+            calendarHeaderView.trailingAnchor.constraint(equalTo: safe.trailingAnchor, constant: -15),
+            calendarHeaderView.topAnchor.constraint(equalTo: safe.topAnchor),
+            calendarHeaderView.heightAnchor.constraint(equalToConstant: 100),
+        ])
+    }
 
     private func setupCalendarView() {
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-        
         self.view.addSubview(calendarCollectionView)
         
         let safe = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             calendarCollectionView.leadingAnchor.constraint(equalTo: safe.leadingAnchor),
             calendarCollectionView.trailingAnchor.constraint(equalTo: safe.trailingAnchor),
-            calendarCollectionView.topAnchor.constraint(equalTo: safe.topAnchor),
-            calendarCollectionView.bottomAnchor.constraint(equalTo: safe.bottomAnchor),
+            calendarCollectionView.topAnchor.constraint(equalTo: calendarHeaderView.bottomAnchor),
+            calendarCollectionView.heightAnchor.constraint(equalToConstant: 300),
         ])
     }
 
@@ -133,7 +149,7 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
     ) -> CGSize {
         let cellWidth = collectionView.bounds.width
         // 임시 사이즈 설정
-        return CGSize(width: cellWidth, height: 600)
+        return CGSize(width: cellWidth, height: 300)
     }
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {

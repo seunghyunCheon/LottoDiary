@@ -27,6 +27,7 @@
 		621503582A5E8E2300431BBB /* UIControl+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 621503572A5E8E2300431BBB /* UIControl+Extensions.swift */; };
 		6215035A2A5E8EBB00431BBB /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 621503592A5E8EBB00431BBB /* OnboardingViewModel.swift */; };
 		624628932A8F39BB00ADE103 /* DateCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624628922A8F39BB00ADE103 /* DateCellViewModel.swift */; };
+		624628952A8F3DFE00ADE103 /* CalendarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624628942A8F3DFE00ADE103 /* CalendarHeaderView.swift */; };
 		624BB0CD2A652EC8002A3109 /* GoalSettingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0CC2A652EC8002A3109 /* GoalSettingCoordinator.swift */; };
 		624BB0CF2A652FB9002A3109 /* GoalSettingModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0CE2A652FB9002A3109 /* GoalSettingModuleFactory.swift */; };
 		624BB0D12A6530C0002A3109 /* GoalSettingFlowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0D02A6530C0002A3109 /* GoalSettingFlowProtocol.swift */; };
@@ -100,6 +101,7 @@
 		621503572A5E8E2300431BBB /* UIControl+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIControl+Extensions.swift"; sourceTree = "<group>"; };
 		621503592A5E8EBB00431BBB /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		624628922A8F39BB00ADE103 /* DateCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCellViewModel.swift; sourceTree = "<group>"; };
+		624628942A8F3DFE00ADE103 /* CalendarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHeaderView.swift; sourceTree = "<group>"; };
 		624BB0CC2A652EC8002A3109 /* GoalSettingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSettingCoordinator.swift; sourceTree = "<group>"; };
 		624BB0CE2A652FB9002A3109 /* GoalSettingModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSettingModuleFactory.swift; sourceTree = "<group>"; };
 		624BB0D02A6530C0002A3109 /* GoalSettingFlowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSettingFlowProtocol.swift; sourceTree = "<group>"; };
@@ -487,6 +489,7 @@
 				80F90CF02A8D2E29007E1D23 /* MonthlyCollectionViewLayout.swift */,
 				80F90CF62A8D31B7007E1D23 /* DateCell.swift */,
 				624628922A8F39BB00ADE103 /* DateCellViewModel.swift */,
+				624628942A8F3DFE00ADE103 /* CalendarHeaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -595,6 +598,7 @@
 				624BB0E52A67B9CA002A3109 /* DefaultGoalSettingUseCase.swift in Sources */,
 				80773A702A55AF770020F1DD /* HomeViewController.swift in Sources */,
 				621503232A4E7CAE00431BBB /* Router.swift in Sources */,
+				624628952A8F3DFE00ADE103 /* CalendarHeaderView.swift in Sources */,
 				80F90CF92A8D32A6007E1D23 /* CalendarViewModel.swift in Sources */,
 				80F90CE32A8D2419007E1D23 /* MonthComponent.swift in Sources */,
 				80F90CEA2A8D2543007E1D23 /* DateComponent.swift in Sources */,

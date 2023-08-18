@@ -11,8 +11,8 @@ import Combine
 final class DateCell: UICollectionViewCell {
 
     // MARK: Properties - View
-    private let numberLabel: UILabel = {
-        let label = UILabel()
+    private let numberLabel: LottoLabel = {
+        let label = LottoLabel(text: "", font: .gmarketSans(size: .subheadLine, weight: .bold))
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -39,9 +39,8 @@ final class DateCell: UICollectionViewCell {
     private func setupDateCell() {
         contentView.addSubview(numberLabel)
 
-        let topinset: CGFloat = 15
         NSLayoutConstraint.activate([
-            numberLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: topinset),
+            numberLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             numberLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
     }
@@ -55,7 +54,7 @@ final class DateCell: UICollectionViewCell {
         
         viewModel?.$isIncludeInMonth
             .sink { [weak self] state in
-                self?.numberLabel.textColor = state ? UIColor.designSystem(.backgroundBlack) : UIColor.designSystem(.grayA09FA7)
+                self?.numberLabel.textColor = state ? UIColor.designSystem(.grayA09FA7) : UIColor.designSystem(.gray63626B)
             }
             .store(in: &cancellables)
     }

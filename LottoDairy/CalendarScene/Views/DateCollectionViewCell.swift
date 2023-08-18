@@ -19,6 +19,9 @@ final class DateCollectionViewCell: UICollectionViewCell {
         collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         collectionView.register(DateCell.self)
         collectionView.dataSource = self.dataSource
+        collectionView.isScrollEnabled = false
+        collectionView.backgroundColor = .designSystem(.backgroundBlack)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
 
@@ -40,7 +43,12 @@ final class DateCollectionViewCell: UICollectionViewCell {
 
     private func setupDateCollectionViewCell() {
         contentView.addSubview(monthlyCollectionView)
-        monthlyCollectionView.frame = contentView.bounds
+        NSLayoutConstraint.activate([
+            monthlyCollectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            monthlyCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            monthlyCollectionView.topAnchor.constraint(equalTo: self.topAnchor),
+            monthlyCollectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        ])
     }
 
     private func configuremonthlyCollectionViewDataSource() {
