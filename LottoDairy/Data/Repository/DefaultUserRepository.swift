@@ -46,7 +46,7 @@ final class DefaultUserRepository: UserRepository {
             .eraseToAnyPublisher()
     }
     
-    func saveUserInfo(nickname: String, notificationCycle: String, goalAmount: Int) -> AnyPublisher<Int, Error> {
+    func saveUserInfo(nickname: String, notificationCycle: String, goalAmount: Int) -> AnyPublisher<Void, Error> {
         self.userDefaultsPersistenceService.set(key: UserDefaults.Keys.nickname, value: nickname)
         self.userDefaultsPersistenceService.set(key: UserDefaults.Keys.notificationCycle, value: notificationCycle)
         

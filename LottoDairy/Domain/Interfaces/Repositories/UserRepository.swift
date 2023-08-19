@@ -9,5 +9,5 @@ import Combine
 
 protocol UserRepository {
     func fetchUserData() -> AnyPublisher<(String, String, Int), Error>
-    func saveUserInfo(nickname: String, notificationCycle: String, goalAmount: Int) -> AnyPublisher<Int, Error>
+    func saveUserInfo(nickname: String, notificationCycle: String, goalAmount: Int) -> AnyPublisher<Void, Error>
 }

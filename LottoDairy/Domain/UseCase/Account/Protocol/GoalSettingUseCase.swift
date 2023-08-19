@@ -17,5 +17,5 @@ protocol GoalSettingUseCase {
     func loadNotificationCycle()
     func loadUserInfo()
     func setNotificationCycle(_ text: String)
-    func signUp() -> AnyPublisher<Int, Error>
+    func signUp() -> AnyPublisher<Void, Error>
 }

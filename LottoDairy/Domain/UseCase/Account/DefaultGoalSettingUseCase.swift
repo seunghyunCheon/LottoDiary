@@ -42,7 +42,7 @@ final class DefaultGoalSettingUseCase: GoalSettingUseCase {
         self.goalAmount.value = text.convertDecimalToInt()
     }
 
-    func signUp() -> AnyPublisher<Int, Error> {
+    func signUp() -> AnyPublisher<Void, Error> {
         guard let notificationCycle = selectedNotificationCycle.value?.rawValue,
               let goalAmount = goalAmount.value else {
             return Fail(error: GoalSettingUseCaseError.signUpError).eraseToAnyPublisher()

@@ -141,7 +141,7 @@ final class GoalSettingViewModel {
     
     private func bindSignUp(from input: Input, with output: Output) {
         input.okButtonDidTapEvent
-            .flatMap { [weak self] _ -> AnyPublisher<Int, Error> in
+            .flatMap { [weak self] _ -> AnyPublisher<Void, Error> in
                 guard let self else {
                     return Empty().eraseToAnyPublisher()
                 }
@@ -152,7 +152,7 @@ final class GoalSettingViewModel {
                 if case .failure(let error) = completion {
                     output.signUpDidFail.send(error.localizedDescription)
                 }
-            }, receiveValue: { _ in
+            }, receiveValue: {
                 output.signUpDidEnd.send(true)
             })
             .store(in: &cancellables)

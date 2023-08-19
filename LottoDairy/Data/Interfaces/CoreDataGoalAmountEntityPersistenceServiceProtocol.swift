@@ -9,6 +9,6 @@ import Foundation
 import Combine
 
 protocol CoreDataGoalAmountEntityPersistenceServiceProtocol {
-    func saveGoalAmountEntity(_ goalAmount: Int) -> AnyPublisher<Int, Error>
+    func saveGoalAmountEntity(_ goalAmount: Int) -> AnyPublisher<Void, Error>
     func fetchGoalAmount() -> AnyPublisher<Int, Error>
 }
