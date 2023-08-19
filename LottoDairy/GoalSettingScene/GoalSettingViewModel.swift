@@ -39,7 +39,7 @@ final class GoalSettingViewModel {
     // MARK: - Life Cycle
     
     init(
-        isEdit: Bool = false,
+        isEdit: Bool = true,
         goalSettingValidationUseCase: GoalSettingValidationUseCase,
         goalSettingUseCase: GoalSettingUseCase
     ) {

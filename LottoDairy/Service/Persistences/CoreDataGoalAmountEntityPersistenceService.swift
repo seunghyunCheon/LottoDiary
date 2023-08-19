@@ -62,9 +62,18 @@ final class CoreDataGoalAmountEntityPersistenceService: CoreDataGoalAmountEntity
         
         return Future { promise in
             context.perform {
-                let goalAmountEntity = GoalAmountEntity(context: context)
-                goalAmountEntity.update(goalAmount)
                 do {
+                    let fetchRequest = GoalAmountEntity.fetchRequest()
+                    let fetchResult = try context.fetch(fetchRequest)
+                    
+                    if fetchResult.isEmpty {
+                        let goalAmountEntity = GoalAmountEntity(context: context)
+                        goalAmountEntity.update(goalAmount)
+                        try context.save()
+                        promise(.success(()))
+                    }
+                    
+                    fetchResult[0].update(goalAmount)
                     try context.save()
                     promise(.success(()))
                 } catch {
