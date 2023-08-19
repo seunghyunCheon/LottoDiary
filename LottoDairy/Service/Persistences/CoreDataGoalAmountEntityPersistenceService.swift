@@ -45,7 +45,7 @@ final class CoreDataGoalAmountEntityPersistenceService: CoreDataGoalAmountEntity
                 fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
                 do {
                     let fetchResult = try context.fetch(fetchRequest)
-                    promise(.success(Int(fetchResult[0].goalAmount)))
+                    promise(.success(fetchResult[0].goalAmount))
                 } catch {
                     promise(.failure(CoreDataGoalAmountEntityPersistenceServiceError.failedToFetchGoalAmount))
                 }
