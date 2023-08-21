@@ -64,8 +64,18 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         configureSnapshot()
         setupCenterXOffset()
         bindViewModel()
+    }
 
-        print(calendarCollectionView.contentOffset.x)
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        if calendarShape == .week {
+            let middleSectionIndex = calendarCollectionView.numberOfSections / 2
+            let width = calendarCollectionView.collectionViewLayout.collectionViewContentSize.width
+            let numberOfSections = CGFloat(calendarCollectionView.numberOfSections)
+            let middleSectionX = width / numberOfSections * CGFloat(middleSectionIndex)
+            calendarCollectionView.setContentOffset(CGPoint(x: middleSectionX, y: 0), animated: false)
+        }
     }
     
     private func setupCalendarHeaderView() {
@@ -137,7 +147,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
             let width = calendarCollectionView.collectionViewLayout.collectionViewContentSize.width
             let numberOfSections = CGFloat(calendarCollectionView.numberOfSections)
             let middleSectionX = width / numberOfSections * CGFloat(middleSectionIndex)
-            calendarCollectionView.setContentOffset(CGPoint(x: 390, y: 0), animated: false)
+            calendarCollectionView.setContentOffset(CGPoint(x: middleSectionX, y: 0), animated: false)
         }
     }
     
@@ -174,9 +184,6 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
     }
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        print("외부 collectionView scroll 인식")
-        print(viewModel.getBaseDate())
-
         switch calendarShape {
         case .month:
             switch scrollDirection {
@@ -228,7 +235,6 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
         withVelocity velocity: CGPoint,
         targetContentOffset: UnsafeMutablePointer<CGPoint>
     ) {
-        print(targetContentOffset.pointee.x)
         switch targetContentOffset.pointee.x {
         case 0:
             scrollDirection = .left
