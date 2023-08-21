@@ -16,7 +16,6 @@ final class DateCollectionViewCell: UICollectionViewCell {
             frame: .zero,
             collectionViewLayout: monthlyCollectionViewLayout.createLayout()
         )
-        collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         collectionView.register(DateCell.self)
         collectionView.dataSource = self.dataSource
         collectionView.isScrollEnabled = false
@@ -25,13 +24,31 @@ final class DateCollectionViewCell: UICollectionViewCell {
         return collectionView
     }()
 
+//    private lazy var monthlyCollectionView: UICollectionView = {
+//        let layout = UICollectionViewFlowLayout()
+//        layout.scrollDirection = .horizontal
+//        layout.minimumLineSpacing = 0
+//        layout.minimumInteritemSpacing = 0
+//
+//        let cellWidth = self.bounds.width / 7
+//        let cellHeight = self.bounds.height / 1
+//        layout.itemSize = CGSize(width: cellWidth, height: cellHeight)
+//
+//        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+//        collectionView.translatesAutoresizingMaskIntoConstraints = false
+//        collectionView.register(DateCell.self)
+//        collectionView.delegate = self
+////        collectionView.isScrollEnabled = false
+//        return collectionView
+//    }()
+
     private var days: [DayComponent]?
 
     private var dataSource: UICollectionViewDiffableDataSource<Int, DayComponent>?
 
     override func updateConfiguration(using state: UICellConfigurationState) {
         super.updateConfiguration(using: state)
-        
+
         setupDateCollectionViewCell()
         configuremonthlyCollectionViewDataSource()
         configureSnapshot()
@@ -72,4 +89,3 @@ final class DateCollectionViewCell: UICollectionViewCell {
         self.dataSource?.apply(snapshot)
     }
 }
-

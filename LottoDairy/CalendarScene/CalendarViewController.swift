@@ -20,11 +20,11 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         // 임시 사이즈 설정
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.showsVerticalScrollIndicator = false
-        collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         collectionView.register(DateCollectionViewCell.self)
         collectionView.isPagingEnabled = true
         collectionView.delegate = self
         collectionView.dataSource = self.dataSource
+        //        collectionView.isScrollEnabled = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .designSystem(.backgroundBlack)
         
@@ -36,6 +36,8 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     private var dataSource: UICollectionViewDiffableDataSource<Section, [DayComponent]>?
 
     private var scrollDirection: ScrollDirection = .none
+
+    private var calendarShape: CalendarShape = .week
 
     private let viewModel: CalendarViewModel
     
@@ -62,6 +64,8 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         configureSnapshot()
         setupCenterXOffset()
         bindViewModel()
+
+        print(calendarCollectionView.contentOffset.x)
     }
     
     private func setupCalendarHeaderView() {
@@ -85,7 +89,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
             calendarCollectionView.leadingAnchor.constraint(equalTo: safe.leadingAnchor),
             calendarCollectionView.trailingAnchor.constraint(equalTo: safe.trailingAnchor),
             calendarCollectionView.topAnchor.constraint(equalTo: calendarHeaderView.bottomAnchor),
-            calendarCollectionView.heightAnchor.constraint(equalToConstant: 300),
+            calendarCollectionView.heightAnchor.constraint(equalToConstant: 100),
         ])
     }
 
@@ -100,25 +104,41 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     }
 
     private func configureSnapshot() {
-        let threeMonthlyDays = viewModel.getThreeMonthlyDays()
 
         var snapshot = NSDiffableDataSourceSnapshot<Section, [DayComponent]>()
         snapshot.appendSections([.previous, .now, .next])
-        snapshot.appendItems([threeMonthlyDays[0]], toSection: .previous)
-        snapshot.appendItems([threeMonthlyDays[1]], toSection: .now)
-        snapshot.appendItems([threeMonthlyDays[2]], toSection: .next)
+
+        switch calendarShape {
+        case .month:
+            let threeMonthlyDays = viewModel.getThreeMonthlyDays()
+            snapshot.appendItems([threeMonthlyDays[0]], toSection: .previous)
+            snapshot.appendItems([threeMonthlyDays[1]], toSection: .now)
+            snapshot.appendItems([threeMonthlyDays[2]], toSection: .next)
+        case .week:
+            let threeWeeklyDays = viewModel.getThreeWeeklyDays()
+            snapshot.appendItems([threeWeeklyDays[0]], toSection: .previous)
+            snapshot.appendItems([threeWeeklyDays[1]], toSection: .now)
+            snapshot.appendItems([threeWeeklyDays[2]], toSection: .next)
+        }
         self.dataSource?.apply(snapshot)
     }
 
-    @discardableResult
-    private func setupCenterXOffset() -> CGFloat {
-        let middleSectionIndex = calendarCollectionView.numberOfSections / 2
-        let width = calendarCollectionView.collectionViewLayout.collectionViewContentSize.width
-        let numberOfSections = CGFloat(calendarCollectionView.numberOfSections)
-        let middleSectionX = width / numberOfSections * CGFloat(middleSectionIndex)
-        calendarCollectionView.setContentOffset(CGPoint(x: middleSectionX, y: 0), animated: false)
+    private func setupCenterXOffset() {
 
-        return middleSectionX
+        switch calendarShape {
+        case .month:
+            let middleSectionIndex = calendarCollectionView.numberOfSections / 2
+            let width = calendarCollectionView.collectionViewLayout.collectionViewContentSize.width
+            let numberOfSections = CGFloat(calendarCollectionView.numberOfSections)
+            let middleSectionX = width / numberOfSections * CGFloat(middleSectionIndex)
+            calendarCollectionView.setContentOffset(CGPoint(x: middleSectionX, y: 0), animated: false)
+        case .week:
+            let middleSectionIndex = calendarCollectionView.numberOfSections / 2
+            let width = calendarCollectionView.collectionViewLayout.collectionViewContentSize.width
+            let numberOfSections = CGFloat(calendarCollectionView.numberOfSections)
+            let middleSectionX = width / numberOfSections * CGFloat(middleSectionIndex)
+            calendarCollectionView.setContentOffset(CGPoint(x: 390, y: 0), animated: false)
+        }
     }
     
     private func bindViewModel() {
@@ -150,31 +170,56 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
     ) -> CGSize {
         let cellWidth = collectionView.bounds.width
         // 임시 사이즈 설정
-        return CGSize(width: cellWidth, height: 300)
+        return CGSize(width: cellWidth, height: 100)
     }
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        switch scrollDirection {
-        case .left:
-            viewModel.updatePreviousBaseDate()
-            setupCenterXOffset()
-        case .none:
-            break
-        case .right:
-            viewModel.updateNextBaseDate()
-            setupCenterXOffset()
+        print("외부 collectionView scroll 인식")
+        print(viewModel.getBaseDate())
+
+        switch calendarShape {
+        case .month:
+            switch scrollDirection {
+            case .left:
+                viewModel.updatePreviousBaseDate()
+                setupCenterXOffset()
+            case .none:
+                break
+            case .right:
+                viewModel.updateNextBaseDate()
+                setupCenterXOffset()
+            }
+        case .week:
+            switch scrollDirection {
+            case .left:
+                viewModel.updatePreviousWeekBaseDate()
+                setupCenterXOffset()
+            case .none:
+                break
+            case .right:
+                viewModel.updateNextWeekBaseDate()
+                setupCenterXOffset()
+            }
         }
     }
 
     private func updateSnapshot() {
         guard var snapshot = dataSource?.snapshot() else { return }
         snapshot.deleteAllItems()
-
         snapshot.appendSections([.previous, .now, .next])
-        let days = viewModel.getThreeMonthlyDays()
-        snapshot.appendItems([days[0]], toSection: .previous)
-        snapshot.appendItems([days[1]], toSection: .now)
-        snapshot.appendItems([days[2]], toSection: .next)
+
+        switch calendarShape {
+        case .month:
+            let days = viewModel.getThreeMonthlyDays()
+            snapshot.appendItems([days[0]], toSection: .previous)
+            snapshot.appendItems([days[1]], toSection: .now)
+            snapshot.appendItems([days[2]], toSection: .next)
+        case .week:
+            let days = viewModel.getThreeWeeklyDays()
+            snapshot.appendItems([days[0]], toSection: .previous)
+            snapshot.appendItems([days[1]], toSection: .now)
+            snapshot.appendItems([days[2]], toSection: .next)
+        }
         dataSource?.apply(snapshot, animatingDifferences: false)
     }
 
@@ -201,4 +246,9 @@ extension CalendarViewController: CalendarHeaderViewDelegate {
     func scopeSwitchButtonTapped() {
         
     }
+}
+
+enum CalendarShape {
+    case month
+    case week
 }

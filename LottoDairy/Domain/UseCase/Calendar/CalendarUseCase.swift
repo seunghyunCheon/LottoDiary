@@ -12,6 +12,20 @@ final class CalendarUseCase {
     private let calendar = Calendar(identifier: .gregorian)
 
     // MARK: Functions - Public
+    func calculateNextWeek(by baseDate: Date) -> Date {
+        guard let nextWeek = calendar.date(byAdding: .day, value: 7, to: baseDate) else {
+            return .today
+        }
+        return nextWeek
+    }
+
+    func calculatePreviousWeek(by baseDate: Date) -> Date {
+        guard let previousWeek = calendar.date(byAdding: .day, value: -7, to: baseDate) else {
+            return .today
+        }
+        return previousWeek
+    }
+
     func calculateNextMonth(by baseDate: Date) -> Date {
         guard let nextMonth = calendar.date(byAdding: .month, value: 1, to: baseDate) else {
             return .today
@@ -24,6 +38,17 @@ final class CalendarUseCase {
             return .today
         }
         return previousMonth
+    }
+
+    func getDaysInThreeWeek(for baseDate: Date) -> [[DayComponent]] {
+        let previousWeekDay = calculatePreviousWeek(by: baseDate)
+        let nextWeekDay = calculateNextWeek(by: baseDate)
+
+        let previous = generateWeekDays(for: previousWeekDay)
+        let now = generateWeekDays(for: baseDate)
+        let next = generateWeekDays(for: nextWeekDay)
+
+        return [previous, now, next]
     }
 
     func getDaysInThreeMonth(for baseDate: Date) -> [[DayComponent]] {
@@ -45,7 +70,7 @@ final class CalendarUseCase {
         }
         let firstDayOfMonth = monthlyData.firstDay
 
-        let daysInThisMonth = generateDays(for: baseDate)
+        let daysInThisMonth = generateMonthDays(for: baseDate)
         let daysInNextMonth = generateStartOfNextMonth(using: firstDayOfMonth)
 
         return daysInThisMonth + daysInNextMonth
@@ -74,7 +99,7 @@ final class CalendarUseCase {
         return day
     }
 
-    private func generateDays(for baseDate: Date) -> [DayComponent] {
+    private func generateMonthDays(for baseDate: Date) -> [DayComponent] {
         guard let monthlyData = try? getMonth(for: baseDate) else {
             return []
         }
@@ -94,6 +119,26 @@ final class CalendarUseCase {
         }
 
         return days
+    }
+
+    private func generateWeekDays(for baseDate: Date) -> [DayComponent] {
+
+        let firstDay = getWeekRange(for: baseDate)
+
+        let days: [DayComponent] = (1...7).map { day in
+
+            let day = generateDay(offsetBy: day, for: firstDay, isIncludeInMonth: true)
+            return day
+        }
+        return days
+    }
+
+    private func getWeekRange(for baseDate: Date) -> Date {
+        let weekday = calendar.component(.weekday, from: baseDate)
+        let daysToSubtract = calendar.firstWeekday - weekday
+        let startOfWeek = calendar.date(byAdding: .day, value: daysToSubtract, to: baseDate)!
+        let endOfWeek = calendar.date(byAdding: .day, value: 6, to: startOfWeek)!
+        return startOfWeek
     }
 
     private func generateStartOfNextMonth(using currentMonth: Date) -> [DayComponent] {

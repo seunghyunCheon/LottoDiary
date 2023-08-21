@@ -5,7 +5,7 @@
 //  Created by Sunny on 2023/08/17.
 //
 
-import Foundation
+import UIKit
 import Combine
 
 final class CalendarViewModel {
@@ -18,6 +18,14 @@ final class CalendarViewModel {
         self.calendarUseCase = calendarUseCase
     }
 
+    func getBaseDate() -> Date {
+        return baseDate.value
+    }
+
+    func getThreeWeeklyDays() -> [[DayComponent]] {
+        return calendarUseCase.getDaysInThreeWeek(for: baseDate.value)
+    }
+
     func getThreeMonthlyDays() -> [[DayComponent]] {
         return calendarUseCase.getDaysInThreeMonth(for: baseDate.value)
     }
@@ -28,5 +36,13 @@ final class CalendarViewModel {
 
     func updateNextBaseDate() {
         self.baseDate.value = calendarUseCase.calculateNextMonth(by: baseDate.value)
+    }
+
+    func updatePreviousWeekBaseDate() {
+        self.baseDate.value = calendarUseCase.calculatePreviousWeek(by: baseDate.value)
+    }
+
+    func updateNextWeekBaseDate() {
+        self.baseDate.value = calendarUseCase.calculateNextWeek(by: baseDate.value)
     }
 }
