@@ -10,7 +10,7 @@ import UIKit
 final class DateCollectionViewCell: UICollectionViewCell {
 
     private lazy var monthlyCollectionView: UICollectionView = {
-        let monthlyCollectionViewLayout = MonthlyCollectionViewLayout()
+        let monthlyCollectionViewLayout = WeeklyCollectionViewLayout()
 
         let collectionView = UICollectionView(
             frame: .zero,
@@ -31,12 +31,13 @@ final class DateCollectionViewCell: UICollectionViewCell {
 
     override func updateConfiguration(using state: UICellConfigurationState) {
         super.updateConfiguration(using: state)
-
+        
         setupDateCollectionViewCell()
         configuremonthlyCollectionViewDataSource()
         configureSnapshot()
     }
 
+    
     func configure(with dayComponent: [DayComponent]) {
         self.days = dayComponent
     }

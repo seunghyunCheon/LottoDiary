@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol CalendarHeaderViewDelegate {
+    func scopeSwitchButtonTapped()
+}
+
 final class CalendarHeaderView: UIView {
     
     // MARK: - UIView
@@ -34,6 +38,8 @@ final class CalendarHeaderView: UIView {
         return stackView
     }()
     
+    var delegate: CalendarHeaderViewDelegate?
+    
     // MARK: - Life Cycle
     
     override init(frame: CGRect) {
@@ -57,6 +63,13 @@ final class CalendarHeaderView: UIView {
             dayLabel.textAlignment = .center
             self.weekdayStackView.addArrangedSubview(dayLabel)
         }
+        
+        switchButton.addTarget(self, action: #selector(switchButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc
+    private func switchButtonTapped() {
+        delegate?.scopeSwitchButtonTapped()
     }
     
     override func layoutSubviews() {

@@ -58,4 +58,8 @@ final class DateCell: UICollectionViewCell {
             }
             .store(in: &cancellables)
     }
+    
+    override func prepareForReuse() {
+        self.numberLabel.text = ""
+    }
 }

@@ -55,6 +55,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         self.view.backgroundColor = .designSystem(.backgroundBlack)
+        calendarHeaderView.delegate = self
         setupCalendarHeaderView()
         setupCalendarView()
         configureCalendarCollectionViewDataSource()
@@ -182,6 +183,7 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
         withVelocity velocity: CGPoint,
         targetContentOffset: UnsafeMutablePointer<CGPoint>
     ) {
+        print(targetContentOffset.pointee.x)
         switch targetContentOffset.pointee.x {
         case 0:
             scrollDirection = .left
@@ -192,5 +194,11 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
         default:
             break
         }
+    }
+}
+
+extension CalendarViewController: CalendarHeaderViewDelegate {
+    func scopeSwitchButtonTapped() {
+        
     }
 }
