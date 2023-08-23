@@ -90,11 +90,17 @@ final class CalendarUseCase {
         return monthlyDay
     }
 
-    private func generateDay(offsetBy dayOffset: Int, for baseDate: Date, isIncludeInMonth: Bool) -> DayComponent {
+    private func generateMonthDay(offsetBy dayOffset: Int, for baseDate: Date, isIncludeInMonth: Bool) -> DayComponent {
         let date = calendar.date(byAdding: .day, value: dayOffset, to: baseDate) ?? baseDate
-
         let day = DayComponent(date: date,
                                isIncludeInMonth: isIncludeInMonth)
+
+        return day
+    }
+
+    private func generateWeekDay(offsetBy dayOffset: Int, for baseDate: Date) -> DayComponent {
+        let date = calendar.date(byAdding: .day, value: dayOffset, to: baseDate) ?? baseDate
+        let day = DayComponent(date: date)
 
         return day
     }
@@ -113,7 +119,7 @@ final class CalendarUseCase {
             let isIncludeInMonth = day >= offsetInFirstRow
             let dayOffset = isIncludeInMonth ? (day - offsetInFirstRow) : -(offsetInFirstRow - day)
 
-            let day = generateDay(offsetBy: dayOffset, for: firstDayOfMonth, isIncludeInMonth: isIncludeInMonth)
+            let day = generateMonthDay(offsetBy: dayOffset, for: firstDayOfMonth, isIncludeInMonth: isIncludeInMonth)
 
             return day
         }
@@ -122,22 +128,21 @@ final class CalendarUseCase {
     }
 
     private func generateWeekDays(for baseDate: Date) -> [DayComponent] {
+        let firstDay = getStartDayOfWeek(for: baseDate)
 
-        let firstDay = getWeekRange(for: baseDate)
-
-        let days: [DayComponent] = (1...7).map { day in
-
-            let day = generateDay(offsetBy: day, for: firstDay, isIncludeInMonth: true)
+        let firstWeekday = calendar.firstWeekday
+        let lastWeekday = calendar.firstWeekday + 6
+        let days: [DayComponent] = (firstWeekday...lastWeekday).map { day in
+            let day = generateWeekDay(offsetBy: day, for: firstDay)
             return day
         }
         return days
     }
 
-    private func getWeekRange(for baseDate: Date) -> Date {
+    private func getStartDayOfWeek(for baseDate: Date) -> Date {
         let weekday = calendar.component(.weekday, from: baseDate)
         let daysToSubtract = calendar.firstWeekday - weekday
         let startOfWeek = calendar.date(byAdding: .day, value: daysToSubtract, to: baseDate)!
-        let endOfWeek = calendar.date(byAdding: .day, value: 6, to: startOfWeek)!
         return startOfWeek
     }
 
@@ -152,7 +157,7 @@ final class CalendarUseCase {
         }
 
         let days: [DayComponent] = (1...additionalDays).map {
-            generateDay(offsetBy: $0, for: lastDay, isIncludeInMonth: false)
+            generateMonthDay(offsetBy: $0, for: lastDay, isIncludeInMonth: false)
         }
 
         return days

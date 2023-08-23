@@ -10,7 +10,12 @@ import Foundation
 struct DayComponent: Hashable {
 
     let date: Date
-    let isIncludeInMonth: Bool
+    var isIncludeInMonth: Bool
+
+    init(date: Date, isIncludeInMonth: Bool = false) {
+        self.date = date
+        self.isIncludeInMonth = isIncludeInMonth
+    }
 }
 
 extension DayComponent {
