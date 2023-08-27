@@ -14,6 +14,8 @@ final class TabBarController: UITabBarController, TabBarFlowProtocol {
     var onHomeFlowSelect: ((UINavigationController) -> ())?
     
     var onLottoQRFlowSelect: ((UINavigationController) -> ())?
+
+    var onChartFlowSelect: ((UINavigationController) -> ())?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,7 +54,13 @@ extension TabBarController: UITabBarControllerDelegate {
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         guard let controller = viewControllers?[selectedIndex] as? UINavigationController else { return }
-        if selectedIndex == 1 {
+
+        switch selectedIndex {
+        case 1:
+            onHomeFlowSelect?(controller)
+        case 3:
+            onChartFlowSelect?(controller)
+        default:
             onHomeFlowSelect?(controller)
         }
     }

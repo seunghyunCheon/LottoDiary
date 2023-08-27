@@ -21,6 +21,7 @@ final class TabBarCoordinator: BaseCoordinator {
         tabBarFlow.onViewWillAppear = runHomeFlow()
         tabBarFlow.onHomeFlowSelect = runHomeFlow()
         tabBarFlow.onLottoQRFlowSelect = runLottoQRFlow()
+        tabBarFlow.onChartFlowSelect = runChartFlow()
     }
     
     private func runHomeFlow() -> ((UINavigationController) -> ()) {
@@ -39,6 +40,16 @@ final class TabBarCoordinator: BaseCoordinator {
                 let lottoQRCoordinator = coordinatorFactory.makeLottoQRCoordinator(navigationController: navController)
                 addDependency(lottoQRCoordinator)
                 lottoQRCoordinator.start()
+            }
+        }
+    }
+
+    private func runChartFlow() -> ((UINavigationController) -> ()) {
+        return { [unowned self] navController in
+            if navController.viewControllers.isEmpty == true {
+                let chartCoordinator = coordinatorFactory.makeChartCoordinator(navigationController: navController)
+                addDependency(chartCoordinator)
+                chartCoordinator.start()
             }
         }
     }

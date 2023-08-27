@@ -45,6 +45,10 @@
 		629C1F5F2A4ABD1000540FA4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 629C1F5E2A4ABD1000540FA4 /* Assets.xcassets */; };
 		629C1F622A4ABD1000540FA4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 629C1F602A4ABD1000540FA4 /* LaunchScreen.storyboard */; };
 		62AFA0932A723C8B00C9D86C /* LottoLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62AFA0922A723C8B00C9D86C /* LottoLabel.swift */; };
+		805EA6BF2A9B1E1E00A3545C /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6BE2A9B1E1E00A3545C /* ChartViewController.swift */; };
+		805EA6C12A9B1E3D00A3545C /* ChartCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6C02A9B1E3D00A3545C /* ChartCoordinator.swift */; };
+		805EA6C32A9B1E8D00A3545C /* ChartFlowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6C22A9B1E8D00A3545C /* ChartFlowProtocol.swift */; };
+		805EA6C52A9B1EB400A3545C /* ChartModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6C42A9B1EB400A3545C /* ChartModuleFactory.swift */; };
 		805FA7072A6D834A00089070 /* LottoQRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805FA7062A6D834A00089070 /* LottoQRViewController.swift */; };
 		805FA7092A6D84DC00089070 /* LottoQRModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805FA7082A6D84DC00089070 /* LottoQRModuleFactory.swift */; };
 		805FA70B2A6D853400089070 /* LottoQRFlowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805FA70A2A6D853400089070 /* LottoQRFlowProtocol.swift */; };
@@ -105,6 +109,10 @@
 		629C1F612A4ABD1000540FA4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		629C1F632A4ABD1000540FA4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		62AFA0922A723C8B00C9D86C /* LottoLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoLabel.swift; sourceTree = "<group>"; };
+		805EA6BE2A9B1E1E00A3545C /* ChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewController.swift; sourceTree = "<group>"; };
+		805EA6C02A9B1E3D00A3545C /* ChartCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartCoordinator.swift; sourceTree = "<group>"; };
+		805EA6C22A9B1E8D00A3545C /* ChartFlowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartFlowProtocol.swift; sourceTree = "<group>"; };
+		805EA6C42A9B1EB400A3545C /* ChartModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartModuleFactory.swift; sourceTree = "<group>"; };
 		805FA7062A6D834A00089070 /* LottoQRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoQRViewController.swift; sourceTree = "<group>"; };
 		805FA7082A6D84DC00089070 /* LottoQRModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoQRModuleFactory.swift; sourceTree = "<group>"; };
 		805FA70A2A6D853400089070 /* LottoQRFlowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoQRFlowProtocol.swift; sourceTree = "<group>"; };
@@ -144,6 +152,7 @@
 				805FA7082A6D84DC00089070 /* LottoQRModuleFactory.swift */,
 				621503422A5BEF0400431BBB /* OnboardingModuleFactory.swift */,
 				624BB0CE2A652FB9002A3109 /* GoalSettingModuleFactory.swift */,
+				805EA6C42A9B1EB400A3545C /* ChartModuleFactory.swift */,
 			);
 			path = Factories;
 			sourceTree = "<group>";
@@ -360,10 +369,21 @@
 				621503312A559C7300431BBB /* TabBarScene */,
 				80773A6C2A55AE8C0020F1DD /* HomeScene */,
 				805FA7052A6D832500089070 /* LottoQRScene */,
+				805EA6BD2A9B1E0300A3545C /* ChartScene */,
 				629C1F632A4ABD1000540FA4 /* Info.plist */,
 				629C1F5B2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld */,
 			);
 			path = LottoDairy;
+			sourceTree = "<group>";
+		};
+		805EA6BD2A9B1E0300A3545C /* ChartScene */ = {
+			isa = PBXGroup;
+			children = (
+				805EA6BE2A9B1E1E00A3545C /* ChartViewController.swift */,
+				805EA6C02A9B1E3D00A3545C /* ChartCoordinator.swift */,
+				805EA6C22A9B1E8D00A3545C /* ChartFlowProtocol.swift */,
+			);
+			path = ChartScene;
 			sourceTree = "<group>";
 		};
 		805FA7052A6D832500089070 /* LottoQRScene */ = {
@@ -483,11 +503,13 @@
 				80773A742A55B99E0020F1DD /* HomeModuleFactory.swift in Sources */,
 				8080DDBE2A60540B00364CF1 /* TabBarView.swift in Sources */,
 				621503302A559BB200431BBB /* CoordinatorFactoryImp.swift in Sources */,
+				805EA6C12A9B1E3D00A3545C /* ChartCoordinator.swift in Sources */,
 				624BB0CF2A652FB9002A3109 /* GoalSettingModuleFactory.swift in Sources */,
 				624BB0D12A6530C0002A3109 /* GoalSettingFlowProtocol.swift in Sources */,
 				621503332A559C9600431BBB /* TabBarController.swift in Sources */,
 				624BB0D32A653299002A3109 /* GoalSettingViewController.swift in Sources */,
 				8060B4212A62DC2C00726C83 /* UIButton+Extensions.swift in Sources */,
+				805EA6BF2A9B1E1E00A3545C /* ChartViewController.swift in Sources */,
 				8060B41F2A61A66800726C83 /* LottoQRButton.swift in Sources */,
 				621503332A559C9600431BBB /* TabBarController.swift in Sources */,
 				8080DDBB2A604A0500364CF1 /* TabBarComponents.swift in Sources */,
@@ -503,6 +525,7 @@
 				624BB0E52A67B9CA002A3109 /* DefaultGoalSettingUseCase.swift in Sources */,
 				80773A702A55AF770020F1DD /* HomeViewController.swift in Sources */,
 				621503232A4E7CAE00431BBB /* Router.swift in Sources */,
+				805EA6C32A9B1E8D00A3545C /* ChartFlowProtocol.swift in Sources */,
 				624BB0ED2A67F73B002A3109 /* Int+Extensions.swift in Sources */,
 				621503582A5E8E2300431BBB /* UIControl+Extensions.swift in Sources */,
 				629C1F532A4ABD0F00540FA4 /* AppDelegate.swift in Sources */,
@@ -522,6 +545,7 @@
 				62AFA0932A723C8B00C9D86C /* LottoLabel.swift in Sources */,
 				6215033F2A5BE93500431BBB /* OnboardingCoordinator.swift in Sources */,
 				80603ADE2A4E9FB0003D5274 /* RouterImp.swift in Sources */,
+				805EA6C52A9B1EB400A3545C /* ChartModuleFactory.swift in Sources */,
 				805FA7092A6D84DC00089070 /* LottoQRModuleFactory.swift in Sources */,
 				629C1F552A4ABD0F00540FA4 /* SceneDelegate.swift in Sources */,
 				621503352A559CB800431BBB /* TabBarCoordinator.swift in Sources */,

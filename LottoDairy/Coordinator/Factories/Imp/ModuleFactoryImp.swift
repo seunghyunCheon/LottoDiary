@@ -8,7 +8,8 @@ final class ModuleFactoryImp:
     HomeModuleFactory,
     OnboardingModuleFactory,
     GoalSettingModuleFactory,
-    LottoQRModuleFactory {
+    LottoQRModuleFactory,
+    ChartModuleFactory {
     
     func makeHomeFlow() -> HomeFlowProtocol {
         return HomeViewController()
@@ -29,5 +30,9 @@ final class ModuleFactoryImp:
         let viewModel = GoalSettingViewModel(goalSettingUseCase: goalSettingUseCase)
         
         return GoalSettingViewController(viewModel: viewModel)
+    }
+
+    func makeChartFlow() -> ChartFlowProtocol {
+        return ChartViewController()
     }
 }
