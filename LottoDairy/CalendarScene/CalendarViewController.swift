@@ -18,6 +18,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
 
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         // 임시 사이즈 설정
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.showsVerticalScrollIndicator = false
         collectionView.register(DateCollectionViewCell.self)
@@ -37,7 +38,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
 
     private var scrollDirection: ScrollDirection = .none
 
-    private var calendarShape: CalendarShape = .week
+    private var calendarShape: CalendarShape = .month
 
     private let viewModel: CalendarViewModel
     
@@ -99,7 +100,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
             calendarCollectionView.leadingAnchor.constraint(equalTo: safe.leadingAnchor),
             calendarCollectionView.trailingAnchor.constraint(equalTo: safe.trailingAnchor),
             calendarCollectionView.topAnchor.constraint(equalTo: calendarHeaderView.bottomAnchor),
-            calendarCollectionView.heightAnchor.constraint(equalToConstant: 100),
+            calendarCollectionView.heightAnchor.constraint(equalToConstant: 250),
         ])
     }
 
@@ -134,7 +135,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     }
 
     private func setupCenterXOffset() {
-
+        
         switch calendarShape {
         case .month:
             let middleSectionIndex = calendarCollectionView.numberOfSections / 2
@@ -153,10 +154,22 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     
     private func bindViewModel() {
         viewModel.baseDate
-            .sink { _ in
+            .sink { date in
+                self.updateYearAndMonth(with: date)
                 self.updateSnapshot()
             }
             .store(in: &cancellables)
+    }
+    
+    private func updateYearAndMonth(with date: Date) {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day], from: date)
+        guard let updatedYear = components.year,
+              let updatedMonth = components.month else {
+            return
+        }
+        calendarHeaderView.yearAndMonthView.yearLabel.text = "\(updatedYear)"
+        calendarHeaderView.yearAndMonthView.monthLabel.text = "\(updatedMonth)월"
     }
 }
 
@@ -180,7 +193,7 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
     ) -> CGSize {
         let cellWidth = collectionView.bounds.width
         // 임시 사이즈 설정
-        return CGSize(width: cellWidth, height: 100)
+        return CGSize(width: cellWidth, height: 250)
     }
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -250,7 +263,12 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
 
 extension CalendarViewController: CalendarHeaderViewDelegate {
     func scopeSwitchButtonTapped() {
-        
+        if self.calendarShape == .month {
+            self.calendarShape = .week
+        } else {
+            self.calendarShape = .month
+        }
+        updateSnapshot()
     }
 }
 

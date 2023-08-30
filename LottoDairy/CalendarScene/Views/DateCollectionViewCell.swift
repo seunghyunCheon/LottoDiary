@@ -10,7 +10,7 @@ import UIKit
 final class DateCollectionViewCell: UICollectionViewCell {
 
     private lazy var monthlyCollectionView: UICollectionView = {
-        let monthlyCollectionViewLayout = WeeklyCollectionViewLayout()
+        let monthlyCollectionViewLayout = MonthlyCollectionViewLayout()
 
         let collectionView = UICollectionView(
             frame: .zero,
