@@ -68,6 +68,10 @@
 		8080DDBB2A604A0500364CF1 /* TabBarComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8080DDBA2A604A0500364CF1 /* TabBarComponents.swift */; };
 		8080DDBE2A60540B00364CF1 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8080DDBD2A60540B00364CF1 /* TabBarView.swift */; };
 		9EDC90105EAB722617E1A0A8 /* Pods_LottoDairy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 743FFCCB1BCBCC9F40A77270 /* Pods_LottoDairy.framework */; };
+		80EB03322A72336400455E05 /* GmarketSansLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB03312A72336400455E05 /* GmarketSansLabel.swift */; };
+		80EB03342A72370E00455E05 /* UIStackView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB03332A72370E00455E05 /* UIStackView+Extensions.swift */; };
+		80EB033C2A72CB8000455E05 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB033B2A72CB8000455E05 /* UIView+Extensions.swift */; };
+		80EB033E2A72CF9A00455E05 /* DoubleLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB033D2A72CF9A00455E05 /* DoubleLabelView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -136,6 +140,10 @@
 		8080DDBD2A60540B00364CF1 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		86B7A71B2EC870B83389E647 /* Pods-LottoDairy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LottoDairy.release.xcconfig"; path = "Target Support Files/Pods-LottoDairy/Pods-LottoDairy.release.xcconfig"; sourceTree = "<group>"; };
 		AA12F166C0508FF1EA22EED1 /* Pods-LottoDairy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LottoDairy.debug.xcconfig"; path = "Target Support Files/Pods-LottoDairy/Pods-LottoDairy.debug.xcconfig"; sourceTree = "<group>"; };
+		80EB03312A72336400455E05 /* GmarketSansLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GmarketSansLabel.swift; sourceTree = "<group>"; };
+		80EB03332A72370E00455E05 /* UIStackView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extensions.swift"; sourceTree = "<group>"; };
+		80EB033B2A72CB8000455E05 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		80EB033D2A72CF9A00455E05 /* DoubleLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleLabelView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -205,9 +213,6 @@
 			isa = PBXGroup;
 			children = (
 				621503482A5E694900431BBB /* Fonts */,
-				6215034B2A5E699C00431BBB /* gmarketSansTTFBold.ttf */,
-				621503492A5E699C00431BBB /* gmarketSansTTFLight.ttf */,
-				6215034A2A5E699C00431BBB /* gmarketSansTTFMedium.ttf */,
 				629C1F5E2A4ABD1000540FA4 /* Assets.xcassets */,
 				621503532A5E7AC700431BBB /* Colors.xcassets */,
 				629C1F602A4ABD1000540FA4 /* LaunchScreen.storyboard */,
@@ -249,6 +254,9 @@
 		621503482A5E694900431BBB /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				6215034B2A5E699C00431BBB /* gmarketSansTTFBold.ttf */,
+				621503492A5E699C00431BBB /* gmarketSansTTFLight.ttf */,
+				6215034A2A5E699C00431BBB /* gmarketSansTTFMedium.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -266,6 +274,8 @@
 			children = (
 				621503512A5E6EC900431BBB /* UIFont+Extensions.swift */,
 				621503552A5E7B0500431BBB /* UIColor+Extensions.swift */,
+				80EB03332A72370E00455E05 /* UIStackView+Extensions.swift */,
+				80EB033B2A72CB8000455E05 /* UIView+Extensions.swift */,
 				621503572A5E8E2300431BBB /* UIControl+Extensions.swift */,
 				624BB0E82A67EED2002A3109 /* String+Extensions.swift */,
 				624BB0EC2A67F73B002A3109 /* Int+Extensions.swift */,
@@ -290,6 +300,7 @@
 			children = (
 				624BB0D82A666342002A3109 /* LottoDiaryTextField.swift */,
 				62AFA0922A723C8B00C9D86C /* LottoLabel.swift */,
+				80EB03312A72336400455E05 /* GmarketSansLabel.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -427,6 +438,7 @@
 		80773A6C2A55AE8C0020F1DD /* HomeScene */ = {
 			isa = PBXGroup;
 			children = (
+				80EB032A2A7132C000455E05 /* Views */,
 				80773A6D2A55AE9E0020F1DD /* HomeCoordinator.swift */,
 				80773A6F2A55AF770020F1DD /* HomeViewController.swift */,
 				80773A712A55AFF80020F1DD /* HomeFlowProtocol.swift */,
@@ -459,6 +471,14 @@
 				743FFCCB1BCBCC9F40A77270 /* Pods_LottoDairy.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		80EB032A2A7132C000455E05 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				80EB033D2A72CF9A00455E05 /* DoubleLabelView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -594,9 +614,11 @@
 				621503332A559C9600431BBB /* TabBarController.swift in Sources */,
 				8080DDBB2A604A0500364CF1 /* TabBarComponents.swift in Sources */,
 				80773A6E2A55AE9E0020F1DD /* HomeCoordinator.swift in Sources */,
+				80EB03322A72336400455E05 /* GmarketSansLabel.swift in Sources */,
 				6215035A2A5E8EBB00431BBB /* OnboardingViewModel.swift in Sources */,
 				624BB0D92A666342002A3109 /* LottoDiaryTextField.swift in Sources */,
 				621503472A5BF12900431BBB /* OnboardingViewController.swift in Sources */,
+				80EB033C2A72CB8000455E05 /* UIView+Extensions.swift in Sources */,
 				621503452A5BF06100431BBB /* OnboardingFlowProtocol.swift in Sources */,
 				6215031F2A4E792700431BBB /* Presentable.swift in Sources */,
 				624BB0E92A67EED2002A3109 /* String+Extensions.swift in Sources */,
@@ -604,6 +626,7 @@
 				624BB0CD2A652EC8002A3109 /* GoalSettingCoordinator.swift in Sources */,
 				624BB0E52A67B9CA002A3109 /* DefaultGoalSettingUseCase.swift in Sources */,
 				80773A702A55AF770020F1DD /* HomeViewController.swift in Sources */,
+				80EB033E2A72CF9A00455E05 /* DoubleLabelView.swift in Sources */,
 				621503232A4E7CAE00431BBB /* Router.swift in Sources */,
 				805EA6C32A9B1E8D00A3545C /* ChartFlowProtocol.swift in Sources */,
 				624BB0ED2A67F73B002A3109 /* Int+Extensions.swift in Sources */,
@@ -631,6 +654,7 @@
 				621503352A559CB800431BBB /* TabBarCoordinator.swift in Sources */,
 				805FA70D2A6D856D00089070 /* LottoQRCoordinator.swift in Sources */,
 				80603ADA2A4E6FE2003D5274 /* AppCoordinator.swift in Sources */,
+				80EB03342A72370E00455E05 /* UIStackView+Extensions.swift in Sources */,
 				80773A722A55AFF80020F1DD /* HomeFlowProtocol.swift in Sources */,
 				624BB0DF2A67B319002A3109 /* GoalSettingUseCase.swift in Sources */,
 				805FA7072A6D834A00089070 /* LottoQRViewController.swift in Sources */,
