@@ -49,6 +49,7 @@
 		805EA6C12A9B1E3D00A3545C /* ChartCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6C02A9B1E3D00A3545C /* ChartCoordinator.swift */; };
 		805EA6C32A9B1E8D00A3545C /* ChartFlowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6C22A9B1E8D00A3545C /* ChartFlowProtocol.swift */; };
 		805EA6C52A9B1EB400A3545C /* ChartModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6C42A9B1EB400A3545C /* ChartModuleFactory.swift */; };
+		805EA6C82AA2492900A3545C /* ChartInformationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6C72AA2492800A3545C /* ChartInformationCell.swift */; };
 		805FA7072A6D834A00089070 /* LottoQRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805FA7062A6D834A00089070 /* LottoQRViewController.swift */; };
 		805FA7092A6D84DC00089070 /* LottoQRModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805FA7082A6D84DC00089070 /* LottoQRModuleFactory.swift */; };
 		805FA70B2A6D853400089070 /* LottoQRFlowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805FA70A2A6D853400089070 /* LottoQRFlowProtocol.swift */; };
@@ -115,6 +116,7 @@
 		805EA6C02A9B1E3D00A3545C /* ChartCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartCoordinator.swift; sourceTree = "<group>"; };
 		805EA6C22A9B1E8D00A3545C /* ChartFlowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartFlowProtocol.swift; sourceTree = "<group>"; };
 		805EA6C42A9B1EB400A3545C /* ChartModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartModuleFactory.swift; sourceTree = "<group>"; };
+		805EA6C72AA2492800A3545C /* ChartInformationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartInformationCell.swift; sourceTree = "<group>"; };
 		805FA7062A6D834A00089070 /* LottoQRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoQRViewController.swift; sourceTree = "<group>"; };
 		805FA7082A6D84DC00089070 /* LottoQRModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoQRModuleFactory.swift; sourceTree = "<group>"; };
 		805FA70A2A6D853400089070 /* LottoQRFlowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoQRFlowProtocol.swift; sourceTree = "<group>"; };
@@ -386,11 +388,20 @@
 		805EA6BD2A9B1E0300A3545C /* ChartScene */ = {
 			isa = PBXGroup;
 			children = (
+				805EA6C62AA2478100A3545C /* Views */,
 				805EA6BE2A9B1E1E00A3545C /* ChartViewController.swift */,
 				805EA6C02A9B1E3D00A3545C /* ChartCoordinator.swift */,
 				805EA6C22A9B1E8D00A3545C /* ChartFlowProtocol.swift */,
 			);
 			path = ChartScene;
+			sourceTree = "<group>";
+		};
+		805EA6C62AA2478100A3545C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				805EA6C72AA2492800A3545C /* ChartInformationCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		805FA7052A6D832500089070 /* LottoQRScene */ = {
@@ -439,7 +450,6 @@
 				AA12F166C0508FF1EA22EED1 /* Pods-LottoDairy.debug.xcconfig */,
 				86B7A71B2EC870B83389E647 /* Pods-LottoDairy.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -574,6 +584,7 @@
 				621503302A559BB200431BBB /* CoordinatorFactoryImp.swift in Sources */,
 				805EA6C12A9B1E3D00A3545C /* ChartCoordinator.swift in Sources */,
 				624BB0CF2A652FB9002A3109 /* GoalSettingModuleFactory.swift in Sources */,
+				805EA6C82AA2492900A3545C /* ChartInformationCell.swift in Sources */,
 				624BB0D12A6530C0002A3109 /* GoalSettingFlowProtocol.swift in Sources */,
 				621503332A559C9600431BBB /* TabBarController.swift in Sources */,
 				624BB0D32A653299002A3109 /* GoalSettingViewController.swift in Sources */,
