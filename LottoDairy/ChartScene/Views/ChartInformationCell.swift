@@ -73,7 +73,9 @@ final class ChartInformationCell: UICollectionViewCell {
     }
 
     private func makeInformationStackView() -> UIStackView {
-        
+        let titleLabel: UILabel = {
+            let label = PretendardLabel
+        }
 
         let InformationStackView: UIStackView = {
             let stackView = UIStackView(arrangedSubviews: [])
