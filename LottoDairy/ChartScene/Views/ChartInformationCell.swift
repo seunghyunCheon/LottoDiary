@@ -73,12 +73,10 @@ final class ChartInformationCell: UICollectionViewCell {
     }
 
     private func makeInformationStackView() -> UIStackView {
-        let titleLabel: UILabel = {
-            let label = PretendardLabel
-        }
+        let amountStackView = makeAmountStackView()
 
         let InformationStackView: UIStackView = {
-            let stackView = UIStackView(arrangedSubviews: [])
+            let stackView = UIStackView(arrangedSubviews: [amountStackView])
             stackView.backgroundColor = .systemPink
             stackView.spacing = 5
             stackView.axis = .vertical
@@ -86,6 +84,37 @@ final class ChartInformationCell: UICollectionViewCell {
         }()
 
         return InformationStackView
+    }
+
+    private func makeAmountStackView() -> UIStackView {
+        let titleLabel: UILabel = {
+            let label = GmarketSansLabel(
+                text: chartImformationComponents?.title ?? "",
+                alignment: .left,
+                size: .callout,
+                weight: .bold
+            )
+            return label
+        }()
+
+        let amountLabel: UILabel = {
+            let label = GmarketSansLabel(
+                text: "\(chartImformationComponents?.amount ?? "") 원",
+                alignment: .right,
+                size: .callout,
+                weight: .bold
+            )
+            return label
+        }()
+
+        let amountStackView: UIStackView = {
+            let stackView = UIStackView(arrangedSubviews: [titleLabel, amountLabel])
+            stackView.backgroundColor = .darkGray
+            stackView.spacing = 5
+            return stackView
+        }()
+
+        return amountStackView
     }
 }
 
