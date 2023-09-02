@@ -52,6 +52,7 @@ struct ChartInformationComponents: Hashable {
         ]
     }()
 }
+
 enum ChartInformationType: String {
     case goal = "목표 금액"
     case buy = "구매 금액"
@@ -66,21 +67,21 @@ final class ChartInformationCell: UICollectionViewCell {
 
     var chartImformationComponents: ChartInformationComponents?
 
-    init() {
-        super.init(frame: .zero)
-
-        setupChartInformationCell()
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-//    override func updateConfiguration(using state: UICellConfigurationState) {
-//        super.updateConfiguration(using: state)
+//    init() {
+//        super.init(frame: .zero)
 //
 //        setupChartInformationCell()
 //    }
+//
+//    required init?(coder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+
+        override func updateConfiguration(using state: UICellConfigurationState) {
+            super.updateConfiguration(using: state)
+    
+            setupChartInformationCell()
+        }
 
     func configure(with components: ChartInformationComponents) {
         self.chartImformationComponents = components
@@ -89,12 +90,19 @@ final class ChartInformationCell: UICollectionViewCell {
     private func setupChartInformationCell() {
         let totalStackView = makeTotalStackView()
         self.addSubview(totalStackView)
+
+        NSLayoutConstraint.activate([
+            totalStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15),
+            totalStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -15),
+            totalStackView.topAnchor.constraint(equalTo: self.topAnchor),
+            totalStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        ])
     }
 
     private func makeTotalStackView() -> UIStackView {
         let imageView: UIImageView = {
             let imageView = UIImageView()
-//            imageView.image = chartImformationComponents?.image
+            //            imageView.image = chartImformationComponents?.image
             imageView.image = .checkmark
             imageView.backgroundColor = .blue
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
@@ -105,7 +113,8 @@ final class ChartInformationCell: UICollectionViewCell {
         let stackView: UIStackView = {
             let stackView = UIStackView(arrangedSubviews: [imageView, informationStackView])
             stackView.backgroundColor = .purple
-            stackView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//            stackView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            stackView.translatesAutoresizingMaskIntoConstraints = false
             stackView.distribution = .fill
             stackView.alignment = .fill
             stackView.spacing = 15
@@ -118,26 +127,22 @@ final class ChartInformationCell: UICollectionViewCell {
     private func makeInformationStackView() -> UIStackView {
         let amountStackView = makeAmountStackView()
 
-//        guard let result = chartImformationComponents?.result, let percent = result.percent else { return UIStackView() }
-
-        let resultLabel: UILabel = {
-            switch chartImformationComponents?.type {
-            case .win:
-//                let label = makeWinResultLabel(result: result.result, percent: percent)
-                let label = makeWinResultLabel(result: true, percent: 300)
-                return label
-            default:
-//                let label = makeResultLabel(result.result)
-                let label = makeResultLabel(false)
-                return label
-            }
+        let amountLabel: UILabel = {
+            let label = GmarketSansLabel(
+                //                text: "\(chartImformationComponents?.amount ?? "") 원",
+                text: "3,00000000000000000 원",
+                alignment: .left,
+                size: .callout,
+                weight: .bold
+            )
+            return label
         }()
 
         let InformationStackView: UIStackView = {
-            let stackView = UIStackView(arrangedSubviews: [amountStackView, resultLabel])
-            stackView.backgroundColor = .systemPink
+            let stackView = UIStackView(arrangedSubviews: [amountStackView, amountLabel])
+            stackView.backgroundColor = .yellow
             stackView.distribution = .fillProportionally
-//            stackView.spacing = 5
+            //            stackView.spacing = 5
             stackView.axis = .vertical
             return stackView
         }()
@@ -151,7 +156,7 @@ final class ChartInformationCell: UICollectionViewCell {
             let label = GmarketSansLabel(
                 text: "달성 완료!",
                 color: .designSystem(.mainGreen) ?? .green,
-                alignment: .left,
+                alignment: .right,
                 size: .caption,
                 weight: .medium
             )
@@ -160,7 +165,7 @@ final class ChartInformationCell: UICollectionViewCell {
             let label = GmarketSansLabel(
                 text: "달성 실패!",
                 color: .designSystem(.mainBlue) ?? .systemBlue,
-                alignment: .left,
+                alignment: .right,
                 size: .caption,
                 weight: .medium
             )
@@ -173,52 +178,42 @@ final class ChartInformationCell: UICollectionViewCell {
         let attributedString = NSMutableAttributedString(string: convertedPercent)
         let signAttachment = NSTextAttachment()
 
-        var label = UILabel()
+        var textColor: UIColor
+        var imageName: String
 
         switch result {
-            // 양수
         case true:
-            // 0이라면
-            if percent == .zero {
-                signAttachment.image = UIImage(systemName: "minus")
-                attributedString.append(NSAttributedString(attachment: signAttachment))
-                label = GmarketSansLabel(
-                    text: attributedString.string,
-                    color: .designSystem(.mainGreen) ?? .green,
-                    alignment: .left,
-                    size: .caption,
-                    weight: .medium)
+            if percent == 0 {
+                imageName = "minus"
+                textColor = .designSystem(.mainGreen) ?? .green
             } else {
-                // 0이 아닌 양수라면
-                signAttachment.image = UIImage(systemName: "arrowtriangle.up.fill")
-                attributedString.append(NSAttributedString(attachment: signAttachment))
-                label = GmarketSansLabel(
-                    text: attributedString.string,
-                    color: .designSystem(.mainOrange) ?? .orange,
-                    alignment: .left,
-                    size: .caption,
-                    weight: .medium)
+                imageName = "arrowtriangle.up.fill"
+                textColor = .designSystem(.mainOrange) ?? .orange
             }
         case false:
-            // 음수라면
-            if percent == .zero {
-                signAttachment.image = UIImage(systemName: "arrowtriangle.down.fill")
-                attributedString.append(NSAttributedString(attachment: signAttachment))
-                label = GmarketSansLabel(
-                    text: attributedString.string,
-                    color: .designSystem(.mainBlue) ?? .systemBlue,
-                    alignment: .left,
-                    size: .caption,
-                    weight: .medium)
-            }
+            imageName = "arrowtriangle.down.fill"
+            textColor = .designSystem(.mainBlue) ?? .systemBlue
         }
+
+        signAttachment.image = UIImage(systemName: imageName)?.withTintColor(textColor)
+        attributedString.append(NSAttributedString(attachment: signAttachment))
+
+        let label = GmarketSansLabel(
+            attributedText: attributedString,
+            color: textColor,
+            alignment: .right,
+            size: .caption,
+            weight: .medium
+        )
+
         return label
     }
+
 
     private func makeAmountStackView() -> UIStackView {
         let titleLabel: UILabel = {
             let label = GmarketSansLabel(
-//                text: chartImformationComponents?.type.rawValue ?? "",
+                //                text: chartImformationComponents?.type.rawValue ?? "",
                 text: "목표 금액",
                 alignment: .left,
                 size: .callout,
@@ -227,21 +222,25 @@ final class ChartInformationCell: UICollectionViewCell {
             return label
         }()
 
-        let amountLabel: UILabel = {
-            let label = GmarketSansLabel(
-//                text: "\(chartImformationComponents?.amount ?? "") 원",
-                text: "3,000 원",
-                alignment: .right,
-                size: .callout,
-                weight: .bold
-            )
-            return label
+        //        guard let result = chartImformationComponents?.result, let percent = result.percent else { return UIStackView() }
+
+        let resultLabel: UILabel = {
+            switch chartImformationComponents?.type {
+            case .win:
+                //                let label = makeWinResultLabel(result: result.result, percent: percent)
+                let label = makeWinResultLabel(result: true, percent: 3000000000000000000)
+                return label
+            default:
+                //                let label = makeResultLabel(result.result)
+                let label = makeResultLabel(false)
+                return label
+            }
         }()
 
         let amountStackView: UIStackView = {
-            let stackView = UIStackView(arrangedSubviews: [titleLabel, amountLabel])
+            let stackView = UIStackView(arrangedSubviews: [titleLabel, resultLabel])
             stackView.backgroundColor = .darkGray
-            stackView.spacing = 5
+            stackView.distribution = .fillProportionally
             return stackView
         }()
 
