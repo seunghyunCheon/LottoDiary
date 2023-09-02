@@ -19,12 +19,21 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         return chart
     }()
 
+    private let informationListCollectionView: UICollectionView = {
+        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(ChartInformationCell.self)
+        return collectionView
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.configureView()
         self.setupChartView()
         self.configureChartView()
+        self.setupInformationListCollectionView()
     }
 
     private func configureView() {
@@ -53,6 +62,17 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         self.chartView.xAxis.drawLabelsEnabled = false
         self.chartView.xAxis.drawAxisLineEnabled = false
         self.chartView.xAxis.drawGridLinesEnabled = false
+    }
+
+    private func setupInformationListCollectionView() {
+        self.view.addSubview(informationListCollectionView)
+
+        NSLayoutConstraint.activate([
+            informationListCollectionView.topAnchor.constraint(equalTo: self.chartView.bottomAnchor, constant: 30),
+            informationListCollectionView.leadingAnchor.constraint(equalTo: self.chartView.leadingAnchor),
+            informationListCollectionView.trailingAnchor.constraint(equalTo: self.chartView.trailingAnchor),
+            informationListCollectionView.heightAnchor.constraint(equalToConstant: 260)
+        ])
     }
 
 }
