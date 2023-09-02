@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct ChartInformationComponents {
+struct ChartInformationComponents: Hashable {
     let image: UIImage
     let type: ChartInformationType
     var amount: String
@@ -22,11 +22,44 @@ struct ChartInformationComponents {
         self.result = result
     }
 
-    enum ChartInformationType: String {
-        case goal = "목표 금액"
-        case buy = "구매 금액"
-        case win = "당첨 금액"
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(amount)
+        hasher.combine(result.result)
+        hasher.combine(result.percent)
     }
+
+    static func == (lhs: ChartInformationComponents, rhs: ChartInformationComponents) -> Bool {
+        return lhs.amount == rhs.amount && lhs.result.result == rhs.result.result && lhs.result.percent == rhs.result.percent
+    }
+
+    static let mock: [ChartInformationComponents] = {
+        return [
+            ChartInformationComponents(
+                image: .actions,
+                type: .goal,
+                amount: 3000,
+                result: (true, nil)),
+            ChartInformationComponents(
+                image: .checkmark,
+                type: .buy,
+                amount: 1000,
+                result: (false, nil)),
+            ChartInformationComponents(
+                image: .remove,
+                type: .win,
+                amount: 6000,
+                result: (true, 200))
+        ]
+    }()
+}
+enum ChartInformationType: String {
+    case goal = "목표 금액"
+    case buy = "구매 금액"
+    case win = "당첨 금액"
+}
+
+enum ChartInformationSection {
+    case main
 }
 
 final class ChartInformationCell: UICollectionViewCell {
