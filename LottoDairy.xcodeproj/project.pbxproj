@@ -50,6 +50,8 @@
 		805EA6C32A9B1E8D00A3545C /* ChartFlowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6C22A9B1E8D00A3545C /* ChartFlowProtocol.swift */; };
 		805EA6C52A9B1EB400A3545C /* ChartModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6C42A9B1EB400A3545C /* ChartModuleFactory.swift */; };
 		805EA6C82AA2492900A3545C /* ChartInformationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6C72AA2492800A3545C /* ChartInformationCell.swift */; };
+		805EA6CE2AA3908500A3545C /* UICollectionView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6CD2AA3908500A3545C /* UICollectionView+Extensions.swift */; };
+		805EA6D02AA390E500A3545C /* UICollectionViewCell+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6CF2AA390E500A3545C /* UICollectionViewCell+Extensions.swift */; };
 		805FA7072A6D834A00089070 /* LottoQRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805FA7062A6D834A00089070 /* LottoQRViewController.swift */; };
 		805FA7092A6D84DC00089070 /* LottoQRModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805FA7082A6D84DC00089070 /* LottoQRModuleFactory.swift */; };
 		805FA70B2A6D853400089070 /* LottoQRFlowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805FA70A2A6D853400089070 /* LottoQRFlowProtocol.swift */; };
@@ -67,11 +69,11 @@
 		80773A762A55BA1C0020F1DD /* ModuleFactoryImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80773A752A55BA1C0020F1DD /* ModuleFactoryImp.swift */; };
 		8080DDBB2A604A0500364CF1 /* TabBarComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8080DDBA2A604A0500364CF1 /* TabBarComponents.swift */; };
 		8080DDBE2A60540B00364CF1 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8080DDBD2A60540B00364CF1 /* TabBarView.swift */; };
-		9EDC90105EAB722617E1A0A8 /* Pods_LottoDairy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 743FFCCB1BCBCC9F40A77270 /* Pods_LottoDairy.framework */; };
 		80EB03322A72336400455E05 /* GmarketSansLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB03312A72336400455E05 /* GmarketSansLabel.swift */; };
 		80EB03342A72370E00455E05 /* UIStackView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB03332A72370E00455E05 /* UIStackView+Extensions.swift */; };
 		80EB033C2A72CB8000455E05 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB033B2A72CB8000455E05 /* UIView+Extensions.swift */; };
 		80EB033E2A72CF9A00455E05 /* DoubleLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB033D2A72CF9A00455E05 /* DoubleLabelView.swift */; };
+		9EDC90105EAB722617E1A0A8 /* Pods_LottoDairy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 743FFCCB1BCBCC9F40A77270 /* Pods_LottoDairy.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -121,6 +123,8 @@
 		805EA6C22A9B1E8D00A3545C /* ChartFlowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartFlowProtocol.swift; sourceTree = "<group>"; };
 		805EA6C42A9B1EB400A3545C /* ChartModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartModuleFactory.swift; sourceTree = "<group>"; };
 		805EA6C72AA2492800A3545C /* ChartInformationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartInformationCell.swift; sourceTree = "<group>"; };
+		805EA6CD2AA3908500A3545C /* UICollectionView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extensions.swift"; sourceTree = "<group>"; };
+		805EA6CF2AA390E500A3545C /* UICollectionViewCell+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+Extensions.swift"; sourceTree = "<group>"; };
 		805FA7062A6D834A00089070 /* LottoQRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoQRViewController.swift; sourceTree = "<group>"; };
 		805FA7082A6D84DC00089070 /* LottoQRModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoQRModuleFactory.swift; sourceTree = "<group>"; };
 		805FA70A2A6D853400089070 /* LottoQRFlowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoQRFlowProtocol.swift; sourceTree = "<group>"; };
@@ -138,12 +142,12 @@
 		80773A752A55BA1C0020F1DD /* ModuleFactoryImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleFactoryImp.swift; sourceTree = "<group>"; };
 		8080DDBA2A604A0500364CF1 /* TabBarComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarComponents.swift; sourceTree = "<group>"; };
 		8080DDBD2A60540B00364CF1 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
-		86B7A71B2EC870B83389E647 /* Pods-LottoDairy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LottoDairy.release.xcconfig"; path = "Target Support Files/Pods-LottoDairy/Pods-LottoDairy.release.xcconfig"; sourceTree = "<group>"; };
-		AA12F166C0508FF1EA22EED1 /* Pods-LottoDairy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LottoDairy.debug.xcconfig"; path = "Target Support Files/Pods-LottoDairy/Pods-LottoDairy.debug.xcconfig"; sourceTree = "<group>"; };
 		80EB03312A72336400455E05 /* GmarketSansLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GmarketSansLabel.swift; sourceTree = "<group>"; };
 		80EB03332A72370E00455E05 /* UIStackView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extensions.swift"; sourceTree = "<group>"; };
 		80EB033B2A72CB8000455E05 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		80EB033D2A72CF9A00455E05 /* DoubleLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleLabelView.swift; sourceTree = "<group>"; };
+		86B7A71B2EC870B83389E647 /* Pods-LottoDairy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LottoDairy.release.xcconfig"; path = "Target Support Files/Pods-LottoDairy/Pods-LottoDairy.release.xcconfig"; sourceTree = "<group>"; };
+		AA12F166C0508FF1EA22EED1 /* Pods-LottoDairy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LottoDairy.debug.xcconfig"; path = "Target Support Files/Pods-LottoDairy/Pods-LottoDairy.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -280,6 +284,8 @@
 				624BB0E82A67EED2002A3109 /* String+Extensions.swift */,
 				624BB0EC2A67F73B002A3109 /* Int+Extensions.swift */,
 				8060B4202A62DC2C00726C83 /* UIButton+Extensions.swift */,
+				805EA6CD2AA3908500A3545C /* UICollectionView+Extensions.swift */,
+				805EA6CF2AA390E500A3545C /* UICollectionViewCell+Extensions.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -456,6 +462,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		80EB032A2A7132C000455E05 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				80EB033D2A72CF9A00455E05 /* DoubleLabelView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		978AB7E30994FC38B44D6532 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -471,14 +485,6 @@
 				743FFCCB1BCBCC9F40A77270 /* Pods_LottoDairy.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		80EB032A2A7132C000455E05 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				80EB033D2A72CF9A00455E05 /* DoubleLabelView.swift */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -599,6 +605,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				805EA6D02AA390E500A3545C /* UICollectionViewCell+Extensions.swift in Sources */,
 				80773A742A55B99E0020F1DD /* HomeModuleFactory.swift in Sources */,
 				8080DDBE2A60540B00364CF1 /* TabBarView.swift in Sources */,
 				621503302A559BB200431BBB /* CoordinatorFactoryImp.swift in Sources */,
@@ -629,6 +636,7 @@
 				80EB033E2A72CF9A00455E05 /* DoubleLabelView.swift in Sources */,
 				621503232A4E7CAE00431BBB /* Router.swift in Sources */,
 				805EA6C32A9B1E8D00A3545C /* ChartFlowProtocol.swift in Sources */,
+				805EA6CE2AA3908500A3545C /* UICollectionView+Extensions.swift in Sources */,
 				624BB0ED2A67F73B002A3109 /* Int+Extensions.swift in Sources */,
 				621503582A5E8E2300431BBB /* UIControl+Extensions.swift in Sources */,
 				629C1F532A4ABD0F00540FA4 /* AppDelegate.swift in Sources */,
