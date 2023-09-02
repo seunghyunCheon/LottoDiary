@@ -19,13 +19,15 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         return chart
     }()
 
-    private let informationListCollectionView: UICollectionView = {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+    private lazy var informationListCollectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: makeInformationListCollectionViewLayout())
         collectionView.register(ChartInformationCell.self)
+        collectionView.isScrollEnabled = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
+
+    private var dataSource: UICollectionViewDiffableDataSource<ChartInformationSection, ChartInformationComponents>?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +35,10 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         self.configureView()
         self.setupChartView()
         self.configureChartView()
+
         self.setupInformationListCollectionView()
+        self.configureInformationListCollectionViewDataSource()
+        self.updateInformationListCollectionViewSnapshot()
     }
 
     private func configureView() {
@@ -71,8 +76,43 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
             informationListCollectionView.topAnchor.constraint(equalTo: self.chartView.bottomAnchor, constant: 30),
             informationListCollectionView.leadingAnchor.constraint(equalTo: self.chartView.leadingAnchor),
             informationListCollectionView.trailingAnchor.constraint(equalTo: self.chartView.trailingAnchor),
-            informationListCollectionView.heightAnchor.constraint(equalToConstant: 260)
+            informationListCollectionView.heightAnchor.constraint(equalToConstant: 200)
         ])
+    }
+
+    private func configureInformationListCollectionViewDataSource() {
+        dataSource = UICollectionViewDiffableDataSource<ChartInformationSection, ChartInformationComponents>(collectionView: informationListCollectionView) { collectionView, indexPath, itemIdentifier in
+
+            let cell: ChartInformationCell = collectionView.dequeue(for: indexPath)
+            cell.configure(with: itemIdentifier)
+            return cell
+        }
+        self.informationListCollectionView.dataSource = dataSource
+    }
+
+    private func updateInformationListCollectionViewSnapshot() {
+        var snapshot = NSDiffableDataSourceSnapshot<ChartInformationSection, ChartInformationComponents>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(ChartInformationComponents.mock)
+        dataSource?.apply(snapshot)
+    }
+
+    private func makeInformationListCollectionViewLayout() -> UICollectionViewCompositionalLayout {
+        let layout = UICollectionViewCompositionalLayout { (sectionNum, env) -> NSCollectionLayoutSection? in
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                      heightDimension: .fractionalHeight(1.0))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                       heightDimension: .fractionalHeight(1.0))
+                let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitem: item, count: 3)
+                group.interItemSpacing = .fixed(20)
+
+                let section = NSCollectionLayoutSection(group: group)
+                section.interGroupSpacing = 20
+                return section
+        }
+        return layout
     }
 
 }
