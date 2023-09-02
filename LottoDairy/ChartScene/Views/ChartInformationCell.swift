@@ -13,9 +13,9 @@ struct ChartInformationComponents: Hashable {
     var amount: String
     // 1, 2 : (달성 여부, nil)
     // 3 : (+/-, 금액)
-    var result: (result: Bool, percent: Int?)
+    var result: (result: Bool, percent: Int?)?
 
-    init(image: UIImage, type: ChartInformationType, amount: Int, result: (result: Bool, percent: Int?)) {
+    init(image: UIImage, type: ChartInformationType, amount: Int, result: (result: Bool, percent: Int?)? = nil) {
         self.image = image
         self.type = type
         self.amount = amount.convertToDecimal()
@@ -24,12 +24,12 @@ struct ChartInformationComponents: Hashable {
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(amount)
-        hasher.combine(result.result)
-        hasher.combine(result.percent)
+        hasher.combine(result?.result)
+        hasher.combine(result?.percent)
     }
 
     static func == (lhs: ChartInformationComponents, rhs: ChartInformationComponents) -> Bool {
-        return lhs.amount == rhs.amount && lhs.result.result == rhs.result.result && lhs.result.percent == rhs.result.percent
+        return lhs.amount == rhs.amount && lhs.result?.result == rhs.result?.result && lhs.result?.percent == rhs.result?.percent
     }
 
     static let mock: [ChartInformationComponents] = {
@@ -38,17 +38,19 @@ struct ChartInformationComponents: Hashable {
                 image: .actions,
                 type: .goal,
                 amount: 3000,
-                result: (true, nil)),
+                result: (true, nil)
+            ),
             ChartInformationComponents(
                 image: .checkmark,
                 type: .buy,
-                amount: 1000,
-                result: (false, nil)),
+                amount: 1000
+            ),
             ChartInformationComponents(
                 image: .remove,
                 type: .win,
                 amount: 6000,
-                result: (true, 200))
+                result: (true, 200)
+            )
         ]
     }()
 }
