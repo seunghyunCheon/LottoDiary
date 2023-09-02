@@ -76,7 +76,7 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
             informationListCollectionView.topAnchor.constraint(equalTo: self.chartView.bottomAnchor, constant: 30),
             informationListCollectionView.leadingAnchor.constraint(equalTo: self.chartView.leadingAnchor),
             informationListCollectionView.trailingAnchor.constraint(equalTo: self.chartView.trailingAnchor),
-            informationListCollectionView.heightAnchor.constraint(equalToConstant: 200)
+            informationListCollectionView.heightAnchor.constraint(equalToConstant: 210)
         ])
     }
 
@@ -106,10 +106,10 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
                 let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                        heightDimension: .fractionalHeight(1.0))
                 let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitem: item, count: 3)
-                group.interItemSpacing = .fixed(20)
+                group.interItemSpacing = .fixed(25)
 
                 let section = NSCollectionLayoutSection(group: group)
-                section.interGroupSpacing = 20
+//                section.interGroupSpacing = 20
                 return section
         }
         return layout
