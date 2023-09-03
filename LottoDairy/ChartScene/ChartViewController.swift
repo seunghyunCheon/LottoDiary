@@ -19,7 +19,7 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         return chart
     }()
 
-    private lazy var informationListCollectionView: UICollectionView = {
+    private lazy var informationCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: makeInformationListCollectionViewLayout())
         collectionView.register(ChartInformationCell.self)
         collectionView.isScrollEnabled = false
@@ -36,9 +36,9 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         self.setupChartView()
         self.configureChartView()
 
-        self.setupInformationListCollectionView()
-        self.configureInformationListCollectionViewDataSource()
-        self.updateInformationListCollectionViewSnapshot()
+        self.setupInformationCollectionView()
+        self.configureInformationCollectionViewDataSource()
+        self.updateInformationCollectionViewSnapshot()
     }
 
     private func configureView() {
@@ -69,28 +69,28 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         self.chartView.xAxis.drawGridLinesEnabled = false
     }
 
-    private func setupInformationListCollectionView() {
-        self.view.addSubview(informationListCollectionView)
+    private func setupInformationCollectionView() {
+        self.view.addSubview(informationCollectionView)
 
         NSLayoutConstraint.activate([
-            informationListCollectionView.topAnchor.constraint(equalTo: self.chartView.bottomAnchor, constant: 30),
-            informationListCollectionView.leadingAnchor.constraint(equalTo: self.chartView.leadingAnchor),
-            informationListCollectionView.trailingAnchor.constraint(equalTo: self.chartView.trailingAnchor),
-            informationListCollectionView.heightAnchor.constraint(equalToConstant: 210)
+            informationCollectionView.topAnchor.constraint(equalTo: self.chartView.bottomAnchor, constant: 30),
+            informationCollectionView.leadingAnchor.constraint(equalTo: self.chartView.leadingAnchor),
+            informationCollectionView.trailingAnchor.constraint(equalTo: self.chartView.trailingAnchor),
+            informationCollectionView.heightAnchor.constraint(equalToConstant: 210)
         ])
     }
 
-    private func configureInformationListCollectionViewDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<ChartInformationSection, ChartInformationComponents>(collectionView: informationListCollectionView) { collectionView, indexPath, itemIdentifier in
+    private func configureInformationCollectionViewDataSource() {
+        dataSource = UICollectionViewDiffableDataSource<ChartInformationSection, ChartInformationComponents>(collectionView: informationCollectionView) { collectionView, indexPath, itemIdentifier in
 
             let cell: ChartInformationCell = collectionView.dequeue(for: indexPath)
             cell.configure(with: itemIdentifier)
             return cell
         }
-        self.informationListCollectionView.dataSource = dataSource
+        self.informationCollectionView.dataSource = dataSource
     }
 
-    private func updateInformationListCollectionViewSnapshot() {
+    private func updateInformationCollectionViewSnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<ChartInformationSection, ChartInformationComponents>()
         snapshot.appendSections([.main])
         snapshot.appendItems(ChartInformationComponents.mock)
