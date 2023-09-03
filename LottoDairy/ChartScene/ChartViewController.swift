@@ -7,6 +7,7 @@
 
 import UIKit
 import DGCharts
+import Combine
 
 final class ChartViewController: UIViewController, ChartFlowProtocol {
 
@@ -21,9 +22,6 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
 
     private let dateHeaderView: LottoDiaryTextField = {
         let textField = LottoDiaryTextField()
-        textField.text = "hi"
-        textField.font = .gmarketSans(size: .title3, weight: .bold)
-        textField.backgroundColor = .white
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -46,6 +44,7 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
     private var dataSource: UICollectionViewDiffableDataSource<ChartInformationSection, ChartInformationComponents>?
 
     private let viewModel: ChartViewModel
+    private var cancellables = Set<AnyCancellable>()
 
     init(viewModel: ChartViewModel) {
         self.viewModel = viewModel
@@ -68,6 +67,9 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         self.updateInformationCollectionViewSnapshot()
 
         self.configureDateHeaderView()
+        self.configureDatePicker()
+
+        self.bindViewModel()
     }
 
     private func configureView() {
@@ -165,17 +167,46 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
 
     @objc
     private func doneButtonTapped() {
+        let a = datePicker.selectedRow(inComponent: 0)
+        let b = datePicker.selectedRow(inComponent: 1)
+
+        self.dateHeaderView.yearMonthPickerPublisher
+            .send([a, b])
+        self.dateHeaderView.configureAttributedStringOfYearMonthText(year: years[a], month: months[b])
         dateHeaderView.resignFirstResponder()
     }
 
+    private func configureDatePicker() {
+        let year = Calendar.current.component(.year, from: Date())
+        let yearIndex = self.years.firstIndex(of: year) ?? 0
+        datePicker.selectRow(yearIndex, inComponent: 0, animated: true)
+        let month = Calendar.current.component(.month, from: Date())
+        let monthIndex = self.months.firstIndex(of: month) ?? 0
+        datePicker.selectRow(monthIndex, inComponent: 1, animated: true)
+    }
+
+    private func bindViewModel() {
+        let input = ChartViewModel.Input(
+            viewDidLoadEvent: Just(()),
+            dateHeaderTextFieldDidEditEvent: dateHeaderView.yearMonthPickerPublisher
+        )
+
+        let output = viewModel.transform(from: input)
+
+        output.dateHeaderFieldText
+            .sink { [weak self] date in
+                self?.dateHeaderView.configureAttributedStringOfYearMonthText(year: date[0], month: date[1])
+            }
+            .store(in: &cancellables)
+    }
 }
 
 extension ChartViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     // 임시
-    var year: [Int] {
+    var years: [Int] {
         return [2023, 2022, 2021]
     }
-    var month: [Int] {
+    var months: [Int] {
         return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     }
 
@@ -185,11 +216,11 @@ extension ChartViewController: UIPickerViewDataSource, UIPickerViewDelegate {
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         // 제일 마지막 데이터 년도 ~ 제일 최근 데이터 연도
-        return [year, month][component].count
+        return [years, months][component].count
     }
 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return component == 0 ? "\(year[row])년" : "\(month[row])월"
+        return component == 0 ? "\(years[row])년" : "\(months[row])월"
     }
 }
 
