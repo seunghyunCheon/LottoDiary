@@ -70,7 +70,14 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        if calendarShape == .week {
+        switch calendarShape {
+        case .month:
+            let middleSectionIndex = calendarCollectionView.numberOfSections / 2
+            let width = calendarCollectionView.collectionViewLayout.collectionViewContentSize.width
+            let numberOfSections = CGFloat(calendarCollectionView.numberOfSections)
+            let middleSectionX = width / numberOfSections * CGFloat(middleSectionIndex)
+            calendarCollectionView.setContentOffset(CGPoint(x: middleSectionX, y: 0), animated: false)
+        case .week:
             let middleSectionIndex = calendarCollectionView.numberOfSections / 2
             let width = calendarCollectionView.collectionViewLayout.collectionViewContentSize.width
             let numberOfSections = CGFloat(calendarCollectionView.numberOfSections)
