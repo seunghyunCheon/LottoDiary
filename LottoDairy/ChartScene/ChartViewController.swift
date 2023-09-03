@@ -19,8 +19,8 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         return chart
     }()
 
-    private let dateHeaderView: UITextField = {
-        let textField = UITextField()
+    private let dateHeaderView: LottoDiaryTextField = {
+        let textField = LottoDiaryTextField()
         textField.text = "hi"
         textField.font = .gmarketSans(size: .title3, weight: .bold)
         textField.backgroundColor = .white

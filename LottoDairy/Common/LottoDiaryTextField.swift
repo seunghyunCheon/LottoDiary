@@ -22,6 +22,8 @@ final class LottoDiaryTextField: UITextField {
     }
     
     var pickerPublisher = PassthroughSubject<String, Never>()
+
+    var yearMonthPickerPublisher = PassthroughSubject<[Int], Never>()
     
     convenience init(placeholder: String, type: TextFieldType, align: NSTextAlignment) {
         self.init(frame: .zero)
@@ -43,6 +45,34 @@ final class LottoDiaryTextField: UITextField {
         )
         
         configureDefaultStyle()
+    }
+
+    convenience init() {
+        self.init(frame: .zero)
+        self.font = .gmarketSans(size: .title3, weight: .bold)
+        self.tintColor = .clear
+    }
+
+    func configureAttributedStringOfYearMonthText(year: Int, month: Int) {
+        configureAttributedStringOfDatePicker(year: year, month: month)
+    }
+
+    private func configureAttributedStringOfDatePicker(year: Int, month: Int) {
+        let yearString = NSMutableAttributedString(
+            string: "\(year)년",
+            attributes: [
+                .foregroundColor: UIColor.white
+            ]
+        )
+        let monthString = NSMutableAttributedString(
+            string: " \(month)월 >",
+            attributes: [
+                .foregroundColor: UIColor.designSystem(.mainBlue) ?? .systemBlue
+            ]
+        )
+        yearString.append(monthString)
+
+        self.attributedText = yearString
     }
     
     private func configureDefaultStyle() {
