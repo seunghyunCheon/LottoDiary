@@ -28,6 +28,13 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         return textField
     }()
 
+    private lazy var datePicker: UIPickerView = {
+        let picker = UIPickerView()
+        picker.dataSource = self
+        picker.delegate = self
+        return picker
+    }()
+
     private lazy var informationCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: makeInformationListCollectionViewLayout())
         collectionView.register(ChartInformationCell.self)
@@ -48,6 +55,8 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
 
         self.configureInformationCollectionViewDataSource()
         self.updateInformationCollectionViewSnapshot()
+
+        self.configureDateHeaderView()
     }
 
     private func configureView() {
@@ -66,7 +75,6 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         ])
 
         self.view.addSubview(dateHeaderView)
-        self.dateHeaderView.delegate = self
         NSLayoutConstraint.activate([
             dateHeaderView.topAnchor.constraint(equalTo: self.chartView.bottomAnchor, constant: 35),
             dateHeaderView.leadingAnchor.constraint(equalTo: self.chartView.leadingAnchor),
@@ -128,8 +136,49 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         return layout
     }
 
+    private func configureDateHeaderView() {
+        dateHeaderView.inputView = datePicker
+        configureToolbar()
+    }
+
+    private func configureToolbar() {
+        let toolBar = UIToolbar()
+
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped))
+
+        toolBar.sizeToFit()
+        toolBar.items = [flexibleSpace, doneButton]
+        dateHeaderView.inputAccessoryView = toolBar
+    }
+
+    @objc
+    private func doneButtonTapped() {
+        dateHeaderView.resignFirstResponder()
+    }
+
 }
 
-extension ChartViewController: UITextFieldDelegate {
-    
+extension ChartViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+    // 임시
+    var year: [Int] {
+        return [2023, 2022, 2021]
+    }
+    var month: [Int] {
+        return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    }
+
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 2
+    }
+
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        // 제일 마지막 데이터 년도 ~ 제일 최근 데이터 연도
+        return [year, month][component].count
+    }
+
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return component == 0 ? "\(year[row])년" : "\(month[row])월"
+    }
 }
+
