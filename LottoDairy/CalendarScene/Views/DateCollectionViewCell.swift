@@ -18,29 +18,12 @@ final class DateCollectionViewCell: UICollectionViewCell {
         )
         collectionView.register(DateCell.self)
         collectionView.dataSource = self.dataSource
+        collectionView.delegate = self
         collectionView.isScrollEnabled = false
         collectionView.backgroundColor = .designSystem(.backgroundBlack)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
-
-//    private lazy var monthlyCollectionView: UICollectionView = {
-//        let layout = UICollectionViewFlowLayout()
-//        layout.scrollDirection = .horizontal
-//        layout.minimumLineSpacing = 0
-//        layout.minimumInteritemSpacing = 0
-//
-//        let cellWidth = self.bounds.width / 7
-//        let cellHeight = self.bounds.height / 1
-//        layout.itemSize = CGSize(width: cellWidth, height: cellHeight)
-//
-//        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-//        collectionView.translatesAutoresizingMaskIntoConstraints = false
-//        collectionView.register(DateCell.self)
-//        collectionView.delegate = self
-////        collectionView.isScrollEnabled = false
-//        return collectionView
-//    }()
 
     private var days: [DayComponent]?
 
@@ -77,6 +60,7 @@ final class DateCollectionViewCell: UICollectionViewCell {
             let dateCollectionViewCell: DateCell = collectionView.dequeue(for: indexPath)
             let cellViewModel = DateCellViewModel(dayComponent: days[indexPath.row])
             dateCollectionViewCell.provide(viewModel: cellViewModel)
+            
             return dateCollectionViewCell
         }
     }
@@ -87,5 +71,12 @@ final class DateCollectionViewCell: UICollectionViewCell {
         snapshot.appendSections([0])
         snapshot.appendItems(days)
         self.dataSource?.apply(snapshot)
+    }
+}
+
+extension DateCollectionViewCell: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // 클릭하는 순간 days[indexPath.item]을 가져와 셀 색을 변경해야함.
+        print(indexPath)
     }
 }
