@@ -69,21 +69,11 @@ final class ChartInformationCell: UICollectionViewCell {
 
     var chartImformationComponents: ChartInformationComponents?
 
-//    init() {
-//        super.init(frame: .zero)
-//
-//        setupChartInformationCell()
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
+    override func updateConfiguration(using state: UICellConfigurationState) {
+        super.updateConfiguration(using: state)
 
-        override func updateConfiguration(using state: UICellConfigurationState) {
-            super.updateConfiguration(using: state)
-    
-            setupChartInformationCell()
-        }
+        setupChartInformationCell()
+    }
 
     func configure(with components: ChartInformationComponents) {
         self.chartImformationComponents = components
@@ -104,8 +94,7 @@ final class ChartInformationCell: UICollectionViewCell {
     private func makeTotalStackView() -> UIStackView {
         let imageView: UIImageView = {
             let imageView = UIImageView()
-            //            imageView.image = chartImformationComponents?.image
-            imageView.image = .checkmark
+            imageView.image = chartImformationComponents?.image
             imageView.backgroundColor = .blue
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
             return imageView
@@ -115,10 +104,7 @@ final class ChartInformationCell: UICollectionViewCell {
         let stackView: UIStackView = {
             let stackView = UIStackView(arrangedSubviews: [imageView, informationStackView])
             stackView.backgroundColor = .purple
-//            stackView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             stackView.translatesAutoresizingMaskIntoConstraints = false
-            stackView.distribution = .fill
-            stackView.alignment = .fill
             stackView.spacing = 15
             return stackView
         }()
@@ -131,8 +117,7 @@ final class ChartInformationCell: UICollectionViewCell {
 
         let amountLabel: UILabel = {
             let label = GmarketSansLabel(
-                //                text: "\(chartImformationComponents?.amount ?? "") 원",
-                text: "3,00000000000000000 원",
+                text: "\(chartImformationComponents?.amount ?? "") 원",
                 alignment: .left,
                 size: .callout,
                 weight: .bold
@@ -144,7 +129,6 @@ final class ChartInformationCell: UICollectionViewCell {
             let stackView = UIStackView(arrangedSubviews: [amountStackView, amountLabel])
             stackView.backgroundColor = .yellow
             stackView.distribution = .fillProportionally
-            //            stackView.spacing = 5
             stackView.axis = .vertical
             return stackView
         }()
@@ -215,8 +199,7 @@ final class ChartInformationCell: UICollectionViewCell {
     private func makeAmountStackView() -> UIStackView {
         let titleLabel: UILabel = {
             let label = GmarketSansLabel(
-                //                text: chartImformationComponents?.type.rawValue ?? "",
-                text: "목표 금액",
+                text: chartImformationComponents?.type.rawValue ?? "",
                 alignment: .left,
                 size: .callout,
                 weight: .bold
@@ -224,17 +207,15 @@ final class ChartInformationCell: UICollectionViewCell {
             return label
         }()
 
-        //        guard let result = chartImformationComponents?.result, let percent = result.percent else { return UIStackView() }
 
         let resultLabel: UILabel = {
             switch chartImformationComponents?.type {
             case .win:
-                //                let label = makeWinResultLabel(result: result.result, percent: percent)
-                let label = makeWinResultLabel(result: true, percent: 3000000000000000000)
+                guard let result = chartImformationComponents?.result, let percent = result.percent else { return UILabel() }
+                let label = makeWinResultLabel(result: result.result, percent: percent)
                 return label
             default:
-                //                let label = makeResultLabel(result.result)
-                let label = makeResultLabel(false)
+                let label = makeResultLabel(chartImformationComponents?.result?.result ?? true)
                 return label
             }
         }()
