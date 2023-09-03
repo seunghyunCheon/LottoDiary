@@ -19,6 +19,15 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         return chart
     }()
 
+    private let dateHeaderView: UITextField = {
+        let textField = UITextField()
+        textField.text = "hi"
+        textField.font = .gmarketSans(size: .title3, weight: .bold)
+        textField.backgroundColor = .white
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+
     private lazy var informationCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: makeInformationListCollectionViewLayout())
         collectionView.register(ChartInformationCell.self)
@@ -33,10 +42,10 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         super.viewDidLoad()
 
         self.configureView()
-        self.setupChartView()
+        self.setupView()
+
         self.configureChartView()
 
-        self.setupInformationCollectionView()
         self.configureInformationCollectionViewDataSource()
         self.updateInformationCollectionViewSnapshot()
     }
@@ -46,15 +55,30 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         self.view.backgroundColor = .designSystem(.backgroundBlack)
     }
 
-    private func setupChartView() {
+    private func setupView() {
         self.view.addSubview(chartView)
 //        chartView.delegate = self
-
         NSLayoutConstraint.activate([
-            self.chartView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            self.chartView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            self.chartView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            self.chartView.heightAnchor.constraint(equalToConstant: 280)
+            chartView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            chartView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            chartView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            chartView.heightAnchor.constraint(equalToConstant: 280)
+        ])
+
+        self.view.addSubview(dateHeaderView)
+        self.dateHeaderView.delegate = self
+        NSLayoutConstraint.activate([
+            dateHeaderView.topAnchor.constraint(equalTo: self.chartView.bottomAnchor, constant: 35),
+            dateHeaderView.leadingAnchor.constraint(equalTo: self.chartView.leadingAnchor),
+            dateHeaderView.trailingAnchor.constraint(equalTo: self.chartView.trailingAnchor)
+        ])
+
+        self.view.addSubview(informationCollectionView)
+        NSLayoutConstraint.activate([
+            informationCollectionView.topAnchor.constraint(equalTo: self.dateHeaderView.bottomAnchor, constant: 15),
+            informationCollectionView.leadingAnchor.constraint(equalTo: self.chartView.leadingAnchor),
+            informationCollectionView.trailingAnchor.constraint(equalTo: self.chartView.trailingAnchor),
+            informationCollectionView.heightAnchor.constraint(equalToConstant: 210)
         ])
     }
 
@@ -67,17 +91,6 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         self.chartView.xAxis.drawLabelsEnabled = false
         self.chartView.xAxis.drawAxisLineEnabled = false
         self.chartView.xAxis.drawGridLinesEnabled = false
-    }
-
-    private func setupInformationCollectionView() {
-        self.view.addSubview(informationCollectionView)
-
-        NSLayoutConstraint.activate([
-            informationCollectionView.topAnchor.constraint(equalTo: self.chartView.bottomAnchor, constant: 30),
-            informationCollectionView.leadingAnchor.constraint(equalTo: self.chartView.leadingAnchor),
-            informationCollectionView.trailingAnchor.constraint(equalTo: self.chartView.trailingAnchor),
-            informationCollectionView.heightAnchor.constraint(equalToConstant: 210)
-        ])
     }
 
     private func configureInformationCollectionViewDataSource() {
@@ -115,4 +128,8 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         return layout
     }
 
+}
+
+extension ChartViewController: UITextFieldDelegate {
+    
 }
