@@ -34,4 +34,15 @@ final class DefaultChartUseCase: ChartUseCase {
         }
         .eraseToAnyPublisher()
     }
+
+    // 첫 chart scene에서 dateHeaderTextField가 오늘 년/월을 보여줄 수 있도록 현재 년/월 반환하는 함수
+    func makeYearAndMonthOfToday() -> AnyPublisher<[Int], Never> {
+        return Just(())
+            .map {
+                let year = Calendar.current.component(.year, from: Date())
+                let month = Calendar.current.component(.month, from: Date())
+                return [year, month]
+            }
+            .eraseToAnyPublisher()
+    }
 }

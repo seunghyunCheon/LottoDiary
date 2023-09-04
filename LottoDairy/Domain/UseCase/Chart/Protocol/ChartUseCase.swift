@@ -9,4 +9,5 @@ import Combine
 
 protocol ChartUseCase {
     func makeRangeOfYear() -> AnyPublisher<[Int], Never>
+    func makeYearAndMonthOfToday() -> AnyPublisher<[Int], Never>
 }
