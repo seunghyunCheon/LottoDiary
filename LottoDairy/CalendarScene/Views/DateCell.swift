@@ -12,11 +12,7 @@ final class DateCell: UICollectionViewCell {
     
     override var isSelected: Bool {
         didSet {
-            if isSelected {
-                self.numberLabel.backgroundColor = .designSystem(.gray63626B)
-            } else {
-                self.viewModel?.validateCellState()
-            }
+            self.viewModel?.validateCellState(with: isSelected)
         }
     }
 
@@ -72,15 +68,17 @@ final class DateCell: UICollectionViewCell {
             }
             .store(in: &cancellables)
         
-        viewModel?.$isToday
-            .sink { [weak self] isToday in
-                self?.numberLabel.backgroundColor = isToday ? .designSystem(.mainBlue) : .clear
+        viewModel?.$cellState
+            .sink { [weak self] state in
+                switch state {
+                case .none:
+                    self?.numberLabel.backgroundColor = .clear
+                case .selected:
+                    self?.numberLabel.backgroundColor = .designSystem(.gray63626B)
+                case .today:
+                    self?.numberLabel.backgroundColor = .designSystem(.mainBlue)
+                }
             }
             .store(in: &cancellables)
-    }
-    
-    override func prepareForReuse() {
-        self.numberLabel.text = ""
-        self.numberLabel.backgroundColor = .clear
     }
 }

@@ -8,40 +8,18 @@
 import Combine
 import Foundation
 
-extension Date {
-
-    /**
-     # dateCompare
-     - Parameters:
-        - fromDate: 비교 대상 Date
-     - Note: 두 날짜간 비교해서 과거(Future)/현재(Same)/미래(Past) 반환
-    */
-    public func dateCompare(fromDate: Date) -> String {
-        var strDateMessage:String = ""
-        let result:ComparisonResult = self.compare(fromDate)
-        switch result {
-        case .orderedAscending:
-            strDateMessage = "Future"
-            break
-        case .orderedDescending:
-            strDateMessage = "Past"
-            break
-        case .orderedSame:
-            strDateMessage = "Same"
-            break
-        default:
-            strDateMessage = "Error"
-            break
-        }
-        return strDateMessage
-    }
+enum DateCellState {
+    case none
+    case today
+    case selected
 }
+
 
 final class DateCellViewModel {
     
     @Published var dateNumber: String
     @Published var isIncludeInMonth: Bool
-    @Published var isToday: Bool = false
+    @Published var cellState: DateCellState = .none
     
     var date: Date
     
@@ -49,11 +27,20 @@ final class DateCellViewModel {
         self.dateNumber = dayComponent.number
         self.isIncludeInMonth = dayComponent.isIncludeInMonth
         self.date = dayComponent.date
-        self.isToday = self.checkTodayDate(with: dayComponent.date)
+        validateCellState(with: false)
     }
     
-    func validateCellState() {
-        self.isToday = self.checkTodayDate(with: date)
+    func validateCellState(with isSelected: Bool) {
+        if checkTodayDate(with: date) {
+            cellState = .today
+            return
+        }
+        
+        if isSelected {
+            cellState = .selected
+        } else {
+            cellState = .none
+        }
     }
     
     private func checkTodayDate(with date: Date) -> Bool {

@@ -72,6 +72,24 @@ final class DateCollectionViewCell: UICollectionViewCell {
         snapshot.appendItems(days)
         self.dataSource?.apply(snapshot)
     }
+    
+    override func prepareForReuse() {
+        print(self.monthlyCollectionView.indexPathsForSelectedItems)
+//        if let selectedItemsIndexPath = self.monthlyCollectionView.indexPathsForSelectedItems {
+//            for indexPath in selectedItemsIndexPath {
+//                self.monthlyCollectionView.deselectItem(at: indexPath, animated: false)
+//            }
+//        }
+        
+//        if let selectedItemsIndexPaths = collectionView.indexPathsForSelectedItems {
+//            for indexPath in selectedItemsIndexPaths {
+//                // 선택된 아이템의 indexPath를 사용하여 해당 아이템을 가져올 수 있습니다.
+//                let selectedItem = yourDataSourceArray[indexPath.item]
+//
+//                // 이제 selectedItem을 사용하여 원하는 작업을 수행하세요.
+//            }
+//        }
+    }
 }
 
 extension DateCollectionViewCell: UICollectionViewDelegate {
@@ -79,4 +97,5 @@ extension DateCollectionViewCell: UICollectionViewDelegate {
         // 클릭하는 순간 days[indexPath.item]을 가져와 셀 색을 변경해야함.
         print(indexPath)
     }
+    
 }
