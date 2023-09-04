@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol CellBaseDateChangeDelegate: AnyObject {
+    func changeBaseDate(with: Date)
+}
+
 final class DateCollectionViewCell: UICollectionViewCell {
 
     lazy var monthlyCollectionView: UICollectionView = {
@@ -26,6 +30,7 @@ final class DateCollectionViewCell: UICollectionViewCell {
     }()
 
     private var days: [DayComponent]?
+    weak var delegate: CellBaseDateChangeDelegate?
 
     private var dataSource: UICollectionViewDiffableDataSource<Int, DayComponent>?
 
@@ -71,5 +76,15 @@ final class DateCollectionViewCell: UICollectionViewCell {
         snapshot.appendSections([0])
         snapshot.appendItems(days)
         self.dataSource?.apply(snapshot)
+    }
+}
+
+extension DateCollectionViewCell: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let days = self.days else {
+            return
+        }
+        
+        self.delegate?.changeBaseDate(with: days[indexPath.row].date)
     }
 }

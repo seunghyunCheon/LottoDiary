@@ -117,6 +117,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         ) { collectionView, indexPath, item in
             let dateCollectionViewCell: DateCollectionViewCell = collectionView.dequeue(for: indexPath)
             dateCollectionViewCell.configure(with: item)
+            dateCollectionViewCell.delegate = self
             return dateCollectionViewCell
         }
     }
@@ -276,6 +277,12 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
                 dateCollectionViewCell.monthlyCollectionView.deselectItem(at: indexPath, animated: false)
             }
         }
+    }
+}
+
+extension CalendarViewController: CellBaseDateChangeDelegate {
+    func changeBaseDate(with date: Date) {
+        print(date)
     }
 }
 
