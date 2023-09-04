@@ -266,6 +266,17 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
             break
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let dateCollectionViewCell = cell as? DateCollectionViewCell else {
+            return
+        }
+        if let selectedItems = dateCollectionViewCell.monthlyCollectionView.indexPathsForSelectedItems {
+            for indexPath in selectedItems {
+                dateCollectionViewCell.monthlyCollectionView.deselectItem(at: indexPath, animated: false)
+            }
+        }
+    }
 }
 
 extension CalendarViewController: CalendarHeaderViewDelegate {

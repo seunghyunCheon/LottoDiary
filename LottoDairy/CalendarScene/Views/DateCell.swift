@@ -23,6 +23,7 @@ final class DateCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.clipsToBounds = true
         label.layer.cornerRadius = 15
+        label.backgroundColor = .clear
         return label
     }()
     
@@ -80,5 +81,10 @@ final class DateCell: UICollectionViewCell {
                 }
             }
             .store(in: &cancellables)
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.viewModel?.validateCellState(with: false)
     }
 }
