@@ -18,7 +18,7 @@ final class DateCollectionViewCell: UICollectionViewCell {
 
         let collectionView = UICollectionView(
             frame: .zero,
-            collectionViewLayout: monthlyCollectionViewLayout.createLayout()
+            collectionViewLayout: monthlyCollectionViewLayout.createLayout(type: .month)
         )
         collectionView.register(DateCell.self)
         collectionView.dataSource = self.dataSource
@@ -31,6 +31,7 @@ final class DateCollectionViewCell: UICollectionViewCell {
 
     private var days: [DayComponent]?
     weak var delegate: CellBaseDateChangeDelegate?
+    private var scope: CalendarShape = .month
 
     private var dataSource: UICollectionViewDiffableDataSource<Int, DayComponent>?
 
@@ -43,8 +44,9 @@ final class DateCollectionViewCell: UICollectionViewCell {
     }
 
     
-    func configure(with dayComponent: [DayComponent]) {
+    func configure(with dayComponent: [DayComponent], scope: CalendarShape) {
         self.days = dayComponent
+        self.scope = scope
     }
 
     private func setupDateCollectionViewCell() {
@@ -76,6 +78,9 @@ final class DateCollectionViewCell: UICollectionViewCell {
         snapshot.appendSections([0])
         snapshot.appendItems(days)
         self.dataSource?.apply(snapshot)
+        
+        let layout = MonthlyCollectionViewLayout().createLayout(type: self.scope)
+        monthlyCollectionView.setCollectionViewLayout(layout, animated: false)
     }
 }
 

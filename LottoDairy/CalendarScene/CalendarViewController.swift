@@ -46,6 +46,8 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     
     private var calendarAction: CalendarAction = .none
 
+    private var calendarHeightConstraint: NSLayoutConstraint!
+    
     init(viewModel: CalendarViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -104,12 +106,14 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     private func setupCalendarView() {
         self.view.addSubview(calendarCollectionView)
         
+        calendarHeightConstraint = calendarCollectionView.heightAnchor.constraint(equalToConstant: 300)
+        
         let safe = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             calendarCollectionView.leadingAnchor.constraint(equalTo: safe.leadingAnchor),
             calendarCollectionView.trailingAnchor.constraint(equalTo: safe.trailingAnchor),
             calendarCollectionView.topAnchor.constraint(equalTo: calendarHeaderView.bottomAnchor),
-            calendarCollectionView.heightAnchor.constraint(equalToConstant: 250),
+            calendarHeightConstraint
         ])
     }
 
@@ -118,7 +122,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
             collectionView: self.calendarCollectionView
         ) { collectionView, indexPath, item in
             let dateCollectionViewCell: DateCollectionViewCell = collectionView.dequeue(for: indexPath)
-            dateCollectionViewCell.configure(with: item)
+            dateCollectionViewCell.configure(with: item, scope: self.calendarShape)
             dateCollectionViewCell.delegate = self
             return dateCollectionViewCell
         }
@@ -208,7 +212,8 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
     ) -> CGSize {
         let cellWidth = collectionView.bounds.width
         // 임시 사이즈 설정
-        return CGSize(width: cellWidth, height: 250)
+        let cellHeight = (calendarShape == .month) ? 300 : 50
+        return CGSize(width: cellWidth, height: CGFloat(cellHeight))
     }
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -298,10 +303,15 @@ extension CalendarViewController: CalendarHeaderViewDelegate {
     func scopeSwitchButtonTapped() {
         if self.calendarShape == .month {
             self.calendarShape = .week
+            self.calendarHeightConstraint.constant = 50
         } else {
             self.calendarShape = .month
+            self.calendarHeightConstraint.constant = 300
         }
+        
+        calendarCollectionView.reloadData()
         updateSnapshot()
+        
     }
 }
 
