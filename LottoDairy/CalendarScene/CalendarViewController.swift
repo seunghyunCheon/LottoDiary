@@ -43,6 +43,8 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     private let viewModel: CalendarViewModel
     
     private var cancellables = Set<AnyCancellable>()
+    
+    private var calendarAction: CalendarAction = .none
 
     init(viewModel: CalendarViewModel) {
         self.viewModel = viewModel
@@ -163,6 +165,11 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     private func bindViewModel() {
         viewModel.baseDate
             .sink { date in
+                if self.calendarAction == .select {
+                    self.calendarAction = .none
+                    return
+                }
+                
                 self.updateYearAndMonth(with: date)
                 self.updateSnapshot()
             }
@@ -282,7 +289,8 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
 
 extension CalendarViewController: CellBaseDateChangeDelegate {
     func changeBaseDate(with date: Date) {
-        print(date)
+        self.calendarAction = .select
+        self.viewModel.baseDate.send((date))
     }
 }
 
@@ -300,4 +308,9 @@ extension CalendarViewController: CalendarHeaderViewDelegate {
 enum CalendarShape {
     case month
     case week
+}
+
+enum CalendarAction {
+    case select
+    case none
 }
