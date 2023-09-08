@@ -45,7 +45,7 @@ final class ChartViewModel {
     func getMonths() -> [Int] {
         return months
     }
-    
+
     private func configureInput(_ input: Input) {
         input.dateHeaderTextFieldDidEditEvent
             .sink { [weak self] date in
@@ -141,16 +141,16 @@ struct ChartInformationComponents: Hashable {
         return [
             ChartInformationComponents(
                 type: .goal,
-                amount: 3000,
+                amount: (1...30000).randomElement()!,
                 result: (true, nil)
             ),
             ChartInformationComponents(
                 type: .buy,
-                amount: 1000
+                amount: (1000...50000).randomElement()!
             ),
             ChartInformationComponents(
                 type: .win,
-                amount: 6000,
+                amount: (1000...200000).randomElement()!,
                 result: (true, 200)
             )
         ]

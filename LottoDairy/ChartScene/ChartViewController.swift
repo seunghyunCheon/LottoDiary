@@ -86,7 +86,7 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
 
     private func setupView() {
         self.view.addSubview(chartView)
-//        chartView.delegate = self
+        chartView.delegate = self
         NSLayoutConstraint.activate([
             chartView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             chartView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
@@ -228,3 +228,12 @@ extension ChartViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     }
 }
 
+extension ChartViewController: ChartViewDelegate {
+
+    func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+
+        let selectedYear = datePicker.selectedRow(inComponent: 0)
+        let selectedMonth = Int(entry.x)
+//        self.dateHeaderView.yearMonthPickerPublisher.send([selectedYear, selectedMonth])
+    }
+}
