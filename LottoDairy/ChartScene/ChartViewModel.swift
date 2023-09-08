@@ -15,6 +15,8 @@ final class ChartViewModel {
 
     struct Input {
         let dateHeaderTextFieldDidEditEvent: PassthroughSubject<[Int], Never>
+        var selectedYear = CurrentValueSubject<Int, Never>(0)
+        var selectedMonth = CurrentValueSubject<Int, Never>(0)
     }
 
     struct Output {
@@ -26,8 +28,6 @@ final class ChartViewModel {
 
     private var years = [Int]()
     private let months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-    private var selectedYearIndex: Int = 0
-    private var selectedMonthIndex: Int = 0
 
     init(chartUseCase: ChartUseCase) {
         self.chartUseCase = chartUseCase
@@ -49,8 +49,15 @@ final class ChartViewModel {
     private func configureInput(_ input: Input) {
         input.dateHeaderTextFieldDidEditEvent
             .sink { [weak self] date in
-                self?.selectedYearIndex = date[0]
-                self?.selectedMonthIndex = date[1]
+                let yearIndex = date[0], monthIndex = date[1]
+                let year = self?.years[yearIndex] ?? 0
+                let month = self?.months[monthIndex] ?? 0
+
+                if input.selectedYear.value != year {
+                    input.selectedYear.send(year)
+                } else if input.selectedMonth.value != month {
+                    input.selectedMonth.send(month)
+                }
             }
             .store(in: &cancellables)
     }
@@ -66,17 +73,22 @@ final class ChartViewModel {
 
         self.chartUseCase.makeYearAndMonthOfToday()
             .sink { date in
-                output.dateHeaderFieldText.send(date)
+                input.selectedYear.send(date[0])
+                input.selectedMonth.send(date[1])
+            }
+            .store(in: &cancellables)
 
-                let chartData = self.chartUseCase.makeBarChartData(year: date[0])
+        input.selectedYear
+            .sink { year in
+                output.dateHeaderFieldText.send([year, input.selectedMonth.value])
+                let chartData = self.chartUseCase.makeBarChartData(year: year)
                 output.chartView.send(chartData)
             }
             .store(in: &cancellables)
 
-        input.dateHeaderTextFieldDidEditEvent
-            .sink { [weak self] selectedDate in
-                let chartData = self?.chartUseCase.makeBarChartData(year: selectedDate[0])
-                output.chartView.send(chartData)
+        input.selectedMonth
+            .sink { month in
+                output.dateHeaderFieldText.send([input.selectedYear.value, month])
             }
             .store(in: &cancellables)
 
