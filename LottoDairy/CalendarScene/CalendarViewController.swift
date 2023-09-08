@@ -37,7 +37,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
 
     private var scrollDirection: ScrollDirection = .none
 
-    private var calendarShape: CalendarShape = .month
+    private var calendarShape: ScopeType = .month
 
     private let viewModel: CalendarViewModel
     
@@ -301,13 +301,12 @@ extension CalendarViewController: CellBaseDateChangeDelegate {
 }
 
 extension CalendarViewController: CalendarHeaderViewDelegate {
-    func scopeSwitchButtonTapped() {
+    func scopeSwitchButtonTapped(with scopeType: ScopeType) {
+        self.calendarShape = scopeType
         if self.calendarShape == .month {
-            self.calendarShape = .week
-            self.calendarHeightConstraint.constant = 50
-        } else {
-            self.calendarShape = .month
             self.calendarHeightConstraint.constant = 300
+        } else {
+            self.calendarHeightConstraint.constant = 50
         }
         
         calendarCollectionView.reloadData()
@@ -316,7 +315,7 @@ extension CalendarViewController: CalendarHeaderViewDelegate {
     }
 }
 
-enum CalendarShape {
+enum ScopeType {
     case month
     case week
 }

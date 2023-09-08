@@ -9,7 +9,7 @@ import UIKit
 
 struct MonthlyCollectionViewLayout {
 
-    func createLayout(type: CalendarShape) -> UICollectionViewCompositionalLayout {
+    func createLayout(type: ScopeType) -> UICollectionViewCompositionalLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionNum, env) -> NSCollectionLayoutSection? in
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0 / 7),
                                                   heightDimension: .fractionalHeight(1.0))

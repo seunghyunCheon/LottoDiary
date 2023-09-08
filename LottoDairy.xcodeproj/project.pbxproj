@@ -30,6 +30,7 @@
 		624628952A8F3DFE00ADE103 /* CalendarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624628942A8F3DFE00ADE103 /* CalendarHeaderView.swift */; };
 		624628992A8F772400ADE103 /* YearAndMonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624628982A8F772400ADE103 /* YearAndMonthView.swift */; };
 		6246289B2A90B25A00ADE103 /* WeeklyCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6246289A2A90B25A00ADE103 /* WeeklyCollectionViewLayout.swift */; };
+		624628DC2AAB2E9E00ADE103 /* ScopeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624628DB2AAB2E9E00ADE103 /* ScopeButton.swift */; };
 		624BB0CD2A652EC8002A3109 /* GoalSettingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0CC2A652EC8002A3109 /* GoalSettingCoordinator.swift */; };
 		624BB0CF2A652FB9002A3109 /* GoalSettingModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0CE2A652FB9002A3109 /* GoalSettingModuleFactory.swift */; };
 		624BB0D12A6530C0002A3109 /* GoalSettingFlowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624BB0D02A6530C0002A3109 /* GoalSettingFlowProtocol.swift */; };
@@ -106,6 +107,7 @@
 		624628942A8F3DFE00ADE103 /* CalendarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHeaderView.swift; sourceTree = "<group>"; };
 		624628982A8F772400ADE103 /* YearAndMonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearAndMonthView.swift; sourceTree = "<group>"; };
 		6246289A2A90B25A00ADE103 /* WeeklyCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyCollectionViewLayout.swift; sourceTree = "<group>"; };
+		624628DB2AAB2E9E00ADE103 /* ScopeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScopeButton.swift; sourceTree = "<group>"; };
 		624BB0CC2A652EC8002A3109 /* GoalSettingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSettingCoordinator.swift; sourceTree = "<group>"; };
 		624BB0CE2A652FB9002A3109 /* GoalSettingModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSettingModuleFactory.swift; sourceTree = "<group>"; };
 		624BB0D02A6530C0002A3109 /* GoalSettingFlowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSettingFlowProtocol.swift; sourceTree = "<group>"; };
@@ -296,6 +298,16 @@
 				80F90CF42A8D3037007E1D23 /* UICollectionViewCell+Extensions.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		624628DD2AAB3AE100ADE103 /* HeaderView */ = {
+			isa = PBXGroup;
+			children = (
+				624628982A8F772400ADE103 /* YearAndMonthView.swift */,
+				624628DB2AAB2E9E00ADE103 /* ScopeButton.swift */,
+				624628942A8F3DFE00ADE103 /* CalendarHeaderView.swift */,
+			);
+			path = HeaderView;
 			sourceTree = "<group>";
 		};
 		624BB0CB2A652EAD002A3109 /* GoalSettingScene */ = {
@@ -489,13 +501,12 @@
 		80F90CEB2A8D2AD6007E1D23 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				624628DD2AAB3AE100ADE103 /* HeaderView */,
 				80F90CEE2A8D2DBE007E1D23 /* DateCollectionViewCell.swift */,
 				80F90CF02A8D2E29007E1D23 /* MonthlyCollectionViewLayout.swift */,
 				6246289A2A90B25A00ADE103 /* WeeklyCollectionViewLayout.swift */,
 				80F90CF62A8D31B7007E1D23 /* DateCell.swift */,
 				624628922A8F39BB00ADE103 /* DateCellViewModel.swift */,
-				624628942A8F3DFE00ADE103 /* CalendarHeaderView.swift */,
-				624628982A8F772400ADE103 /* YearAndMonthView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -616,6 +627,7 @@
 				624BB0EB2A67F014002A3109 /* GoalAmountValidationState.swift in Sources */,
 				621503562A5E7B0500431BBB /* UIColor+Extensions.swift in Sources */,
 				80603AD62A4AC839003D5274 /* Coordinator.swift in Sources */,
+				624628DC2AAB2E9E00ADE103 /* ScopeButton.swift in Sources */,
 				80F90CF72A8D31B7007E1D23 /* DateCell.swift in Sources */,
 				624BB0EF2A6903DA002A3109 /* NotificationCycle.swift in Sources */,
 				80773A762A55BA1C0020F1DD /* ModuleFactoryImp.swift in Sources */,

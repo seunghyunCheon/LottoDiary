@@ -31,7 +31,7 @@ final class DateCollectionViewCell: UICollectionViewCell {
 
     private var days: [DayComponent]?
     weak var delegate: CellBaseDateChangeDelegate?
-    private var scope: CalendarShape = .month
+    private var scope: ScopeType = .month
     var baseDate = Date()
 
     private var dataSource: UICollectionViewDiffableDataSource<Int, DayComponent>?
@@ -45,7 +45,7 @@ final class DateCollectionViewCell: UICollectionViewCell {
     }
 
     
-    func configure(with dayComponent: [DayComponent], scope: CalendarShape, baseDate: Date) {
+    func configure(with dayComponent: [DayComponent], scope: ScopeType, baseDate: Date) {
         self.days = dayComponent
         self.scope = scope
         self.baseDate = baseDate

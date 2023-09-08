@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import Combine
 
 protocol CalendarHeaderViewDelegate {
-    func scopeSwitchButtonTapped()
+    func scopeSwitchButtonTapped(with: ScopeType)
 }
 
 final class CalendarHeaderView: UIView {
@@ -20,12 +21,11 @@ final class CalendarHeaderView: UIView {
         return stackView
     }()
     
-    var switchButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("주간", for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
+    var scopeButton: ScopeButton = {
+        let scopeButton = ScopeButton()
+        scopeButton.translatesAutoresizingMaskIntoConstraints = false
         
-        return button
+        return scopeButton
     }()
     
     var weekdayStackView: UIStackView = {
@@ -37,6 +37,8 @@ final class CalendarHeaderView: UIView {
         
         return stackView
     }()
+    
+    private var scopeType: ScopeType = .month
     
     var delegate: CalendarHeaderViewDelegate?
     
@@ -52,8 +54,9 @@ final class CalendarHeaderView: UIView {
     }
     
     private func setup() {
+        scopeButton.delegate = self
         self.addSubview(self.yearAndMonthView)
-        self.addSubview(self.switchButton)
+        self.addSubview(self.scopeButton)
         self.addSubview(self.weekdayStackView)
         
         let days = ["일", "월", "화", "수", "목", "금", "토"]
@@ -63,13 +66,6 @@ final class CalendarHeaderView: UIView {
             dayLabel.textAlignment = .center
             self.weekdayStackView.addArrangedSubview(dayLabel)
         }
-        
-        switchButton.addTarget(self, action: #selector(switchButtonTapped), for: .touchUpInside)
-    }
-    
-    @objc
-    private func switchButtonTapped() {
-        delegate?.scopeSwitchButtonTapped()
     }
     
     override func layoutSubviews() {
@@ -77,8 +73,10 @@ final class CalendarHeaderView: UIView {
             self.yearAndMonthView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15),
             self.yearAndMonthView.topAnchor.constraint(equalTo: self.topAnchor),
             
-            self.switchButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            self.switchButton.topAnchor.constraint(equalTo: self.topAnchor),
+            self.scopeButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            self.scopeButton.topAnchor.constraint(equalTo: self.topAnchor),
+            self.scopeButton.widthAnchor.constraint(equalToConstant: 90),
+            self.scopeButton.heightAnchor.constraint(equalToConstant: 30),
             
             self.weekdayStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             self.weekdayStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
@@ -86,5 +84,13 @@ final class CalendarHeaderView: UIView {
             self.weekdayStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
         
+    }
+}
+
+extension CalendarHeaderView: ScopeChangeDelegate {
+    func changeState() {
+        self.scopeType = (scopeType == .month) ? .week : .month
+        self.delegate?.scopeSwitchButtonTapped(with: self.scopeType)
+        self.scopeButton.changeStateView(with: self.scopeType)
     }
 }
