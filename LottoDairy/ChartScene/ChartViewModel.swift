@@ -74,6 +74,8 @@ final class ChartViewModel {
 
 struct ChartComponents {
 
+    var month: Int
+    var account: Double
 }
 
 struct ChartInformationComponents: Hashable {
