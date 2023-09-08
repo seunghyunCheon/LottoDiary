@@ -15,6 +15,7 @@ final class ChartViewModel {
 
     struct Input {
         let dateHeaderTextFieldDidEditEvent: PassthroughSubject<[Int], Never>
+        let chartViewDidSelectEvent: PassthroughSubject<Int, Never>
         var selectedYear = CurrentValueSubject<Int, Never>(0)
         var selectedMonth = CurrentValueSubject<Int, Never>(0)
     }
@@ -56,6 +57,14 @@ final class ChartViewModel {
                 if input.selectedYear.value != year {
                     input.selectedYear.send(year)
                 } else if input.selectedMonth.value != month {
+                    input.selectedMonth.send(month)
+                }
+            }
+            .store(in: &cancellables)
+
+        input.chartViewDidSelectEvent
+            .sink { month in
+                if input.selectedMonth.value != month {
                     input.selectedMonth.send(month)
                 }
             }

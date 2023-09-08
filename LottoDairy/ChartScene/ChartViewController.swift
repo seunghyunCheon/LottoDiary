@@ -20,6 +20,8 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         return chart
     }()
 
+    private var chartViewPublisher = PassthroughSubject<Int, Never>()
+
     private let dateHeaderView: LottoDiaryTextField = {
         let textField = LottoDiaryTextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -193,7 +195,7 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
 
     private func bindViewModel() {
         let input = ChartViewModel.Input(
-            dateHeaderTextFieldDidEditEvent: dateHeaderView.yearMonthPickerPublisher
+            dateHeaderTextFieldDidEditEvent: dateHeaderView.yearMonthPickerPublisher, chartViewDidSelectEvent: chartViewPublisher
         )
 
         let output = viewModel.transform(from: input)
@@ -231,9 +233,7 @@ extension ChartViewController: UIPickerViewDataSource, UIPickerViewDelegate {
 extension ChartViewController: ChartViewDelegate {
 
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
-
-        let selectedYear = datePicker.selectedRow(inComponent: 0)
         let selectedMonth = Int(entry.x)
-//        self.dateHeaderView.yearMonthPickerPublisher.send([selectedYear, selectedMonth])
+        self.chartViewPublisher.send(selectedMonth)
     }
 }
