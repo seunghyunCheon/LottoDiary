@@ -48,6 +48,41 @@ final class DefaultChartUseCase: ChartUseCase {
             .eraseToAnyPublisher()
     }
 
+    // 특정 년도의 월에 대한 ChartInformationComponents 만드는 함수
+    func makeChartInformationComponents(year: Int, month: Int) -> [ChartInformationComponents] {
+
+        // repository에서 특정 월에 대한 목표 금액 가져오기
+        let goalAmount = (1...30000).randomElement()!
+
+        // repository에서 특정 월에 대한 구매 금액 가져오기
+        let buyAmount = (1000...50000).randomElement()!
+
+        // repository에서 특정 월에 대한 당첨 금액 가져오기
+        let winAmount = (1000...200000).randomElement()!
+
+        let goalResult: Bool = goalAmount >= buyAmount
+        let winResult: Bool = buyAmount <= winAmount
+        let percent = Double(winAmount) / Double(buyAmount) * 100
+
+        return [
+            ChartInformationComponents(
+                type: .goal,
+                amount: goalAmount,
+                result: (goalResult, nil)
+            ),
+            ChartInformationComponents(
+                type: .buy,
+                amount: buyAmount
+            ),
+            ChartInformationComponents(
+                type: .win,
+                amount: winAmount,
+                result: (winResult, Int(percent))
+            )
+        ]
+    }
+
+
     // MARK: ChartView 관련 함수
 
     // 데이터가 없는 월이라도 ChartComponents가 1월부터 12월까지 다 있어야 차트에서 일년치를 볼 수 있음.

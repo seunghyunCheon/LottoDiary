@@ -72,10 +72,7 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         self.setupView()
 
         self.configureChartView()
-
         self.configureInformationCollectionViewDataSource()
-        self.updateInformationCollectionViewSnapshot()
-
         self.configureDateHeaderView()
 
         self.bindViewModel()
@@ -133,10 +130,10 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         self.informationCollectionView.dataSource = dataSource
     }
 
-    private func updateInformationCollectionViewSnapshot() {
+    private func updateInformationCollectionViewSnapshot(items: [ChartInformationComponents]) {
         var snapshot = NSDiffableDataSourceSnapshot<ChartInformationComponents.ChartInformationSection, ChartInformationComponents>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(ChartInformationComponents.mock)
+        snapshot.appendItems(items)
         dataSource?.apply(snapshot)
     }
 
@@ -210,6 +207,12 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         output.chartView
             .sink { [weak self] barChartData in
                 self?.chartView.data = barChartData
+            }
+            .store(in: &cancellables)
+
+        output.chartInformationCollectionView
+            .sink { [weak self] items in
+                self?.updateInformationCollectionViewSnapshot(items: items)
             }
             .store(in: &cancellables)
     }

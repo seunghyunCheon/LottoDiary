@@ -12,4 +12,5 @@ protocol ChartUseCase {
     func makeRangeOfYear() -> AnyPublisher<[Int], Never>
     func makeYearAndMonthOfToday() -> AnyPublisher<[Int], Never>
     func makeBarChartData(year: Int) -> BarChartData
+    func makeChartInformationComponents(year: Int, month: Int) -> [ChartInformationComponents]
 }

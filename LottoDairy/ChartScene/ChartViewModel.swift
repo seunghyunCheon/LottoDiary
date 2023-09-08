@@ -23,6 +23,7 @@ final class ChartViewModel {
     struct Output {
         var dateHeaderFieldText = CurrentValueSubject<[Int], Never>([])
         var chartView = CurrentValueSubject<BarChartData?, Never>(nil)
+        var chartInformationCollectionView = CurrentValueSubject<[ChartInformationComponents], Never>([])
     }
 
     private var cancellables: Set<AnyCancellable> = []
@@ -92,12 +93,22 @@ final class ChartViewModel {
                 output.dateHeaderFieldText.send([year, input.selectedMonth.value])
                 let chartData = self.chartUseCase.makeBarChartData(year: year)
                 output.chartView.send(chartData)
+                let chartInformationComponents =  self.chartUseCase.makeChartInformationComponents(
+                    year: input.selectedYear.value,
+                    month: input.selectedMonth.value
+                )
+                output.chartInformationCollectionView.send(chartInformationComponents)
             }
             .store(in: &cancellables)
 
         input.selectedMonth
             .sink { month in
                 output.dateHeaderFieldText.send([input.selectedYear.value, month])
+                let chartInformationComponents =  self.chartUseCase.makeChartInformationComponents(
+                    year: input.selectedYear.value,
+                    month: input.selectedMonth.value
+                )
+                output.chartInformationCollectionView.send(chartInformationComponents)
             }
             .store(in: &cancellables)
 
@@ -157,23 +168,4 @@ struct ChartInformationComponents: Hashable {
     static func == (lhs: ChartInformationComponents, rhs: ChartInformationComponents) -> Bool {
         return lhs.amount == rhs.amount && lhs.result?.result == rhs.result?.result && lhs.result?.percent == rhs.result?.percent
     }
-
-    static let mock: [ChartInformationComponents] = {
-        return [
-            ChartInformationComponents(
-                type: .goal,
-                amount: (1...30000).randomElement()!,
-                result: (true, nil)
-            ),
-            ChartInformationComponents(
-                type: .buy,
-                amount: (1000...50000).randomElement()!
-            ),
-            ChartInformationComponents(
-                type: .win,
-                amount: (1000...200000).randomElement()!,
-                result: (true, 200)
-            )
-        ]
-    }()
 }
