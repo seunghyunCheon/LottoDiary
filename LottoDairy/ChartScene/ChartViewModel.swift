@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import DGCharts
 
 final class ChartViewModel {
 
@@ -18,6 +19,7 @@ final class ChartViewModel {
 
     struct Output {
         var dateHeaderFieldText = CurrentValueSubject<[Int], Never>([])
+        var chartView = CurrentValueSubject<BarChartData?, Never>(nil)
     }
 
     private var cancellables: Set<AnyCancellable> = []
@@ -43,7 +45,7 @@ final class ChartViewModel {
     func getMonths() -> [Int] {
         return months
     }
-
+    
     private func configureInput(_ input: Input) {
         input.dateHeaderTextFieldDidEditEvent
             .sink { [weak self] date in
@@ -65,6 +67,16 @@ final class ChartViewModel {
         self.chartUseCase.makeYearAndMonthOfToday()
             .sink { date in
                 output.dateHeaderFieldText.send(date)
+
+                let chartData = self.chartUseCase.makeBarChartData(year: date[0])
+                output.chartView.send(chartData)
+            }
+            .store(in: &cancellables)
+
+        input.dateHeaderTextFieldDidEditEvent
+            .sink { [weak self] selectedDate in
+                let chartData = self?.chartUseCase.makeBarChartData(year: selectedDate[0])
+                output.chartView.send(chartData)
             }
             .store(in: &cancellables)
 

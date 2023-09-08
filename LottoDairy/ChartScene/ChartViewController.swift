@@ -204,6 +204,12 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
                 self?.setSelectedRow(year: date[0], month: date[1])
             }
             .store(in: &cancellables)
+
+        output.chartView
+            .sink { [weak self] barChartData in
+                self?.chartView.data = barChartData
+            }
+            .store(in: &cancellables)
     }
 }
 
