@@ -32,6 +32,7 @@ final class DateCollectionViewCell: UICollectionViewCell {
     private var days: [DayComponent]?
     weak var delegate: CellBaseDateChangeDelegate?
     private var scope: CalendarShape = .month
+    var baseDate = Date()
 
     private var dataSource: UICollectionViewDiffableDataSource<Int, DayComponent>?
 
@@ -44,9 +45,10 @@ final class DateCollectionViewCell: UICollectionViewCell {
     }
 
     
-    func configure(with dayComponent: [DayComponent], scope: CalendarShape) {
+    func configure(with dayComponent: [DayComponent], scope: CalendarShape, baseDate: Date) {
         self.days = dayComponent
         self.scope = scope
+        self.baseDate = baseDate
     }
 
     private func setupDateCollectionViewCell() {
@@ -58,7 +60,7 @@ final class DateCollectionViewCell: UICollectionViewCell {
             monthlyCollectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
-
+    
     private func configuremonthlyCollectionViewDataSource() {
         self.dataSource = UICollectionViewDiffableDataSource<Int, DayComponent>(
             collectionView: self.monthlyCollectionView
@@ -67,6 +69,9 @@ final class DateCollectionViewCell: UICollectionViewCell {
             let dateCollectionViewCell: DateCell = collectionView.dequeue(for: indexPath)
             let cellViewModel = DateCellViewModel(dayComponent: days[indexPath.row])
             dateCollectionViewCell.provide(viewModel: cellViewModel)
+            if self.baseDate == days[indexPath.row].date {
+                collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .bottom)
+            }
             
             return dateCollectionViewCell
         }
@@ -86,7 +91,9 @@ final class DateCollectionViewCell: UICollectionViewCell {
 
 extension DateCollectionViewCell: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let days = self.days else {
+        guard let days = self.days,
+            days[indexPath.row].isIncludeInMonth
+        else {
             return
         }
         

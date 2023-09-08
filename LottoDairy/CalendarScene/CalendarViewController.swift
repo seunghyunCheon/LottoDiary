@@ -25,7 +25,6 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         collectionView.isPagingEnabled = true
         collectionView.delegate = self
         collectionView.dataSource = self.dataSource
-        //        collectionView.isScrollEnabled = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .designSystem(.backgroundBlack)
         
@@ -122,7 +121,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
             collectionView: self.calendarCollectionView
         ) { collectionView, indexPath, item in
             let dateCollectionViewCell: DateCollectionViewCell = collectionView.dequeue(for: indexPath)
-            dateCollectionViewCell.configure(with: item, scope: self.calendarShape)
+            dateCollectionViewCell.configure(with: item, scope: self.calendarShape, baseDate: self.viewModel.baseDate.value)
             dateCollectionViewCell.delegate = self
             return dateCollectionViewCell
         }
@@ -241,6 +240,8 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
                 setupCenterXOffset()
             }
         }
+        
+        self.calendarCollectionView.reloadData()
     }
 
     private func updateSnapshot() {

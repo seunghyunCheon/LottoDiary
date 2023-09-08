@@ -56,7 +56,7 @@ final class CalendarHeaderView: UIView {
         self.addSubview(self.switchButton)
         self.addSubview(self.weekdayStackView)
         
-        let days = ["일", "화", "수", "목", "금", "토", "월"]
+        let days = ["일", "월", "화", "수", "목", "금", "토"]
         days.forEach { day in
             let dayLabel = LottoLabel(text: day, font: .gmarketSans(size: .subheadLine, weight: .medium))
             dayLabel.textColor = .designSystem(.gray63626B)

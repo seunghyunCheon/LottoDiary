@@ -31,6 +31,11 @@ final class DateCellViewModel {
     }
     
     func validateCellState(with isSelected: Bool) {
+        if !isIncludeInMonth {
+            cellState = .none
+            return
+        }
+        
         if checkTodayDate(with: date) {
             cellState = .today
             return
