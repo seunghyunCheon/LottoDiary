@@ -41,7 +41,7 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         return collectionView
     }()
 
-    private var dataSource: UICollectionViewDiffableDataSource<ChartInformationSection, ChartInformationComponents>?
+    private var dataSource: UICollectionViewDiffableDataSource<ChartInformationComponents.ChartInformationSection, ChartInformationComponents>?
 
     private let viewModel: ChartViewModel
 
@@ -122,7 +122,7 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
     }
 
     private func configureInformationCollectionViewDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<ChartInformationSection, ChartInformationComponents>(collectionView: informationCollectionView) { collectionView, indexPath, itemIdentifier in
+        dataSource = UICollectionViewDiffableDataSource<ChartInformationComponents.ChartInformationSection, ChartInformationComponents>(collectionView: informationCollectionView) { collectionView, indexPath, itemIdentifier in
 
             let cell: ChartInformationCell = collectionView.dequeue(for: indexPath)
             cell.configure(with: itemIdentifier)
@@ -132,7 +132,7 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
     }
 
     private func updateInformationCollectionViewSnapshot() {
-        var snapshot = NSDiffableDataSourceSnapshot<ChartInformationSection, ChartInformationComponents>()
+        var snapshot = NSDiffableDataSourceSnapshot<ChartInformationComponents.ChartInformationSection, ChartInformationComponents>()
         snapshot.appendSections([.main])
         snapshot.appendItems(ChartInformationComponents.mock)
         dataSource?.apply(snapshot)
