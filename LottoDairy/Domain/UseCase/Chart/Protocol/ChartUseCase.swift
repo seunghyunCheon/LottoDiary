@@ -10,7 +10,7 @@ import DGCharts
 
 protocol ChartUseCase {
     func makeRangeOfYear() -> AnyPublisher<[Int], Never>
-    func makeYearAndMonthOfToday() -> AnyPublisher<[Int], Never>
-    func makeBarChartData(year: Int) -> BarChartData
-    func makeChartInformationComponents(year: Int, month: Int) -> [ChartInformationComponents]
+    func makeYearAndMonthOfToday() -> [Int]
+    func makeChartInformationComponents(year: Int, month: Int) -> AnyPublisher<[ChartInformationComponents], Never>
+    func makeBarChartData(year: Int) -> AnyPublisher<BarChartData, Never>
 }
