@@ -33,14 +33,12 @@ final class ChartInformationCell: UICollectionViewCell {
         return label
     }()
 
-// 추후 색상 설정해야 함 color: textColor,
     private let winResultLabel = GmarketSansLabel(
         alignment: .right,
         size: .callout,
         weight: .medium
     )
 
-    // 추후 글자와 색상 설정
     private let resultLabel = GmarketSansLabel(
         alignment: .right,
         size: .callout,
