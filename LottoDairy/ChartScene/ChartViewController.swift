@@ -39,6 +39,7 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: makeInformationListCollectionViewLayout())
         collectionView.register(ChartInformationCell.self)
         collectionView.isScrollEnabled = false
+        collectionView.backgroundColor = .clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()

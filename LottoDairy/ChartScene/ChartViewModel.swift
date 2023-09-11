@@ -12,6 +12,7 @@ import DGCharts
 final class ChartViewModel {
 
     private let chartUseCase: ChartUseCase
+    private let chartInformationUseCase: ChartInformationUseCase
 
     struct Input {
         let viewDidLoadEvent: Just<Void>
@@ -33,8 +34,9 @@ final class ChartViewModel {
     private var years = [Int]()
     private let months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
-    init(chartUseCase: ChartUseCase) {
+    init(chartUseCase: ChartUseCase, chartInformationUseCase: ChartInformationUseCase) {
         self.chartUseCase = chartUseCase
+        self.chartInformationUseCase = chartInformationUseCase
 
         configureToday()
     }
@@ -53,7 +55,7 @@ final class ChartViewModel {
     }
 
     private func configureToday() {
-        let today = self.chartUseCase.makeYearAndMonthOfToday()
+        let today = self.chartInformationUseCase.makeYearAndMonthOfToday()
         self.selectedYear.send(today[0])
         self.selectedMonth.send(today[1])
     }
@@ -61,7 +63,7 @@ final class ChartViewModel {
     private func configureInput(_ input: Input) {
         input.viewDidLoadEvent
             .flatMap {
-                self.chartUseCase.makeRangeOfYear()
+                self.chartInformationUseCase.makeRangeOfYear()
             }
             .sink { [weak self] rangeOfYear in
                 self?.years = rangeOfYear
@@ -100,7 +102,7 @@ final class ChartViewModel {
             .flatMap { year in
                 return Publishers.CombineLatest (
                     self.chartUseCase.makeBarChartData(year: year),
-                    self.chartUseCase.makeChartInformationComponents(year: year, month: self.selectedMonth.value)
+                    self.chartInformationUseCase.makeChartInformationComponents(year: year, month: self.selectedMonth.value)
                 )
             }
             .sink { (barChartData, chartInformationComponents) in
@@ -111,7 +113,7 @@ final class ChartViewModel {
 
         self.selectedMonth
             .flatMap { month in
-                self.chartUseCase.makeChartInformationComponents(year: self.selectedYear.value, month: month)
+                self.chartInformationUseCase.makeChartInformationComponents(year: self.selectedYear.value, month: month)
             }
             .sink { chartInformationComponents in
                 output.chartInformationCollectionView.send(chartInformationComponents)

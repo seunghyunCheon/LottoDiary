@@ -37,7 +37,6 @@ final class ChartInformationCell: UICollectionViewCell {
         let imageView: UIImageView = {
             let imageView = UIImageView()
             imageView.image = chartImformationComponents?.image
-            imageView.backgroundColor = .blue
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
             return imageView
         }()
@@ -45,7 +44,6 @@ final class ChartInformationCell: UICollectionViewCell {
 
         let stackView: UIStackView = {
             let stackView = UIStackView(arrangedSubviews: [imageView, informationStackView])
-            stackView.backgroundColor = .purple
             stackView.translatesAutoresizingMaskIntoConstraints = false
             stackView.spacing = 15
             return stackView
@@ -69,7 +67,6 @@ final class ChartInformationCell: UICollectionViewCell {
 
         let InformationStackView: UIStackView = {
             let stackView = UIStackView(arrangedSubviews: [amountStackView, amountLabel])
-            stackView.backgroundColor = .yellow
             stackView.distribution = .fillProportionally
             stackView.axis = .vertical
             return stackView
@@ -164,7 +161,6 @@ final class ChartInformationCell: UICollectionViewCell {
 
         let amountStackView: UIStackView = {
             let stackView = UIStackView(arrangedSubviews: [titleLabel, resultLabel])
-            stackView.backgroundColor = .darkGray
             stackView.distribution = .fillProportionally
             return stackView
         }()

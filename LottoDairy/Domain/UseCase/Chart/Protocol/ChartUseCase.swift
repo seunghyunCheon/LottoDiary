@@ -2,15 +2,12 @@
 //  ChartUseCase.swift
 //  LottoDairy
 //
-//  Created by Sunny on 2023/09/03.
+//  Created by Sunny on 2023/09/11.
 //
 
-import Combine
 import DGCharts
+import Combine
 
 protocol ChartUseCase {
-    func makeRangeOfYear() -> AnyPublisher<[Int], Never>
-    func makeYearAndMonthOfToday() -> [Int]
-    func makeChartInformationComponents(year: Int, month: Int) -> AnyPublisher<[ChartInformationComponents], Never>
     func makeBarChartData(year: Int) -> AnyPublisher<BarChartData, Never>
 }

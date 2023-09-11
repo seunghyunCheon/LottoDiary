@@ -33,8 +33,9 @@ final class ModuleFactoryImp:
     }
 
     func makeChartFlow() -> ChartFlowProtocol {
+        let chartInformationUseCase = DefaultChartInformationUseCase()
         let chartUseCase = DefaultChartUseCase()
-        let viewModel = ChartViewModel(chartUseCase: chartUseCase)
+        let viewModel = ChartViewModel(chartUseCase: chartUseCase, chartInformationUseCase: chartInformationUseCase)
         return ChartViewController(viewModel: viewModel)
     }
 }
