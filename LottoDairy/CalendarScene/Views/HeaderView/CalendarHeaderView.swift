@@ -70,7 +70,7 @@ final class CalendarHeaderView: UIView {
     
     override func layoutSubviews() {
         NSLayoutConstraint.activate([
-            self.yearAndMonthView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15),
+            self.yearAndMonthView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constant.yearAndMonthLeading),
             self.yearAndMonthView.topAnchor.constraint(equalTo: self.topAnchor),
             
             self.scopeButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
@@ -99,6 +99,7 @@ extension CalendarHeaderView {
     private enum Constant {
         static let buttonWidth: CGFloat = 90
         static let buttonHeight: CGFloat = 30
+        static let yearAndMonthLeading: CGFloat = 15
         static let weekdayBottom: CGFloat = 30
     }
 }

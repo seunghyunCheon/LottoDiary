@@ -14,14 +14,13 @@ enum DateCellState {
     case selected
 }
 
-
 final class DateCellViewModel {
     
     @Published var dateNumber: String
     @Published var isIncludeInMonth: Bool
     @Published var cellState: DateCellState = .none
     
-    var date: Date
+    private var date: Date
     
     init(dayComponent: DayComponent) {
         self.dateNumber = dayComponent.number

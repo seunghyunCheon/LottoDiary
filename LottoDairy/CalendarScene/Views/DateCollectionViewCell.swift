@@ -28,10 +28,10 @@ final class DateCollectionViewCell: UICollectionViewCell {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
-
-    private var baseDate = Date()
     
     weak var delegate: CellBaseDateChangeDelegate?
+
+    private var baseDate = Date()
     
     private var days: [DayComponent]?
     

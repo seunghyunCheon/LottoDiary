@@ -53,11 +53,11 @@ final class ScopeButton: UIView {
         return view
     }()
     
-    private var stateViewLeadingConstraint: NSLayoutConstraint!
-    private var stateViewTrailingContraint: NSLayoutConstraint!
-    
     weak var delegate: ScopeChangeDelegate?
     
+    private var stateViewLeadingConstraint: NSLayoutConstraint!
+    private var stateViewTrailingContraint: NSLayoutConstraint!
+
     init() {
         super.init(frame: .zero)
         setupRootView()
@@ -96,7 +96,6 @@ final class ScopeButton: UIView {
         }
     }
 
-    
     private func setupRootView() {
         self.addSubview(stateView)
         self.addSubview(labelStackView)
