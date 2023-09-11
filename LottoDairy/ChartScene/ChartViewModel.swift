@@ -14,6 +14,7 @@ final class ChartViewModel {
     private let chartUseCase: ChartUseCase
 
     struct Input {
+        let viewDidLoadEvent: Just<Void>
         let dateHeaderTextFieldDidEditEvent: PassthroughSubject<[Int], Never>
         let chartViewDidSelectEvent: PassthroughSubject<Int, Never>
     }
@@ -34,6 +35,8 @@ final class ChartViewModel {
 
     init(chartUseCase: ChartUseCase) {
         self.chartUseCase = chartUseCase
+
+        configureToday()
     }
 
     func transform(from input: Input) -> Output {
@@ -49,25 +52,42 @@ final class ChartViewModel {
         return months
     }
 
+    private func configureToday() {
+        let today = self.chartUseCase.makeYearAndMonthOfToday()
+        self.selectedYear.send(today[0])
+        self.selectedMonth.send(today[1])
+    }
+
     private func configureInput(_ input: Input) {
+        input.viewDidLoadEvent
+            .flatMap {
+                self.chartUseCase.makeRangeOfYear()
+            }
+            .sink { [weak self] rangeOfYear in
+                self?.years = rangeOfYear
+            }
+            .store(in: &cancellables)
+
         input.dateHeaderTextFieldDidEditEvent
             .sink { [weak self] date in
                 let yearIndex = date[0], monthIndex = date[1]
-                let year = self?.years[yearIndex] ?? 0
-                let month = self?.months[monthIndex] ?? 0
+                let year = self?.years[yearIndex] ?? 0, month = self?.months[monthIndex] ?? 0
 
                 if self?.selectedYear.value != year {
                     self?.selectedYear.send(year)
                 } else if self?.selectedMonth.value != month {
+                    self?.selectedMonth.send(month)
+                } else if self?.selectedYear.value != year && self?.selectedMonth.value != month {
+                    self?.selectedYear.send(year)
                     self?.selectedMonth.send(month)
                 }
             }
             .store(in: &cancellables)
 
         input.chartViewDidSelectEvent
-            .sink { month in
-                if self.selectedMonth.value != month {
-                    self.selectedMonth.send(month)
+            .sink { [weak self] month in
+                if self?.selectedMonth.value != month {
+                    self?.selectedMonth.send(month)
                 }
             }
             .store(in: &cancellables)
@@ -76,40 +96,36 @@ final class ChartViewModel {
     private func configureOutput(from input: Input) -> Output {
         let output = Output()
 
-        self.chartUseCase.makeRangeOfYear()
-            .sink { rangeOfYear in
-                self.years = rangeOfYear
+        self.selectedYear
+            .flatMap { year in
+                return Publishers.CombineLatest (
+                    self.chartUseCase.makeBarChartData(year: year),
+                    self.chartUseCase.makeChartInformationComponents(year: year, month: self.selectedMonth.value)
+                )
+            }
+            .sink { (barChartData, chartInformationComponents) in
+                output.chartView.send(barChartData)
+                output.chartInformationCollectionView.send(chartInformationComponents)
             }
             .store(in: &cancellables)
 
-        let today = self.chartUseCase.makeYearAndMonthOfToday()
-        self.selectedYear.send(today[0])
-        self.selectedMonth.send(today[1])
+        self.selectedMonth
+            .flatMap { month in
+                self.chartUseCase.makeChartInformationComponents(year: self.selectedYear.value, month: month)
+            }
+            .sink { chartInformationComponents in
+                output.chartInformationCollectionView.send(chartInformationComponents)
+            }
+            .store(in: &cancellables)
 
         self.selectedYear
             .sink { year in
-                self.chartUseCase.makeBarChartData(year: year)
-                    .sink { barChartData in
-                        output.chartView.send(barChartData)
-                    }
-                    .store(in: &self.cancellables)
-
-                self.chartUseCase.makeChartInformationComponents(year: year, month: self.selectedMonth.value)
-                    .sink { chartInformationComponents in
-                        output.chartInformationCollectionView.send(chartInformationComponents)
-                    }
-                    .store(in: &self.cancellables)
                 output.dateHeaderFieldText.send([year, self.selectedMonth.value])
             }
             .store(in: &cancellables)
 
         self.selectedMonth
             .sink { month in
-                self.chartUseCase.makeChartInformationComponents(year: self.selectedYear.value, month: month)
-                    .sink { chartInformationComponents in
-                        output.chartInformationCollectionView.send(chartInformationComponents)
-                    }
-                    .store(in: &self.cancellables)
                 output.dateHeaderFieldText.send([self.selectedYear.value, month])
             }
             .store(in: &cancellables)

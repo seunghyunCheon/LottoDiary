@@ -190,7 +190,9 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
 
     private func bindViewModel() {
         let input = ChartViewModel.Input(
-            dateHeaderTextFieldDidEditEvent: dateHeaderView.yearMonthPickerPublisher, chartViewDidSelectEvent: chartViewPublisher
+            viewDidLoadEvent: Just(()),
+            dateHeaderTextFieldDidEditEvent: dateHeaderView.yearMonthPickerPublisher,
+            chartViewDidSelectEvent: chartViewPublisher
         )
 
         let output = viewModel.transform(from: input)
