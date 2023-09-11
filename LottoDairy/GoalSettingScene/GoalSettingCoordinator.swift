@@ -12,7 +12,6 @@ protocol GoalSettingCoordinatorFinishable: AnyObject {
 final class GoalSettingCoordinator: BaseCoordinator, GoalSettingCoordinatorFinishable {
     
     var finishFlow: (() -> Void)?
-    
     private let factory: GoalSettingModuleFactory
     private let router: Router
     

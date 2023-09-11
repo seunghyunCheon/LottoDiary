@@ -7,8 +7,8 @@
 
 enum NotificationCycle: String, CaseIterable {
     case none = "설정 안함"
-    case one = "하루"
-    case week = "일주일"
-    case month = "한달"
+    case ten = "10분 전"
+    case thirty = "30분 전"
+    case hour = "1시간 전"
 }
 

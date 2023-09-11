@@ -11,9 +11,10 @@ import Combine
 final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol {
     
     // MARK: - UI
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "내 정보"
+        label.text = StringLiteral.titleText
         label.font = .gmarketSans(size: .title1, weight: .bold)
         label.textColor = .designSystem(.white)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -23,7 +24,7 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     
     private let nickNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "닉네임"
+        label.text = StringLiteral.nicknameText
         label.font = .gmarketSans(size: .subheadLine, weight: .bold)
         label.textColor = .designSystem(.white)
         
@@ -31,7 +32,7 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     }()
     
     private let nickNameTextField: LottoDiaryTextField = {
-        return LottoDiaryTextField(placeholder: "Jane", type: .letter, align: .right)
+        return LottoDiaryTextField(placeholder: StringLiteral.placeholderText, type: .letter, align: .right)
     }()
     
     private let nickNameStackView: UIStackView = {
@@ -59,7 +60,7 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     
     private let goalSettingLabel: UILabel = {
         let label = UILabel()
-        label.text = "6월 목표금액 (원)"
+        label.text = StringLiteral.goalSettingText
         label.font = .gmarketSans(size: .subheadLine, weight: .bold)
         label.textColor = .designSystem(.white)
         label.textAlignment = .left
@@ -68,7 +69,11 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     }()
     
     private let goalSettingTextField: LottoDiaryTextField = {
-        return LottoDiaryTextField(placeholder: "목표금액을 입력해주세요", type: .number, align: .right)
+        return LottoDiaryTextField(
+            placeholder: StringLiteral.goalSettingPlaceholderText,
+            type: .number,
+            align: .right
+        )
     }()
     
     private let goalSettingStackView: UIStackView = {
@@ -86,7 +91,7 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     
     private let goalAmountValidationLabel: UILabel = {
         let label = UILabel()
-        label.text = ""
+        label.text = .none
         label.font = .gmarketSans(size: .subheadLine, weight: .bold)
         label.textColor = .systemRed
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -96,7 +101,7 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     
     private let notificationLabel: UILabel = {
         let label = UILabel()
-        label.text = "일정 주기마다 로또 경고 알림"
+        label.text = StringLiteral.notificationText
         label.font = .gmarketSans(size: .title2, weight: .bold)
         label.textColor = .designSystem(.white)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -105,7 +110,11 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     }()
     
     private let notificationTextField: LottoDiaryTextField = {
-        let textField = LottoDiaryTextField(placeholder: "주기를 선택해주세요", type: .letter, align: .left)
+        let textField = LottoDiaryTextField(
+            placeholder: StringLiteral.notificationPlaceholderText,
+            type: .letter,
+            align: .left
+        )
         textField.translatesAutoresizingMaskIntoConstraints = false
         
         return textField
@@ -125,11 +134,12 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
         return button
     }()
     
-    // MARK: - Properties
     var onMain: (() -> Void)?
     private let viewModel: GoalSettingViewModel
     private var cancellables = Set<AnyCancellable>()
     private var notificationCycleList: [NotificationCycle] = []
+    
+    // MARK: - Life Cycle
     
     init(viewModel: GoalSettingViewModel) {
         self.viewModel = viewModel
@@ -150,6 +160,8 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
+    
+    // MARK: - Private Methods
     
     private func setupRootView() {
         view.backgroundColor = .designSystem(.backgroundBlack)
@@ -218,33 +230,13 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
         ])
     }
     
-    // MARK: - PickerView
-    
-    private func createPickerView() {
-        let pickerView = UIPickerView()
-        pickerView.delegate = self
-        pickerView.dataSource = self
-        notificationTextField.tintColor = .clear
-        
-        let toolBar = UIToolbar(frame: .init(x: 0, y: 0, width: 100, height: 35))
-        toolBar.sizeToFit()
-        
-        let doneButton = UIBarButtonItem(title: "확인", style: .done, target: self, action: #selector(doneButtonDidTap))
-        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-        
-        toolBar.setItems([space , doneButton], animated: true)
-        toolBar.isUserInteractionEnabled = true
-        
-        notificationTextField.inputView = pickerView
-        notificationTextField.inputAccessoryView = toolBar
-    }
-    
     private func bindViewModel() {
         let input = GoalSettingViewModel.Input(
             viewDidLoadEvent: Just(()),
             nicknameTextFieldDidEditEvent: nickNameTextField.textPublisher,
             goalSettingTextFieldDidEditEvent: goalSettingTextField.textPublisher,
-            notificationTextFieldDidEditEvent: notificationTextField.pickerPublisher
+            notificationTextFieldDidEditEvent: notificationTextField.pickerPublisher,
+            okButtonDidTapEvent: okButton.publisher(for: .touchUpInside).eraseToAnyPublisher()
         )
         
         let output = viewModel.transform(from: input)
@@ -273,11 +265,40 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
             }
             .store(in: &cancellables)
         
+        output.nicknameText
+            .sink { [weak self] nickName in
+                self?.nickNameTextField.text = nickName
+            }
+            .store(in: &cancellables)
+        
+        output.notificationCycleText
+            .sink { [weak self] notificationCycle in
+                self?.notificationTextField.text = notificationCycle
+            }
+            .store(in: &cancellables)
+        
+        output.signUpDidEnd
+            .sink { [weak self] state in
+                if state { self?.onMain?() }
+            }
+            .store(in: &cancellables)
+        
+        output.signUpDidFail
+            .sink { [weak self] errorMessage in
+                if !errorMessage.isEmpty {
+                    #if DEBUG
+                    print(errorMessage)
+                    #endif
+                    self?.presentErrorAlert()
+                }
+            }
+            .store(in: &cancellables)
+        
         bindOkButton(with: output)
     }
     
     @objc
-    func doneButtonDidTap() {
+    private func doneButtonDidTap() {
         notificationTextField.resignFirstResponder()
     }
     
@@ -295,7 +316,41 @@ final class GoalSettingViewController: UIViewController, GoalSettingFlowProtocol
             }
             .store(in: &cancellables)
     }
+    
+    private func presentErrorAlert() {
+        let sheet = UIAlertController(
+            title: StringLiteral.errorTitle,
+            message: StringLiteral.errorMessage,
+            preferredStyle: .alert
+        )
+        
+        sheet.addAction(UIAlertAction(title: StringLiteral.errorOkButtonText, style: .default))
+        present(sheet, animated: true)
+    }
+    
+    // MARK: - PickerView
+    
+    private func createPickerView() {
+        let pickerView = UIPickerView()
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        notificationTextField.tintColor = .clear
+        
+        let toolBar = UIToolbar(frame: .init(x: 0, y: 0, width: 100, height: 35))
+        toolBar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "확인", style: .done, target: self, action: #selector(doneButtonDidTap))
+        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        
+        toolBar.setItems([space , doneButton], animated: true)
+        toolBar.isUserInteractionEnabled = true
+        
+        notificationTextField.inputView = pickerView
+        notificationTextField.inputAccessoryView = toolBar
+    }
 }
+
+// MARK: - Extension - PickerView
 
 extension GoalSettingViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -313,5 +368,23 @@ extension GoalSettingViewController: UIPickerViewDataSource, UIPickerViewDelegat
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.notificationTextField.pickerPublisher.send(notificationCycleList[row].rawValue)
         notificationTextField.text = notificationCycleList[row].rawValue
+    }
+}
+
+// MARK: - Extension - Constant
+
+extension GoalSettingViewController {
+    
+    private enum StringLiteral {
+        static let titleText = "내 정보"
+        static let nicknameText = "닉네임"
+        static let placeholderText = "Jane"
+        static let goalSettingText = "목표금액 (원)"
+        static let goalSettingPlaceholderText = "목표금액을 입력해주세요"
+        static let notificationText = "로또 추첨방송 알림"
+        static let notificationPlaceholderText = "주기를 선택해주세요"
+        static let errorTitle = "오류"
+        static let errorMessage = "정보를 저장하지 못했습니다"
+        static let errorOkButtonText = "확인"
     }
 }
