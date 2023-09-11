@@ -8,6 +8,7 @@
 import UIKit
 
 final class YearAndMonthView: UIStackView {
+    
     var yearLabel: LottoLabel = {
         let label = LottoLabel(text: "2023", font: .gmarketSans(size: .title2, weight: .light))
         

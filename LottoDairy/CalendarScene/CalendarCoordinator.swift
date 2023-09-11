@@ -21,5 +21,4 @@ final class CalendarCoordinator: BaseCoordinator {
         let calendarFlow = moduleFactory.makeCalendarFlow()
         router.setRootModule(calendarFlow)
     }
-
 }

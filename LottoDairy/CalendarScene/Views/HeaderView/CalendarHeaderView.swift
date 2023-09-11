@@ -75,12 +75,12 @@ final class CalendarHeaderView: UIView {
             
             self.scopeButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             self.scopeButton.topAnchor.constraint(equalTo: self.topAnchor),
-            self.scopeButton.widthAnchor.constraint(equalToConstant: 90),
-            self.scopeButton.heightAnchor.constraint(equalToConstant: 30),
+            self.scopeButton.widthAnchor.constraint(equalToConstant: Constant.buttonWidth),
+            self.scopeButton.heightAnchor.constraint(equalToConstant: Constant.buttonHeight),
             
             self.weekdayStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             self.weekdayStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            self.weekdayStackView.topAnchor.constraint(equalTo: self.yearAndMonthView.bottomAnchor, constant: 30),
+            self.weekdayStackView.topAnchor.constraint(equalTo: self.yearAndMonthView.bottomAnchor, constant: Constant.weekdayBottom),
             self.weekdayStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
         
@@ -92,5 +92,13 @@ extension CalendarHeaderView: ScopeChangeDelegate {
         self.scopeType = (scopeType == .month) ? .week : .month
         self.delegate?.scopeSwitchButtonTapped(with: self.scopeType)
         self.scopeButton.changeStateView(with: self.scopeType)
+    }
+}
+
+extension CalendarHeaderView {
+    private enum Constant {
+        static let buttonWidth: CGFloat = 90
+        static let buttonHeight: CGFloat = 30
+        static let weekdayBottom: CGFloat = 30
     }
 }

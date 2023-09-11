@@ -77,9 +77,28 @@ final class ScopeButton: UIView {
         delegate?.changeState()
     }
     
+    func changeStateView(with state: ScopeType) {
+        switch state {
+            case .month:
+                stateView.backgroundColor = .designSystem(.mainBlue)
+                monthLabel.textColor = .white.withAlphaComponent(Constant.activeAlpha)
+                weekLabel.textColor = .white.withAlphaComponent(Constant.inActiveAlpha)
+                stateViewLeadingConstraint.constant = Constant.monthScopeLeading
+            case .week:
+                stateView.backgroundColor = .designSystem(.mainOrange)
+                weekLabel.textColor = .white.withAlphaComponent(Constant.activeAlpha)
+                monthLabel.textColor = .white.withAlphaComponent(Constant.inActiveAlpha)
+                stateViewLeadingConstraint.constant = Constant.weekScopeLeading
+        }
+        
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.layoutIfNeeded()
+        }
+    }
+
+    
     private func setupRootView() {
         self.addSubview(stateView)
-        
         self.addSubview(labelStackView)
         labelStackView.addArrangedSubview(monthLabel)
         labelStackView.addArrangedSubview(weekLabel)
@@ -100,26 +119,6 @@ final class ScopeButton: UIView {
             labelStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             labelStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
-    }
-    
-    func changeStateView(with state: ScopeType) {
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            guard let self else { return }
-            switch state {
-            case .month:
-                stateView.backgroundColor = .designSystem(.mainBlue)
-                monthLabel.textColor = .white.withAlphaComponent(Constant.activeAlpha)
-                weekLabel.textColor = .white.withAlphaComponent(Constant.inActiveAlpha)
-                stateViewLeadingConstraint.constant = Constant.monthScopeLeading
-            case .week:
-                stateView.backgroundColor = .designSystem(.mainOrange)
-                weekLabel.textColor = .white.withAlphaComponent(Constant.activeAlpha)
-                monthLabel.textColor = .white.withAlphaComponent(Constant.inActiveAlpha)
-                stateViewLeadingConstraint.constant = Constant.weekScopeLeading
-            }
-            
-            self.layoutIfNeeded()
-        }
     }
 }
 

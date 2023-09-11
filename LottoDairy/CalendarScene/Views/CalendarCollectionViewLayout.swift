@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct MonthlyCollectionViewLayout {
+struct CalendarCollectionViewLayout {
 
     func createLayout(type: ScopeType) -> UICollectionViewCompositionalLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionNum, env) -> NSCollectionLayoutSection? in
@@ -27,6 +27,7 @@ struct MonthlyCollectionViewLayout {
             section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15)
             return section
         }
+        
         return layout
     }
 }

@@ -14,7 +14,7 @@ protocol CellBaseDateChangeDelegate: AnyObject {
 final class DateCollectionViewCell: UICollectionViewCell {
 
     lazy var monthlyCollectionView: UICollectionView = {
-        let monthlyCollectionViewLayout = MonthlyCollectionViewLayout()
+        let monthlyCollectionViewLayout = CalendarCollectionViewLayout()
 
         let collectionView = UICollectionView(
             frame: .zero,
@@ -29,10 +29,13 @@ final class DateCollectionViewCell: UICollectionViewCell {
         return collectionView
     }()
 
-    private var days: [DayComponent]?
+    private var baseDate = Date()
+    
     weak var delegate: CellBaseDateChangeDelegate?
+    
+    private var days: [DayComponent]?
+    
     private var scope: ScopeType = .month
-    var baseDate = Date()
 
     private var dataSource: UICollectionViewDiffableDataSource<Int, DayComponent>?
 
@@ -84,7 +87,7 @@ final class DateCollectionViewCell: UICollectionViewCell {
         snapshot.appendItems(days)
         self.dataSource?.apply(snapshot)
         
-        let layout = MonthlyCollectionViewLayout().createLayout(type: self.scope)
+        let layout = CalendarCollectionViewLayout().createLayout(type: self.scope)
         monthlyCollectionView.setCollectionViewLayout(layout, animated: false)
     }
 }
