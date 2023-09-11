@@ -9,12 +9,86 @@ import UIKit
 
 final class ChartInformationCell: UICollectionViewCell {
 
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
+        return imageView
+    }()
+
+    private let amountLabel: UILabel = {
+        let label = GmarketSansLabel(
+            alignment: .left,
+            size: .callout,
+            weight: .bold
+        )
+        return label
+    }()
+
+    private let titleLabel: UILabel = {
+        let label = GmarketSansLabel(
+            alignment: .left,
+            size: .callout,
+            weight: .bold
+        )
+        return label
+    }()
+
+// 추후 색상 설정해야 함 color: textColor,
+    private let winResultLabel = GmarketSansLabel(
+        alignment: .right,
+        size: .caption,
+        weight: .medium
+    )
+
+    // 추후 글자와 색상 설정
+    private let resultLabel = GmarketSansLabel(
+        alignment: .right,
+        size: .caption,
+        weight: .medium
+    )
+
     var chartImformationComponents: ChartInformationComponents?
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        setupChartInformationCell()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        winResultLabel.attributedText = nil
+        resultLabel.text = nil
+    }
 
     override func updateConfiguration(using state: UICellConfigurationState) {
         super.updateConfiguration(using: state)
 
-        setupChartInformationCell()
+        guard let component = chartImformationComponents else { return }
+
+        imageView.image = component.image
+        amountLabel.text = "\(component.amount) 원"
+        titleLabel.text = component.type.rawValue
+
+        switch component.type {
+        case .win:
+            guard let result = component.result, let percent = result.percent else { return }
+            let convertedPercent = percent.convertToDecimalWithPercent()
+            let attributedString = setAttributedString(convertedPercent, result: result.result, percent: percent)
+            winResultLabel.attributedText = attributedString
+        default:
+            guard let result = component.result?.result else { return }
+            if result == true {
+                resultLabel.text = "달성 완료!"
+            } else {
+                resultLabel.text = "달성 실패!"
+            }
+        }
     }
 
     func configure(with components: ChartInformationComponents) {
@@ -34,13 +108,19 @@ final class ChartInformationCell: UICollectionViewCell {
     }
 
     private func makeTotalStackView() -> UIStackView {
-        let imageView: UIImageView = {
-            let imageView = UIImageView()
-            imageView.image = chartImformationComponents?.image
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
-            return imageView
+        let amountStackView: UIStackView = {
+            let stackView = UIStackView()
+            stackView.addArrangedSubviews([titleLabel, winResultLabel, resultLabel])
+            stackView.distribution = .fillProportionally
+            return stackView
         }()
-        let informationStackView = makeInformationStackView()
+
+        let informationStackView: UIStackView = {
+            let stackView = UIStackView(arrangedSubviews: [amountStackView, amountLabel])
+            stackView.distribution = .fillProportionally
+            stackView.axis = .vertical
+            return stackView
+        }()
 
         let stackView: UIStackView = {
             let stackView = UIStackView(arrangedSubviews: [imageView, informationStackView])
@@ -52,55 +132,8 @@ final class ChartInformationCell: UICollectionViewCell {
         return stackView
     }
 
-    private func makeInformationStackView() -> UIStackView {
-        let amountStackView = makeAmountStackView()
-
-        let amountLabel: UILabel = {
-            let label = GmarketSansLabel(
-                text: "\(chartImformationComponents?.amount ?? "") 원",
-                alignment: .left,
-                size: .callout,
-                weight: .bold
-            )
-            return label
-        }()
-
-        let InformationStackView: UIStackView = {
-            let stackView = UIStackView(arrangedSubviews: [amountStackView, amountLabel])
-            stackView.distribution = .fillProportionally
-            stackView.axis = .vertical
-            return stackView
-        }()
-
-        return InformationStackView
-    }
-
-    private func makeResultLabel(_ result: Bool) -> UILabel {
-        switch result {
-        case true:
-            let label = GmarketSansLabel(
-                text: "달성 완료!",
-                color: .designSystem(.mainGreen) ?? .green,
-                alignment: .right,
-                size: .caption,
-                weight: .medium
-            )
-            return label
-        case false:
-            let label = GmarketSansLabel(
-                text: "달성 실패!",
-                color: .designSystem(.mainBlue) ?? .systemBlue,
-                alignment: .right,
-                size: .caption,
-                weight: .medium
-            )
-            return label
-        }
-    }
-
-    private func makeWinResultLabel(result: Bool, percent: Int) -> UILabel {
-        let convertedPercent = percent.convertToDecimalWithPercent()
-        let attributedString = NSMutableAttributedString(string: convertedPercent)
+    private func setAttributedString(_ string: String, result: Bool, percent: Int) -> NSMutableAttributedString {
+        let attributedString = NSMutableAttributedString(string: string)
         let signAttachment = NSTextAttachment()
 
         var textColor: UIColor
@@ -123,48 +156,6 @@ final class ChartInformationCell: UICollectionViewCell {
         signAttachment.image = UIImage(systemName: imageName)?.withTintColor(textColor)
         attributedString.append(NSAttributedString(attachment: signAttachment))
 
-        let label = GmarketSansLabel(
-            attributedText: attributedString,
-            color: textColor,
-            alignment: .right,
-            size: .caption,
-            weight: .medium
-        )
-
-        return label
-    }
-
-
-    private func makeAmountStackView() -> UIStackView {
-        let titleLabel: UILabel = {
-            let label = GmarketSansLabel(
-                text: chartImformationComponents?.type.rawValue ?? "",
-                alignment: .left,
-                size: .callout,
-                weight: .bold
-            )
-            return label
-        }()
-
-
-        let resultLabel: UILabel = {
-            switch chartImformationComponents?.type {
-            case .win:
-                guard let result = chartImformationComponents?.result, let percent = result.percent else { return UILabel() }
-                let label = makeWinResultLabel(result: result.result, percent: percent)
-                return label
-            default:
-                let label = makeResultLabel(chartImformationComponents?.result?.result ?? true)
-                return label
-            }
-        }()
-
-        let amountStackView: UIStackView = {
-            let stackView = UIStackView(arrangedSubviews: [titleLabel, resultLabel])
-            stackView.distribution = .fillProportionally
-            return stackView
-        }()
-
-        return amountStackView
+        return attributedString
     }
 }
