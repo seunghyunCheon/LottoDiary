@@ -16,17 +16,18 @@ final class ChartViewModel {
     struct Input {
         let dateHeaderTextFieldDidEditEvent: PassthroughSubject<[Int], Never>
         let chartViewDidSelectEvent: PassthroughSubject<Int, Never>
-        var selectedYear = CurrentValueSubject<Int, Never>(0)
-        var selectedMonth = CurrentValueSubject<Int, Never>(0)
     }
 
     struct Output {
-        var dateHeaderFieldText = CurrentValueSubject<[Int], Never>([])
         var chartView = CurrentValueSubject<BarChartData?, Never>(nil)
+        var dateHeaderFieldText = CurrentValueSubject<[Int], Never>([])
         var chartInformationCollectionView = CurrentValueSubject<[ChartInformationComponents], Never>([])
     }
 
     private var cancellables: Set<AnyCancellable> = []
+
+    var selectedYear = CurrentValueSubject<Int, Never>(0)
+    var selectedMonth = CurrentValueSubject<Int, Never>(0)
 
     private var years = [Int]()
     private let months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
@@ -55,18 +56,18 @@ final class ChartViewModel {
                 let year = self?.years[yearIndex] ?? 0
                 let month = self?.months[monthIndex] ?? 0
 
-                if input.selectedYear.value != year {
-                    input.selectedYear.send(year)
-                } else if input.selectedMonth.value != month {
-                    input.selectedMonth.send(month)
+                if self?.selectedYear.value != year {
+                    self?.selectedYear.send(year)
+                } else if self?.selectedMonth.value != month {
+                    self?.selectedMonth.send(month)
                 }
             }
             .store(in: &cancellables)
 
         input.chartViewDidSelectEvent
             .sink { month in
-                if input.selectedMonth.value != month {
-                    input.selectedMonth.send(month)
+                if self.selectedMonth.value != month {
+                    self.selectedMonth.send(month)
                 }
             }
             .store(in: &cancellables)
@@ -81,34 +82,35 @@ final class ChartViewModel {
             }
             .store(in: &cancellables)
 
-        self.chartUseCase.makeYearAndMonthOfToday()
-            .sink { date in
-                input.selectedYear.send(date[0])
-                input.selectedMonth.send(date[1])
-            }
-            .store(in: &cancellables)
+        let today = self.chartUseCase.makeYearAndMonthOfToday()
+        self.selectedYear.send(today[0])
+        self.selectedMonth.send(today[1])
 
-        input.selectedYear
+        self.selectedYear
             .sink { year in
-                output.dateHeaderFieldText.send([year, input.selectedMonth.value])
-                let chartData = self.chartUseCase.makeBarChartData(year: year)
-                output.chartView.send(chartData)
-                let chartInformationComponents =  self.chartUseCase.makeChartInformationComponents(
-                    year: input.selectedYear.value,
-                    month: input.selectedMonth.value
-                )
-                output.chartInformationCollectionView.send(chartInformationComponents)
+                self.chartUseCase.makeBarChartData(year: year)
+                    .sink { barChartData in
+                        output.chartView.send(barChartData)
+                    }
+                    .store(in: &self.cancellables)
+
+                self.chartUseCase.makeChartInformationComponents(year: year, month: self.selectedMonth.value)
+                    .sink { chartInformationComponents in
+                        output.chartInformationCollectionView.send(chartInformationComponents)
+                    }
+                    .store(in: &self.cancellables)
+                output.dateHeaderFieldText.send([year, self.selectedMonth.value])
             }
             .store(in: &cancellables)
 
-        input.selectedMonth
+        self.selectedMonth
             .sink { month in
-                output.dateHeaderFieldText.send([input.selectedYear.value, month])
-                let chartInformationComponents =  self.chartUseCase.makeChartInformationComponents(
-                    year: input.selectedYear.value,
-                    month: input.selectedMonth.value
-                )
-                output.chartInformationCollectionView.send(chartInformationComponents)
+                self.chartUseCase.makeChartInformationComponents(year: self.selectedYear.value, month: month)
+                    .sink { chartInformationComponents in
+                        output.chartInformationCollectionView.send(chartInformationComponents)
+                    }
+                    .store(in: &self.cancellables)
+                output.dateHeaderFieldText.send([self.selectedYear.value, month])
             }
             .store(in: &cancellables)
 

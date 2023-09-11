@@ -177,8 +177,6 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
 
         self.dateHeaderView.yearMonthPickerPublisher
             .send([selectedYear, selectedMonth])
-
-        self.dateHeaderView.configureAttributedStringOfYearMonthText(year: years[selectedYear], month: months[selectedMonth])
         dateHeaderView.resignFirstResponder()
     }
 
