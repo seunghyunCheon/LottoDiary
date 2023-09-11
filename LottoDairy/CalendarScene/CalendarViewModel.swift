@@ -8,6 +8,11 @@
 import UIKit
 import Combine
 
+enum ScopeType {
+    case month
+    case week
+}
+
 final class CalendarViewModel {
 
     private let calendarUseCase: CalendarUseCase
@@ -46,6 +51,10 @@ final class CalendarViewModel {
 
     func updateNextWeekBaseDate() {
         self.baseDate.value = calendarUseCase.calculateNextWeek(by: baseDate.value)
+    }
+    
+    func changeBaseDate(with date: Date) {
+        self.baseDate.send(date)
     }
     
     func changeCalendarShape() {

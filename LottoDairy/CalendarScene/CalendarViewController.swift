@@ -81,17 +81,17 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         
         let safe = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            calendarHeaderView.leadingAnchor.constraint(equalTo: safe.leadingAnchor, constant: 15),
-            calendarHeaderView.trailingAnchor.constraint(equalTo: safe.trailingAnchor, constant: -15),
+            calendarHeaderView.leadingAnchor.constraint(equalTo: safe.leadingAnchor, constant: Constant.calendarHeaderLeading),
+            calendarHeaderView.trailingAnchor.constraint(equalTo: safe.trailingAnchor, constant: Constant.calendarHeaderTrailing),
             calendarHeaderView.topAnchor.constraint(equalTo: safe.topAnchor),
-            calendarHeaderView.heightAnchor.constraint(equalToConstant: 100),
+            calendarHeaderView.heightAnchor.constraint(equalToConstant: Constant.calendarHeaderHeight),
         ])
     }
 
     private func setupCalendarView() {
         self.view.addSubview(calendarCollectionView)
         
-        calendarHeightConstraint = calendarCollectionView.heightAnchor.constraint(equalToConstant: 300)
+        calendarHeightConstraint = calendarCollectionView.heightAnchor.constraint(equalToConstant: Constant.monthCalendarHeight)
         
         let safe = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
@@ -138,7 +138,6 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     }
 
     private func setupCenterXOffset() {
-        
         switch viewModel.calendarShape {
         case .month:
             let middleSectionIndex = calendarCollectionView.numberOfSections / 2
@@ -179,29 +178,55 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         calendarHeaderView.yearAndMonthView.yearLabel.text = "\(updatedYear)"
         calendarHeaderView.yearAndMonthView.monthLabel.text = "\(updatedMonth)월"
     }
+
+    private func updateSnapshot() {
+        guard var snapshot = dataSource?.snapshot() else { return }
+        snapshot.deleteAllItems()
+        snapshot.appendSections([.previous, .now, .next])
+
+        switch viewModel.calendarShape {
+        case .month:
+            let days = viewModel.getThreeMonthlyDays()
+            snapshot.appendItems([days[0]], toSection: .previous)
+            snapshot.appendItems([days[1]], toSection: .now)
+            snapshot.appendItems([days[2]], toSection: .next)
+        case .week:
+            let days = viewModel.getThreeWeeklyDays()
+            snapshot.appendItems([days[0]], toSection: .previous)
+            snapshot.appendItems([days[1]], toSection: .now)
+            snapshot.appendItems([days[2]], toSection: .next)
+        }
+        dataSource?.apply(snapshot, animatingDifferences: false)
+    }
 }
 
 extension CalendarViewController: UICollectionViewDelegateFlowLayout {
-    enum Section {
+
+    private enum Section {
         case previous
         case now
         case next
     }
 
-    enum ScrollDirection {
+    private enum ScrollDirection {
         case left
         case none
         case right
     }
-
+    
+    private enum CalendarAction {
+        case select
+        case none
+    }
+    
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
         let cellWidth = collectionView.bounds.width
-        // 임시 사이즈 설정
-        let cellHeight = (self.viewModel.calendarShape == .month) ? 300 : 50
+        let cellHeight = (self.viewModel.calendarShape == .month) ? Constant.monthCalendarHeight : Constant.weekCalendarHeight
+        
         return CGSize(width: cellWidth, height: CGFloat(cellHeight))
     }
 
@@ -234,26 +259,6 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
         self.calendarCollectionView.reloadData()
     }
 
-    private func updateSnapshot() {
-        guard var snapshot = dataSource?.snapshot() else { return }
-        snapshot.deleteAllItems()
-        snapshot.appendSections([.previous, .now, .next])
-
-        switch viewModel.calendarShape {
-        case .month:
-            let days = viewModel.getThreeMonthlyDays()
-            snapshot.appendItems([days[0]], toSection: .previous)
-            snapshot.appendItems([days[1]], toSection: .now)
-            snapshot.appendItems([days[2]], toSection: .next)
-        case .week:
-            let days = viewModel.getThreeWeeklyDays()
-            snapshot.appendItems([days[0]], toSection: .previous)
-            snapshot.appendItems([days[1]], toSection: .now)
-            snapshot.appendItems([days[2]], toSection: .next)
-        }
-        dataSource?.apply(snapshot, animatingDifferences: false)
-    }
-
     func scrollViewWillEndDragging(
         _ scrollView: UIScrollView,
         withVelocity velocity: CGPoint,
@@ -275,6 +280,7 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
         guard let dateCollectionViewCell = cell as? DateCollectionViewCell else {
             return
         }
+        
         if let selectedItems = dateCollectionViewCell.monthlyCollectionView.indexPathsForSelectedItems {
             for indexPath in selectedItems {
                 dateCollectionViewCell.monthlyCollectionView.deselectItem(at: indexPath, animated: false)
@@ -286,7 +292,7 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
 extension CalendarViewController: CellBaseDateChangeDelegate {
     func changeBaseDate(with date: Date) {
         self.calendarAction = .select
-        self.viewModel.baseDate.send((date))
+        self.viewModel.changeBaseDate(with: date)
     }
 }
 
@@ -294,22 +300,25 @@ extension CalendarViewController: CalendarHeaderViewDelegate {
     func scopeSwitchButtonTapped(with scopeType: ScopeType) {
         self.viewModel.changeCalendarShape()
         if self.viewModel.calendarShape == .month {
-            self.calendarHeightConstraint.constant = 300
+            self.calendarHeightConstraint.constant = Constant.monthCalendarHeight
         } else {
-            self.calendarHeightConstraint.constant = 50
+            self.calendarHeightConstraint.constant = Constant.weekCalendarHeight
         }
         
-        calendarCollectionView.reloadData()
-        updateSnapshot()
+        UIView.animate(withDuration: 0.3) {
+            self.calendarCollectionView.reloadData()
+            self.updateSnapshot()
+            self.view.layoutIfNeeded()
+        }
     }
 }
 
-enum ScopeType {
-    case month
-    case week
-}
-
-enum CalendarAction {
-    case select
-    case none
+extension CalendarViewController {
+    private enum Constant {
+        static let calendarHeaderLeading: CGFloat = 15
+        static let calendarHeaderTrailing: CGFloat = -15
+        static let calendarHeaderHeight: CGFloat = 100
+        static let monthCalendarHeight: CGFloat = 300
+        static let weekCalendarHeight: CGFloat = 50
+    }
 }
