@@ -26,6 +26,34 @@ struct ChartInformationComponents: Hashable {
         }
     }
 
+    enum ChartInformationPercentType {
+        case minus
+        case plus
+        case zero
+
+        var systemName: String {
+            switch self {
+            case .minus:
+                return "arrowtriangle.down.fill"
+            case .plus:
+                return "arrowtriangle.up.fill"
+            case .zero:
+                return "minus"
+            }
+        }
+
+        var color: UIColor {
+            switch self {
+            case .minus:
+                return .designSystem(.mainBlue) ?? .systemBlue
+            case .plus:
+                return .designSystem(.mainOrange) ?? .systemOrange
+            case .zero:
+                return .designSystem(.mainGreen) ?? .systemGreen
+            }
+        }
+    }
+
     enum ChartInformationSection {
         case main
     }
@@ -35,7 +63,7 @@ struct ChartInformationComponents: Hashable {
     var amount: String
     // 1, 2 : (달성 여부, nil)
     // 3 : (+/-, 금액)
-    var result: (result: Bool, percent: Int?)?
+    var result: (result: Bool, percent: Int?)
 
     init(type: ChartInformationType, amount: Int, result: (result: Bool, percent: Int?)) {
         self.image = type.image
@@ -46,11 +74,11 @@ struct ChartInformationComponents: Hashable {
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(amount)
-        hasher.combine(result?.result)
-        hasher.combine(result?.percent)
+        hasher.combine(result.result)
+        hasher.combine(result.percent)
     }
 
     static func == (lhs: ChartInformationComponents, rhs: ChartInformationComponents) -> Bool {
-        return lhs.amount == rhs.amount && lhs.result?.result == rhs.result?.result && lhs.result?.percent == rhs.result?.percent
+        return lhs.amount == rhs.amount && lhs.result.result == rhs.result.result && lhs.result.percent == rhs.result.percent
     }
 }

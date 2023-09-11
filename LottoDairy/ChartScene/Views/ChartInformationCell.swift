@@ -36,14 +36,14 @@ final class ChartInformationCell: UICollectionViewCell {
 // 추후 색상 설정해야 함 color: textColor,
     private let winResultLabel = GmarketSansLabel(
         alignment: .right,
-        size: .caption,
+        size: .callout,
         weight: .medium
     )
 
     // 추후 글자와 색상 설정
     private let resultLabel = GmarketSansLabel(
         alignment: .right,
-        size: .caption,
+        size: .callout,
         weight: .medium
     )
 
@@ -77,13 +77,12 @@ final class ChartInformationCell: UICollectionViewCell {
 
         switch component.type {
         case .win:
-            guard let result = component.result, let percent = result.percent else { return }
+            guard let percent = component.result.percent else { return }
             let convertedPercent = percent.convertToDecimalWithPercent()
-            let attributedString = setAttributedString(convertedPercent, result: result.result, percent: percent)
+            let attributedString = setAttributedString(convertedPercent, result: component.result.result, percent: percent)
             winResultLabel.attributedText = attributedString
         default:
-            guard let result = component.result?.result else { return }
-            if result == true {
+            if component.result.result == true {
                 resultLabel.text = "달성 완료!"
             } else {
                 resultLabel.text = "달성 실패!"
@@ -136,24 +135,21 @@ final class ChartInformationCell: UICollectionViewCell {
         let attributedString = NSMutableAttributedString(string: string)
         let signAttachment = NSTextAttachment()
 
-        var textColor: UIColor
-        var imageName: String
+        var percentType: ChartInformationComponents.ChartInformationPercentType
 
         switch result {
         case true:
             if percent == 0 {
-                imageName = "minus"
-                textColor = .designSystem(.mainGreen) ?? .green
+                percentType = .zero
             } else {
-                imageName = "arrowtriangle.up.fill"
-                textColor = .designSystem(.mainOrange) ?? .orange
+                percentType = .plus
             }
         case false:
-            imageName = "arrowtriangle.down.fill"
-            textColor = .designSystem(.mainBlue) ?? .systemBlue
+            percentType = .minus
         }
 
-        signAttachment.image = UIImage(systemName: imageName)?.withTintColor(textColor)
+        signAttachment.image = UIImage(systemName: percentType.systemName)?.withTintColor(percentType.color)
+        attributedString.addAttributes([.foregroundColor: percentType.color], range: .init(location: 0, length: attributedString.length))
         attributedString.append(NSAttributedString(attachment: signAttachment))
 
         return attributedString
