@@ -54,6 +54,20 @@ struct ChartInformationComponents: Hashable {
         }
     }
 
+    enum ChartInformationResultType: String {
+        case success = "달성 완료!"
+        case fail = "달성 실패!"
+
+        var color: UIColor? {
+            switch self {
+            case .success:
+                return .designSystem(.mainGreen)
+            case .fail:
+                return .designSystem(.mainBlue)
+            }
+        }
+    }
+
     enum ChartInformationSection {
         case main
     }

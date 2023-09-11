@@ -78,15 +78,10 @@ final class ChartInformationCell: UICollectionViewCell {
         switch component.type {
         case .win:
             guard let percent = component.result.percent else { return }
-            let convertedPercent = percent.convertToDecimalWithPercent()
-            let attributedString = setAttributedString(convertedPercent, result: component.result.result, percent: percent)
+            let attributedString = setWinResultLabel(result: component.result.result, percent: percent)
             winResultLabel.attributedText = attributedString
         default:
-            if component.result.result == true {
-                resultLabel.text = "달성 완료!"
-            } else {
-                resultLabel.text = "달성 실패!"
-            }
+            setResultLabel(result: component.result.result)
         }
     }
 
@@ -131,27 +126,31 @@ final class ChartInformationCell: UICollectionViewCell {
         return stackView
     }
 
-    private func setAttributedString(_ string: String, result: Bool, percent: Int) -> NSMutableAttributedString {
-        let attributedString = NSMutableAttributedString(string: string)
-        let signAttachment = NSTextAttachment()
+    private func setWinResultLabel(result: Bool, percent: Int) -> NSMutableAttributedString {
+        let convertedPercent = percent.convertToDecimalWithPercent()
+        let attributedString = NSMutableAttributedString(string: convertedPercent)
 
         var percentType: ChartInformationComponents.ChartInformationPercentType
-
         switch result {
         case true:
-            if percent == 0 {
-                percentType = .zero
-            } else {
-                percentType = .plus
-            }
+            percentType = percent == 0 ? .zero : .plus
         case false:
             percentType = .minus
         }
 
+        let signAttachment = NSTextAttachment()
         signAttachment.image = UIImage(systemName: percentType.systemName)?.withTintColor(percentType.color)
         attributedString.addAttributes([.foregroundColor: percentType.color], range: .init(location: 0, length: attributedString.length))
         attributedString.append(NSAttributedString(attachment: signAttachment))
 
         return attributedString
+    }
+
+    private func setResultLabel(result: Bool) {
+        var resultType: ChartInformationComponents.ChartInformationResultType
+        resultType = result ? .success : .fail
+
+        resultLabel.text = resultType.rawValue
+        resultLabel.textColor = resultType.color
     }
 }
