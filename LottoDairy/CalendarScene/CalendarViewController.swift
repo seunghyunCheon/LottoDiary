@@ -60,7 +60,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         setupCalendarHeaderView()
         setupCalendarView()
         configureCalendarCollectionViewDataSource()
-        updateSnapshot()
+        viewModel.fetchThreeMonthlyDays()
         bindViewModel()
     }
 
@@ -110,7 +110,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
             dateCollectionViewCell.configure(
                 with: item,
                 scope: self.viewModel.calendarShape,
-                baseDate: self.viewModel.baseDate.value
+                baseDate: self.viewModel.baseDate
             )
             dateCollectionViewCell.delegate = self
             return dateCollectionViewCell
@@ -135,15 +135,10 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     }
     
     private func bindViewModel() {
-        viewModel.baseDate
-            .sink { date in
-                if self.calendarAction == .select {
-                    self.calendarAction = .none
-                    return
-                }
-                
-                self.updateYearAndMonth(with: date)
-                self.updateSnapshot()
+        viewModel.days
+            .sink { days in
+                self.updateYearAndMonth(with: self.viewModel.baseDate)
+                self.updateSnapshot(with: days)
             }
             .store(in: &cancellables)
     }
@@ -159,18 +154,16 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         calendarHeaderView.yearAndMonthView.monthLabel.text = "\(updatedMonth)월"
     }
 
-    private func updateSnapshot() {
+    private func updateSnapshot(with days: [[DayComponent]] = []) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, [DayComponent]>()
         snapshot.appendSections([.previous, .now, .next])
 
         switch viewModel.calendarShape {
         case .month:
-            let days = viewModel.getThreeMonthlyDays()
             snapshot.appendItems([days[0]], toSection: .previous)
             snapshot.appendItems([days[1]], toSection: .now)
             snapshot.appendItems([days[2]], toSection: .next)
         case .week:
-            let days = viewModel.getThreeWeeklyDays()
             snapshot.appendItems([days[0]], toSection: .previous)
             snapshot.appendItems([days[1]], toSection: .now)
             snapshot.appendItems([days[2]], toSection: .next)
@@ -286,7 +279,8 @@ extension CalendarViewController: CalendarHeaderViewDelegate {
         
         UIView.animate(withDuration: 0.3) {
             self.calendarCollectionView.reloadData()
-            self.updateSnapshot()
+            self.viewModel.calendarShape == .month ? self.viewModel.fetchThreeMonthlyDays() : self.viewModel.fetchThreeWeeklyDays()
+            
             self.view.layoutIfNeeded()
         }
     }
