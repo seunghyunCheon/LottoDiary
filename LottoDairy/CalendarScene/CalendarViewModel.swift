@@ -12,8 +12,9 @@ final class CalendarViewModel {
 
     private let calendarUseCase: CalendarUseCase
 
-    // 날짜를 불러오는 것과 선택된 것에 대한 baseDate를 분리.
     var baseDate = CurrentValueSubject<Date, Never>(.today)
+    
+    var calendarShape: ScopeType = .month
     
     init(calendarUseCase: CalendarUseCase) {
         self.calendarUseCase = calendarUseCase
@@ -45,5 +46,9 @@ final class CalendarViewModel {
 
     func updateNextWeekBaseDate() {
         self.baseDate.value = calendarUseCase.calculateNextWeek(by: baseDate.value)
+    }
+    
+    func changeCalendarShape() {
+        self.calendarShape = (self.calendarShape == .month) ? .week : .month
     }
 }
