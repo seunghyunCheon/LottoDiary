@@ -37,7 +37,7 @@ struct ChartInformationComponents: Hashable {
     // 3 : (+/-, 금액)
     var result: (result: Bool, percent: Int?)?
 
-    init(type: ChartInformationType, amount: Int, result: (result: Bool, percent: Int?)? = nil) {
+    init(type: ChartInformationType, amount: Int, result: (result: Bool, percent: Int?)) {
         self.image = type.image
         self.type = type
         self.amount = amount.convertToDecimal()

@@ -67,7 +67,8 @@ final class DefaultChartInformationUseCase: ChartInformationUseCase {
                 ),
                 ChartInformationComponents(
                     type: .buy,
-                    amount: buyAmount
+                    amount: buyAmount,
+                    result: (goalResult, nil)
                 ),
                 ChartInformationComponents(
                     type: .win,
