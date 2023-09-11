@@ -60,7 +60,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         setupCalendarHeaderView()
         setupCalendarView()
         configureCalendarCollectionViewDataSource()
-        configureSnapshot()
+        updateSnapshot()
         bindViewModel()
     }
 
@@ -116,27 +116,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
             return dateCollectionViewCell
         }
     }
-
-    private func configureSnapshot() {
-
-        var snapshot = NSDiffableDataSourceSnapshot<Section, [DayComponent]>()
-        snapshot.appendSections([.previous, .now, .next])
-
-        switch viewModel.calendarShape {
-        case .month:
-            let threeMonthlyDays = viewModel.getThreeMonthlyDays()
-            snapshot.appendItems([threeMonthlyDays[0]], toSection: .previous)
-            snapshot.appendItems([threeMonthlyDays[1]], toSection: .now)
-            snapshot.appendItems([threeMonthlyDays[2]], toSection: .next)
-        case .week:
-            let threeWeeklyDays = viewModel.getThreeWeeklyDays()
-            snapshot.appendItems([threeWeeklyDays[0]], toSection: .previous)
-            snapshot.appendItems([threeWeeklyDays[1]], toSection: .now)
-            snapshot.appendItems([threeWeeklyDays[2]], toSection: .next)
-        }
-        self.dataSource?.apply(snapshot)
-    }
-
+    
     private func setupCenterXOffset() {
         switch viewModel.calendarShape {
         case .month:
@@ -180,8 +160,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     }
 
     private func updateSnapshot() {
-        guard var snapshot = dataSource?.snapshot() else { return }
-        snapshot.deleteAllItems()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, [DayComponent]>()
         snapshot.appendSections([.previous, .now, .next])
 
         switch viewModel.calendarShape {
