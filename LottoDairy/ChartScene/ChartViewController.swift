@@ -60,8 +60,6 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
     init(viewModel: ChartViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-
-        print(view.frame)
     }
 
     required init?(coder: NSCoder) {
@@ -205,19 +203,17 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
 
         let output = viewModel.transform(from: input)
 
+        output.chartView
+            .sink { [weak self] barChartData in
+                self?.chartView.data = barChartData
+            }
+            .store(in: &cancellables)
+
         output.dateHeaderFieldText
             .sink { [weak self] date in
                 self?.dateHeaderView.configureAttributedStringOfYearMonthText(year: date[0], month: date[1])
                 self?.setSelectedRow(year: date[0], month: date[1])
-            }
-            .store(in: &cancellables)
-
-        output.chartView
-            .sink { [weak self] barChartData in
-                self?.chartView.data = barChartData
-
-                // dateHeader에서 월 변경될 경우, 해당 highlightValue 설정
-//                self?.chartView.highlightValue(x: 2, dataSetIndex: 0)
+                self?.chartView.highlightValue(x: Double(date[1]), dataSetIndex: 0)
             }
             .store(in: &cancellables)
 
