@@ -60,6 +60,8 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
     init(viewModel: ChartViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+
+        print(view.frame)
     }
 
     required init?(coder: NSCoder) {
@@ -87,11 +89,13 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
     private func setupView() {
         self.view.addSubview(chartView)
         chartView.delegate = self
+
+        let chartViewHeight = view.frame.height * 0.33
         NSLayoutConstraint.activate([
             chartView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            chartView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            chartView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            chartView.heightAnchor.constraint(equalToConstant: 280)
+            chartView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Device.Constraint.horiziontal),
+            chartView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Device.Constraint.horiziontal),
+            chartView.heightAnchor.constraint(equalToConstant: chartViewHeight)
         ])
 
         self.view.addSubview(dateHeaderView)
@@ -208,6 +212,9 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         output.chartView
             .sink { [weak self] barChartData in
                 self?.chartView.data = barChartData
+
+                // dateHeader에서 월 변경될 경우, 해당 highlightValue 설정
+//                self?.chartView.highlightValue(x: 2, dataSetIndex: 0)
             }
             .store(in: &cancellables)
 

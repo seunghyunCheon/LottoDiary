@@ -48,6 +48,7 @@
 		801766FE2AAEF8FF0046E537 /* ChartUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801766FD2AAEF8FF0046E537 /* ChartUseCase.swift */; };
 		801767002AAEF90F0046E537 /* DefaultChartUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801766FF2AAEF90F0046E537 /* DefaultChartUseCase.swift */; };
 		801767032AB030E70046E537 /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = 801767022AB030E70046E537 /* DGCharts */; };
+		801767072AB036670046E537 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801767062AB036670046E537 /* Device.swift */; };
 		805EA6BF2A9B1E1E00A3545C /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6BE2A9B1E1E00A3545C /* ChartViewController.swift */; };
 		805EA6C12A9B1E3D00A3545C /* ChartCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6C02A9B1E3D00A3545C /* ChartCoordinator.swift */; };
 		805EA6C32A9B1E8D00A3545C /* ChartFlowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6C22A9B1E8D00A3545C /* ChartFlowProtocol.swift */; };
@@ -126,6 +127,7 @@
 		62AFA0922A723C8B00C9D86C /* LottoLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoLabel.swift; sourceTree = "<group>"; };
 		801766FD2AAEF8FF0046E537 /* ChartUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartUseCase.swift; sourceTree = "<group>"; };
 		801766FF2AAEF90F0046E537 /* DefaultChartUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultChartUseCase.swift; sourceTree = "<group>"; };
+		801767062AB036670046E537 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		805EA6BE2A9B1E1E00A3545C /* ChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewController.swift; sourceTree = "<group>"; };
 		805EA6C02A9B1E3D00A3545C /* ChartCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartCoordinator.swift; sourceTree = "<group>"; };
 		805EA6C22A9B1E8D00A3545C /* ChartFlowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartFlowProtocol.swift; sourceTree = "<group>"; };
@@ -279,6 +281,7 @@
 		6215034F2A5E6EB300431BBB /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				801767062AB036670046E537 /* Device.swift */,
 				621503502A5E6EBA00431BBB /* Extension */,
 			);
 			path = Support;
@@ -601,6 +604,7 @@
 				805EA6D02AA390E500A3545C /* UICollectionViewCell+Extensions.swift in Sources */,
 				80773A742A55B99E0020F1DD /* HomeModuleFactory.swift in Sources */,
 				8080DDBE2A60540B00364CF1 /* TabBarView.swift in Sources */,
+				801767072AB036670046E537 /* Device.swift in Sources */,
 				621503302A559BB200431BBB /* CoordinatorFactoryImp.swift in Sources */,
 				805EA6C12A9B1E3D00A3545C /* ChartCoordinator.swift in Sources */,
 				624BB0CF2A652FB9002A3109 /* GoalSettingModuleFactory.swift in Sources */,
