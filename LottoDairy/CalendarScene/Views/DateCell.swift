@@ -74,10 +74,16 @@ final class DateCell: UICollectionViewCell {
                 switch state {
                 case .none:
                     self?.numberLabel.backgroundColor = .clear
+                    self?.numberLabel.textColor = .designSystem(.gray63626B)
                 case .selected:
                     self?.numberLabel.backgroundColor = .designSystem(.gray63626B)
+                    self?.numberLabel.textColor = .white
                 case .today:
                     self?.numberLabel.backgroundColor = .designSystem(.mainBlue)
+                    self?.numberLabel.textColor = .designSystem(.gray63626B)
+                case .todaySelected:
+                    self?.numberLabel.backgroundColor = .designSystem(.mainBlue)
+                    self?.numberLabel.textColor = .white
                 }
             }
             .store(in: &cancellables)

@@ -11,6 +11,7 @@ import Foundation
 enum DateCellState {
     case none
     case today
+    case todaySelected
     case selected
 }
 
@@ -37,6 +38,9 @@ final class DateCellViewModel {
         
         if Date.today.equalsDate(with: date) {
             cellState = .today
+            if isSelected {
+                cellState = .todaySelected
+            }
             return
         }
         
