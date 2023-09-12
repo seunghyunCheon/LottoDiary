@@ -77,10 +77,9 @@ final class ChartViewModel {
 
                 if self?.selectedYear.value != year {
                     self?.selectedYear.send(year)
-                } else if self?.selectedMonth.value != month {
-                    self?.selectedMonth.send(month)
-                } else if self?.selectedYear.value != year && self?.selectedMonth.value != month {
-                    self?.selectedYear.send(year)
+                }
+
+                if self?.selectedMonth.value != month {
                     self?.selectedMonth.send(month)
                 }
             }
