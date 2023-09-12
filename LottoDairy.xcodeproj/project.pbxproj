@@ -80,7 +80,6 @@
 		80EB03342A72370E00455E05 /* UIStackView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB03332A72370E00455E05 /* UIStackView+Extensions.swift */; };
 		80EB033C2A72CB8000455E05 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB033B2A72CB8000455E05 /* UIView+Extensions.swift */; };
 		80EB033E2A72CF9A00455E05 /* DoubleLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB033D2A72CF9A00455E05 /* DoubleLabelView.swift */; };
-		9EDC90105EAB722617E1A0A8 /* Pods_LottoDairy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 743FFCCB1BCBCC9F40A77270 /* Pods_LottoDairy.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -124,7 +123,6 @@
 		629C1F612A4ABD1000540FA4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		629C1F632A4ABD1000540FA4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		62AFA0922A723C8B00C9D86C /* LottoLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoLabel.swift; sourceTree = "<group>"; };
-		743FFCCB1BCBCC9F40A77270 /* Pods_LottoDairy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LottoDairy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		801766FD2AAEF8FF0046E537 /* ChartUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartUseCase.swift; sourceTree = "<group>"; };
 		801766FF2AAEF90F0046E537 /* DefaultChartUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultChartUseCase.swift; sourceTree = "<group>"; };
 		805EA6BE2A9B1E1E00A3545C /* ChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewController.swift; sourceTree = "<group>"; };
@@ -160,8 +158,6 @@
 		80EB03332A72370E00455E05 /* UIStackView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extensions.swift"; sourceTree = "<group>"; };
 		80EB033B2A72CB8000455E05 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		80EB033D2A72CF9A00455E05 /* DoubleLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleLabelView.swift; sourceTree = "<group>"; };
-		86B7A71B2EC870B83389E647 /* Pods-LottoDairy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LottoDairy.release.xcconfig"; path = "Target Support Files/Pods-LottoDairy/Pods-LottoDairy.release.xcconfig"; sourceTree = "<group>"; };
-		AA12F166C0508FF1EA22EED1 /* Pods-LottoDairy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LottoDairy.debug.xcconfig"; path = "Target Support Files/Pods-LottoDairy/Pods-LottoDairy.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,7 +165,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9EDC90105EAB722617E1A0A8 /* Pods_LottoDairy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -383,8 +378,6 @@
 			children = (
 				629C1F512A4ABD0F00540FA4 /* LottoDairy */,
 				629C1F502A4ABD0F00540FA4 /* Products */,
-				978AB7E30994FC38B44D6532 /* Pods */,
-				9FAEE023F1E7C7FD0ECCA8F6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -523,23 +516,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		978AB7E30994FC38B44D6532 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				AA12F166C0508FF1EA22EED1 /* Pods-LottoDairy.debug.xcconfig */,
-				86B7A71B2EC870B83389E647 /* Pods-LottoDairy.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
-		9FAEE023F1E7C7FD0ECCA8F6 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				743FFCCB1BCBCC9F40A77270 /* Pods_LottoDairy.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -547,11 +523,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 629C1F662A4ABD1000540FA4 /* Build configuration list for PBXNativeTarget "LottoDairy" */;
 			buildPhases = (
-				93E91AACAB495691EBC75FB9 /* [CP] Check Pods Manifest.lock */,
 				629C1F4B2A4ABD0F00540FA4 /* Sources */,
 				629C1F4C2A4ABD0F00540FA4 /* Frameworks */,
 				629C1F4D2A4ABD0F00540FA4 /* Resources */,
-				C31EE7A459CEE83374B01866 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -610,48 +584,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		93E91AACAB495691EBC75FB9 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-LottoDairy-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C31EE7A459CEE83374B01866 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-LottoDairy/Pods-LottoDairy-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-LottoDairy/Pods-LottoDairy-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LottoDairy/Pods-LottoDairy-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		629C1F4B2A4ABD0F00540FA4 /* Sources */ = {
@@ -858,7 +790,6 @@
 		};
 		629C1F672A4ABD1000540FA4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AA12F166C0508FF1EA22EED1 /* Pods-LottoDairy.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -887,7 +818,6 @@
 		};
 		629C1F682A4ABD1000540FA4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 86B7A71B2EC870B83389E647 /* Pods-LottoDairy.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
