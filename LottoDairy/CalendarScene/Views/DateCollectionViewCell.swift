@@ -71,7 +71,7 @@ final class DateCollectionViewCell: UICollectionViewCell {
             let dateCollectionViewCell: DateCell = collectionView.dequeue(for: indexPath)
             let cellViewModel = DateCellViewModel(dayComponent: days[indexPath.row])
             dateCollectionViewCell.provide(viewModel: cellViewModel)
-            if self.baseDate == days[indexPath.row].date {
+            if self.baseDate.equalsDate(with: days[indexPath.row].date) {
                 collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .bottom)
             }
             

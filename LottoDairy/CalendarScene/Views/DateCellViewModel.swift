@@ -35,7 +35,7 @@ final class DateCellViewModel {
             return
         }
         
-        if checkTodayDate(with: date) {
+        if Date.today.equalsDate(with: date) {
             cellState = .today
             return
         }
@@ -45,14 +45,5 @@ final class DateCellViewModel {
         } else {
             cellState = .none
         }
-    }
-    
-    private func checkTodayDate(with date: Date) -> Bool {
-        let calendar = Calendar.current
-            
-        let todayComponent = calendar.dateComponents([.year, .month, .day], from: Date())
-        let dateComponent = calendar.dateComponents([.year, .month, .day], from: date)
-            
-        return (todayComponent == dateComponent)
     }
 }
