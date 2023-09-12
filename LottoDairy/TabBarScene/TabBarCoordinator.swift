@@ -21,6 +21,7 @@ final class TabBarCoordinator: BaseCoordinator {
         tabBarFlow.onViewWillAppear = runHomeFlow()
         tabBarFlow.onHomeFlowSelect = runHomeFlow()
         tabBarFlow.onLottoQRFlowSelect = runLottoQRFlow()
+        tabBarFlow.onCalendarFlowSelect = runCalendarFlow()
     }
     
     private func runHomeFlow() -> ((UINavigationController) -> ()) {
@@ -43,4 +44,14 @@ final class TabBarCoordinator: BaseCoordinator {
         }
     }
 
+    private func runCalendarFlow() -> ((UINavigationController) -> ()) {
+        return { [unowned self] navController in
+            if navController.viewControllers.isEmpty == true {
+                let calendarCoordinator = coordinatorFactory.makeCalendarCoordinator(navigationController: navController)
+                addDependency(calendarCoordinator)
+                calendarCoordinator.start()
+            }
+
+        }
+    }
 }
