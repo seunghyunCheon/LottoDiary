@@ -99,18 +99,21 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         ])
 
         self.view.addSubview(dateHeaderView)
+        let dateHeaderViewTop: CGFloat = view.frame.height * 0.041
         NSLayoutConstraint.activate([
-            dateHeaderView.topAnchor.constraint(equalTo: self.chartView.bottomAnchor, constant: 35),
+            dateHeaderView.topAnchor.constraint(equalTo: self.chartView.bottomAnchor, constant: dateHeaderViewTop),
             dateHeaderView.leadingAnchor.constraint(equalTo: self.chartView.leadingAnchor),
             dateHeaderView.trailingAnchor.constraint(equalTo: self.chartView.trailingAnchor)
         ])
 
         self.view.addSubview(informationCollectionView)
+        let informationCollectionViewTop: CGFloat = view.frame.height * 0.018
+        let informationCollectionViewHeight: CGFloat = view.frame.height * 0.249
         NSLayoutConstraint.activate([
-            informationCollectionView.topAnchor.constraint(equalTo: self.dateHeaderView.bottomAnchor, constant: 15),
+            informationCollectionView.topAnchor.constraint(equalTo: self.dateHeaderView.bottomAnchor, constant: informationCollectionViewTop),
             informationCollectionView.leadingAnchor.constraint(equalTo: self.chartView.leadingAnchor),
             informationCollectionView.trailingAnchor.constraint(equalTo: self.chartView.trailingAnchor),
-            informationCollectionView.heightAnchor.constraint(equalToConstant: 210)
+            informationCollectionView.heightAnchor.constraint(equalToConstant: informationCollectionViewHeight)
         ])
     }
 
