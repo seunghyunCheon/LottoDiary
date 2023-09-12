@@ -41,7 +41,6 @@ final class DateCollectionViewCell: UICollectionViewCell {
 
     override func updateConfiguration(using state: UICellConfigurationState) {
         super.updateConfiguration(using: state)
-
         setupDateCollectionViewCell()
         configuremonthlyCollectionViewDataSource()
         configureSnapshot()

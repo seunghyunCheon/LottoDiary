@@ -60,14 +60,15 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         setupCalendarHeaderView()
         setupCalendarView()
         configureCalendarCollectionViewDataSource()
-        viewModel.fetchThreeMonthlyDays()
+        self.viewModel.fetchThreeMonthlyDays()
         bindViewModel()
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
         setupCenterXOffset()
     }
+
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//        setupCenterXOffset()
+//    }
     
     private func setupRootView() {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
@@ -118,27 +119,23 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     }
     
     private func setupCenterXOffset() {
-        switch viewModel.calendarShape {
-        case .month:
-            let middleSectionIndex = calendarCollectionView.numberOfSections / 2
-            let width = calendarCollectionView.collectionViewLayout.collectionViewContentSize.width
-            let numberOfSections = CGFloat(calendarCollectionView.numberOfSections)
-            let middleSectionX = width / numberOfSections * CGFloat(middleSectionIndex)
-            calendarCollectionView.setContentOffset(CGPoint(x: middleSectionX, y: 0), animated: false)
-        case .week:
-            let middleSectionIndex = calendarCollectionView.numberOfSections / 2
-            let width = calendarCollectionView.collectionViewLayout.collectionViewContentSize.width
-            let numberOfSections = CGFloat(calendarCollectionView.numberOfSections)
-            let middleSectionX = width / numberOfSections * CGFloat(middleSectionIndex)
-            calendarCollectionView.setContentOffset(CGPoint(x: middleSectionX, y: 0), animated: false)
-        }
+        let width = calendarCollectionView.collectionViewLayout.collectionViewContentSize.width
+        guard width != .zero else { return }
+        let middleSectionIndex = calendarCollectionView.numberOfSections / 2
+        
+        let numberOfSections = CGFloat(calendarCollectionView.numberOfSections)
+        let middleSectionX = width / numberOfSections * CGFloat(middleSectionIndex)
+        calendarCollectionView.setContentOffset(CGPoint(x: middleSectionX, y: 0), animated: false)
     }
     
     private func bindViewModel() {
         viewModel.days
+            .compactMap { $0 }
+            .receive(on: DispatchQueue.main)
             .sink { days in
                 self.updateYearAndMonth(with: self.viewModel.baseDate)
                 self.updateSnapshot(with: days)
+                self.setupCenterXOffset()
             }
             .store(in: &cancellables)
     }
@@ -155,6 +152,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     }
 
     private func updateSnapshot(with days: [[DayComponent]] = []) {
+        guard !days.isEmpty else { return }
         var snapshot = NSDiffableDataSourceSnapshot<Section, [DayComponent]>()
         snapshot.appendSections([.previous, .now, .next])
 
@@ -208,26 +206,21 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
             switch scrollDirection {
             case .left:
                 viewModel.updatePreviousBaseDate()
-                setupCenterXOffset()
             case .none:
                 break
             case .right:
                 viewModel.updateNextBaseDate()
-                setupCenterXOffset()
             }
         case .week:
             switch scrollDirection {
             case .left:
                 viewModel.updatePreviousWeekBaseDate()
-                setupCenterXOffset()
             case .none:
                 break
             case .right:
                 viewModel.updateNextWeekBaseDate()
-                setupCenterXOffset()
             }
         }
-        
         self.calendarCollectionView.reloadData()
     }
 
