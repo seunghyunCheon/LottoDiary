@@ -47,6 +47,7 @@
 		62AFA0932A723C8B00C9D86C /* LottoLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62AFA0922A723C8B00C9D86C /* LottoLabel.swift */; };
 		801766FE2AAEF8FF0046E537 /* ChartUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801766FD2AAEF8FF0046E537 /* ChartUseCase.swift */; };
 		801767002AAEF90F0046E537 /* DefaultChartUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801766FF2AAEF90F0046E537 /* DefaultChartUseCase.swift */; };
+		801767032AB030E70046E537 /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = 801767022AB030E70046E537 /* DGCharts */; };
 		805EA6BF2A9B1E1E00A3545C /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6BE2A9B1E1E00A3545C /* ChartViewController.swift */; };
 		805EA6C12A9B1E3D00A3545C /* ChartCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6C02A9B1E3D00A3545C /* ChartCoordinator.swift */; };
 		805EA6C32A9B1E8D00A3545C /* ChartFlowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6C22A9B1E8D00A3545C /* ChartFlowProtocol.swift */; };
@@ -165,6 +166,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				801767032AB030E70046E537 /* DGCharts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -532,6 +534,9 @@
 			dependencies = (
 			);
 			name = LottoDairy;
+			packageProductDependencies = (
+				801767022AB030E70046E537 /* DGCharts */,
+			);
 			productName = LottoDairy;
 			productReference = 629C1F4F2A4ABD0F00540FA4 /* LottoDairy.app */;
 			productType = "com.apple.product-type.application";
@@ -560,6 +565,9 @@
 				Base,
 			);
 			mainGroup = 629C1F462A4ABD0F00540FA4;
+			packageReferences = (
+				801767012AB030E70046E537 /* XCRemoteSwiftPackageReference "Charts" */,
+			);
 			productRefGroup = 629C1F502A4ABD0F00540FA4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -866,6 +874,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		801767012AB030E70046E537 /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielgindi/Charts.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		801767022AB030E70046E537 /* DGCharts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 801767012AB030E70046E537 /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = DGCharts;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		629C1F5B2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld */ = {
