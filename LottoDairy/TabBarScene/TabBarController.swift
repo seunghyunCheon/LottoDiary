@@ -41,7 +41,7 @@ final class TabBarController: UITabBarController, TabBarFlowProtocol {
     
     private func configureViewControllers() {
         viewControllers = TabBarComponents.allCases.map { makeTabBarNavigationControllers($0) }
-        selectedIndex = 1
+        selectedIndex = TabBarComponents.home.rawValue
     }
     
     private func makeTabBarNavigationControllers(_ type: TabBarComponents) -> UINavigationController {
@@ -57,12 +57,12 @@ extension TabBarController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         guard let controller = viewControllers?[selectedIndex] as? UINavigationController else { return }
 
-        switch selectedIndex {
-        case 0:
+        switch TabBarComponents(rawValue: selectedIndex) {
+        case .calendar:
             onCalendarFlowSelect?(controller)
-        case 1:
+        case .home:
             onHomeFlowSelect?(controller)
-        case 3:
+        case .chart:
             onChartFlowSelect?(controller)
         default:
             onHomeFlowSelect?(controller)
@@ -73,6 +73,6 @@ extension TabBarController: UITabBarControllerDelegate {
         guard let selectedIndex = tabBarController.viewControllers?.firstIndex(of: viewController) else {
             return true
         }
-        return selectedIndex == 2 ? false : true
+        return TabBarComponents(rawValue: selectedIndex) == .empty ? false : true
     }
 }
