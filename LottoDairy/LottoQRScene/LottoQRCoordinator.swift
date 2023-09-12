@@ -21,5 +21,4 @@ final class LottoQRCoordinator: BaseCoordinator {
         let lottoQRFlow = moduleFactory.makeLottoQRFlow()
         router.setRootModule(lottoQRFlow)
     }
-
 }

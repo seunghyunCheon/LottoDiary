@@ -22,6 +22,7 @@ final class TabBarCoordinator: BaseCoordinator {
         tabBarFlow.onHomeFlowSelect = runHomeFlow()
         tabBarFlow.onLottoQRFlowSelect = runLottoQRFlow()
         tabBarFlow.onCalendarFlowSelect = runCalendarFlow()
+        tabBarFlow.onChartFlowSelect = runChartFlow()
     }
     
     private func runHomeFlow() -> ((UINavigationController) -> ()) {
@@ -52,6 +53,16 @@ final class TabBarCoordinator: BaseCoordinator {
                 calendarCoordinator.start()
             }
 
+        }
+    }
+
+    private func runChartFlow() -> ((UINavigationController) -> ()) {
+        return { [unowned self] navController in
+            if navController.viewControllers.isEmpty == true {
+                let chartCoordinator = coordinatorFactory.makeChartCoordinator(navigationController: navController)
+                addDependency(chartCoordinator)
+                chartCoordinator.start()
+            }
         }
     }
 }

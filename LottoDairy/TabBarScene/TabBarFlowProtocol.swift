@@ -12,4 +12,5 @@ protocol TabBarFlowProtocol: AnyObject {
     var onHomeFlowSelect: ((UINavigationController) -> ())? { get set }
     var onLottoQRFlowSelect: ((UINavigationController) -> ())? { get set }
     var onCalendarFlowSelect: ((UINavigationController) -> ())? { get set }
+    var onChartFlowSelect: ((UINavigationController) -> ())? { get set }
 }

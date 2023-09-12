@@ -9,7 +9,8 @@ final class ModuleFactoryImp:
     OnboardingModuleFactory,
     GoalSettingModuleFactory,
     LottoQRModuleFactory,
-    CalendarModuleFactory {
+    CalendarModuleFactory,
+    ChartModuleFactory {
     
     func makeHomeFlow() -> HomeFlowProtocol {
         return HomeViewController()
@@ -47,5 +48,12 @@ final class ModuleFactoryImp:
         let calendarUseCase = CalendarUseCase()
         let viewModel = CalendarViewModel(calendarUseCase: calendarUseCase)
         return CalendarViewController(viewModel: viewModel)
+    }
+
+    func makeChartFlow() -> ChartFlowProtocol {
+        let chartInformationUseCase = DefaultChartInformationUseCase()
+        let chartUseCase = DefaultChartUseCase()
+        let viewModel = ChartViewModel(chartUseCase: chartUseCase, chartInformationUseCase: chartInformationUseCase)
+        return ChartViewController(viewModel: viewModel)
     }
 }

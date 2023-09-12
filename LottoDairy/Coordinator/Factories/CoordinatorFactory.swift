@@ -14,4 +14,5 @@ protocol CoordinatorFactory {
     func makeHomeCoordinator(navigationController: UINavigationController?) -> Coordinator
     func makeLottoQRCoordinator(navigationController: UINavigationController?) -> Coordinator
     func makeCalendarCoordinator(navigationController: UINavigationController?) -> Coordinator
+    func makeChartCoordinator(navigationController: UINavigationController?) -> Coordinator
 }

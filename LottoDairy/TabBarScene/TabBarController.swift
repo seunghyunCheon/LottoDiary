@@ -16,6 +16,8 @@ final class TabBarController: UITabBarController, TabBarFlowProtocol {
     var onLottoQRFlowSelect: ((UINavigationController) -> ())?
 
     var onCalendarFlowSelect: ((UINavigationController) -> ())?
+
+    var onChartFlowSelect: ((UINavigationController) -> ())?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,8 +62,10 @@ extension TabBarController: UITabBarControllerDelegate {
             onCalendarFlowSelect?(controller)
         case 1:
             onHomeFlowSelect?(controller)
+        case 3:
+            onChartFlowSelect?(controller)
         default:
-            controller
+            onHomeFlowSelect?(controller)
         }
     }
     
@@ -71,5 +75,4 @@ extension TabBarController: UITabBarControllerDelegate {
         }
         return selectedIndex == 2 ? false : true
     }
-
 }

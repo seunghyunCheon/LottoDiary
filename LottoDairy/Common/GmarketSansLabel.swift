@@ -9,7 +9,8 @@ import UIKit
 
 class GmarketSansLabel: UILabel {
 
-    init(text: String,
+    init(text: String? = nil,
+         attributedText: NSAttributedString? = nil,
          color: UIColor = .white,
          alignment: NSTextAlignment = .center,
          size: UIFont.Size,
