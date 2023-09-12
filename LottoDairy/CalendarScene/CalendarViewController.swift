@@ -64,11 +64,6 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         bindViewModel()
         setupCenterXOffset()
     }
-
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        setupCenterXOffset()
-//    }
     
     private func setupRootView() {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
