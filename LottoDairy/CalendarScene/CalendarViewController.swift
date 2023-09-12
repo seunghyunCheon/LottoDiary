@@ -31,9 +31,19 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     }()
     
     private var calendarHeaderView = CalendarHeaderView()
+    
+    private lazy var lottoCollectionView: UICollectionView = {
+        let layout = LottoCollectionViewLayout().createLayout()
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .designSystem(.backgroundBlack)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
+    }()
 
     private var dataSource: UICollectionViewDiffableDataSource<Section, [DayComponent]>?
 
+    private var lottoDataSource: UICollectionViewDiffableDataSource<Int, UUID>!
+    
     private var scrollDirection: ScrollDirection = .none
 
     private let viewModel: CalendarViewModel
@@ -59,6 +69,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         setupRootView()
         setupCalendarHeaderView()
         setupCalendarView()
+        setupLottoCollectionView()
         configureCalendarCollectionViewDataSource()
         self.viewModel.fetchThreeMonthlyDays()
         bindViewModel()
@@ -96,6 +107,34 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
             calendarCollectionView.topAnchor.constraint(equalTo: calendarHeaderView.bottomAnchor),
             calendarHeightConstraint
         ])
+    }
+    
+    private func setupLottoCollectionView() {
+        self.lottoCollectionView.register(LottoCell.self, forCellWithReuseIdentifier: LottoCell.identifer)
+        self.view.addSubview(lottoCollectionView)
+        NSLayoutConstraint.activate([
+            self.lottoCollectionView.topAnchor.constraint(equalTo: self.calendarCollectionView.bottomAnchor, constant: 0),
+            self.lottoCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10),
+            self.lottoCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -10),
+            self.lottoCollectionView.heightAnchor.constraint(equalToConstant: 200)
+        ])
+        
+        lottoDataSource = UICollectionViewDiffableDataSource<Int, UUID>(collectionView: self.lottoCollectionView) {
+            collectionView, indexPath, item in
+            let lottoCell: LottoCell = collectionView.dequeue(for: indexPath)
+            lottoCell.configure()
+            
+            return lottoCell
+        }
+        
+        lottoCollectionView.dataSource = lottoDataSource
+        
+        // tableView에 들어갈 Section, Item 초기화
+        var snapshot = NSDiffableDataSourceSnapshot<Int, UUID>()
+        snapshot.appendSections([0]) // 주의: section하나를 안넣어주면 에러
+        snapshot.appendItems([UUID(), UUID(), UUID()])
+        lottoDataSource.apply(snapshot)
+        
     }
 
     private func configureCalendarCollectionViewDataSource() {
@@ -279,7 +318,7 @@ extension CalendarViewController {
         static let calendarHeaderLeading: CGFloat = 15
         static let calendarHeaderTrailing: CGFloat = -15
         static let calendarHeaderHeight: CGFloat = 100
-        static let monthCalendarHeight: CGFloat = 300
+        static let monthCalendarHeight: CGFloat = 250
         static let weekCalendarHeight: CGFloat = 50
     }
 }

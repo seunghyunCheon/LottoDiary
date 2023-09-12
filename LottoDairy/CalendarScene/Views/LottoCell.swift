@@ -12,7 +12,7 @@ enum LottoType {
     case spitto
 }
 
-final class LottoCell: UITableViewCell {
+final class LottoCell: UICollectionViewCell {
     
     static let identifer = "LottoCell"
     
@@ -24,17 +24,21 @@ final class LottoCell: UITableViewCell {
     
     var titleLabel: UILabel = {
         let label = GmarketSansLabel(text: "로또", size: .body, weight: .bold)
+        label.textColor = .blue
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     var purchaseLabel: UILabel = {
         let label = GmarketSansLabel(text: "구매 금액", size: .callout, weight: .light)
+        label.setContentHuggingPriority(.required, for: .horizontal)
         return label
     }()
     
     var purchaseAmountLabel: UILabel = {
         let label = GmarketSansLabel(text: "30,000원", size: .body, weight: .bold)
+        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        label.textAlignment = .right
         return label
     }()
     
@@ -47,11 +51,14 @@ final class LottoCell: UITableViewCell {
     
     var winningLabel: UILabel = {
         let label = GmarketSansLabel(text: "당첨 금액", size: .callout, weight: .light)
+        label.setContentHuggingPriority(.required, for: .horizontal)
         return label
     }()
     
     var winningAmountLabel: UILabel = {
         let label = GmarketSansLabel(text: "3,000원", size: .body, weight: .bold)
+        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        label.textAlignment = .right
         return label
     }()
     
@@ -62,15 +69,15 @@ final class LottoCell: UITableViewCell {
         return stackView
     }()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupLayout()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     private func setupLayout() {
         self.addSubview(lottoImageView)
         NSLayoutConstraint.activate([
@@ -104,17 +111,21 @@ final class LottoCell: UITableViewCell {
         let informationStackView = UIStackView()
         informationStackView.axis = .vertical
         informationStackView.alignment = .center
+        informationStackView.translatesAutoresizingMaskIntoConstraints = false
+        informationStackView.spacing = 15
         self.addSubview(informationStackView)
         informationStackView.addArrangedSubview(self.purchaseStackView)
         informationStackView.addArrangedSubview(self.winningStackView)
         NSLayoutConstraint.activate([
             informationStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+//            informationStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 20),
             informationStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10)
         ])
     }
     
     func configure() {
         lottoImageView.image = UIImage(named: "lotto")
+        self.backgroundColor = .designSystem(.mainOrange)
     }
 }
 
