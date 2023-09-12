@@ -5,7 +5,7 @@
 //  Created by Sunny on 2023/07/14.
 //
 
-enum TabBarComponents: CaseIterable {
+enum TabBarComponents: Int, CaseIterable {
     case calendar
     case home
     case empty
