@@ -24,19 +24,19 @@ final class LottoCell: UICollectionViewCell {
     
     var titleLabel: UILabel = {
         let label = GmarketSansLabel(text: "로또", size: .body, weight: .bold)
-        label.textColor = .blue
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     var purchaseLabel: UILabel = {
-        let label = GmarketSansLabel(text: "구매 금액", size: .callout, weight: .light)
+        let label = GmarketSansLabel(text: "구매 금액", size: .middleCaption, weight: .medium)
         label.setContentHuggingPriority(.required, for: .horizontal)
+        label.textAlignment = .center
         return label
     }()
     
     var purchaseAmountLabel: UILabel = {
-        let label = GmarketSansLabel(text: "30,000원", size: .body, weight: .bold)
+        let label = GmarketSansLabel(text: "30,000원", size: .subheadLine, weight: .bold)
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         label.textAlignment = .right
         return label
@@ -50,13 +50,14 @@ final class LottoCell: UICollectionViewCell {
     }()
     
     var winningLabel: UILabel = {
-        let label = GmarketSansLabel(text: "당첨 금액", size: .callout, weight: .light)
+        let label = GmarketSansLabel(text: "당첨 금액", size: .middleCaption, weight: .medium)
         label.setContentHuggingPriority(.required, for: .horizontal)
+        label.textAlignment = .center
         return label
     }()
     
     var winningAmountLabel: UILabel = {
-        let label = GmarketSansLabel(text: "3,000원", size: .body, weight: .bold)
+        let label = GmarketSansLabel(text: "3,000원", size: .subheadLine, weight: .bold)
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         label.textAlignment = .right
         return label
@@ -77,19 +78,24 @@ final class LottoCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func layoutSubviews() {
+        self.layer.cornerRadius = 15.0
+        self.layer.masksToBounds = true
+    }
 
     private func setupLayout() {
         self.addSubview(lottoImageView)
         NSLayoutConstraint.activate([
             lottoImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             lottoImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            lottoImageView.widthAnchor.constraint(equalToConstant: 10),
-            lottoImageView.heightAnchor.constraint(equalToConstant: 10),
+            lottoImageView.widthAnchor.constraint(equalToConstant: 25),
+            lottoImageView.heightAnchor.constraint(equalToConstant: 25),
         ])
         
         self.addSubview(titleLabel)
         NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: self.lottoImageView.trailingAnchor, constant: 2),
+            titleLabel.leadingAnchor.constraint(equalTo: self.lottoImageView.trailingAnchor, constant: 5),
             titleLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
         
@@ -98,28 +104,29 @@ final class LottoCell: UICollectionViewCell {
         self.purchaseStackView.addArrangedSubview(purchaseLabel)
         self.purchaseStackView.addArrangedSubview(purchaseAmountLabel)
         NSLayoutConstraint.activate([
-            purchaseStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1/2),
+            purchaseStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.55),
         ])
         
         self.addSubview(self.winningStackView)
         self.winningStackView.addArrangedSubview(winningLabel)
         self.winningStackView.addArrangedSubview(winningAmountLabel)
         NSLayoutConstraint.activate([
-            winningStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1/2),
+            winningStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.55),
         ])
         
         let informationStackView = UIStackView()
         informationStackView.axis = .vertical
         informationStackView.alignment = .center
+        informationStackView.distribution = .fillEqually
         informationStackView.translatesAutoresizingMaskIntoConstraints = false
         informationStackView.spacing = 15
         self.addSubview(informationStackView)
         informationStackView.addArrangedSubview(self.purchaseStackView)
         informationStackView.addArrangedSubview(self.winningStackView)
         NSLayoutConstraint.activate([
-            informationStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-//            informationStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 20),
-            informationStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10)
+            informationStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
+            informationStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5),
+            informationStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -15)
         ])
     }
     

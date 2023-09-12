@@ -24,6 +24,7 @@ extension UIFont {
         case body = 16
         case callout = 15
         case subheadLine = 14
+        case middleCaption = 12
         case caption = 11
     }
 
