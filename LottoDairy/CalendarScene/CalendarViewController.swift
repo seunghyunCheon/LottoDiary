@@ -40,6 +40,19 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         return collectionView
     }()
 
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.isScrollEnabled = true
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
+    private let contentView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private var dataSource: UICollectionViewDiffableDataSource<Section, [DayComponent]>?
 
     private var lottoDataSource: UICollectionViewDiffableDataSource<Int, UUID>!
@@ -67,6 +80,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         super.viewDidLoad()
         
         setupRootView()
+        setupScrollView()
         setupCalendarHeaderView()
         setupCalendarView()
         setupLottoCollectionView()
@@ -74,6 +88,33 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         self.viewModel.fetchThreeMonthlyDays()
         bindViewModel()
         setupCenterXOffset()
+    }
+    
+    private func setupScrollView() {
+        self.view.addSubview(self.scrollView)
+        
+        let safe = view.safeAreaLayoutGuide
+        NSLayoutConstraint.activate([
+            self.scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            self.scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            self.scrollView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        ])
+        
+        scrollView.addSubview(self.contentView)
+        
+        let heightConstraint = contentView.heightAnchor.constraint(equalTo: self.scrollView.heightAnchor)
+        heightConstraint.priority = UILayoutPriority(250)
+        
+        NSLayoutConstraint.activate([
+            self.contentView.leadingAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.leadingAnchor),
+            self.contentView.trailingAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.trailingAnchor),
+            self.contentView.topAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.topAnchor),
+            self.contentView.bottomAnchor.constraint(equalTo: self.scrollView.contentLayoutGuide.bottomAnchor),
+            
+            self.contentView.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor),
+            heightConstraint
+        ])
     }
     
     private func setupRootView() {
@@ -84,7 +125,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     private func setupCalendarHeaderView() {
         calendarHeaderView.delegate = self
         calendarHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(calendarHeaderView)
+        self.contentView.addSubview(calendarHeaderView)
         
         let safe = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
@@ -96,7 +137,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     }
 
     private func setupCalendarView() {
-        self.view.addSubview(calendarCollectionView)
+        self.contentView.addSubview(calendarCollectionView)
         
         calendarHeightConstraint = calendarCollectionView.heightAnchor.constraint(equalToConstant: Constant.monthCalendarHeight)
         
@@ -111,7 +152,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     
     private func setupLottoCollectionView() {
         self.lottoCollectionView.register(LottoCell.self, forCellWithReuseIdentifier: LottoCell.identifer)
-        self.view.addSubview(lottoCollectionView)
+        self.contentView.addSubview(lottoCollectionView)
         NSLayoutConstraint.activate([
             self.lottoCollectionView.topAnchor.constraint(equalTo: self.calendarCollectionView.bottomAnchor, constant: 0),
             self.lottoCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10),
