@@ -36,7 +36,7 @@ final class AddLottoViewModel {
     
     func transform(from input: Input) -> Output {
         self.configureInput(input)
-        return Output()
+        return configureOutput(from: input)
     }
     
     // MARK: - Private Methods

@@ -128,6 +128,7 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
     }()
     
     private let viewModel: AddLottoViewModel
+    private var cancellables = Set<AnyCancellable>()
     
     init(viewModel: AddLottoViewModel) {
         self.viewModel = viewModel
@@ -218,13 +219,52 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
             winningAmountTextFieldDidEditEvent: winningTextField.textPublisher,
             okButtonDidTapEvent: okButton.publisher(for: .touchUpInside).eraseToAnyPublisher()
         )
+        
+        let output = viewModel.transform(from: input)
+        
+        output.purchaseAmountFieldText
+            .sink { [weak self] purchaseAmount in
+                self?.purchaseTextField.text = purchaseAmount
+            }
+            .store(in: &cancellables)
+        
+        output.purchaseAmountValidationErrorMessage
+            .sink { [weak self] errorMessage in
+                self?.purchaseAmountValidationLabel.text = errorMessage
+            }
+            .store(in: &cancellables)
+        
+        output.winningAmountFieldText
+            .sink { [weak self] winningAmount in
+                self?.winningTextField.text = winningAmount
+            }
+            .store(in: &cancellables)
+        
+        output.winningAmountValidationErrorMessage
+            .sink { [weak self] errorMessage in
+                self?.winningAmountValidationLabel.text = errorMessage
+            }
+            .store(in: &cancellables)
+        
+        output.okButtonEnabled
+            .sink { [weak self] state in
+                self?.okButton.isEnabled = state
+                if state {
+                    self?.okButton.alpha = 1.0
+                    self?.okButton.backgroundColor = .designSystem(.mainBlue)
+                } else {
+                    self?.okButton.alpha = 0.3
+                    self?.okButton.backgroundColor = .designSystem(.gray63626B)
+                }
+            }
+            .store(in: &cancellables)
     }
 }
 
 fileprivate extension UISegmentedControl {
     var segmentPublisher: AnyPublisher<LottoType, Never> {
-        self.publisher(for: .touchUpInside)
-            .compactMap {
+        self.publisher(for: .valueChanged)
+            .map {
                 LottoType.allCases[self.selectedSegmentIndex]
             }
             .eraseToAnyPublisher()
