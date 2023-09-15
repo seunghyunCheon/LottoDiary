@@ -49,6 +49,11 @@ final class ModuleFactoryImp:
         let viewModel = CalendarViewModel(calendarUseCase: calendarUseCase)
         return CalendarViewController(viewModel: viewModel)
     }
+    
+    func makeAddLottoView() -> AddLottoViewProtocol {
+        
+        return AddLottoViewController()
+    }
 
     func makeChartFlow() -> ChartFlowProtocol {
         let chartInformationUseCase = DefaultChartInformationUseCase()

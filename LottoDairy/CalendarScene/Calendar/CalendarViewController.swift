@@ -55,6 +55,8 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         return view
     }()
     
+    var onAddLotto: (() -> Void)?
+    
     private var dataSource: UICollectionViewDiffableDataSource<Section, [DayComponent]>?
 
     private var lottoDataSource: UICollectionViewDiffableDataSource<Int, UUID>!
@@ -126,7 +128,6 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         calendarHeaderView.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(calendarHeaderView)
 
-        let safe = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             calendarHeaderView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: Constant.calendarHeaderLeading),
             calendarHeaderView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: Constant.calendarHeaderTrailing),
@@ -197,7 +198,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     
     @objc
     func didPressAddButton(sender: UITapGestureRecognizer) {
-        print("hi")
+        self.onAddLotto?()
     }
 
     private func configureCalendarCollectionViewDataSource() {

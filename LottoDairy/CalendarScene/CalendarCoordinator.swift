@@ -19,7 +19,7 @@ final class CalendarCoordinator: BaseCoordinator {
     }
 
     override func start() {
-        let calendarFlow = moduleFactory.makeCalendarFlow()
+        var calendarFlow = moduleFactory.makeCalendarFlow()
         // footer 내부에 바인드를 넣는다면 함수를 넣는 것일텐데 이 방법보다 제스처를 이용하는 게 나아보임.
         // 여기서 onAddLotto함수를 호출해서 라우터에 보여지게한다.
         // 확인을 누르면 데이터가 저장되고 노티에 post를 한다.
@@ -29,9 +29,15 @@ final class CalendarCoordinator: BaseCoordinator {
         // calendarFlow.onAddLotto {
         
         // }
+        calendarFlow.onAddLotto = { [weak self] in
+            self?.presentAddLotto()
+        }
         router.setRootModule(calendarFlow)
     }
     
     func presentAddLotto() {
+        var addLottoView = moduleFactory.makeAddLottoView()
+        
+        router.present(addLottoView, animated: true)
     }
 }
