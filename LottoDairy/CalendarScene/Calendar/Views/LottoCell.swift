@@ -7,11 +7,6 @@
 
 import UIKit
 
-enum LottoType {
-    case lotto
-    case spitto
-}
-
 final class LottoCell: UICollectionViewCell {
     
     static let identifer = "LottoCell"
