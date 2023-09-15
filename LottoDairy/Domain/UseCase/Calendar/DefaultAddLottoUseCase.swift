@@ -13,8 +13,8 @@ final class DefaultAddLottoUseCase: AddLottoUseCase {
     var purchaseAmount = CurrentValueSubject<Int?, Never>(nil)
     var winningAmount = CurrentValueSubject<Int?, Never>(nil)
     
-    func setLottoType(_ type: String) {
-        self.lottoType = LottoType(rawValue: type) ?? .lotto
+    func setLottoType(_ type: LottoType) {
+        self.lottoType = type
     }
     
     func setPurchaseAmount(_ text: String) {
