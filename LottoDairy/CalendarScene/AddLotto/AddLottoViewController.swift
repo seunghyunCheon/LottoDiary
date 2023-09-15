@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
     
@@ -36,7 +37,7 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
         return label
     }()
     
-    private let purchaseTextField: UITextField = {
+    private let purchaseTextField: LottoDiaryTextField = {
         let textField = LottoDiaryTextField(
             placeholder: "구매금액을 입력해주세요",
             type: .number,
@@ -68,7 +69,7 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
         return label
     }()
     
-    private let winningTextField: UITextField = {
+    private let winningTextField: LottoDiaryTextField = {
         let textField = LottoDiaryTextField(
             placeholder: "당첨금액을 입력해주세요",
             type: .number,
@@ -142,6 +143,7 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
         super.viewDidLoad()
         setupRootView()
         setupLayout()
+        bindViewModel()
     }
     
     override func viewDidLayoutSubviews() {
@@ -207,5 +209,24 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
             self.cancelButton.widthAnchor.constraint(equalToConstant: 90),
             self.cancelButton.heightAnchor.constraint(equalToConstant: 35),
         ])
+    }
+    
+    private func bindViewModel() {
+        let input = AddLottoViewModel.Input(
+            lottoTypeSelectEvent: lottoSegmentedControl.segmentPublisher,
+            purchaseAmountTextFieldDidEditEvent: purchaseTextField.textPublisher,
+            winningAmountTextFieldDidEditEvent: winningTextField.textPublisher,
+            okButtonDidTapEvent: okButton.publisher(for: .touchUpInside).eraseToAnyPublisher()
+        )
+    }
+}
+
+fileprivate extension UISegmentedControl {
+    var segmentPublisher: AnyPublisher<LottoType, Never> {
+        self.publisher(for: .touchUpInside)
+            .compactMap {
+                LottoType.allCases[self.selectedSegmentIndex]
+            }
+            .eraseToAnyPublisher()
     }
 }
