@@ -217,7 +217,8 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
             lottoTypeSelectEvent: lottoSegmentedControl.segmentPublisher,
             purchaseAmountTextFieldDidEditEvent: purchaseTextField.textPublisher,
             winningAmountTextFieldDidEditEvent: winningTextField.textPublisher,
-            okButtonDidTapEvent: okButton.publisher(for: .touchUpInside).eraseToAnyPublisher()
+            okButtonDidTapEvent: okButton.publisher(for: .touchUpInside).eraseToAnyPublisher(),
+            cancelButtonDidTapEvent: cancelButton.publisher(for: .touchUpInside).eraseToAnyPublisher()
         )
         
         let output = viewModel.transform(from: input)
@@ -255,6 +256,14 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
                 } else {
                     self?.okButton.alpha = 0.3
                     self?.okButton.backgroundColor = .designSystem(.gray63626B)
+                }
+            }
+            .store(in: &cancellables)
+        
+        output.dismissTrigger
+            .sink { [weak self] state in
+                if state {
+                    self?.dismiss(animated: true)
                 }
             }
             .store(in: &cancellables)

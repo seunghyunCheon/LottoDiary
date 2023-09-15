@@ -14,6 +14,7 @@ final class AddLottoViewModel {
         let purchaseAmountTextFieldDidEditEvent: AnyPublisher<String, Never>
         let winningAmountTextFieldDidEditEvent: AnyPublisher<String, Never>
         let okButtonDidTapEvent: AnyPublisher<Void, Never>
+        let cancelButtonDidTapEvent: AnyPublisher<Void, Never>
     }
     
     struct Output {
@@ -23,6 +24,7 @@ final class AddLottoViewModel {
         var winningAmountFieldText = CurrentValueSubject<String?, Never>(.none)
         var okButtonEnabled = CurrentValueSubject<Bool, Never>(false)
         var sendNewLotto = CurrentValueSubject<Lotto?, Never>(nil)
+        var dismissTrigger = CurrentValueSubject<Bool, Never>(false)
     }
     
     private let addLottoUseCase: AddLottoUseCase
@@ -99,16 +101,22 @@ final class AddLottoViewModel {
             }
             .store(in: &cancellables)
         
-        self.bindOkButton(from: input, with: output)
+        self.bindButtons(from: input, with: output)
         
         return output
     }
     
-    private func bindOkButton(from input: Input, with output: Output) {
+    private func bindButtons(from input: Input, with output: Output) {
         input.okButtonDidTapEvent
             .sink { [weak self] _ in
                 let newLotto = self?.addLottoUseCase.addLotto()
                 output.sendNewLotto.send(newLotto)
+            }
+            .store(in: &cancellables)
+        
+        input.cancelButtonDidTapEvent
+            .sink {
+                output.dismissTrigger.send(true)
             }
             .store(in: &cancellables)
     }
