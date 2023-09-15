@@ -169,6 +169,17 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
             return lottoCell
         }
         
+        let footerRegistration = UICollectionView.SupplementaryRegistration(
+            elementKind: AddLottoFooterView.elementKind,
+            handler: footerRegistrationHandler)
+        
+        lottoDataSource.supplementaryViewProvider = {
+            (collectionView, elementKind, indexPath) -> UICollectionReusableView? in
+                return collectionView.dequeueConfiguredReusableSupplementary(
+                    using: footerRegistration, for: indexPath)
+        }
+        
+        
         lottoCollectionView.dataSource = lottoDataSource
         
         // tableView에 들어갈 Section, Item 초기화
@@ -177,6 +188,16 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         snapshot.appendItems([UUID(), UUID(), UUID(), UUID(), UUID(), UUID()])
         lottoDataSource.apply(snapshot)
         
+    }
+    
+    private func footerRegistrationHandler(addLottoFooterView: AddLottoFooterView, elementKind: String, indexPath: IndexPath) {
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(self.didPressAddButton))
+        addLottoFooterView.addGestureRecognizer(gesture)
+    }
+    
+    @objc
+    func didPressAddButton(sender: UITapGestureRecognizer) {
+        print("hi")
     }
 
     private func configureCalendarCollectionViewDataSource() {

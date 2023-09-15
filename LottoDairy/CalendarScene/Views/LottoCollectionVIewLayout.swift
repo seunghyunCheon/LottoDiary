@@ -32,7 +32,24 @@ struct LottoCollectionViewLayout {
                 trailing: 15
             )
             
+            let footerSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .absolute(50)
+            )
+            
+            let sectionFooter = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: footerSize,
+                elementKind: AddLottoFooterView.elementKind,
+                alignment: .bottom
+            )
+            sectionFooter.contentInsets = NSDirectionalEdgeInsets(
+                top: 15,
+                leading: 0,
+                bottom: 0,
+                trailing: 0)
+            
             let section = NSCollectionLayoutSection(group: group)
+            section.boundarySupplementaryItems = [sectionFooter]
             
             return section
         }
