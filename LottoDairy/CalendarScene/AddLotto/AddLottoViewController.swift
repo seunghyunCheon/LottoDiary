@@ -53,6 +53,16 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
         return stackView
     }()
     
+    private let purchaseAmountValidationLabel: UILabel = {
+        let label = UILabel()
+        label.text = .none
+        label.font = .gmarketSans(size: .caption, weight: .bold)
+        label.textColor = .systemRed
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
     private let winningLabel: UILabel = {
         let label = LottoLabel(text: "당첨금액", font: .gmarketSans(size: .caption, weight: .medium))
         return label
@@ -73,6 +83,16 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
         stackView.spacing = 10
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
+    }()
+    
+    private let winningAmountValidationLabel: UILabel = {
+        let label = UILabel()
+        label.text = .none
+        label.font = .gmarketSans(size: .caption, weight: .bold)
+        label.textColor = .systemRed
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
     }()
     
     private let okButton: UIButton = {
@@ -139,7 +159,7 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
     private func setupLayout() {
         self.view.addSubview(self.titleLabel)
         NSLayoutConstraint.activate([
-            self.titleLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 40),
+            self.titleLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20),
             self.titleLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20)
         ])
         
@@ -154,6 +174,7 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
         self.view.addSubview(self.purchaseStackView)
         self.purchaseStackView.addArrangedSubview(self.purchaseAmountLabel)
         self.purchaseStackView.addArrangedSubview(self.purchaseTextField)
+        self.purchaseStackView.addArrangedSubview(self.purchaseAmountValidationLabel)
         NSLayoutConstraint.activate([
             self.purchaseStackView.topAnchor.constraint(equalTo: self.lottoSegmentedControl.bottomAnchor, constant: 25),
             self.purchaseStackView.leadingAnchor.constraint(equalTo: self.lottoSegmentedControl.leadingAnchor),
@@ -163,6 +184,7 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
         self.view.addSubview(self.winningStackView)
         self.winningStackView.addArrangedSubview(self.winningLabel)
         self.winningStackView.addArrangedSubview(self.winningTextField)
+        self.winningStackView.addArrangedSubview(self.winningAmountValidationLabel)
         NSLayoutConstraint.activate([
             self.winningStackView.topAnchor.constraint(equalTo: self.purchaseStackView.bottomAnchor, constant: 25),
             self.winningStackView.leadingAnchor.constraint(equalTo: self.lottoSegmentedControl.leadingAnchor),
