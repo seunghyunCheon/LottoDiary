@@ -46,6 +46,9 @@
 		6251410C2AB458DD00E9E5C3 /* Lotto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6251410B2AB458DD00E9E5C3 /* Lotto.swift */; };
 		6251410E2AB4595400E9E5C3 /* LottoType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6251410D2AB4595400E9E5C3 /* LottoType.swift */; };
 		625141102AB45D0A00E9E5C3 /* AddLottoUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6251410F2AB45D0A00E9E5C3 /* AddLottoUseCase.swift */; };
+		625141132AB4606A00E9E5C3 /* AddLottoValidationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625141122AB4606A00E9E5C3 /* AddLottoValidationUseCase.swift */; };
+		625141152AB462AE00E9E5C3 /* PurchaseAmountValidationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625141142AB462AE00E9E5C3 /* PurchaseAmountValidationState.swift */; };
+		625141172AB463BF00E9E5C3 /* WinningAmountValidationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625141162AB463BF00E9E5C3 /* WinningAmountValidationState.swift */; };
 		626845302A6BE38700569D02 /* UserDefaultsPersistenceServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6268452F2A6BE38700569D02 /* UserDefaultsPersistenceServiceProtocol.swift */; };
 		626845342A6BE71C00569D02 /* UserDefaultsPersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626845332A6BE71C00569D02 /* UserDefaultsPersistenceService.swift */; };
 		626845392A6BEBDE00569D02 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626845382A6BEBDE00569D02 /* UserRepository.swift */; };
@@ -162,6 +165,9 @@
 		6251410B2AB458DD00E9E5C3 /* Lotto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lotto.swift; sourceTree = "<group>"; };
 		6251410D2AB4595400E9E5C3 /* LottoType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoType.swift; sourceTree = "<group>"; };
 		6251410F2AB45D0A00E9E5C3 /* AddLottoUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLottoUseCase.swift; sourceTree = "<group>"; };
+		625141122AB4606A00E9E5C3 /* AddLottoValidationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLottoValidationUseCase.swift; sourceTree = "<group>"; };
+		625141142AB462AE00E9E5C3 /* PurchaseAmountValidationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseAmountValidationState.swift; sourceTree = "<group>"; };
+		625141162AB463BF00E9E5C3 /* WinningAmountValidationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinningAmountValidationState.swift; sourceTree = "<group>"; };
 		6268452F2A6BE38700569D02 /* UserDefaultsPersistenceServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsPersistenceServiceProtocol.swift; sourceTree = "<group>"; };
 		626845332A6BE71C00569D02 /* UserDefaultsPersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsPersistenceService.swift; sourceTree = "<group>"; };
 		626845382A6BEBDE00569D02 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
@@ -470,6 +476,8 @@
 				624BB0EA2A67F014002A3109 /* GoalAmountValidationState.swift */,
 				624BB0EE2A6903DA002A3109 /* NotificationCycle.swift */,
 				6251410D2AB4595400E9E5C3 /* LottoType.swift */,
+				625141142AB462AE00E9E5C3 /* PurchaseAmountValidationState.swift */,
+				625141162AB463BF00E9E5C3 /* WinningAmountValidationState.swift */,
 			);
 			path = Constant;
 			sourceTree = "<group>";
@@ -478,6 +486,7 @@
 			isa = PBXGroup;
 			children = (
 				6251410F2AB45D0A00E9E5C3 /* AddLottoUseCase.swift */,
+				625141122AB4606A00E9E5C3 /* AddLottoValidationUseCase.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -919,6 +928,8 @@
 				626845392A6BEBDE00569D02 /* UserRepository.swift in Sources */,
 				805EA6D52AA475C600A3545C /* DefaultChartInformationUseCase.swift in Sources */,
 				62FD3DCC2AB41F9400C302F0 /* AddLottoViewProtocol.swift in Sources */,
+				625141132AB4606A00E9E5C3 /* AddLottoValidationUseCase.swift in Sources */,
+				625141172AB463BF00E9E5C3 /* WinningAmountValidationState.swift in Sources */,
 				80603AD82A4AC874003D5274 /* BaseCoordinator.swift in Sources */,
 				626845302A6BE38700569D02 /* UserDefaultsPersistenceServiceProtocol.swift in Sources */,
 				62AFA0972A7258B200C9D86C /* GoalAmountEntity+CoreDataProperties.swift in Sources */,
@@ -947,6 +958,7 @@
 				805FA70D2A6D856D00089070 /* LottoQRCoordinator.swift in Sources */,
 				80603ADA2A4E6FE2003D5274 /* AppCoordinator.swift in Sources */,
 				805EA6D22AA474C300A3545C /* ChartViewModel.swift in Sources */,
+				625141152AB462AE00E9E5C3 /* PurchaseAmountValidationState.swift in Sources */,
 				80EB03342A72370E00455E05 /* UIStackView+Extensions.swift in Sources */,
 				80773A722A55AFF80020F1DD /* HomeFlowProtocol.swift in Sources */,
 				624BB0DF2A67B319002A3109 /* GoalSettingUseCase.swift in Sources */,
