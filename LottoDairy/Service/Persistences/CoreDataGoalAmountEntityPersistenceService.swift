@@ -54,6 +54,28 @@ final class CoreDataGoalAmountEntityPersistenceService: CoreDataGoalAmountEntity
         .receive(on: DispatchQueue.main)
         .eraseToAnyPublisher()
     }
+
+    func fetchGoalAmount(year: Int, month: Int) -> AnyPublisher<Int, Error> {
+        guard let context = coreDataPersistenceService.backgroundContext else {
+            return Fail(error: CoreDataGoalAmountEntityPersistenceServiceError.failedToInitializeCoreDataContainer).eraseToAnyPublisher()
+        }
+
+        return Future { [weak self] promise in
+            context.perform {
+                let fetchRequest = GoalAmountEntity.fetchRequest()
+                let predicate = self?.makeGoalAmountPredicate(year: year, month: month)
+                fetchRequest.predicate = predicate
+                do {
+                    let fetchResult = try context.fetch(fetchRequest)
+                    promise(.success(fetchResult[0].goalAmount))
+                } catch {
+                    promise(.failure(CoreDataGoalAmountEntityPersistenceServiceError.failedToFetchGoalAmount))
+                }
+            }
+        }
+        .receive(on: DispatchQueue.main)
+        .eraseToAnyPublisher()
+    }
     
     func saveGoalAmountEntity(_ goalAmount: Int) -> AnyPublisher<Void, Error> {
         guard let context = coreDataPersistenceService.backgroundContext else {
@@ -83,5 +105,15 @@ final class CoreDataGoalAmountEntityPersistenceService: CoreDataGoalAmountEntity
         }
         .receive(on: DispatchQueue.main)
         .eraseToAnyPublisher()
+    }
+
+    private func makeGoalAmountPredicate(year: Int, month: Int) -> NSPredicate {
+        let calendar = Calendar.current
+        guard let startDate = calendar.date(from: DateComponents(year: year, month: month, day: 1)),
+              let endDate = calendar.date(byAdding: .month, value: 1, to: startDate) else {
+            return NSPredicate()
+        }
+
+        return NSPredicate(format: "(date >= %@) AND (date < %@)", startDate as NSDate, endDate as NSDate)
     }
 }
