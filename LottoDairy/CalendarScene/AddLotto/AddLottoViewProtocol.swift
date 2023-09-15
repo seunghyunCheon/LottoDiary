@@ -8,6 +8,5 @@ import Foundation
 import UIKit
 
 protocol AddLottoViewProtocol: Presentable {
-    var selectedDate: Date? { get set }
 }
 
