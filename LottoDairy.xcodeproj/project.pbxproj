@@ -49,6 +49,7 @@
 		625141132AB4606A00E9E5C3 /* AddLottoValidationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625141122AB4606A00E9E5C3 /* AddLottoValidationUseCase.swift */; };
 		625141152AB462AE00E9E5C3 /* PurchaseAmountValidationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625141142AB462AE00E9E5C3 /* PurchaseAmountValidationState.swift */; };
 		625141172AB463BF00E9E5C3 /* WinningAmountValidationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625141162AB463BF00E9E5C3 /* WinningAmountValidationState.swift */; };
+		625141192AB466E600E9E5C3 /* DefaultAddLottoUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625141182AB466E600E9E5C3 /* DefaultAddLottoUseCase.swift */; };
 		626845302A6BE38700569D02 /* UserDefaultsPersistenceServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6268452F2A6BE38700569D02 /* UserDefaultsPersistenceServiceProtocol.swift */; };
 		626845342A6BE71C00569D02 /* UserDefaultsPersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626845332A6BE71C00569D02 /* UserDefaultsPersistenceService.swift */; };
 		626845392A6BEBDE00569D02 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626845382A6BEBDE00569D02 /* UserRepository.swift */; };
@@ -168,6 +169,7 @@
 		625141122AB4606A00E9E5C3 /* AddLottoValidationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLottoValidationUseCase.swift; sourceTree = "<group>"; };
 		625141142AB462AE00E9E5C3 /* PurchaseAmountValidationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseAmountValidationState.swift; sourceTree = "<group>"; };
 		625141162AB463BF00E9E5C3 /* WinningAmountValidationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinningAmountValidationState.swift; sourceTree = "<group>"; };
+		625141182AB466E600E9E5C3 /* DefaultAddLottoUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAddLottoUseCase.swift; sourceTree = "<group>"; };
 		6268452F2A6BE38700569D02 /* UserDefaultsPersistenceServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsPersistenceServiceProtocol.swift; sourceTree = "<group>"; };
 		626845332A6BE71C00569D02 /* UserDefaultsPersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsPersistenceService.swift; sourceTree = "<group>"; };
 		626845382A6BEBDE00569D02 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
@@ -736,6 +738,7 @@
 			children = (
 				625141112AB45D2500E9E5C3 /* Protocol */,
 				80F90CEC2A8D2C13007E1D23 /* CalendarUseCase.swift */,
+				625141182AB466E600E9E5C3 /* DefaultAddLottoUseCase.swift */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -852,6 +855,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				625141192AB466E600E9E5C3 /* DefaultAddLottoUseCase.swift in Sources */,
 				80773A742A55B99E0020F1DD /* HomeModuleFactory.swift in Sources */,
 				8080DDBE2A60540B00364CF1 /* TabBarView.swift in Sources */,
 				801767072AB036670046E537 /* Device.swift in Sources */,
