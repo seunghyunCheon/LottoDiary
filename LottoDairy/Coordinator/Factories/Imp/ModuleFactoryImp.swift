@@ -51,8 +51,14 @@ final class ModuleFactoryImp:
     }
     
     func makeAddLottoView() -> AddLottoViewProtocol {
+        let addLottoUseCase = DefaultAddLottoUseCase()
+        let addLottoValidationUseCase = DefaultAddLottoValidationUseCase()
+        let viewModel = AddLottoViewModel(
+            addLottoUseCase: addLottoUseCase,
+            addLottoValidationUseCase: addLottoValidationUseCase
+        )
         
-        return AddLottoViewController()
+        return AddLottoViewController(viewModel: viewModel)
     }
 
     func makeChartFlow() -> ChartFlowProtocol {

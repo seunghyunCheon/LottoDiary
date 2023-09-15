@@ -126,7 +126,10 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
         return stackView
     }()
     
-    init() {
+    private let viewModel: AddLottoViewModel
+    
+    init(viewModel: AddLottoViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         setupModalStyle()
     }
