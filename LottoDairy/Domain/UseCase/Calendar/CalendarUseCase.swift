@@ -43,11 +43,14 @@ final class CalendarUseCase {
     func getDaysInThreeWeek(for baseDate: Date) -> [[DayComponent]] {
         let previousWeekDay = calculatePreviousWeek(by: baseDate)
         let nextWeekDay = calculateNextWeek(by: baseDate)
-
+    
         let previous = generateWeekDays(for: previousWeekDay)
         let now = generateWeekDays(for: baseDate)
         let next = generateWeekDays(for: nextWeekDay)
 
+        // 여기서 범위를 구해서 [lotto]를 가져온 뒤에 각 date에 맞게 map한 뒤에 return
+        print(previous.first?.date)
+        print(next.last?.date)
         return [previous, now, next]
     }
 

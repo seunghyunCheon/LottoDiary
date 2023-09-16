@@ -12,8 +12,8 @@ import CoreData
 
 extension LottoEntity {
 
-    @NSManaged public var id: UUID?
-    @NSManaged public var type: String?
+    @NSManaged public var id: UUID
+    @NSManaged public var type: String
     @NSManaged public var purchaseAmount: Int
     @NSManaged public var winningAmount: Int
     @NSManaged public var lottoNumbers: [[Int]]
@@ -34,4 +34,16 @@ extension LottoEntity {
 
 }
 
-extension LottoEntity : Identifiable { }
+extension LottoEntity : Identifiable {
+    func convertToDomain() -> Lotto {
+        return Lotto(
+            id: self.id,
+            type: LottoType(rawValue: self.type) ?? .lotto,
+            purchaseAmount: self.purchaseAmount,
+            winningAmount: self.winningAmount,
+            lottoNumbers: self.lottoNumbers,
+            isResultAnnounced: self.isResultAnnounced
+        )
+    }
+    
+}

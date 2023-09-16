@@ -370,7 +370,9 @@ extension CalendarViewController: CalendarHeaderViewDelegate {
         
         UIView.animate(withDuration: 0.3) {
             self.calendarCollectionView.reloadData()
-            self.viewModel.calendarShape == .month ? self.viewModel.fetchThreeMonthlyDays() : self.viewModel.fetchThreeWeeklyDays()
+            self.viewModel.calendarShape == .month ?
+            self.viewModel.fetchThreeMonthlyDays() :
+            self.viewModel.fetchThreeWeeklyDays()
             
             self.view.layoutIfNeeded()
         }

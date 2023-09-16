@@ -54,6 +54,8 @@
 		6251411D2AB46CA300E9E5C3 /* AddLottoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6251411C2AB46CA300E9E5C3 /* AddLottoViewModel.swift */; };
 		625141202AB5958500E9E5C3 /* LottoEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6251411E2AB5958500E9E5C3 /* LottoEntity+CoreDataClass.swift */; };
 		625141212AB5958500E9E5C3 /* LottoEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6251411F2AB5958500E9E5C3 /* LottoEntity+CoreDataProperties.swift */; };
+		625141232AB597B500E9E5C3 /* CoreDataLottoEntityPersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625141222AB597B500E9E5C3 /* CoreDataLottoEntityPersistenceService.swift */; };
+		625141252AB598AA00E9E5C3 /* CoreDataLottoEntityPersistenceServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625141242AB598AA00E9E5C3 /* CoreDataLottoEntityPersistenceServiceProtocol.swift */; };
 		626845302A6BE38700569D02 /* UserDefaultsPersistenceServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6268452F2A6BE38700569D02 /* UserDefaultsPersistenceServiceProtocol.swift */; };
 		626845342A6BE71C00569D02 /* UserDefaultsPersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626845332A6BE71C00569D02 /* UserDefaultsPersistenceService.swift */; };
 		626845392A6BEBDE00569D02 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626845382A6BEBDE00569D02 /* UserRepository.swift */; };
@@ -178,6 +180,8 @@
 		6251411C2AB46CA300E9E5C3 /* AddLottoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLottoViewModel.swift; sourceTree = "<group>"; };
 		6251411E2AB5958500E9E5C3 /* LottoEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LottoEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		6251411F2AB5958500E9E5C3 /* LottoEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LottoEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		625141222AB597B500E9E5C3 /* CoreDataLottoEntityPersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataLottoEntityPersistenceService.swift; sourceTree = "<group>"; };
+		625141242AB598AA00E9E5C3 /* CoreDataLottoEntityPersistenceServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataLottoEntityPersistenceServiceProtocol.swift; sourceTree = "<group>"; };
 		6268452F2A6BE38700569D02 /* UserDefaultsPersistenceServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsPersistenceServiceProtocol.swift; sourceTree = "<group>"; };
 		626845332A6BE71C00569D02 /* UserDefaultsPersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsPersistenceService.swift; sourceTree = "<group>"; };
 		626845382A6BEBDE00569D02 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
@@ -516,6 +520,7 @@
 				6268452F2A6BE38700569D02 /* UserDefaultsPersistenceServiceProtocol.swift */,
 				62AFA0982A72593100C9D86C /* CoreDataPersistenceServiceProtocol.swift */,
 				62AFA09C2A725B8F00C9D86C /* CoreDataGoalAmountEntityPersistenceServiceProtocol.swift */,
+				625141242AB598AA00E9E5C3 /* CoreDataLottoEntityPersistenceServiceProtocol.swift */,
 			);
 			path = Interfaces;
 			sourceTree = "<group>";
@@ -538,6 +543,7 @@
 				626845332A6BE71C00569D02 /* UserDefaultsPersistenceService.swift */,
 				62AFA09A2A7259F800C9D86C /* CoreDataPersistenceService.swift */,
 				62AFA09E2A725C7100C9D86C /* CoreDataGoalAmountEntityPersistenceService.swift */,
+				625141222AB597B500E9E5C3 /* CoreDataLottoEntityPersistenceService.swift */,
 			);
 			path = Persistences;
 			sourceTree = "<group>";
@@ -883,6 +889,7 @@
 				80F90CF32A8D301D007E1D23 /* UICollectionView+Extensions.swift in Sources */,
 				624628932A8F39BB00ADE103 /* DateCellViewModel.swift in Sources */,
 				624BB0D32A653299002A3109 /* GoalSettingViewController.swift in Sources */,
+				625141252AB598AA00E9E5C3 /* CoreDataLottoEntityPersistenceServiceProtocol.swift in Sources */,
 				8060B4212A62DC2C00726C83 /* UIButton+Extensions.swift in Sources */,
 				801767002AAEF90F0046E537 /* DefaultChartUseCase.swift in Sources */,
 				805EA6BF2A9B1E1E00A3545C /* ChartViewController.swift in Sources */,
@@ -954,6 +961,7 @@
 				62AFA0972A7258B200C9D86C /* GoalAmountEntity+CoreDataProperties.swift in Sources */,
 				6270BEF62A77A18000950181 /* GoalSettingValidationUseCase.swift in Sources */,
 				62AFA0962A7258B200C9D86C /* GoalAmountEntity+CoreDataClass.swift in Sources */,
+				625141232AB597B500E9E5C3 /* CoreDataLottoEntityPersistenceService.swift in Sources */,
 				629C1F5D2A4ABD0F00540FA4 /* LottoDiaryModel.xcdatamodeld in Sources */,
 				805FA70B2A6D853400089070 /* LottoQRFlowProtocol.swift in Sources */,
 				629C1F5D2A4ABD0F00540FA4 /* LottoDiaryModel.xcdatamodeld in Sources */,

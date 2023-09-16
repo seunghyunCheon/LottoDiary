@@ -31,6 +31,6 @@ final class DefaultAddLottoUseCase: AddLottoUseCase {
             purchaseAmount: self.purchaseAmount.value ?? 0,
             winningAmount: self.winningAmount.value ?? 0
         )
-        
+        return Just(Lotto(type: .lotto, purchaseAmount: 10, winningAmount: 10)).setFailureType(to: Error.self).eraseToAnyPublisher()
     }
 }
