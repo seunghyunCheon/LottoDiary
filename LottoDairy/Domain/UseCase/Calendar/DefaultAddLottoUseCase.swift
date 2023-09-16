@@ -12,6 +12,11 @@ final class DefaultAddLottoUseCase: AddLottoUseCase {
     var lottoType: LottoType = .lotto
     var purchaseAmount = CurrentValueSubject<Int?, Never>(nil)
     var winningAmount = CurrentValueSubject<Int?, Never>(nil)
+    private let lottoRepository: LottoRepository
+    
+    init(lottoRepository: LottoRepository) {
+        self.lottoRepository = lottoRepository
+    }
     
     func setLottoType(_ type: LottoType) {
         self.lottoType = type
@@ -31,6 +36,7 @@ final class DefaultAddLottoUseCase: AddLottoUseCase {
             purchaseAmount: self.purchaseAmount.value ?? 0,
             winningAmount: self.winningAmount.value ?? 0
         )
-        return Just(Lotto(type: .lotto, purchaseAmount: 10, winningAmount: 10)).setFailureType(to: Error.self).eraseToAnyPublisher()
+        
+        return lottoRepository.saveLotto(newLotto)
     }
 }

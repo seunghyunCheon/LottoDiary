@@ -26,7 +26,7 @@ final class CalendarViewModel {
     init(calendarUseCase: CalendarUseCase) {
         self.calendarUseCase = calendarUseCase
     }
-
+    
     func fetchThreeWeeklyDays() {
         days.value = calendarUseCase.getDaysInThreeWeek(for: baseDate)
     }

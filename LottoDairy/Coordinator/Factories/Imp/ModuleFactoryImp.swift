@@ -51,7 +51,10 @@ final class ModuleFactoryImp:
     }
     
     func makeAddLottoView() -> AddLottoViewProtocol {
-        let addLottoUseCase = DefaultAddLottoUseCase()
+        let coreDataService = CoreDataPersistenceService.shared
+        let coreDataLottoPersistenceService = CoreDataLottoEntityPersistenceService(coreDataPersistenceService: coreDataService)
+        let lottoRepository = DefaultLottoRepository(coreDataLottoEntityPersistenceService: coreDataLottoPersistenceService)
+        let addLottoUseCase = DefaultAddLottoUseCase(lottoRepository: lottoRepository)
         let addLottoValidationUseCase = DefaultAddLottoValidationUseCase()
         let viewModel = AddLottoViewModel(
             addLottoUseCase: addLottoUseCase,

@@ -263,9 +263,20 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
             }
             .store(in: &cancellables)
         
-        output.sendNewLotto
+        output.createdLotto
             .sink { lotto in
                 
+            }
+            .store(in: &cancellables)
+        
+        output.failedToCreate
+            .sink { [weak self] errorMessage in
+                if !errorMessage.isEmpty {
+                    #if DEBUG
+                    print(errorMessage)
+                    #endif
+                    self?.presentErrorAlert()
+                }
             }
             .store(in: &cancellables)
         
@@ -277,6 +288,17 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
             }
             .store(in: &cancellables)
     }
+    
+    private func presentErrorAlert() {
+        let sheet = UIAlertController(
+            title: StringLiteral.errorTitle,
+            message: StringLiteral.errorMessage,
+            preferredStyle: .alert
+        )
+        
+        sheet.addAction(UIAlertAction(title: StringLiteral.errorOkButtonText, style: .default))
+        present(sheet, animated: true)
+    }
 }
 
 fileprivate extension UISegmentedControl {
@@ -286,5 +308,13 @@ fileprivate extension UISegmentedControl {
                 LottoType.allCases[self.selectedSegmentIndex]
             }
             .eraseToAnyPublisher()
+    }
+}
+
+extension AddLottoViewController {
+    private enum StringLiteral {
+        static let errorTitle = "오류"
+        static let errorMessage = "정보를 저장하지 못했습니다"
+        static let errorOkButtonText = "확인"
     }
 }

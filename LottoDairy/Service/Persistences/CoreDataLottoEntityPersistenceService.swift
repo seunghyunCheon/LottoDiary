@@ -56,7 +56,7 @@ final class CoreDataLottoEntityPersistenceService: CoreDataLottoEntityPersistenc
         .eraseToAnyPublisher()
     }
 
-    func saveLottoEntity(_ lotto: Lotto) -> AnyPublisher<Void, Error> {
+    func saveLottoEntity(_ lotto: Lotto) -> AnyPublisher<Lotto, Error> {
         guard let context = coreDataPersistenceService.backgroundContext else {
             return Fail(error: CoreDataLottoEntityPersistenceServiceError.failedToInitializeCoreDataContainer).eraseToAnyPublisher()
         }
@@ -67,7 +67,7 @@ final class CoreDataLottoEntityPersistenceService: CoreDataLottoEntityPersistenc
                     let lottoEntity = LottoEntity(context: context)
                     lottoEntity.update(lotto: lotto)
                     try context.save()
-                    promise(.success(()))
+                    promise(.success(lottoEntity.convertToDomain()))
             
                 } catch {
                     promise(.failure(CoreDataLottoEntityPersistenceServiceError.failedToCreateGoalAmount))

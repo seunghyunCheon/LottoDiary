@@ -23,7 +23,8 @@ final class AddLottoViewModel {
         var purchaseAmountFieldText = CurrentValueSubject<String?, Never>(.none)
         var winningAmountFieldText = CurrentValueSubject<String?, Never>(.none)
         var okButtonEnabled = CurrentValueSubject<Bool, Never>(false)
-        var sendNewLotto = CurrentValueSubject<Lotto?, Never>(nil)
+        var createdLotto = CurrentValueSubject<Lotto?, Never>(nil)
+        var failedToCreate = CurrentValueSubject<String, Never>("")
         var dismissTrigger = CurrentValueSubject<Bool, Never>(false)
     }
     
@@ -108,11 +109,20 @@ final class AddLottoViewModel {
     
     private func bindButtons(from input: Input, with output: Output) {
         input.okButtonDidTapEvent
-            .sink { [weak self] _ in
-                self?.addLottoUseCase.addLotto()
-                // 로또 생성이 성공이 되었다면 코디네이터에서 LottoAdded에 Void를 넣어서 fetch함수 실행.
-//                output.sendNewLotto.send(newLotto)
+            .flatMap { [weak self] _ -> AnyPublisher<Lotto, Error> in
+                guard let self else {
+                    return Empty().eraseToAnyPublisher()
+                }
+                
+                return self.addLottoUseCase.addLotto()
             }
+            .sink(receiveCompletion: { completion in
+                if case .failure(let error) = completion {
+                    output.failedToCreate.send(error.localizedDescription)
+                }
+            }, receiveValue: { lotto in
+                output.createdLotto.send(lotto)
+            })
             .store(in: &cancellables)
         
         input.cancelButtonDidTapEvent

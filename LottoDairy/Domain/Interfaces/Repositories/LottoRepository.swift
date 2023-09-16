@@ -10,5 +10,5 @@ import Foundation
 
 protocol LottoRepository {
     func fetchLottos(with startDate: Date, and endDate: Date) -> AnyPublisher<[Lotto], Error>
-    func saveLotto(_ lotto: Lotto) -> AnyPublisher<Void, Error>
+    func saveLotto(_ lotto: Lotto) -> AnyPublisher<Lotto, Error>
 }

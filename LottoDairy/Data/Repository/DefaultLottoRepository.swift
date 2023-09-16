@@ -27,7 +27,7 @@ final class DefaultLottoRepository: LottoRepository {
             .eraseToAnyPublisher()
     }
     
-    func saveLotto(_ lotto: Lotto) -> AnyPublisher<Void, Error> {
+    func saveLotto(_ lotto: Lotto) -> AnyPublisher<Lotto, Error> {
         return coreDataLottoEntityPersistenceService.saveLottoEntity(lotto)
     }
 }
