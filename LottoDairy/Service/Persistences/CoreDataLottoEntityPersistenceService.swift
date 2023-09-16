@@ -77,5 +77,4 @@ final class CoreDataLottoEntityPersistenceService: CoreDataLottoEntityPersistenc
         .receive(on: DispatchQueue.main)
         .eraseToAnyPublisher()
     }
-
 }
