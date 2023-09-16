@@ -55,7 +55,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         return view
     }()
     
-    var onAddLotto: (() -> Void)?
+    var onAddLotto: ((Date) -> Void)?
     
     private var dataSource: UICollectionViewDiffableDataSource<Section, [DayComponent]>?
 
@@ -198,7 +198,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     
     @objc
     func didPressAddButton(sender: UITapGestureRecognizer) {
-        self.onAddLotto?()
+        self.onAddLotto?(self.viewModel.baseDate)
     }
 
     private func configureCalendarCollectionViewDataSource() {

@@ -130,6 +130,9 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
     private let viewModel: AddLottoViewModel
     private var cancellables = Set<AnyCancellable>()
     
+    var selectedDate: Date?
+    var onCalendar: ((Lotto) -> Void)?
+    
     init(viewModel: AddLottoViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -257,6 +260,12 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
                     self?.okButton.alpha = 0.3
                     self?.okButton.backgroundColor = .designSystem(.gray63626B)
                 }
+            }
+            .store(in: &cancellables)
+        
+        output.sendNewLotto
+            .sink { lotto in
+                
             }
             .store(in: &cancellables)
         

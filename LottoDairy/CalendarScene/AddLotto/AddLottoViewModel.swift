@@ -109,8 +109,9 @@ final class AddLottoViewModel {
     private func bindButtons(from input: Input, with output: Output) {
         input.okButtonDidTapEvent
             .sink { [weak self] _ in
-                let newLotto = self?.addLottoUseCase.addLotto()
-                output.sendNewLotto.send(newLotto)
+                self?.addLottoUseCase.addLotto()
+                // 로또 생성이 성공이 되었다면 코디네이터에서 LottoAdded에 Void를 넣어서 fetch함수 실행.
+//                output.sendNewLotto.send(newLotto)
             }
             .store(in: &cancellables)
         

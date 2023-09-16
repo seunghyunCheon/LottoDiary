@@ -14,5 +14,5 @@ protocol AddLottoUseCase {
     func setLottoType(_ type: LottoType)
     func setPurchaseAmount(_ text: String)
     func setWinningAmount(_ text: String)
-    func addLotto() -> Lotto
+    func addLotto() -> AnyPublisher<Lotto, Error>
 }

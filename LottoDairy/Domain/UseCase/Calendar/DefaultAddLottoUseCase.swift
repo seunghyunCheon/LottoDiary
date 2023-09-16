@@ -25,13 +25,12 @@ final class DefaultAddLottoUseCase: AddLottoUseCase {
         self.winningAmount.value = text.convertDecimalToInt()
     }
     
-    func addLotto() -> Lotto {
+    func addLotto() -> AnyPublisher<Lotto, Error> {
         let newLotto = Lotto(
             type: self.lottoType,
             purchaseAmount: self.purchaseAmount.value ?? 0,
             winningAmount: self.winningAmount.value ?? 0
         )
         
-        return newLotto
     }
 }

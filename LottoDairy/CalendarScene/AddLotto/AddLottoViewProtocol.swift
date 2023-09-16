@@ -8,5 +8,7 @@ import Foundation
 import UIKit
 
 protocol AddLottoViewProtocol: Presentable {
+    var selectedDate: Date? { get set }
+    var onCalendar: ((Lotto) -> Void)? { get set }
 }
 
