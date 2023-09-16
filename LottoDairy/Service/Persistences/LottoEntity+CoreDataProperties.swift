@@ -12,6 +12,7 @@ import CoreData
 
 extension LottoEntity {
 
+    @NSManaged public var date: Date
     @NSManaged public var id: UUID
     @NSManaged public var type: String
     @NSManaged public var purchaseAmount: Int
@@ -25,6 +26,7 @@ extension LottoEntity {
     
     func update(lotto: Lotto) {
         self.id = lotto.id
+        self.date = lotto.date
         self.type = lotto.type.rawValue
         self.purchaseAmount = lotto.purchaseAmount
         self.winningAmount = lotto.winningAmount
@@ -38,6 +40,7 @@ extension LottoEntity : Identifiable {
     func convertToDomain() -> Lotto {
         return Lotto(
             id: self.id,
+            date: self.date,
             type: LottoType(rawValue: self.type) ?? .lotto,
             purchaseAmount: self.purchaseAmount,
             winningAmount: self.winningAmount,

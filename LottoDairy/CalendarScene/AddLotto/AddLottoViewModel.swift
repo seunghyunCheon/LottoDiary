@@ -6,10 +6,12 @@
 //
 
 import Combine
+import Foundation
 
 final class AddLottoViewModel {
     
     struct Input {
+        let viewDidLoadEvent: AnyPublisher<Date, Never>
         let lottoTypeSelectEvent: AnyPublisher<LottoType, Never>
         let purchaseAmountTextFieldDidEditEvent: AnyPublisher<String, Never>
         let winningAmountTextFieldDidEditEvent: AnyPublisher<String, Never>
@@ -28,7 +30,7 @@ final class AddLottoViewModel {
         var dismissTrigger = CurrentValueSubject<Bool, Never>(false)
     }
     
-    private let addLottoUseCase: AddLottoUseCase
+    private var addLottoUseCase: AddLottoUseCase
     private let addLottoValidationUseCase: AddLottoValidationUseCase
     private var cancellables = Set<AnyCancellable>()
     
@@ -45,6 +47,13 @@ final class AddLottoViewModel {
     // MARK: - Private Methods
     
     private func configureInput(_ input: Input) {
+        
+        input.viewDidLoadEvent
+            .sink { [weak self] selectedDate in
+                self?.addLottoUseCase.selectedDate = selectedDate
+            }
+            .store(in: &cancellables)
+        
         input.lottoTypeSelectEvent
             .sink { [weak self] lottoType in
                 self?.addLottoUseCase.setLottoType(lottoType)

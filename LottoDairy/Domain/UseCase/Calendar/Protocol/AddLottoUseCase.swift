@@ -6,8 +6,10 @@
 //
 
 import Combine
+import Foundation
 
 protocol AddLottoUseCase {
+    var selectedDate: Date? { get set }
     var lottoType: LottoType { get set }
     var purchaseAmount: CurrentValueSubject<Int?, Never> { get set }
     var winningAmount: CurrentValueSubject<Int?, Never> { get set }

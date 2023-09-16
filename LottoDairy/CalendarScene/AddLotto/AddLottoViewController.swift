@@ -216,7 +216,10 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
     }
     
     private func bindViewModel() {
+        guard let selectedDate else { return }
+        
         let input = AddLottoViewModel.Input(
+            viewDidLoadEvent: Just((selectedDate)).eraseToAnyPublisher(),
             lottoTypeSelectEvent: lottoSegmentedControl.segmentPublisher,
             purchaseAmountTextFieldDidEditEvent: purchaseTextField.textPublisher,
             winningAmountTextFieldDidEditEvent: winningTextField.textPublisher,
@@ -264,8 +267,11 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
             .store(in: &cancellables)
         
         output.createdLotto
-            .sink { lotto in
+            .sink { [weak self] lotto in
+                guard let self,
+                      let lotto else { return }
                 
+                self.onCalendar?(lotto)
             }
             .store(in: &cancellables)
         

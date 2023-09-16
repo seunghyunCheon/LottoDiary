@@ -15,24 +15,34 @@ enum ScopeType {
 
 final class CalendarViewModel {
 
-    private let calendarUseCase: CalendarUseCase
-
     var baseDate: Date = .today
-    
     var days = CurrentValueSubject<[[DayComponent]], Never>([])
-    
     var calendarShape: ScopeType = .month
+    private let calendarUseCase: CalendarUseCase
+    private var cancellables = Set<AnyCancellable>()
     
     init(calendarUseCase: CalendarUseCase) {
         self.calendarUseCase = calendarUseCase
     }
     
     func fetchThreeWeeklyDays() {
-        days.value = calendarUseCase.getDaysInThreeWeek(for: baseDate)
+        calendarUseCase.getDaysInThreeWeek(for: baseDate)
+            .sink { completion in
+                
+            } receiveValue: { days in
+                self.days.send(days)
+            }
+            .store(in: &cancellables)
     }
 
     func fetchThreeMonthlyDays() {
-        days.value = calendarUseCase.getDaysInThreeMonth(for: baseDate)
+        calendarUseCase.getDaysInThreeMonth(for: baseDate)
+            .sink { completion in
+                
+            } receiveValue: { days in
+                self.days.send(days)
+            }
+            .store(in: &cancellables)
     }
 
     func updatePreviousBaseDate() {

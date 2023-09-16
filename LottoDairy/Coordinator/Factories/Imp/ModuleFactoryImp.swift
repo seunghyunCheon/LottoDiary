@@ -45,7 +45,10 @@ final class ModuleFactoryImp:
     }
 
     func makeCalendarFlow() -> CalendarFlowProtocol {
-        let calendarUseCase = CalendarUseCase()
+        let coreDataService = CoreDataPersistenceService.shared
+        let coreDataLottoPersistenceService = CoreDataLottoEntityPersistenceService(coreDataPersistenceService: coreDataService)
+        let lottoRepository = DefaultLottoRepository(coreDataLottoEntityPersistenceService: coreDataLottoPersistenceService)
+        let calendarUseCase = CalendarUseCase(lottoRepository: lottoRepository)
         let viewModel = CalendarViewModel(calendarUseCase: calendarUseCase)
         return CalendarViewController(viewModel: viewModel)
     }
