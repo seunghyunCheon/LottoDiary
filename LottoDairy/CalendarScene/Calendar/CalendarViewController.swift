@@ -79,8 +79,6 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // 새로운 로또를 받으면 days안에서 selectedDate에 해당하는 날짜를 찾아 로또를 삽입.
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -167,7 +165,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         self.lottoCollectionView.register(LottoCell.self, forCellWithReuseIdentifier: LottoCell.identifer)
         self.contentView.addSubview(lottoCollectionView)
         
-        lottosHeightConstraint = self.lottoCollectionView.heightAnchor.constraint(equalToConstant: 300)
+        lottosHeightConstraint = self.lottoCollectionView.heightAnchor.constraint(equalToConstant: 0)
         
         NSLayoutConstraint.activate([
             self.lottoCollectionView.topAnchor.constraint(equalTo: self.calendarCollectionView.bottomAnchor, constant: 0),
@@ -300,7 +298,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     
         let lottos = filteredDate[0].lottos
         
-        lottosHeightConstraint.constant = CGFloat(lottos.count * 105 + 100)
+        lottosHeightConstraint.constant = CGFloat(CGFloat(lottos.count) * Constant.lottoCellHeight + Constant.lottoFooterHeight)
         self.lottoCollectionView.reloadData()
 
         return lottos
@@ -430,6 +428,8 @@ extension CalendarViewController {
         static let calendarHeaderHeight: CGFloat = 100
         static let monthCalendarHeight: CGFloat = 250
         static let weekCalendarHeight: CGFloat = 50
+        static let lottoCellHeight: CGFloat = 105
+        static let lottoFooterHeight: CGFloat = 100
     }
     
     private enum CalendarAction {
