@@ -150,6 +150,16 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
         bindViewModel()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardUp), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDown), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
     override func viewDidLayoutSubviews() {
         self.okButton.layer.cornerRadius = 5
         self.cancelButton.layer.cornerRadius = 5
@@ -304,6 +314,25 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
         
         sheet.addAction(UIAlertAction(title: StringLiteral.errorOkButtonText, style: .default))
         present(sheet, animated: true)
+    }
+    
+    @objc
+    private func keyboardUp(notification:NSNotification) {
+        if let keyboardFrame:NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+           let keyboardRectangle = keyboardFrame.cgRectValue
+       
+            UIView.animate(
+                withDuration: 0.3
+                , animations: {
+                    self.view.transform = CGAffineTransform(translationX: 0, y: -keyboardRectangle.height)
+                }
+            )
+        }
+    }
+    
+    @objc
+    private func keyboardDown() {
+        self.view.transform = .identity
     }
 }
 

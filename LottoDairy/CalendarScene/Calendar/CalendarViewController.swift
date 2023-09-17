@@ -298,9 +298,10 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     
         let lottos = filteredDate[0].lottos
         
-        lottosHeightConstraint.constant = CGFloat(CGFloat(lottos.count) * Constant.lottoCellHeight + Constant.lottoFooterHeight)
+        self.lottosHeightConstraint.constant = CGFloat(CGFloat(lottos.count) * Constant.lottoCellHeight + Constant.lottoFooterHeight)
+        
         self.lottoCollectionView.reloadData()
-
+          
         return lottos
     }
     
