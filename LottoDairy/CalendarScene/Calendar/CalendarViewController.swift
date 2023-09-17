@@ -185,7 +185,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         lottoDataSource = UICollectionViewDiffableDataSource<Int, Lotto>(collectionView: self.lottoCollectionView) {
             collectionView, indexPath, item in
             let lottoCell: LottoCell = collectionView.dequeue(for: indexPath)
-            lottoCell.configure()
+            lottoCell.configure(with: item)
             
             return lottoCell
         }

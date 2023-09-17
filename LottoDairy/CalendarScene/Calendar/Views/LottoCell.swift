@@ -125,13 +125,25 @@ final class LottoCell: UICollectionViewCell {
         ])
     }
     
-    func configure() {
-        lottoImageView.image = UIImage(named: "lotto")
-        self.backgroundColor = .designSystem(.mainOrange)
+    func configure(with lotto: Lotto) {
+        lottoImageView.image = UIImage(named: lotto.type.rawValue)
+        titleLabel.text = lotto.type.rawValue
+        purchaseAmountLabel.text = String(lotto.purchaseAmount.convertToDecimal()) + "원"
+        winningAmountLabel.text = String(lotto.winningAmount.convertToDecimal()) + "원"
+        switch lotto.type {
+        case .lotto:
+            self.backgroundColor = .designSystem(.mainOrange)
+        case .spitto:
+            self.backgroundColor = .designSystem(.mainBlue)
+        }
     }
     
     override func prepareForReuse() {
         self.backgroundColor = .clear
+        self.lottoImageView.image = nil
+        self.titleLabel.text = nil
+        self.purchaseAmountLabel.text = nil
+        self.winningAmountLabel.text = nil
     }
 }
 

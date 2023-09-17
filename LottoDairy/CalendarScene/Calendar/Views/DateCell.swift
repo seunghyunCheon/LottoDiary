@@ -63,28 +63,29 @@ final class DateCell: UICollectionViewCell {
             }
             .store(in: &cancellables)
         
-        viewModel?.$isIncludeInMonth
-            .sink { [weak self] state in
-                self?.numberLabel.textColor = state ? UIColor.designSystem(.grayA09FA7) : UIColor.designSystem(.gray63626B)
-            }
-            .store(in: &cancellables)
-        
         viewModel?.$cellState
             .sink { [weak self] state in
                 switch state {
                 case .none:
                     self?.numberLabel.backgroundColor = .clear
-                    self?.numberLabel.textColor = .designSystem(.gray63626B)
+                    self?.numberLabel.textColor = .designSystem(.grayA09FA7)
                 case .selected:
                     self?.numberLabel.backgroundColor = .designSystem(.gray63626B)
                     self?.numberLabel.textColor = .white
                 case .today:
                     self?.numberLabel.backgroundColor = .designSystem(.mainBlue)
-                    self?.numberLabel.textColor = .designSystem(.gray63626B)
+                    self?.numberLabel.textColor = .designSystem(.grayA09FA7)
                 case .todaySelected:
                     self?.numberLabel.backgroundColor = .designSystem(.mainBlue)
                     self?.numberLabel.textColor = .white
                 }
+            }
+            .store(in: &cancellables)
+        
+
+        viewModel?.$isIncludeInMonth
+            .sink { [weak self] state in
+                self?.numberLabel.textColor = state ? UIColor.designSystem(.grayA09FA7) : UIColor.designSystem(.gray63626B)
             }
             .store(in: &cancellables)
     }

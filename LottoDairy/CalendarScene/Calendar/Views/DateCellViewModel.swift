@@ -32,7 +32,6 @@ final class DateCellViewModel {
     
     func validateCellState(with isSelected: Bool) {
         if !isIncludeInMonth {
-            cellState = .none
             return
         }
         
