@@ -27,6 +27,13 @@ final class DateCell: UICollectionViewCell {
         return label
     }()
     
+    private let dot: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     var viewModel: DateCellViewModel?
     
     var cancellables = Set<AnyCancellable>()
@@ -53,6 +60,15 @@ final class DateCell: UICollectionViewCell {
             numberLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             numberLabel.widthAnchor.constraint(equalToConstant: 30),
             numberLabel.heightAnchor.constraint(equalToConstant: 30)
+        ])
+        
+        contentView.addSubview(dot)
+        dot.layer.cornerRadius = 2.5
+        NSLayoutConstraint.activate([
+            dot.centerXAnchor.constraint(equalTo: self.numberLabel.centerXAnchor),
+            dot.topAnchor.constraint(equalTo: self.numberLabel.bottomAnchor, constant: 2),
+            dot.widthAnchor.constraint(equalToConstant: 5),
+            dot.heightAnchor.constraint(equalToConstant: 5),
         ])
     }
     
@@ -86,6 +102,16 @@ final class DateCell: UICollectionViewCell {
         viewModel?.$isIncludeInMonth
             .sink { [weak self] state in
                 self?.numberLabel.textColor = state ? UIColor.designSystem(.grayA09FA7) : UIColor.designSystem(.gray63626B)
+            }
+            .store(in: &cancellables)
+        
+        viewModel?.$hasLotto
+            .sink { [weak self] state in
+                if state {
+                    self?.dot.backgroundColor = .systemGreen
+                } else {
+                    self?.dot.backgroundColor = .clear
+                }
             }
             .store(in: &cancellables)
     }
