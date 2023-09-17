@@ -59,7 +59,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     
     private var dataSource: UICollectionViewDiffableDataSource<Section, [DayComponent]>?
 
-    private var lottoDataSource: UICollectionViewDiffableDataSource<Int, UUID>!
+    private var lottoDataSource: UICollectionViewDiffableDataSource<Int, Lotto>!
     
     private var scrollDirection: ScrollDirection = .none
 
@@ -68,8 +68,8 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     private var cancellables = Set<AnyCancellable>()
     
     private var calendarAction: CalendarAction = .none
-
     private var calendarHeightConstraint: NSLayoutConstraint!
+    private var lottosHeightConstraint: NSLayoutConstraint!
     
     init(viewModel: CalendarViewModel) {
         self.viewModel = viewModel
@@ -89,9 +89,15 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         setupCalendarView()
         setupLottoCollectionView()
         configureCalendarCollectionViewDataSource()
+        configureLottoCollectionViewDataSource()
         self.viewModel.fetchThreeMonthlyDays()
         bindViewModel()
         setupCenterXOffset()
+    }
+    
+    private func setupRootView() {
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        self.view.backgroundColor = .designSystem(.backgroundBlack)
     }
     
     private func setupScrollView() {
@@ -116,11 +122,6 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
             
             self.contentView.widthAnchor.constraint(equalTo: self.scrollView.frameLayoutGuide.widthAnchor),
         ])
-    }
-    
-    private func setupRootView() {
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-        self.view.backgroundColor = .designSystem(.backgroundBlack)
     }
     
     private func setupCalendarHeaderView() {
@@ -153,16 +154,35 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     private func setupLottoCollectionView() {
         self.lottoCollectionView.register(LottoCell.self, forCellWithReuseIdentifier: LottoCell.identifer)
         self.contentView.addSubview(lottoCollectionView)
-        let count = 8
+        
+        lottosHeightConstraint = self.lottoCollectionView.heightAnchor.constraint(equalToConstant: 300)
+        
         NSLayoutConstraint.activate([
             self.lottoCollectionView.topAnchor.constraint(equalTo: self.calendarCollectionView.bottomAnchor, constant: 0),
             self.lottoCollectionView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
             self.lottoCollectionView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
-            self.lottoCollectionView.heightAnchor.constraint(equalToConstant: CGFloat(count * 90)),
-            self.lottoCollectionView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
+            self.lottoCollectionView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
+            lottosHeightConstraint,
         ])
-        
-        lottoDataSource = UICollectionViewDiffableDataSource<Int, UUID>(collectionView: self.lottoCollectionView) {
+    }
+    
+    private func configureCalendarCollectionViewDataSource() {
+        self.dataSource = UICollectionViewDiffableDataSource<Section, [DayComponent]>(
+            collectionView: self.calendarCollectionView
+        ) { collectionView, indexPath, item in
+            let dateCollectionViewCell: DateCollectionViewCell = collectionView.dequeue(for: indexPath)
+            dateCollectionViewCell.configure(
+                with: item,
+                scope: self.viewModel.calendarShape,
+                baseDate: self.viewModel.baseDate.value
+            )
+            dateCollectionViewCell.delegate = self
+            return dateCollectionViewCell
+        }
+    }
+    
+    private func configureLottoCollectionViewDataSource() {
+        lottoDataSource = UICollectionViewDiffableDataSource<Int, Lotto>(collectionView: self.lottoCollectionView) {
             collectionView, indexPath, item in
             let lottoCell: LottoCell = collectionView.dequeue(for: indexPath)
             lottoCell.configure()
@@ -180,15 +200,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
                     using: footerRegistration, for: indexPath)
         }
         
-        
         lottoCollectionView.dataSource = lottoDataSource
-        
-        // tableView에 들어갈 Section, Item 초기화
-        var snapshot = NSDiffableDataSourceSnapshot<Int, UUID>()
-        snapshot.appendSections([0]) // 주의: section하나를 안넣어주면 에러
-        snapshot.appendItems([UUID(), UUID(), UUID(), UUID(), UUID(), UUID()])
-        lottoDataSource.apply(snapshot)
-        
     }
     
     private func footerRegistrationHandler(addLottoFooterView: AddLottoFooterView, elementKind: String, indexPath: IndexPath) {
@@ -198,22 +210,33 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     
     @objc
     func didPressAddButton(sender: UITapGestureRecognizer) {
-        self.onAddLotto?(self.viewModel.baseDate)
+        self.onAddLotto?(self.viewModel.baseDate.value)
     }
-
-    private func configureCalendarCollectionViewDataSource() {
-        self.dataSource = UICollectionViewDiffableDataSource<Section, [DayComponent]>(
-            collectionView: self.calendarCollectionView
-        ) { collectionView, indexPath, item in
-            let dateCollectionViewCell: DateCollectionViewCell = collectionView.dequeue(for: indexPath)
-            dateCollectionViewCell.configure(
-                with: item,
-                scope: self.viewModel.calendarShape,
-                baseDate: self.viewModel.baseDate
-            )
-            dateCollectionViewCell.delegate = self
-            return dateCollectionViewCell
-        }
+    
+    private func bindViewModel() {
+        // 스크롤, 주간/월간 변경 시 업데이트
+        viewModel.days
+            .compactMap { $0 }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] days in
+                guard let self else { return }
+                self.updateYearAndMonth(with: self.viewModel.baseDate.value)
+                self.updateSnapshot(with: days)
+                self.setupCenterXOffset()
+                let lottos = self.updateLottoLayout(with: self.viewModel.baseDate.value)
+                self.updateLottoSnapshot(with: lottos)
+            }
+            .store(in: &cancellables)
+        
+        // 날짜 클릭 시 업데이트
+        viewModel.baseDate
+            .sink { [weak self] date in
+                if self?.calendarAction == .select {
+                    let lottos = self?.updateLottoLayout(with: date)
+                    self?.updateLottoSnapshot(with: lottos ?? [])
+                }
+            }
+            .store(in: &cancellables)
     }
     
     private func setupCenterXOffset() {
@@ -224,18 +247,6 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         let numberOfSections = CGFloat(calendarCollectionView.numberOfSections)
         let middleSectionX = width / numberOfSections * CGFloat(middleSectionIndex)
         calendarCollectionView.setContentOffset(CGPoint(x: middleSectionX, y: 0), animated: false)
-    }
-    
-    private func bindViewModel() {
-        viewModel.days
-            .compactMap { $0 }
-            .receive(on: DispatchQueue.main)
-            .sink { days in
-                self.updateYearAndMonth(with: self.viewModel.baseDate)
-                self.updateSnapshot(with: days)
-                self.setupCenterXOffset()
-            }
-            .store(in: &cancellables)
     }
     
     private func updateYearAndMonth(with date: Date) {
@@ -266,6 +277,31 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         }
         dataSource?.apply(snapshot, animatingDifferences: false)
     }
+    
+    private func updateLottoLayout(with date: Date) -> [Lotto] {
+        let dayComponents = viewModel.days.value
+        guard !dayComponents.isEmpty else {
+            return []
+        }
+        
+        let filteredDate = dayComponents.flatMap { $0 }.filter { $0.date.equalsDate(with: date) }
+    
+        let lottos = filteredDate[0].lottos
+        
+        lottosHeightConstraint.constant = CGFloat(lottos.count * 80 + 100)
+        self.lottoCollectionView.reloadData()
+
+        return lottos
+    }
+    
+    private func updateLottoSnapshot(with lottos: [Lotto]) {
+        var snapshot = lottoDataSource.snapshot()
+        snapshot.deleteAllItems()
+        snapshot.appendSections([0])
+        
+        snapshot.appendItems(lottos, toSection: 0)
+        lottoDataSource.apply(snapshot, animatingDifferences: true)
+    }
 }
 
 extension CalendarViewController: UICollectionViewDelegateFlowLayout {
@@ -280,11 +316,6 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
         case left
         case none
         case right
-    }
-    
-    private enum CalendarAction {
-        case select
-        case none
     }
     
     func collectionView(
@@ -356,6 +387,7 @@ extension CalendarViewController: CellBaseDateChangeDelegate {
     func changeBaseDate(with date: Date) {
         self.calendarAction = .select
         self.viewModel.changeBaseDate(with: date)
+        self.calendarAction = .none
     }
 }
 
@@ -386,5 +418,10 @@ extension CalendarViewController {
         static let calendarHeaderHeight: CGFloat = 100
         static let monthCalendarHeight: CGFloat = 250
         static let weekCalendarHeight: CGFloat = 50
+    }
+    
+    private enum CalendarAction {
+        case select
+        case none
     }
 }

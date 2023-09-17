@@ -129,5 +129,9 @@ final class LottoCell: UICollectionViewCell {
         lottoImageView.image = UIImage(named: "lotto")
         self.backgroundColor = .designSystem(.mainOrange)
     }
+    
+    override func prepareForReuse() {
+        self.backgroundColor = .clear
+    }
 }
 

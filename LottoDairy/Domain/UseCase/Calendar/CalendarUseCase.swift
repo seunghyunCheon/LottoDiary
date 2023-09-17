@@ -203,7 +203,6 @@ final class CalendarUseCase {
         
         return lottoRepository.fetchLottos(with: previousFirstDay, and: nextLastDay)
             .flatMap { lottos -> AnyPublisher<[[DayComponent]], Error> in
-                print(lottos)
                 lottos.forEach { lotto in
                     if previousRange.contains(lotto.date),
                        let targetIdx = previous.firstIndex(where: { $0.date == lotto.date }) {

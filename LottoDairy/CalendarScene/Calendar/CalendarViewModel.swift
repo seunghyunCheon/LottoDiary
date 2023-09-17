@@ -15,7 +15,7 @@ enum ScopeType {
 
 final class CalendarViewModel {
 
-    var baseDate: Date = .today
+    var baseDate = CurrentValueSubject<Date, Never>(.today)
     var days = CurrentValueSubject<[[DayComponent]], Never>([])
     var calendarShape: ScopeType = .month
     private let calendarUseCase: CalendarUseCase
@@ -26,7 +26,7 @@ final class CalendarViewModel {
     }
     
     func fetchThreeWeeklyDays() {
-        calendarUseCase.getDaysInThreeWeek(for: baseDate)
+        calendarUseCase.getDaysInThreeWeek(for: baseDate.value)
             .sink { completion in
                 
             } receiveValue: { days in
@@ -36,7 +36,7 @@ final class CalendarViewModel {
     }
 
     func fetchThreeMonthlyDays() {
-        calendarUseCase.getDaysInThreeMonth(for: baseDate)
+        calendarUseCase.getDaysInThreeMonth(for: baseDate.value)
             .sink { completion in
                 
             } receiveValue: { days in
@@ -46,27 +46,27 @@ final class CalendarViewModel {
     }
 
     func updatePreviousBaseDate() {
-        self.baseDate = calendarUseCase.calculatePreviousMonth(by: baseDate)
+        self.baseDate.value = calendarUseCase.calculatePreviousMonth(by: baseDate.value)
         self.fetchThreeMonthlyDays()
     }
 
     func updateNextBaseDate() {
-        self.baseDate = calendarUseCase.calculateNextMonth(by: baseDate)
+        self.baseDate.value = calendarUseCase.calculateNextMonth(by: baseDate.value)
         self.fetchThreeMonthlyDays()
     }
 
     func updatePreviousWeekBaseDate() {
-        self.baseDate = calendarUseCase.calculatePreviousWeek(by: baseDate)
+        self.baseDate.value = calendarUseCase.calculatePreviousWeek(by: baseDate.value)
         self.fetchThreeWeeklyDays()
     }
 
     func updateNextWeekBaseDate() {
-        self.baseDate = calendarUseCase.calculateNextWeek(by: baseDate)
+        self.baseDate.value = calendarUseCase.calculateNextWeek(by: baseDate.value)
         self.fetchThreeWeeklyDays()
     }
     
     func changeBaseDate(with date: Date) {
-        self.baseDate = date
+        self.baseDate.value = date
     }
     
     func changeCalendarShape() {
