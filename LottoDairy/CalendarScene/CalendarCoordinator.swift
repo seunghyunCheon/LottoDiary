@@ -12,7 +12,7 @@ final class CalendarCoordinator: BaseCoordinator {
     private let router: Router
     private let moduleFactory: CalendarModuleFactory
     private let coordinatorFactory: CoordinatorFactory
-//    private let canlderFlow:
+    private var calendarFlow: CalendarFlowProtocol?
 
     init(router: Router, moduleFactory: CalendarModuleFactory, coordinatorFactory: CoordinatorFactory) {
         self.router = router
@@ -21,8 +21,8 @@ final class CalendarCoordinator: BaseCoordinator {
     }
 
     override func start() {
-        var calendarFlow = moduleFactory.makeCalendarFlow()
-        calendarFlow.onAddLotto = { [weak self] currentDate in
+        calendarFlow = moduleFactory.makeCalendarFlow()
+        calendarFlow?.onAddLotto = { [weak self] currentDate in
             self?.presentAddLotto(with: currentDate)
         }
         router.setRootModule(calendarFlow)
@@ -32,8 +32,9 @@ final class CalendarCoordinator: BaseCoordinator {
         var addLottoView = moduleFactory.makeAddLottoView()
         addLottoView.selectedDate = date
         addLottoView.onCalendar = { [weak self] lotto in
-            // trigger를 하는 send
-            
+            guard let self else { return }
+            self.calendarFlow?.addLotto()
+            self.router.dismissModule(animated: true, completion: nil)
         }
         router.present(addLottoView, animated: true)
     }

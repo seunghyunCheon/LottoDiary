@@ -79,6 +79,8 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // 새로운 로또를 받으면 days안에서 selectedDate에 해당하는 날짜를 찾아 로또를 삽입.
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,6 +96,16 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         bindViewModel()
         setupCenterXOffset()
     }
+    
+    func addLotto() {
+        if viewModel.calendarShape == .month {
+            viewModel.fetchThreeMonthlyDays()
+        } else {
+            viewModel.fetchThreeWeeklyDays()
+        }
+    }
+    
+    // MARK: - Private Methods
     
     private func setupRootView() {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
@@ -288,7 +300,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     
         let lottos = filteredDate[0].lottos
         
-        lottosHeightConstraint.constant = CGFloat(lottos.count * 80 + 100)
+        lottosHeightConstraint.constant = CGFloat(lottos.count * 105 + 100)
         self.lottoCollectionView.reloadData()
 
         return lottos

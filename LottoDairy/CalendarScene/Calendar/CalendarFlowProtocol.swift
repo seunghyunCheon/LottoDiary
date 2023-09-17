@@ -9,4 +9,5 @@ import Foundation
 
 protocol CalendarFlowProtocol: Presentable {
     var onAddLotto: ((Date) -> Void)? { get set }
+    func addLotto() 
 }

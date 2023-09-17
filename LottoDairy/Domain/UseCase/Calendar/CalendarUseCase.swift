@@ -205,19 +205,19 @@ final class CalendarUseCase {
             .flatMap { lottos -> AnyPublisher<[[DayComponent]], Error> in
                 lottos.forEach { lotto in
                     if previousRange.contains(lotto.date),
-                       let targetIdx = previous.firstIndex(where: { $0.date == lotto.date }) {
+                       let targetIdx = previous.firstIndex(where: { $0.date.equalsDate(with: lotto.date) }) {
                             previous[targetIdx].lottos.append(lotto)
                             return
                        }
                     
                     if nowRange.contains(lotto.date),
-                       let targetIdx = now.firstIndex(where: { $0.date == lotto.date }) {
+                       let targetIdx = now.firstIndex(where: { $0.date.equalsDate(with: lotto.date) }) {
                             now[targetIdx].lottos.append(lotto)
                             return
                        }
                     
                     if nextRange.contains(lotto.date),
-                       let targetIdx = next.firstIndex(where: { $0.date == lotto.date }) {
+                       let targetIdx = next.firstIndex(where: { $0.date.equalsDate(with: lotto.date) }) {
                             next[targetIdx].lottos.append(lotto)
                             return
                        }
