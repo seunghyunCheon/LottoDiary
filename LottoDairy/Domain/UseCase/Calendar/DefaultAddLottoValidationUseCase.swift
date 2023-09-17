@@ -54,12 +54,7 @@ final class DefaultAddLottoValidationUseCase: AddLottoValidationUseCase {
             self.winningAmountValidationState.send(.empty)
             return
         }
-        
-        guard winningAmount >= 1_000 else {
-            self.winningAmountValidationState.send(.lowerboundViolated)
-            return
-        }
-        
+
         guard winningAmount <= 100_000_000_000 else {
             self.winningAmountValidationState.send(.upperboundViolated)
             return

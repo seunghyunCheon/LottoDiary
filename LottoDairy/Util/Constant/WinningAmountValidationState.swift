@@ -8,7 +8,6 @@
 enum WinningAmountValidationState {
     case empty
     case success
-    case lowerboundViolated
     case upperboundViolated
     case invalidLetterIncluded
     
@@ -16,8 +15,6 @@ enum WinningAmountValidationState {
         switch self {
         case .empty, .success:
             return ""
-        case .lowerboundViolated:
-            return "1000원 이상을 입력해주세요"
         case .upperboundViolated:
             return "100억원 이하를 입력해주세요"
         case .invalidLetterIncluded:
