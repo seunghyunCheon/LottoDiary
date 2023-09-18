@@ -66,13 +66,13 @@
 		801767002AAEF90F0046E537 /* DefaultChartUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801766FF2AAEF90F0046E537 /* DefaultChartUseCase.swift */; };
 		801767032AB030E70046E537 /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = 801767022AB030E70046E537 /* DGCharts */; };
 		801767072AB036670046E537 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801767062AB036670046E537 /* Device.swift */; };
+		8017670D2AB4A9330046E537 /* CoreDataTotalAmountEntityPersistenceServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8017670C2AB4A9330046E537 /* CoreDataTotalAmountEntityPersistenceServiceProtocol.swift */; };
+		8017670F2AB4A95C0046E537 /* CoreDataTotalAmountEntityPersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8017670E2AB4A95C0046E537 /* CoreDataTotalAmountEntityPersistenceService.swift */; };
 		805EA6BF2A9B1E1E00A3545C /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6BE2A9B1E1E00A3545C /* ChartViewController.swift */; };
 		805EA6C12A9B1E3D00A3545C /* ChartCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6C02A9B1E3D00A3545C /* ChartCoordinator.swift */; };
 		805EA6C32A9B1E8D00A3545C /* ChartFlowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6C22A9B1E8D00A3545C /* ChartFlowProtocol.swift */; };
 		805EA6C52A9B1EB400A3545C /* ChartModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6C42A9B1EB400A3545C /* ChartModuleFactory.swift */; };
 		805EA6C82AA2492900A3545C /* ChartInformationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6C72AA2492800A3545C /* ChartInformationCell.swift */; };
-		805EA6CE2AA3908500A3545C /* UICollectionView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6CD2AA3908500A3545C /* UICollectionView+Extensions.swift */; };
-		805EA6D02AA390E500A3545C /* UICollectionViewCell+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6CF2AA390E500A3545C /* UICollectionViewCell+Extensions.swift */; };
 		805EA6D22AA474C300A3545C /* ChartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6D12AA474C300A3545C /* ChartViewModel.swift */; };
 		805EA6D52AA475C600A3545C /* DefaultChartInformationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6D42AA475C600A3545C /* DefaultChartInformationUseCase.swift */; };
 		805EA6D82AA4761B00A3545C /* ChartInformationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6D72AA4761B00A3545C /* ChartInformationUseCase.swift */; };
@@ -95,6 +95,10 @@
 		807AAD5C2AAC30DC00D338BF /* ChartInformationComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807AAD5B2AAC30DC00D338BF /* ChartInformationComponents.swift */; };
 		8080DDBB2A604A0500364CF1 /* TabBarComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8080DDBA2A604A0500364CF1 /* TabBarComponents.swift */; };
 		8080DDBE2A60540B00364CF1 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8080DDBD2A60540B00364CF1 /* TabBarView.swift */; };
+		80EB03322A72336400455E05 /* GmarketSansLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB03312A72336400455E05 /* GmarketSansLabel.swift */; };
+		80EB03342A72370E00455E05 /* UIStackView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB03332A72370E00455E05 /* UIStackView+Extensions.swift */; };
+		80EB033C2A72CB8000455E05 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB033B2A72CB8000455E05 /* UIView+Extensions.swift */; };
+		80EB033E2A72CF9A00455E05 /* DoubleLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB033D2A72CF9A00455E05 /* DoubleLabelView.swift */; };
 		80F90CD72A8D1CFE007E1D23 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F90CD62A8D1CFE007E1D23 /* CalendarViewController.swift */; };
 		80F90CD92A8D1D96007E1D23 /* CalendarModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F90CD82A8D1D96007E1D23 /* CalendarModuleFactory.swift */; };
 		80F90CDB2A8D1DD3007E1D23 /* CalendarFlowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F90CDA2A8D1DD3007E1D23 /* CalendarFlowProtocol.swift */; };
@@ -109,10 +113,6 @@
 		80F90CF52A8D3037007E1D23 /* UICollectionViewCell+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F90CF42A8D3037007E1D23 /* UICollectionViewCell+Extensions.swift */; };
 		80F90CF72A8D31B7007E1D23 /* DateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F90CF62A8D31B7007E1D23 /* DateCell.swift */; };
 		80F90CF92A8D32A6007E1D23 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F90CF82A8D32A6007E1D23 /* CalendarViewModel.swift */; };
-		80EB03322A72336400455E05 /* GmarketSansLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB03312A72336400455E05 /* GmarketSansLabel.swift */; };
-		80EB03342A72370E00455E05 /* UIStackView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB03332A72370E00455E05 /* UIStackView+Extensions.swift */; };
-		80EB033C2A72CB8000455E05 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB033B2A72CB8000455E05 /* UIView+Extensions.swift */; };
-		80EB033E2A72CF9A00455E05 /* DoubleLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB033D2A72CF9A00455E05 /* DoubleLabelView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -176,13 +176,13 @@
 		801766FD2AAEF8FF0046E537 /* ChartUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartUseCase.swift; sourceTree = "<group>"; };
 		801766FF2AAEF90F0046E537 /* DefaultChartUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultChartUseCase.swift; sourceTree = "<group>"; };
 		801767062AB036670046E537 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
+		8017670C2AB4A9330046E537 /* CoreDataTotalAmountEntityPersistenceServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTotalAmountEntityPersistenceServiceProtocol.swift; sourceTree = "<group>"; };
+		8017670E2AB4A95C0046E537 /* CoreDataTotalAmountEntityPersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTotalAmountEntityPersistenceService.swift; sourceTree = "<group>"; };
 		805EA6BE2A9B1E1E00A3545C /* ChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewController.swift; sourceTree = "<group>"; };
 		805EA6C02A9B1E3D00A3545C /* ChartCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartCoordinator.swift; sourceTree = "<group>"; };
 		805EA6C22A9B1E8D00A3545C /* ChartFlowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartFlowProtocol.swift; sourceTree = "<group>"; };
 		805EA6C42A9B1EB400A3545C /* ChartModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartModuleFactory.swift; sourceTree = "<group>"; };
 		805EA6C72AA2492800A3545C /* ChartInformationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartInformationCell.swift; sourceTree = "<group>"; };
-		805EA6CD2AA3908500A3545C /* UICollectionView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extensions.swift"; sourceTree = "<group>"; };
-		805EA6CF2AA390E500A3545C /* UICollectionViewCell+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+Extensions.swift"; sourceTree = "<group>"; };
 		805EA6D12AA474C300A3545C /* ChartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewModel.swift; sourceTree = "<group>"; };
 		805EA6D42AA475C600A3545C /* DefaultChartInformationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultChartInformationUseCase.swift; sourceTree = "<group>"; };
 		805EA6D72AA4761B00A3545C /* ChartInformationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartInformationUseCase.swift; sourceTree = "<group>"; };
@@ -205,6 +205,10 @@
 		807AAD5B2AAC30DC00D338BF /* ChartInformationComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartInformationComponents.swift; sourceTree = "<group>"; };
 		8080DDBA2A604A0500364CF1 /* TabBarComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarComponents.swift; sourceTree = "<group>"; };
 		8080DDBD2A60540B00364CF1 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
+		80EB03312A72336400455E05 /* GmarketSansLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GmarketSansLabel.swift; sourceTree = "<group>"; };
+		80EB03332A72370E00455E05 /* UIStackView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extensions.swift"; sourceTree = "<group>"; };
+		80EB033B2A72CB8000455E05 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		80EB033D2A72CF9A00455E05 /* DoubleLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleLabelView.swift; sourceTree = "<group>"; };
 		80F90CD62A8D1CFE007E1D23 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		80F90CD82A8D1D96007E1D23 /* CalendarModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModuleFactory.swift; sourceTree = "<group>"; };
 		80F90CDA2A8D1DD3007E1D23 /* CalendarFlowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarFlowProtocol.swift; sourceTree = "<group>"; };
@@ -219,10 +223,6 @@
 		80F90CF42A8D3037007E1D23 /* UICollectionViewCell+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+Extensions.swift"; sourceTree = "<group>"; };
 		80F90CF62A8D31B7007E1D23 /* DateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCell.swift; sourceTree = "<group>"; };
 		80F90CF82A8D32A6007E1D23 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
-		80EB03312A72336400455E05 /* GmarketSansLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GmarketSansLabel.swift; sourceTree = "<group>"; };
-		80EB03332A72370E00455E05 /* UIStackView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extensions.swift"; sourceTree = "<group>"; };
-		80EB033B2A72CB8000455E05 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
-		80EB033D2A72CF9A00455E05 /* DoubleLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleLabelView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -473,6 +473,7 @@
 				6268452F2A6BE38700569D02 /* UserDefaultsPersistenceServiceProtocol.swift */,
 				62AFA0982A72593100C9D86C /* CoreDataPersistenceServiceProtocol.swift */,
 				62AFA09C2A725B8F00C9D86C /* CoreDataGoalAmountEntityPersistenceServiceProtocol.swift */,
+				8017670C2AB4A9330046E537 /* CoreDataTotalAmountEntityPersistenceServiceProtocol.swift */,
 			);
 			path = Interfaces;
 			sourceTree = "<group>";
@@ -493,6 +494,7 @@
 				626845332A6BE71C00569D02 /* UserDefaultsPersistenceService.swift */,
 				62AFA09A2A7259F800C9D86C /* CoreDataPersistenceService.swift */,
 				62AFA09E2A725C7100C9D86C /* CoreDataGoalAmountEntityPersistenceService.swift */,
+				8017670E2AB4A95C0046E537 /* CoreDataTotalAmountEntityPersistenceService.swift */,
 			);
 			path = Persistences;
 			sourceTree = "<group>";
@@ -659,6 +661,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		80EB032A2A7132C000455E05 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				80EB033D2A72CF9A00455E05 /* DoubleLabelView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		80F90CD52A8D1CE3007E1D23 /* CalendarScene */ = {
 			isa = PBXGroup;
 			children = (
@@ -704,14 +714,6 @@
 				80F90CF02A8D2E29007E1D23 /* CalendarCollectionViewLayout.swift */,
 				80F90CF62A8D31B7007E1D23 /* DateCell.swift */,
 				624628922A8F39BB00ADE103 /* DateCellViewModel.swift */,
-            );
-            path = Views;
-            sourceTree = "<group>";
-        };
-		80EB032A2A7132C000455E05 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				80EB033D2A72CF9A00455E05 /* DoubleLabelView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -812,6 +814,7 @@
 				624BB0D32A653299002A3109 /* GoalSettingViewController.swift in Sources */,
 				8060B4212A62DC2C00726C83 /* UIButton+Extensions.swift in Sources */,
 				801767002AAEF90F0046E537 /* DefaultChartUseCase.swift in Sources */,
+				8017670D2AB4A9330046E537 /* CoreDataTotalAmountEntityPersistenceServiceProtocol.swift in Sources */,
 				805EA6BF2A9B1E1E00A3545C /* ChartViewController.swift in Sources */,
 				8060B41F2A61A66800726C83 /* LottoQRButton.swift in Sources */,
 				8080DDBB2A604A0500364CF1 /* TabBarComponents.swift in Sources */,
@@ -872,9 +875,10 @@
 				62AFA0962A7258B200C9D86C /* GoalAmountEntity+CoreDataClass.swift in Sources */,
 				629C1F5D2A4ABD0F00540FA4 /* LottoDiaryModel.xcdatamodeld in Sources */,
 				805FA70B2A6D853400089070 /* LottoQRFlowProtocol.swift in Sources */,
-				629C1F5D2A4ABD0F00540FA4 /* LottoDairy.xcdatamodeld in Sources */,
+				629C1F5D2A4ABD0F00540FA4 /* LottoDiaryModel.xcdatamodeld in Sources */,
 				80F90CDB2A8D1DD3007E1D23 /* CalendarFlowProtocol.swift in Sources */,
 				629C1F5D2A4ABD0F00540FA4 /* LottoDiaryModel.xcdatamodeld in Sources */,
+				8017670F2AB4A95C0046E537 /* CoreDataTotalAmountEntityPersistenceService.swift in Sources */,
 				621503372A55A44900431BBB /* TabBarFlowProtocol.swift in Sources */,
 				80F90CD72A8D1CFE007E1D23 /* CalendarViewController.swift in Sources */,
 				624BB0E72A67BFB6002A3109 /* GoalSettingViewModel.swift in Sources */,
