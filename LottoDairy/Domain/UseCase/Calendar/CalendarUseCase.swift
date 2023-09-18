@@ -6,11 +6,28 @@
 //
 
 import Foundation
+import Combine
+
+fileprivate enum CalendarUseCaseError: LocalizedError {
+    case failedToFetchData
+    
+    var errorDescription: String? {
+        switch self {
+        case .failedToFetchData:
+            return "데이터를 가져오는데 실패했습니다."
+        }
+    }
+}
 
 final class CalendarUseCase {
 
     private let calendar = Calendar(identifier: .gregorian)
-
+    private let lottoRepository: LottoRepository
+    
+    init(lottoRepository: LottoRepository) {
+        self.lottoRepository = lottoRepository
+    }
+    
     // MARK: Functions - Public
     func calculateNextWeek(by baseDate: Date) -> Date {
         guard let nextWeek = calendar.date(byAdding: .day, value: 7, to: baseDate) else {
@@ -40,27 +57,26 @@ final class CalendarUseCase {
         return previousMonth
     }
 
-    func getDaysInThreeWeek(for baseDate: Date) -> [[DayComponent]] {
+    func getDaysInThreeWeek(for baseDate: Date) -> AnyPublisher<[[DayComponent]], Error> {
         let previousWeekDay = calculatePreviousWeek(by: baseDate)
         let nextWeekDay = calculateNextWeek(by: baseDate)
-
+    
         let previous = generateWeekDays(for: previousWeekDay)
         let now = generateWeekDays(for: baseDate)
         let next = generateWeekDays(for: nextWeekDay)
 
-        return [previous, now, next]
+        return fetchLottos(previous, now, next)
     }
 
-    func getDaysInThreeMonth(for baseDate: Date) -> [[DayComponent]] {
-        guard let previousMonthDay = calendar.date(byAdding: .month, value: -1, to: baseDate),
-                let nextMonthDay = calendar.date(byAdding: .month, value: 1, to: baseDate)
-        else { return [[]] }
+    func getDaysInThreeMonth(for baseDate: Date) -> AnyPublisher<[[DayComponent]], Error> {
+        let previousMonthDay = calendar.date(byAdding: .month, value: -1, to: baseDate) ?? .today
+        let nextMonthDay = calendar.date(byAdding: .month, value: 1, to: baseDate) ?? .today
 
         let previous = getDaysInMonth(for: previousMonthDay)
         let now = getDaysInMonth(for: baseDate)
         let next = getDaysInMonth(for: nextMonthDay)
-
-        return [previous, now, next]
+        
+        return fetchLottos(previous, now, next)
     }
 
     // MARK: Functions - Private
@@ -161,6 +177,54 @@ final class CalendarUseCase {
         }
 
         return days
+    }
+    
+    private func fetchLottos(
+    _ previous: [DayComponent],
+    _ now: [DayComponent],
+    _ next: [DayComponent]
+    ) -> AnyPublisher<[[DayComponent]], Error> {
+        guard let previousFirstDay = previous.first?.date,
+              let previousLastDay = previous.last?.date,
+              let nowFirstDay = now.first?.date,
+              let nowLastDay = now.last?.date,
+              let nextFirstDay = next.first?.date,
+              let nextLastDay = next.last?.date else {
+            return Fail(error: CalendarUseCaseError.failedToFetchData).eraseToAnyPublisher()
+        }
+        
+        var previous = previous
+        var now = now
+        var next = next
+        
+        let previousRange = previousFirstDay...previousLastDay
+        let nowRange = nowFirstDay...nowLastDay
+        let nextRange = nextFirstDay...nextLastDay
+        
+        return lottoRepository.fetchLottos(with: previousFirstDay, and: nextLastDay)
+            .flatMap { lottos -> AnyPublisher<[[DayComponent]], Error> in
+                lottos.forEach { lotto in
+                    if previousRange.contains(lotto.date),
+                       let targetIdx = previous.firstIndex(where: { $0.date.equalsDate(with: lotto.date) }) {
+                            previous[targetIdx].lottos.append(lotto)
+                            return
+                       }
+                    
+                    if nowRange.contains(lotto.date),
+                       let targetIdx = now.firstIndex(where: { $0.date.equalsDate(with: lotto.date) }) {
+                            now[targetIdx].lottos.append(lotto)
+                            return
+                       }
+                    
+                    if nextRange.contains(lotto.date),
+                       let targetIdx = next.firstIndex(where: { $0.date.equalsDate(with: lotto.date) }) {
+                            next[targetIdx].lottos.append(lotto)
+                            return
+                       }
+                }
+                return Just([previous, now, next]).setFailureType(to: Error.self).eraseToAnyPublisher()
+            }
+            .eraseToAnyPublisher()
     }
 }
 

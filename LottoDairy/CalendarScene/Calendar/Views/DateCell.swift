@@ -27,6 +27,13 @@ final class DateCell: UICollectionViewCell {
         return label
     }()
     
+    private let dot: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     var viewModel: DateCellViewModel?
     
     var cancellables = Set<AnyCancellable>()
@@ -54,6 +61,15 @@ final class DateCell: UICollectionViewCell {
             numberLabel.widthAnchor.constraint(equalToConstant: 30),
             numberLabel.heightAnchor.constraint(equalToConstant: 30)
         ])
+        
+        contentView.addSubview(dot)
+        dot.layer.cornerRadius = 2.5
+        NSLayoutConstraint.activate([
+            dot.centerXAnchor.constraint(equalTo: self.numberLabel.centerXAnchor),
+            dot.topAnchor.constraint(equalTo: self.numberLabel.bottomAnchor, constant: 2),
+            dot.widthAnchor.constraint(equalToConstant: 5),
+            dot.heightAnchor.constraint(equalToConstant: 5),
+        ])
     }
     
     private func bindViewModel() {
@@ -63,21 +79,38 @@ final class DateCell: UICollectionViewCell {
             }
             .store(in: &cancellables)
         
+        viewModel?.$cellState
+            .sink { [weak self] state in
+                switch state {
+                case .none:
+                    self?.numberLabel.backgroundColor = .clear
+                    self?.numberLabel.textColor = .designSystem(.grayA09FA7)
+                case .selected:
+                    self?.numberLabel.backgroundColor = .designSystem(.gray63626B)
+                    self?.numberLabel.textColor = .white
+                case .today:
+                    self?.numberLabel.backgroundColor = .designSystem(.mainBlue)
+                    self?.numberLabel.textColor = .designSystem(.grayA09FA7)
+                case .todaySelected:
+                    self?.numberLabel.backgroundColor = .designSystem(.mainBlue)
+                    self?.numberLabel.textColor = .white
+                }
+            }
+            .store(in: &cancellables)
+        
+
         viewModel?.$isIncludeInMonth
             .sink { [weak self] state in
                 self?.numberLabel.textColor = state ? UIColor.designSystem(.grayA09FA7) : UIColor.designSystem(.gray63626B)
             }
             .store(in: &cancellables)
         
-        viewModel?.$cellState
+        viewModel?.$hasLotto
             .sink { [weak self] state in
-                switch state {
-                case .none:
-                    self?.numberLabel.backgroundColor = .clear
-                case .selected:
-                    self?.numberLabel.backgroundColor = .designSystem(.gray63626B)
-                case .today:
-                    self?.numberLabel.backgroundColor = .designSystem(.mainBlue)
+                if state {
+                    self?.dot.backgroundColor = .systemGreen
+                } else {
+                    self?.dot.backgroundColor = .clear
                 }
             }
             .store(in: &cancellables)

@@ -8,9 +8,10 @@
 import Foundation
 
 struct DayComponent: Hashable {
-
+    
     let date: Date
     var isIncludeInMonth: Bool
+    var lottos: [Lotto] = []
 
     init(date: Date, isIncludeInMonth: Bool = false) {
         self.date = date

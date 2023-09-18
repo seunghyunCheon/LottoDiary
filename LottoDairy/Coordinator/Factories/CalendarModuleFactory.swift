@@ -7,4 +7,5 @@
 
 protocol CalendarModuleFactory {
     func makeCalendarFlow() -> CalendarFlowProtocol
+    func makeAddLottoView() -> AddLottoViewProtocol
 }
