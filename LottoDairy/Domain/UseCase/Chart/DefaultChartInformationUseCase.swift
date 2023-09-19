@@ -10,30 +10,16 @@ import Combine
 
 final class DefaultChartInformationUseCase: ChartInformationUseCase {
 
-//    private let repository: CoreDataRepository
+    private let lottoRepository: LottoRepository
 
-//    init(repository: CoreDataRepository) {
-//        self.repository = repository
-//    }
+    init(lottoRepository: LottoRepository) {
+        self.lottoRepository = lottoRepository
+    }
 
-    // MARK: ChartInformation 관련 함수
     // Repository: CoreData에 저장되어있는 가장 오래된 데이터의 년도 조회
     // UseCase: Repository의 오래된 년도 조회 함수의 return값 ~ 현재 년도까지 [Int] 배열 반환하는 함수
-    func makeRangeOfYear() -> AnyPublisher<[Int], Never> {
-        return Future<[Int], Never> { promise in
-            // 비동기로 CoreData에서 oldestYear fetch하는 함수 실행
-            //        let oldestYear = repository.fetchOldestYear()
-            let oldestYear = 2021
-            let thisYear = Calendar.current.component(.year, from: Date())
-
-            var years = [Int]()
-            for year in oldestYear...thisYear {
-                years.append(year)
-            }
-
-            promise(.success(years))
-        }
-        .eraseToAnyPublisher()
+    func makeRangeOfYear() -> AnyPublisher<[Int], Error> {
+        return lottoRepository.fetchAllOfYear()
     }
 
     // 첫 chart scene에서 dateHeaderTextField가 오늘 년/월을 보여줄 수 있도록 현재 년/월 반환하는 함수

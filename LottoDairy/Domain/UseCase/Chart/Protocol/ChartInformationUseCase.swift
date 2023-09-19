@@ -8,7 +8,7 @@
 import Combine
 
 protocol ChartInformationUseCase {
-    func makeRangeOfYear() -> AnyPublisher<[Int], Never>
+    func makeRangeOfYear() -> AnyPublisher<[Int], Error>
     func makeYearAndMonthOfToday() -> [Int]
     func makeChartInformationComponents(year: Int, month: Int) -> AnyPublisher<[ChartInformationComponents], Never>
 }
