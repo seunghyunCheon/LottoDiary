@@ -33,7 +33,7 @@ final class DefaultChartInformationUseCase: ChartInformationUseCase {
     }
 
     func makeChartInformationComponents(year: Int, month: Int) -> AnyPublisher<[ChartInformationComponents], Error> {
-        return chartLottoUseCase.makeChartInformationComponentsAccount(year: year, month: month)
+        return chartLottoUseCase.fetchLottoAmounts(year: year, month: month)
             .map { (purchaseAmount, winningAmount) -> [ChartInformationComponents] in
                 // repository에서 특정 월에 대한 목표 금액 가져오기
                 let goalAmount = (1...30000).randomElement()!

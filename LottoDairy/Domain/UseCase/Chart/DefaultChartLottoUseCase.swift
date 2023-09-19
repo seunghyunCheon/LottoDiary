@@ -27,7 +27,7 @@ final class DefaultChartLottoUseCase: ChartLottoUseCase {
         self.lottoRepository = lottoRepository
     }
 
-    func fetchLottoEntries(year: Int, month: Int) -> AnyPublisher<[Lotto], Error> {
+    private func fetchLottoEntries(year: Int, month: Int) -> AnyPublisher<[Lotto], Error> {
         let calendar = Calendar.current
         var components = DateComponents(year: year, month: month, day: 1)
 
@@ -45,7 +45,17 @@ final class DefaultChartLottoUseCase: ChartLottoUseCase {
         return lottoRepository.fetchLottos(with: startDate, and: endDate)
     }
 
-    func makeChartInformationComponentsAccount(year: Int, month: Int) -> AnyPublisher<(purchase: Int, winning: Int), Error> {
+    func calculateNetAmount(year: Int, month: Int) -> AnyPublisher<Int, Error> {
+        return fetchLottoAmounts(year: year, month: month)
+            .flatMap { (purchaseAmount, winningAmount) -> AnyPublisher<Int, Error> in
+                return Just(purchaseAmount - winningAmount)
+                    .setFailureType(to: Error.self)
+                    .eraseToAnyPublisher()
+            }
+            .eraseToAnyPublisher()
+    }
+
+    func fetchLottoAmounts(year: Int, month: Int) -> AnyPublisher<(purchase: Int, winning: Int), Error> {
         return fetchLottoEntries(year: year, month: month)
             .flatMap { lottos -> AnyPublisher<(purchase: Int, winning: Int), Error> in
                 let purchaseAmount = lottos.reduce(into: 0) { pre, next in

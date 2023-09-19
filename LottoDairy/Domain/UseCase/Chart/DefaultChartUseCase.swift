@@ -11,29 +11,23 @@ import DGCharts
 final class DefaultChartUseCase: ChartUseCase {
 
     private let chartLottoUseCase: ChartLottoUseCase
-    
+
     init(chartLottoUseCase: ChartLottoUseCase) {
         self.chartLottoUseCase = chartLottoUseCase
     }
 
     private func makeChartComponents(year: Int) -> AnyPublisher<[ChartComponents], Error> {
-        return Future<[ChartComponents], Error> { promise in
-            var chartComponentsOfYear = [ChartComponents]()
-
-            // Repository: CoreData에서 특정 년도에 속한 데이터 로드하기
-            for month in 1...12 {
-                // 아마 배열 형태로 반환..
-                //            let lottoData = repository.fetchLottoItem(year: year, month: month)
-
-                let account = (1000...200000).randomElement()
-                let component = ChartComponents(month: month, account: Double(account!))
-                chartComponentsOfYear.append(component)
-            }
-
-            promise(.success(chartComponentsOfYear))
+        let componentsPublisher = (1...12).map { month in
+            return chartLottoUseCase.calculateNetAmount(year: year, month: month)
+                .map { netAmount -> ChartComponents in
+                    return ChartComponents(month: month, account: Double(netAmount))
+                }
+                .eraseToAnyPublisher()
         }
-        .eraseToAnyPublisher()
-            // 특정 년/월에 해당하는 로또 데이터가 배열 형태로 온다면, reduce 등을 사용해 한달 총 구매 금액 - 당첨 금액으로 account 구하기
+
+        return Publishers.MergeMany(componentsPublisher)
+            .collect()
+            .eraseToAnyPublisher()
     }
 
     private func makeBarChartDataEntry(year: Int) -> AnyPublisher<[BarChartDataEntry], Error> {
