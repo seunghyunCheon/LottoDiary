@@ -49,10 +49,10 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
     private let viewModel: ChartViewModel
 
     private var years: [Int] {
-        return viewModel.getYears()
+        return viewModel.years
     }
     private var months: [Int] {
-        return viewModel.getMonths()
+        return viewModel.months
     }
 
     private var cancellables = Set<AnyCancellable>()

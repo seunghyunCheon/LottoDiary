@@ -30,8 +30,8 @@ final class ChartViewModel {
     var selectedYear = CurrentValueSubject<Int, Never>(0)
     var selectedMonth = CurrentValueSubject<Int, Never>(0)
 
-    private var years = [Int]()
-    private let months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    private(set) var years = [Int]()
+    private(set) var months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
     init(chartUseCase: ChartUseCase, chartInformationUseCase: ChartInformationUseCase) {
         self.chartUseCase = chartUseCase
@@ -44,14 +44,6 @@ final class ChartViewModel {
     func transform(from input: Input) -> Output {
         self.configureInput(input)
         return configureOutput(from: input)
-    }
-
-    func getYears() -> [Int] {
-        return years
-    }
-
-    func getMonths() -> [Int] {
-        return months
     }
 
     private func configureYears() {
