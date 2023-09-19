@@ -10,11 +10,14 @@ import Combine
 
 final class DefaultChartInformationUseCase: ChartInformationUseCase {
 
+    private let userRepository: UserRepository
+
     private let chartLottoUseCase: ChartLottoUseCase
 
     private let calendar = Calendar.current
 
-    init(chartLottoUseCase: ChartLottoUseCase) {
+    init(userRepository: UserRepository, chartLottoUseCase: ChartLottoUseCase) {
+        self.userRepository = userRepository
         self.chartLottoUseCase = chartLottoUseCase
     }
 
@@ -33,40 +36,42 @@ final class DefaultChartInformationUseCase: ChartInformationUseCase {
     }
 
     func makeChartInformationComponents(year: Int, month: Int) -> AnyPublisher<[ChartInformationComponents], Error> {
-        return chartLottoUseCase.fetchLottoAmounts(year: year, month: month)
-            .map { (purchaseAmount, winningAmount) -> [ChartInformationComponents] in
-                // repository에서 특정 월에 대한 목표 금액 가져오기
-                let goalAmount = (1...30000).randomElement()!
-
-                let goalResult: Bool = goalAmount >= purchaseAmount
-                let winResult: Bool = purchaseAmount <= winningAmount
-                var percent: Double = 0
-                if winningAmount == 0 && purchaseAmount == 0 {
-                    percent = 0
-                } else {
-                    percent = Double(winningAmount) / Double(purchaseAmount) * 100
-                }
-
-                let chartInformationComponents = [
-                    ChartInformationComponents(
-                        type: .goal,
-                        amount: goalAmount,
-                        result: (goalResult, nil)
-                    ),
-                    ChartInformationComponents(
-                        type: .buy,
-                        amount: purchaseAmount,
-                        result: (goalResult, nil)
-                    ),
-                    ChartInformationComponents(
-                        type: .win,
-                        amount: winningAmount,
-                        result: (winResult, Int(percent))
-                    )
-                ]
-
-                return chartInformationComponents
+        return Publishers.CombineLatest(
+            chartLottoUseCase.fetchLottoAmounts(year: year, month: month),
+            userRepository.fetchGoalAmount()
+        )
+        .map { (lottoAmount, goalAmount) -> [ChartInformationComponents] in
+            let (purchaseAmount, winningAmount) = lottoAmount
+            
+            let goalResult: Bool = goalAmount >= purchaseAmount
+            let winResult: Bool = purchaseAmount <= winningAmount
+            var percent: Double = 0
+            if winningAmount == 0 && purchaseAmount == 0 {
+                percent = 0
+            } else {
+                percent = Double(winningAmount) / Double(purchaseAmount) * 100
             }
-            .eraseToAnyPublisher()
+
+            let chartInformationComponents = [
+                ChartInformationComponents(
+                    type: .goal,
+                    amount: goalAmount,
+                    result: (goalResult, nil)
+                ),
+                ChartInformationComponents(
+                    type: .buy,
+                    amount: purchaseAmount,
+                    result: (goalResult, nil)
+                ),
+                ChartInformationComponents(
+                    type: .win,
+                    amount: winningAmount,
+                    result: (winResult, Int(percent))
+                )
+            ]
+
+            return chartInformationComponents
+        }
+        .eraseToAnyPublisher()
     }
 }
