@@ -15,7 +15,6 @@ final class ChartViewModel {
     private let chartInformationUseCase: ChartInformationUseCase
 
     struct Input {
-        let viewDidLoadEvent: Just<Void>
         let dateHeaderTextFieldDidEditEvent: PassthroughSubject<[Int], Never>
         let chartViewDidSelectEvent: PassthroughSubject<Int, Never>
     }
@@ -39,6 +38,7 @@ final class ChartViewModel {
         self.chartInformationUseCase = chartInformationUseCase
 
         configureToday()
+        configureYears()
     }
 
     func transform(from input: Input) -> Output {
@@ -54,6 +54,10 @@ final class ChartViewModel {
         return months
     }
 
+    private func configureYears() {
+        self.years = self.chartInformationUseCase.makeRangeOfYears()
+    }
+
     private func configureToday() {
         let today = self.chartInformationUseCase.makeYearAndMonthOfToday()
         self.selectedYear.send(today[0])
@@ -61,15 +65,6 @@ final class ChartViewModel {
     }
 
     private func configureInput(_ input: Input) {
-        input.viewDidLoadEvent
-            .flatMap {
-                self.chartInformationUseCase.makeRangeOfYear()
-            }
-            .sink { [weak self] rangeOfYear in
-                self?.years = rangeOfYear
-            }
-            .store(in: &cancellables)
-
         input.dateHeaderTextFieldDidEditEvent
             .sink { [weak self] date in
                 let yearIndex = date[0], monthIndex = date[1]

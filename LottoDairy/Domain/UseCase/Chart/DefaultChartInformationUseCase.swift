@@ -14,18 +14,24 @@ final class DefaultChartInformationUseCase: ChartInformationUseCase {
 
     private let chartLottoUseCase: ChartLottoUseCase
 
+    private let calendar = Calendar.current
+
     init(lottoRepository: LottoRepository, chartLottoUseCase: ChartLottoUseCase) {
         self.lottoRepository = lottoRepository
         self.chartLottoUseCase = chartLottoUseCase
     }
 
-    func makeRangeOfYear() -> AnyPublisher<[Int], Error> {
-        return lottoRepository.fetchAllOfYear()
+    func makeRangeOfYears() -> [Int] {
+        let thisYear = self.calendar.component(.year, from: .today)
+        let range = (thisYear - 10)...thisYear
+
+        return Array(range)
     }
 
     func makeYearAndMonthOfToday() -> [Int] {
-        let year = Calendar.current.component(.year, from: Date())
-        let month = Calendar.current.component(.month, from: Date())
+        let year = self.calendar.component(.year, from: .today)
+        let month = self.calendar.component(.month, from: .today)
+
         return [year, month]
     }
 
