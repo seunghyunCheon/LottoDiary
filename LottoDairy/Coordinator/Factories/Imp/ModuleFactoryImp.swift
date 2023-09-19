@@ -68,7 +68,10 @@ final class ModuleFactoryImp:
     }
 
     func makeChartFlow() -> ChartFlowProtocol {
-        let chartInformationUseCase = DefaultChartInformationUseCase()
+        let coreDataService = CoreDataPersistenceService.shared
+        let coreDataLottoPersistenceService = CoreDataLottoEntityPersistenceService(coreDataPersistenceService: coreDataService)
+        let lottoRepository = DefaultLottoRepository(coreDataLottoEntityPersistenceService: coreDataLottoPersistenceService)
+        let chartInformationUseCase = DefaultChartInformationUseCase(lottoRepository: lottoRepository)
         let chartUseCase = DefaultChartUseCase()
         let viewModel = ChartViewModel(chartUseCase: chartUseCase, chartInformationUseCase: chartInformationUseCase)
         return ChartViewController(viewModel: viewModel)
