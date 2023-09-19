@@ -12,6 +12,7 @@ fileprivate enum CoreDataLottoEntityPersistenceServiceError: LocalizedError {
     case failedToInitializeCoreDataContainer
     case failedToCreateGoalAmount
     case failedToFetchGoalAmount
+    case failedToFetchDistinctYear
 
     var errorDescription: String? {
         switch self {
@@ -21,6 +22,8 @@ fileprivate enum CoreDataLottoEntityPersistenceServiceError: LocalizedError {
             return "GoalAmount 엔티티 생성에 실패했습니다."
         case .failedToFetchGoalAmount:
             return "GoalAmount 엔티티 불러오기에 실패했습니다."
+        case .failedToFetchDistinctYear:
+            return "LottoEntity의 년도 데이터 불러오기에 실패했습니다."
         }
     }
 }
@@ -49,6 +52,34 @@ final class CoreDataLottoEntityPersistenceService: CoreDataLottoEntityPersistenc
                     promise(.success(fetchResult.map { $0.convertToDomain() }))
                 } catch {
                     promise(.failure(CoreDataLottoEntityPersistenceServiceError.failedToFetchGoalAmount))
+                }
+            }
+        }
+        .receive(on: DispatchQueue.main)
+        .eraseToAnyPublisher()
+    }
+
+    func fetchDistinctYear() -> AnyPublisher<Set<Int>, Error> {
+        guard let context = coreDataPersistenceService.backgroundContext else {
+            return Fail(error: CoreDataLottoEntityPersistenceServiceError.failedToInitializeCoreDataContainer).eraseToAnyPublisher()
+        }
+
+        return Future { promise in
+            context.perform {
+                do {
+                    let fetchRequest = LottoEntity.fetchRequest()
+                    let fetchResult = try context.fetch(fetchRequest)
+
+                    if fetchResult.isEmpty {
+                        promise(.success([Date.today.year]))
+                    }
+                    let years = Set(fetchResult.compactMap { lottoEntry in
+                        let date = lottoEntry.value(forKey: "date") as? Date
+                        return date?.year
+                    })
+                    promise(.success(years))
+                } catch {
+                    promise(.failure(CoreDataLottoEntityPersistenceServiceError.failedToFetchDistinctYear))
                 }
             }
         }
