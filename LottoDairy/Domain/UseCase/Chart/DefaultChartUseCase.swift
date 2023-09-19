@@ -9,7 +9,7 @@ import Combine
 import DGCharts
 
 final class DefaultChartUseCase: ChartUseCase {
-    // 1년치의 ChartComponents를 만드는 함수
+
     private func makeChartComponents(year: Int) -> AnyPublisher<[ChartComponents], Error> {
         return Future<[ChartComponents], Error> { promise in
             var chartComponentsOfYear = [ChartComponents]()

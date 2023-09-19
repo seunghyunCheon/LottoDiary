@@ -10,14 +10,11 @@ import Combine
 
 final class DefaultChartInformationUseCase: ChartInformationUseCase {
 
-    private let lottoRepository: LottoRepository
-
     private let chartLottoUseCase: ChartLottoUseCase
 
     private let calendar = Calendar.current
 
-    init(lottoRepository: LottoRepository, chartLottoUseCase: ChartLottoUseCase) {
-        self.lottoRepository = lottoRepository
+    init(chartLottoUseCase: ChartLottoUseCase) {
         self.chartLottoUseCase = chartLottoUseCase
     }
 

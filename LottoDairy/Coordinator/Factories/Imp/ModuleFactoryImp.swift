@@ -73,7 +73,6 @@ final class ModuleFactoryImp:
         let lottoRepository = DefaultLottoRepository(coreDataLottoEntityPersistenceService: coreDataLottoPersistenceService)
         let chartLottoUseCase = DefaultChartLottoUseCase(lottoRepository: lottoRepository)
         let chartInformationUseCase = DefaultChartInformationUseCase(
-            lottoRepository: lottoRepository,
             chartLottoUseCase: chartLottoUseCase
         )
         let chartUseCase = DefaultChartUseCase()
