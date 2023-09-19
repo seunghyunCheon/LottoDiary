@@ -87,6 +87,8 @@
 		801767002AAEF90F0046E537 /* DefaultChartUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801766FF2AAEF90F0046E537 /* DefaultChartUseCase.swift */; };
 		801767032AB030E70046E537 /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = 801767022AB030E70046E537 /* DGCharts */; };
 		801767072AB036670046E537 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801767062AB036670046E537 /* Device.swift */; };
+		801767112AB99C160046E537 /* DefaultChartLottoUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801767102AB99C160046E537 /* DefaultChartLottoUseCase.swift */; };
+		801767132AB99CC60046E537 /* ChartLottoUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801767122AB99CC60046E537 /* ChartLottoUseCase.swift */; };
 		805EA6BF2A9B1E1E00A3545C /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6BE2A9B1E1E00A3545C /* ChartViewController.swift */; };
 		805EA6C12A9B1E3D00A3545C /* ChartCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6C02A9B1E3D00A3545C /* ChartCoordinator.swift */; };
 		805EA6C32A9B1E8D00A3545C /* ChartFlowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805EA6C22A9B1E8D00A3545C /* ChartFlowProtocol.swift */; };
@@ -216,6 +218,8 @@
 		801766FD2AAEF8FF0046E537 /* ChartUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartUseCase.swift; sourceTree = "<group>"; };
 		801766FF2AAEF90F0046E537 /* DefaultChartUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultChartUseCase.swift; sourceTree = "<group>"; };
 		801767062AB036670046E537 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
+		801767102AB99C160046E537 /* DefaultChartLottoUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultChartLottoUseCase.swift; sourceTree = "<group>"; };
+		801767122AB99CC60046E537 /* ChartLottoUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartLottoUseCase.swift; sourceTree = "<group>"; };
 		805EA6BE2A9B1E1E00A3545C /* ChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewController.swift; sourceTree = "<group>"; };
 		805EA6C02A9B1E3D00A3545C /* ChartCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartCoordinator.swift; sourceTree = "<group>"; };
 		805EA6C22A9B1E8D00A3545C /* ChartFlowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartFlowProtocol.swift; sourceTree = "<group>"; };
@@ -665,6 +669,7 @@
 			isa = PBXGroup;
 			children = (
 				805EA6D62AA4760300A3545C /* Protocol */,
+				801767102AB99C160046E537 /* DefaultChartLottoUseCase.swift */,
 				805EA6D42AA475C600A3545C /* DefaultChartInformationUseCase.swift */,
 				801766FF2AAEF90F0046E537 /* DefaultChartUseCase.swift */,
 			);
@@ -676,6 +681,7 @@
 			children = (
 				805EA6D72AA4761B00A3545C /* ChartInformationUseCase.swift */,
 				801766FD2AAEF8FF0046E537 /* ChartUseCase.swift */,
+				801767122AB99CC60046E537 /* ChartLottoUseCase.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -896,6 +902,7 @@
 				624628932A8F39BB00ADE103 /* DateCellViewModel.swift in Sources */,
 				624BB0D32A653299002A3109 /* GoalSettingViewController.swift in Sources */,
 				625141252AB598AA00E9E5C3 /* CoreDataLottoEntityPersistenceServiceProtocol.swift in Sources */,
+				801767132AB99CC60046E537 /* ChartLottoUseCase.swift in Sources */,
 				8060B4212A62DC2C00726C83 /* UIButton+Extensions.swift in Sources */,
 				801767002AAEF90F0046E537 /* DefaultChartUseCase.swift in Sources */,
 				805EA6BF2A9B1E1E00A3545C /* ChartViewController.swift in Sources */,
@@ -927,6 +934,7 @@
 				80773A702A55AF770020F1DD /* HomeViewController.swift in Sources */,
 				62AFA09D2A725B8F00C9D86C /* CoreDataGoalAmountEntityPersistenceServiceProtocol.swift in Sources */,
 				80EB033E2A72CF9A00455E05 /* DoubleLabelView.swift in Sources */,
+				801767112AB99C160046E537 /* DefaultChartLottoUseCase.swift in Sources */,
 				621503232A4E7CAE00431BBB /* Router.swift in Sources */,
 				624628952A8F3DFE00ADE103 /* CalendarHeaderView.swift in Sources */,
 				80F90CF92A8D32A6007E1D23 /* CalendarViewModel.swift in Sources */,

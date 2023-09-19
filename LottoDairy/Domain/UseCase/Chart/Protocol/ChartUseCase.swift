@@ -9,5 +9,5 @@ import DGCharts
 import Combine
 
 protocol ChartUseCase {
-    func makeBarChartData(year: Int) -> AnyPublisher<BarChartData, Never>
+    func makeBarChartData(year: Int) -> AnyPublisher<BarChartData, Error>
 }
