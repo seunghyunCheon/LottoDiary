@@ -72,11 +72,12 @@ final class ModuleFactoryImp:
         let coreDataLottoPersistenceService = CoreDataLottoEntityPersistenceService(coreDataPersistenceService: coreDataService)
         let lottoRepository = DefaultLottoRepository(coreDataLottoEntityPersistenceService: coreDataLottoPersistenceService)
         let chartLottoUseCase = DefaultChartLottoUseCase(lottoRepository: lottoRepository)
-        let chartInformationUseCase = DefaultChartInformationUseCase(
-            chartLottoUseCase: chartLottoUseCase
+        let chartInformationUseCase = DefaultChartInformationUseCase(chartLottoUseCase: chartLottoUseCase)
+        let chartUseCase = DefaultChartUseCase(chartLottoUseCase: chartLottoUseCase)
+        let viewModel = ChartViewModel(
+            chartUseCase: chartUseCase,
+            chartInformationUseCase: chartInformationUseCase
         )
-        let chartUseCase = DefaultChartUseCase()
-        let viewModel = ChartViewModel(chartUseCase: chartUseCase, chartInformationUseCase: chartInformationUseCase)
         return ChartViewController(viewModel: viewModel)
     }
 }

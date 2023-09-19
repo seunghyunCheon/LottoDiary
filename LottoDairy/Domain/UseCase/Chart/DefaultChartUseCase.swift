@@ -10,6 +10,12 @@ import DGCharts
 
 final class DefaultChartUseCase: ChartUseCase {
 
+    private let chartLottoUseCase: ChartLottoUseCase
+    
+    init(chartLottoUseCase: ChartLottoUseCase) {
+        self.chartLottoUseCase = chartLottoUseCase
+    }
+
     private func makeChartComponents(year: Int) -> AnyPublisher<[ChartComponents], Error> {
         return Future<[ChartComponents], Error> { promise in
             var chartComponentsOfYear = [ChartComponents]()
