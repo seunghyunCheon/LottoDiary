@@ -22,6 +22,8 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
 
     private var chartViewPublisher = PassthroughSubject<Int, Never>()
 
+    private var viewWillAppearPublisher = PassthroughSubject<Void, Never>()
+
     private let dateHeaderView: LottoDiaryTextField = {
         let textField = LottoDiaryTextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -64,6 +66,12 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.viewWillAppearPublisher.send()
     }
 
     override func viewDidLoad() {
@@ -128,9 +136,9 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
 
     private func configureInformationCollectionViewDataSource() {
         dataSource = UICollectionViewDiffableDataSource<ChartInformationComponents.ChartInformationSection, ChartInformationComponents>(collectionView: informationCollectionView) { collectionView, indexPath, itemIdentifier in
-
             let cell: ChartInformationCell = collectionView.dequeue(for: indexPath)
             cell.configure(with: itemIdentifier)
+
             return cell
         }
         self.informationCollectionView.dataSource = dataSource
@@ -140,7 +148,7 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         var snapshot = NSDiffableDataSourceSnapshot<ChartInformationComponents.ChartInformationSection, ChartInformationComponents>()
         snapshot.appendSections([.main])
         snapshot.appendItems(items)
-        dataSource?.apply(snapshot)
+        self.dataSource?.apply(snapshot)
     }
 
     private func makeInformationListCollectionViewLayout() -> UICollectionViewCompositionalLayout {
@@ -157,12 +165,13 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
                 let section = NSCollectionLayoutSection(group: group)
                 return section
         }
+
         return layout
     }
 
     private func configureDateHeaderView() {
-        dateHeaderView.inputView = datePicker
-        configureToolbar()
+        self.dateHeaderView.inputView = datePicker
+        self.configureToolbar()
     }
 
     private func configureToolbar() {
@@ -173,7 +182,7 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
 
         toolBar.sizeToFit()
         toolBar.items = [flexibleSpace, doneButton]
-        dateHeaderView.inputAccessoryView = toolBar
+        self.dateHeaderView.inputAccessoryView = toolBar
     }
 
     @objc
@@ -183,19 +192,20 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
 
         self.dateHeaderView.yearMonthPickerPublisher
             .send([selectedYear, selectedMonth])
-        dateHeaderView.resignFirstResponder()
+        self.dateHeaderView.resignFirstResponder()
     }
 
     private func setSelectedRow(year: Int, month: Int) {
         guard let yearIndex = years.firstIndex(of: year),
               let monthIndex = months.firstIndex(of: month) else { return }
 
-        datePicker.selectRow(yearIndex, inComponent: 0, animated: true)
-        datePicker.selectRow(monthIndex, inComponent: 1, animated: true)
+        self.datePicker.selectRow(yearIndex, inComponent: 0, animated: true)
+        self.datePicker.selectRow(monthIndex, inComponent: 1, animated: true)
     }
 
     private func bindViewModel() {
         let input = ChartViewModel.Input(
+            viewWillAppearEvent: self.viewWillAppearPublisher,
             dateHeaderTextFieldDidEditEvent: dateHeaderView.yearMonthPickerPublisher,
             chartViewDidSelectEvent: chartViewPublisher
         )

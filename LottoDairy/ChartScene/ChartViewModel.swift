@@ -15,6 +15,7 @@ final class ChartViewModel {
     private let chartInformationUseCase: ChartInformationUseCase
 
     struct Input {
+        let viewWillAppearEvent: PassthroughSubject<Void, Never>
         let dateHeaderTextFieldDidEditEvent: PassthroughSubject<[Int], Never>
         let chartViewDidSelectEvent: PassthroughSubject<Int, Never>
     }
@@ -57,6 +58,12 @@ final class ChartViewModel {
     }
 
     private func configureInput(_ input: Input) {
+        input.viewWillAppearEvent
+            .sink {
+                self.selectedYear.send(self.selectedYear.value)
+            }
+            .store(in: &cancellables)
+
         input.dateHeaderTextFieldDidEditEvent
             .sink { [weak self] date in
                 let yearIndex = date[0], monthIndex = date[1]
