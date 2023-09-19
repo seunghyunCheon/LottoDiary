@@ -99,19 +99,27 @@ final class ChartViewModel {
                     self.chartInformationUseCase.makeChartInformationComponents(year: year, month: self.selectedMonth.value)
                 )
             }
-            .sink { (barChartData, chartInformationComponents) in
+            .sink(receiveCompletion: { completion in
+                if case .failure(let error) = completion {
+                    print(error)
+                }
+            }, receiveValue: { (barChartData, chartInformationComponents) in
                 output.chartView.send(barChartData)
                 output.chartInformationCollectionView.send(chartInformationComponents)
-            }
+            })
             .store(in: &cancellables)
 
         self.selectedMonth
             .flatMap { month in
                 self.chartInformationUseCase.makeChartInformationComponents(year: self.selectedYear.value, month: month)
             }
-            .sink { chartInformationComponents in
+            .sink(receiveCompletion: { completion in
+                if case .failure(let error) = completion {
+                    print(error)
+                }
+            }, receiveValue: { chartInformationComponents in
                 output.chartInformationCollectionView.send(chartInformationComponents)
-            }
+            })
             .store(in: &cancellables)
 
         self.selectedYear
