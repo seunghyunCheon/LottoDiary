@@ -30,6 +30,12 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         return textField
     }()
 
+    private let chartTitleLabel: UILabel = {
+        let label = GmarketSansLabel(text: "소비 분석", color: .designSystem(.grayA09FA7) ?? .gray, alignment: .left, size: .title3, weight: .bold)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
     private lazy var datePicker: UIPickerView = {
         let picker = UIPickerView()
         picker.dataSource = self
@@ -96,9 +102,17 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         self.view.addSubview(chartView)
         chartView.delegate = self
 
-        let chartViewHeight = view.frame.height * 0.33
+        self.view.addSubview(chartTitleLabel)
+        let chartTitleLeading: CGFloat = 10
         NSLayoutConstraint.activate([
-            chartView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            chartTitleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            chartTitleLabel.leadingAnchor.constraint(equalTo: self.chartView.leadingAnchor, constant: chartTitleLeading)
+        ])
+
+        let chartViewHeight = view.frame.height * 0.33
+        let chartViewTop: CGFloat = view.frame.height * 0.015
+        NSLayoutConstraint.activate([
+            chartView.topAnchor.constraint(equalTo: self.chartTitleLabel.bottomAnchor, constant: chartViewTop),
             chartView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Device.Constraint.horiziontal),
             chartView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Device.Constraint.horiziontal),
             chartView.heightAnchor.constraint(equalToConstant: chartViewHeight)
