@@ -11,14 +11,27 @@ import Combine
 
 final class ChartViewController: UIViewController, ChartFlowProtocol {
 
+    private let backgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .designSystem(.gray2B2C35)
+        view.layer.cornerRadius = 20
+        view.clipsToBounds = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
     private let chartView: BarChartView = {
         let chart = BarChartView()
-        chart.backgroundColor = .designSystem(.gray2B2C35)
-        chart.layer.cornerRadius = 20
-        chart.clipsToBounds = true
+        chart.backgroundColor = .clear
         chart.translatesAutoresizingMaskIntoConstraints = false
         return chart
     }()
+
+//    private let chartEmptyLabel: UILabel = {
+//        let label = GmarketSansLabel(text: "구입 / 당첨 내역이 없어요 😭", size: .title3, weight: .bold)
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//        return label
+//    }()
 
     private var chartViewPublisher = PassthroughSubject<Int, Never>()
 
@@ -99,31 +112,44 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
     }
 
     private func setupView() {
-        self.view.addSubview(chartView)
-        chartView.delegate = self
-
         self.view.addSubview(chartTitleLabel)
-        let chartTitleLeading: CGFloat = 10
+        let chartTitleLeading: CGFloat = Device.Constraint.horiziontal + 10
         NSLayoutConstraint.activate([
             chartTitleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            chartTitleLabel.leadingAnchor.constraint(equalTo: self.chartView.leadingAnchor, constant: chartTitleLeading)
+            chartTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: chartTitleLeading)
         ])
 
-        let chartViewHeight = view.frame.height * 0.33
-        let chartViewTop: CGFloat = view.frame.height * 0.015
+        self.view.addSubview(backgroundView)
+        let backgroundViewHeight = view.frame.height * 0.33
+        let backgroundViewTop: CGFloat = view.frame.height * 0.015
         NSLayoutConstraint.activate([
-            chartView.topAnchor.constraint(equalTo: self.chartTitleLabel.bottomAnchor, constant: chartViewTop),
-            chartView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Device.Constraint.horiziontal),
-            chartView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Device.Constraint.horiziontal),
-            chartView.heightAnchor.constraint(equalToConstant: chartViewHeight)
+            backgroundView.topAnchor.constraint(equalTo: self.chartTitleLabel.bottomAnchor, constant: backgroundViewTop),
+            backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Device.Constraint.horiziontal),
+            backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Device.Constraint.horiziontal),
+            backgroundView.heightAnchor.constraint(equalToConstant: backgroundViewHeight)
         ])
+
+        self.backgroundView.addSubview(chartView)
+        self.chartView.delegate = self
+        NSLayoutConstraint.activate([
+            chartView.topAnchor.constraint(equalTo: self.backgroundView.topAnchor),
+            chartView.leadingAnchor.constraint(equalTo: self.backgroundView.leadingAnchor),
+            chartView.trailingAnchor.constraint(equalTo: self.backgroundView.trailingAnchor),
+            chartView.heightAnchor.constraint(equalTo: self.backgroundView.heightAnchor)
+        ])
+
+//        self.view.addSubview(chartEmptyLabel)
+//        NSLayoutConstraint.activate([
+//            chartEmptyLabel.centerXAnchor.constraint(equalTo: chartView.centerXAnchor),
+//            chartEmptyLabel.centerYAnchor.constraint(equalTo: chartView.centerYAnchor)
+//        ])
 
         self.view.addSubview(dateHeaderView)
         let dateHeaderViewTop: CGFloat = view.frame.height * 0.041
         NSLayoutConstraint.activate([
-            dateHeaderView.topAnchor.constraint(equalTo: self.chartView.bottomAnchor, constant: dateHeaderViewTop),
-            dateHeaderView.leadingAnchor.constraint(equalTo: self.chartView.leadingAnchor),
-            dateHeaderView.trailingAnchor.constraint(equalTo: self.chartView.trailingAnchor)
+            dateHeaderView.topAnchor.constraint(equalTo: self.backgroundView.bottomAnchor, constant: dateHeaderViewTop),
+            dateHeaderView.leadingAnchor.constraint(equalTo: self.backgroundView.leadingAnchor),
+            dateHeaderView.trailingAnchor.constraint(equalTo: self.backgroundView.trailingAnchor)
         ])
 
         self.view.addSubview(informationCollectionView)
@@ -131,8 +157,8 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         let informationCollectionViewHeight: CGFloat = view.frame.height * 0.249
         NSLayoutConstraint.activate([
             informationCollectionView.topAnchor.constraint(equalTo: self.dateHeaderView.bottomAnchor, constant: informationCollectionViewTop),
-            informationCollectionView.leadingAnchor.constraint(equalTo: self.chartView.leadingAnchor),
-            informationCollectionView.trailingAnchor.constraint(equalTo: self.chartView.trailingAnchor),
+            informationCollectionView.leadingAnchor.constraint(equalTo: self.backgroundView.leadingAnchor),
+            informationCollectionView.trailingAnchor.constraint(equalTo: self.backgroundView.trailingAnchor),
             informationCollectionView.heightAnchor.constraint(equalToConstant: informationCollectionViewHeight)
         ])
     }
