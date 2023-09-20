@@ -10,11 +10,14 @@ import Combine
 
 fileprivate enum ChartLottoUseCaseError: LocalizedError {
     case failedToMakeCalendarDate
+    case isEmptyToLottoEntity
 
     var errorDescription: String? {
         switch self {
         case .failedToMakeCalendarDate:
             return "Calendar의 날짜 생성에 실패했습니다."
+        case .isEmptyToLottoEntity:
+            return "LottoEntity의 데이터가 비어있습니다."
         }
     }
 }
@@ -48,9 +51,13 @@ final class DefaultChartLottoUseCase: ChartLottoUseCase {
     func calculateNetAmount(year: Int, month: Int) -> AnyPublisher<Int, Error> {
         return fetchLottoAmounts(year: year, month: month)
             .flatMap { (purchaseAmount, winningAmount) -> AnyPublisher<Int, Error> in
-                return Just(purchaseAmount - winningAmount)
-                    .setFailureType(to: Error.self)
-                    .eraseToAnyPublisher()
+                if purchaseAmount == .zero && winningAmount == .zero {
+                    return Fail(error: ChartLottoUseCaseError.isEmptyToLottoEntity).eraseToAnyPublisher()
+                } else {
+                    return Just(purchaseAmount - winningAmount)
+                        .setFailureType(to: Error.self)
+                        .eraseToAnyPublisher()
+                }
             }
             .eraseToAnyPublisher()
     }

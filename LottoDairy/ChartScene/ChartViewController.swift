@@ -253,9 +253,14 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         let output = viewModel.transform(from: input)
 
         output.chartView
-            .sink { [weak self] barChartData in
+            .sink(receiveCompletion: { completion in
+                // 여기서 뭔가 설정..
+//                self.chartEmptyLabel.isHidden = false
+                print("여기 fail 잘 흐름")
+            }, receiveValue: { [weak self] barChartData in
+//                self?.chartEmptyLabel.isHidden = true
                 self?.chartView.data = barChartData
-            }
+            })
             .store(in: &cancellables)
 
         output.dateHeaderFieldText

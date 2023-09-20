@@ -21,7 +21,7 @@ final class ChartViewModel {
     }
 
     struct Output {
-        var chartView = CurrentValueSubject<BarChartData?, Never>(nil)
+        var chartView = CurrentValueSubject<BarChartData?, Error>(nil)
         var dateHeaderFieldText = CurrentValueSubject<[Int], Never>([])
         var chartInformationCollectionView = CurrentValueSubject<[ChartInformationComponents], Never>([])
     }
@@ -100,7 +100,7 @@ final class ChartViewModel {
             }
             .sink(receiveCompletion: { completion in
                 if case .failure(let error) = completion {
-                    print(error)
+                    output.chartView.send(completion: .failure(error))
                 }
             }, receiveValue: { (barChartData, chartInformationComponents) in
                 output.chartView.send(barChartData)
