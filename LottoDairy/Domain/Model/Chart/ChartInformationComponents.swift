@@ -7,6 +7,10 @@
 
 import UIKit
 
+enum ChartInformationSection {
+    case main
+}
+
 struct ChartInformationComponents: Hashable {
 
     enum ChartInformationType: String {
@@ -66,10 +70,6 @@ struct ChartInformationComponents: Hashable {
                 return .designSystem(.mainBlue)
             }
         }
-    }
-
-    enum ChartInformationSection {
-        case main
     }
 
     let image: UIImage

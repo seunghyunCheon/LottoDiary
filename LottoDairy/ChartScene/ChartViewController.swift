@@ -14,7 +14,7 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
     private let backgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = .designSystem(.gray2B2C35)
-        view.layer.cornerRadius = 20
+        view.layer.cornerRadius = Constant.cornerRadius
         view.clipsToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -28,8 +28,7 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
     }()
 
     private let chartEmptyLabel: UIImageView = {
-        let image = UIImage(named: "차트안내메세지")
-        let label = UIImageView(image: image)
+        let label = UIImageView(image: Image.emptyChart.image)
         label.contentMode = .scaleAspectFit
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -46,7 +45,13 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
     }()
 
     private let chartTitleLabel: UILabel = {
-        let label = GmarketSansLabel(text: "소비 분석", color: .designSystem(.grayA09FA7) ?? .gray, alignment: .left, size: .title3, weight: .bold)
+        let label = GmarketSansLabel(
+            text: StringLiteral.chartTitle,
+            color: .designSystem(.grayA09FA7) ?? .gray,
+            alignment: .left, 
+            size: .title3,
+            weight: .bold
+        )
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -59,7 +64,10 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
     }()
 
     private lazy var informationCollectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: makeInformationListCollectionViewLayout())
+        let collectionView = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: makeInformationListCollectionViewLayout()
+        )
         collectionView.register(ChartInformationCell.self)
         collectionView.isScrollEnabled = false
         collectionView.backgroundColor = .clear
@@ -67,7 +75,7 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         return collectionView
     }()
 
-    private var dataSource: UICollectionViewDiffableDataSource<ChartInformationComponents.ChartInformationSection, ChartInformationComponents>?
+    private var dataSource: UICollectionViewDiffableDataSource<ChartInformationSection, ChartInformationComponents>?
 
     private let viewModel: ChartViewModel
 
@@ -118,16 +126,28 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         let chartTitleLeading: CGFloat = Device.Constraint.horiziontal + 10
         NSLayoutConstraint.activate([
             chartTitleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            chartTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: chartTitleLeading)
+            chartTitleLabel.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor,
+                constant: chartTitleLeading
+            )
         ])
 
         self.view.addSubview(backgroundView)
         let backgroundViewHeight = view.frame.height * 0.33
         let backgroundViewTop: CGFloat = view.frame.height * 0.015
         NSLayoutConstraint.activate([
-            backgroundView.topAnchor.constraint(equalTo: self.chartTitleLabel.bottomAnchor, constant: backgroundViewTop),
-            backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Device.Constraint.horiziontal),
-            backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Device.Constraint.horiziontal),
+            backgroundView.topAnchor.constraint(
+                equalTo: self.chartTitleLabel.bottomAnchor,
+                constant: backgroundViewTop
+            ),
+            backgroundView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor,
+                constant: Device.Constraint.horiziontal
+            ),
+            backgroundView.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor,
+                constant: -Device.Constraint.horiziontal
+            ),
             backgroundView.heightAnchor.constraint(equalToConstant: backgroundViewHeight)
         ])
 
@@ -151,7 +171,10 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         self.view.addSubview(dateHeaderView)
         let dateHeaderViewTop: CGFloat = view.frame.height * 0.041
         NSLayoutConstraint.activate([
-            dateHeaderView.topAnchor.constraint(equalTo: self.backgroundView.bottomAnchor, constant: dateHeaderViewTop),
+            dateHeaderView.topAnchor.constraint(
+                equalTo: self.backgroundView.bottomAnchor,
+                constant: dateHeaderViewTop
+            ),
             dateHeaderView.leadingAnchor.constraint(equalTo: self.backgroundView.leadingAnchor),
             dateHeaderView.trailingAnchor.constraint(equalTo: self.backgroundView.trailingAnchor)
         ])
@@ -160,10 +183,19 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         let informationCollectionViewTop: CGFloat = view.frame.height * 0.018
         let informationCollectionViewHeight: CGFloat = view.frame.height * 0.249
         NSLayoutConstraint.activate([
-            informationCollectionView.topAnchor.constraint(equalTo: self.dateHeaderView.bottomAnchor, constant: informationCollectionViewTop),
-            informationCollectionView.leadingAnchor.constraint(equalTo: self.backgroundView.leadingAnchor),
-            informationCollectionView.trailingAnchor.constraint(equalTo: self.backgroundView.trailingAnchor),
-            informationCollectionView.heightAnchor.constraint(equalToConstant: informationCollectionViewHeight)
+            informationCollectionView.topAnchor.constraint(
+                equalTo: self.dateHeaderView.bottomAnchor,
+                constant: informationCollectionViewTop
+            ),
+            informationCollectionView.leadingAnchor.constraint(
+                equalTo: self.backgroundView.leadingAnchor
+            ),
+            informationCollectionView.trailingAnchor.constraint(
+                equalTo: self.backgroundView.trailingAnchor
+            ),
+            informationCollectionView.heightAnchor.constraint(
+                equalToConstant: informationCollectionViewHeight
+            )
         ])
     }
 
@@ -179,7 +211,9 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
     }
 
     private func configureInformationCollectionViewDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<ChartInformationComponents.ChartInformationSection, ChartInformationComponents>(collectionView: informationCollectionView) { collectionView, indexPath, itemIdentifier in
+        dataSource = UICollectionViewDiffableDataSource<ChartInformationSection, ChartInformationComponents>(
+                                                                collectionView: informationCollectionView
+        ) { collectionView, indexPath, itemIdentifier in
             let cell: ChartInformationCell = collectionView.dequeue(for: indexPath)
             cell.configure(with: itemIdentifier)
 
@@ -189,7 +223,7 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
     }
 
     private func updateInformationCollectionViewSnapshot(items: [ChartInformationComponents]) {
-        var snapshot = NSDiffableDataSourceSnapshot<ChartInformationComponents.ChartInformationSection, ChartInformationComponents>()
+        var snapshot = NSDiffableDataSourceSnapshot<ChartInformationSection, ChartInformationComponents>()
         snapshot.appendSections([.main])
         snapshot.appendItems(items)
         self.dataSource?.apply(snapshot)
@@ -203,8 +237,12 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
 
                 let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                        heightDimension: .fractionalHeight(1.0))
-                let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitem: item, count: 3)
-                group.interItemSpacing = .fixed(25)
+                let group = NSCollectionLayoutGroup.vertical(
+                    layoutSize: groupSize,
+                    subitem: item,
+                    count: 3
+                )
+                group.interItemSpacing = .fixed(Constant.interItemSpacing)
 
                 let section = NSCollectionLayoutSection(group: group)
                 return section
@@ -221,8 +259,16 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
     private func configureToolbar() {
         let toolBar = UIToolbar()
 
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped))
+        let flexibleSpace = UIBarButtonItem(
+            barButtonSystemItem: .flexibleSpace,
+            target: nil,
+            action: nil
+        )
+        let doneButton = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: self,
+            action: #selector(doneButtonTapped)
+        )
 
         toolBar.sizeToFit()
         toolBar.items = [flexibleSpace, doneButton]
@@ -275,7 +321,10 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
 
         output.dateHeaderFieldText
             .sink { [weak self] date in
-                self?.dateHeaderView.configureAttributedStringOfYearMonthText(year: date[0], month: date[1])
+                self?.dateHeaderView.configureAttributedStringOfYearMonthText(
+                    year: date[0],
+                    month: date[1]
+                )
                 self?.setSelectedRow(year: date[0], month: date[1])
                 self?.chartView.highlightValue(x: Double(date[1]), dataSetIndex: 0)
             }
@@ -299,15 +348,43 @@ extension ChartViewController: UIPickerViewDataSource, UIPickerViewDelegate {
         return [years, months][component].count
     }
 
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(
+        _ pickerView: UIPickerView,
+        titleForRow row: Int,
+        forComponent component: Int
+    ) -> String? {
         return component == 0 ? "\(years[row])년" : "\(months[row])월"
     }
 }
 
 extension ChartViewController: ChartViewDelegate {
 
-    func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+    func chartValueSelected(
+        _ chartView: ChartViewBase,
+        entry: ChartDataEntry,
+        highlight: Highlight
+    ) {
         let selectedMonth = Int(entry.x)
         self.chartViewPublisher.send(selectedMonth)
+    }
+}
+
+extension ChartViewController {
+
+    private enum Image: String {
+        case emptyChart = "차트안내메세지"
+
+        var image: UIImage? {
+            return UIImage(named: self.rawValue)
+        }
+    }
+
+    private enum Constant {
+        static let cornerRadius: CGFloat = 20
+        static let interItemSpacing: CGFloat = 25
+    }
+
+    private enum StringLiteral {
+        static let chartTitle = "소비 분석"
     }
 }
