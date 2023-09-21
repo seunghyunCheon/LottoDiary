@@ -21,7 +21,7 @@ final class ChartViewModel {
     }
 
     struct Output {
-        var chartView = CurrentValueSubject<BarChartData?, Error>(nil)
+        var chartView = CurrentValueSubject<BarChartData?, Error>(BarChartData())
         var dateHeaderFieldText = CurrentValueSubject<[Int], Never>([])
         var chartInformationCollectionView = CurrentValueSubject<[ChartInformationComponents], Never>([])
     }
