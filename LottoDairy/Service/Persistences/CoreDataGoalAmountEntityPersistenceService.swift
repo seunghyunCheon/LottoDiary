@@ -38,14 +38,19 @@ final class CoreDataGoalAmountEntityPersistenceService: CoreDataGoalAmountEntity
         guard let context = coreDataPersistenceService.backgroundContext else {
             return Fail(error: CoreDataGoalAmountEntityPersistenceServiceError.failedToInitializeCoreDataContainer).eraseToAnyPublisher()
         }
-        
+
         return Future { promise in
             context.perform {
                 let fetchRequest = GoalAmountEntity.fetchRequest()
                 fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
                 do {
                     let fetchResult = try context.fetch(fetchRequest)
-                    promise(.success(fetchResult[0].goalAmount))
+                    // MARK: 임시
+                    if fetchResult.isEmpty {
+                        promise(.success(5000))
+                    } else {
+                        promise(.success(fetchResult[0].goalAmount))
+                    }
                 } catch {
                     promise(.failure(CoreDataGoalAmountEntityPersistenceServiceError.failedToFetchGoalAmount))
                 }
