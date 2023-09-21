@@ -9,6 +9,6 @@ import Foundation
 import Combine
 
 protocol ChartLottoUseCase {
-    func fetchLottoAmounts(year: Int, month: Int) -> AnyPublisher<(purchase: Int, winning: Int), Error>
-    func calculateNetAmount(year: Int, month: Int) -> AnyPublisher<Int, Error>
+    func fetchLottoAmounts(year: Int, month: Int) -> AnyPublisher<(purchase: Int?, winning: Int?), Error>
+    func calculateNetAmount(year: Int, month: Int) -> AnyPublisher<Int?, Error>
 }
