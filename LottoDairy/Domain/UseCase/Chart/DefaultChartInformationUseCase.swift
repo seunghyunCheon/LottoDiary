@@ -23,7 +23,7 @@ final class DefaultChartInformationUseCase: ChartInformationUseCase {
 
     func makeRangeOfYears() -> [Int] {
         let thisYear = self.calendar.component(.year, from: .today)
-        let range = (thisYear - 10)...thisYear
+        let range = (thisYear - 10)...(thisYear + 1)
 
         return Array(range)
     }
@@ -41,16 +41,12 @@ final class DefaultChartInformationUseCase: ChartInformationUseCase {
             userRepository.fetchGoalAmount()
         )
         .map { (lottoAmount, goalAmount) -> [ChartInformationComponents] in
-            let (purchaseAmount, winningAmount) = lottoAmount
-            
+            let purchaseAmount = lottoAmount.purchase ?? .zero
+            let winningAmount = lottoAmount.winning ?? .zero
+
             let goalResult: Bool = goalAmount >= purchaseAmount
             let winResult: Bool = purchaseAmount <= winningAmount
-            var percent: Double = 0
-            if winningAmount == 0 && purchaseAmount == 0 {
-                percent = 0
-            } else {
-                percent = Double(winningAmount) / Double(purchaseAmount) * 100
-            }
+            let percent: Double = (winningAmount == .zero && purchaseAmount == .zero) ? 0 : Double(winningAmount) / Double(purchaseAmount) * 100
 
             let chartInformationComponents = [
                 ChartInformationComponents(
