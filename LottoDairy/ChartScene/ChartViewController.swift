@@ -27,11 +27,12 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         return chart
     }()
 
-//    private let chartEmptyLabel: UILabel = {
-//        let label = GmarketSansLabel(text: "구입 / 당첨 내역이 없어요 😭", size: .title3, weight: .bold)
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        return label
-//    }()
+    // 임시
+    private let chartEmptyLabel: UILabel = {
+        let label = GmarketSansLabel(text: "구입 / 당첨 내역이 없어요 😭", size: .title3, weight: .bold)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
 
     private var chartViewPublisher = PassthroughSubject<Int, Never>()
 
@@ -138,11 +139,11 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
             chartView.heightAnchor.constraint(equalTo: self.backgroundView.heightAnchor)
         ])
 
-//        self.view.addSubview(chartEmptyLabel)
-//        NSLayoutConstraint.activate([
-//            chartEmptyLabel.centerXAnchor.constraint(equalTo: chartView.centerXAnchor),
-//            chartEmptyLabel.centerYAnchor.constraint(equalTo: chartView.centerYAnchor)
-//        ])
+        self.view.addSubview(chartEmptyLabel)
+        NSLayoutConstraint.activate([
+            chartEmptyLabel.centerXAnchor.constraint(equalTo: self.backgroundView.centerXAnchor),
+            chartEmptyLabel.centerYAnchor.constraint(equalTo: self.backgroundView.centerYAnchor)
+        ])
 
         self.view.addSubview(dateHeaderView)
         let dateHeaderViewTop: CGFloat = view.frame.height * 0.041
@@ -254,12 +255,18 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
 
         output.chartView
             .sink(receiveCompletion: { completion in
-                // 여기서 뭔가 설정..
-//                self.chartEmptyLabel.isHidden = false
-                print("여기 fail 잘 흐름")
+                if case .failure(let error) = completion {
+                    print(error)
+                }
             }, receiveValue: { [weak self] barChartData in
-//                self?.chartEmptyLabel.isHidden = true
-                self?.chartView.data = barChartData
+                if barChartData == nil {
+                    self?.chartEmptyLabel.isHidden = false
+                    self?.chartView.isHidden = true
+                } else {
+                    self?.chartEmptyLabel.isHidden = true
+                    self?.chartView.isHidden = false
+                    self?.chartView.data = barChartData
+                }
             })
             .store(in: &cancellables)
 
