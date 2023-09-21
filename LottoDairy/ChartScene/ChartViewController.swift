@@ -27,9 +27,10 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         return chart
     }()
 
-    // 임시
-    private let chartEmptyLabel: UILabel = {
-        let label = GmarketSansLabel(text: "구입 / 당첨 내역이 없어요 😭", size: .title3, weight: .bold)
+    private let chartEmptyLabel: UIImageView = {
+        let image = UIImage(named: "차트안내메세지")
+        let label = UIImageView(image: image)
+        label.contentMode = .scaleAspectFit
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -141,8 +142,10 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
 
         self.view.addSubview(chartEmptyLabel)
         NSLayoutConstraint.activate([
-            chartEmptyLabel.centerXAnchor.constraint(equalTo: self.backgroundView.centerXAnchor),
-            chartEmptyLabel.centerYAnchor.constraint(equalTo: self.backgroundView.centerYAnchor)
+            chartEmptyLabel.leadingAnchor.constraint(equalTo: self.backgroundView.leadingAnchor),
+            chartEmptyLabel.trailingAnchor.constraint(equalTo: self.backgroundView.trailingAnchor),
+            chartEmptyLabel.topAnchor.constraint(equalTo: self.backgroundView.topAnchor),
+            chartEmptyLabel.bottomAnchor.constraint(equalTo: self.backgroundView.bottomAnchor)
         ])
 
         self.view.addSubview(dateHeaderView)
