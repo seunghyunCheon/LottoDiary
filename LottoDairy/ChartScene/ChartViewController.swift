@@ -155,9 +155,9 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         self.chartView.delegate = self
         NSLayoutConstraint.activate([
             chartView.topAnchor.constraint(equalTo: self.backgroundView.topAnchor),
-            chartView.leadingAnchor.constraint(equalTo: self.backgroundView.leadingAnchor),
-            chartView.trailingAnchor.constraint(equalTo: self.backgroundView.trailingAnchor),
-            chartView.heightAnchor.constraint(equalTo: self.backgroundView.heightAnchor)
+            chartView.leadingAnchor.constraint(equalTo: self.backgroundView.leadingAnchor, constant: Constant.chartViewMargin),
+            chartView.trailingAnchor.constraint(equalTo: self.backgroundView.trailingAnchor, constant: -Constant.chartViewMargin),
+            chartView.bottomAnchor.constraint(equalTo: self.backgroundView.bottomAnchor, constant: -Constant.chartViewMargin)
         ])
 
         self.view.addSubview(chartEmptyLabel)
@@ -203,11 +203,40 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         self.chartView.setScaleEnabled(false)
         self.chartView.doubleTapToZoomEnabled = false
         self.chartView.legend.enabled = false
-        self.chartView.rightAxis.enabled = false
-        self.chartView.leftAxis.enabled = false
-        self.chartView.xAxis.drawLabelsEnabled = false
-        self.chartView.xAxis.drawAxisLineEnabled = false
-        self.chartView.xAxis.drawGridLinesEnabled = false
+
+        configureLeftAxis(self.chartView.leftAxis)
+        configureRightAxis(self.chartView.rightAxis)
+        configureXAxis(self.chartView.xAxis)
+    }
+
+    private func configureRightAxis(_ rightAxis: YAxis) {
+        rightAxis.drawLabelsEnabled = false
+        rightAxis.drawGridLinesEnabled = false
+        rightAxis.drawAxisLineEnabled = false
+    }
+
+    private func configureLeftAxis(_ leftAxis: YAxis) {
+        leftAxis.drawLabelsEnabled = false
+        leftAxis.drawGridLinesEnabled = false
+        leftAxis.drawAxisLineEnabled = false
+
+        leftAxis.drawZeroLineEnabled = true
+        leftAxis.zeroLineWidth = 2
+        leftAxis.zeroLineColor = .designSystem(.mainBlue)
+    }
+
+    private func configureXAxis(_ xAxis: XAxis) {
+        var monthlyText = viewModel.months.map { "\($0)월" }
+        monthlyText.insert("", at: 0)
+        xAxis.valueFormatter = IndexAxisValueFormatter(values: monthlyText)
+
+        xAxis.labelFont = .gmarketSans(size: .caption, weight: .medium)
+        xAxis.labelPosition = .bottom
+        xAxis.labelTextColor = .white
+        xAxis.labelCount = 4
+
+        xAxis.drawAxisLineEnabled = false
+        xAxis.drawGridLinesEnabled = false
     }
 
     private func configureInformationCollectionViewDataSource() {
@@ -382,6 +411,7 @@ extension ChartViewController {
     private enum Constant {
         static let cornerRadius: CGFloat = 20
         static let interItemSpacing: CGFloat = 25
+        static let chartViewMargin: CGFloat = 10
     }
 
     private enum StringLiteral {
