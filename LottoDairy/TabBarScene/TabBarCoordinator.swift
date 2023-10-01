@@ -52,7 +52,6 @@ final class TabBarCoordinator: BaseCoordinator {
                 addDependency(calendarCoordinator)
                 calendarCoordinator.start()
             }
-
         }
     }
 
