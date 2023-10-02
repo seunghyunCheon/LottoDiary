@@ -35,7 +35,9 @@ final class TabBarController: UITabBarController, TabBarFlowProtocol {
     }
     
     private func configureTabBar() {
-        setValue(TabBarView(frame: tabBar.frame), forKey: "tabBar")
+        let tabBarView = TabBarView(frame: tabBar.frame)
+        tabBarView.lottoQRDelegate = self
+        setValue(tabBarView, forKey: "tabBar")
         delegate = self
     }
     
@@ -65,7 +67,7 @@ extension TabBarController: UITabBarControllerDelegate {
         case .chart:
             onChartFlowSelect?(controller)
         default:
-            onHomeFlowSelect?(controller)
+            break
         }
     }
     
@@ -73,6 +75,16 @@ extension TabBarController: UITabBarControllerDelegate {
         guard let selectedIndex = tabBarController.viewControllers?.firstIndex(of: viewController) else {
             return true
         }
-        return TabBarComponents(rawValue: selectedIndex) == .empty ? false : true
+        return TabBarComponents(rawValue: selectedIndex) == .lottoQR ? false : true
+    }
+}
+
+extension TabBarController: LottoQRButtonDelegate {
+
+    func lottoQRButtonDidTap() {
+        guard let controller = self.viewControllers?[TabBarComponents.lottoQR.rawValue] as? UINavigationController else { return }
+        onLottoQRFlowSelect?(controller)
+
+        self.selectedIndex = TabBarComponents.lottoQR.rawValue
     }
 }

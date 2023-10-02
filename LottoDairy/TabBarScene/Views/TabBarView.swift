@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol LottoQRButtonDelegate: AnyObject {
+    func lottoQRButtonDidTap()
+}
+
 final class TabBarView: UITabBar {
+
+    weak var lottoQRDelegate: LottoQRButtonDelegate?
 
     private var shapeLayer: CALayer?
 
@@ -68,6 +74,7 @@ final class TabBarView: UITabBar {
                                                         height: Constraints.lottoQRButtonSize))
         lottoQRButton.clipsToBounds = true
         lottoQRButton.layer.cornerRadius = Constraints.halfLottoQRButtonSize
+        lottoQRButton.addTarget(self, action: #selector(lottoQRButtonTapped), for: .touchUpInside)
         addSubview(lottoQRButton)
     }
 
@@ -99,5 +106,10 @@ final class TabBarView: UITabBar {
         path.addLine(to: CGPoint(x: .zero, y: frame.height))
 
         return path.cgPath
+    }
+
+    @objc
+    private func lottoQRButtonTapped() {
+        lottoQRDelegate?.lottoQRButtonDidTap()
     }
 }
