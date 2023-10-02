@@ -135,52 +135,49 @@ final class QRReaderView: UIView {
         let bottomRightPoint = CGPoint(x: rectOfInterest.maxX + halfOfCornerLineWidth, y: rectOfInterest.maxY + halfOfCornerLineWidth)
         let bottomLeftPoint = CGPoint(x: rectOfInterest.minX - halfOfCornerLineWidth, y: rectOfInterest.maxY + halfOfCornerLineWidth)
 
-        let cornerRadius = min(previewLayer?.cornerRadius ?? 0, Constant.cornerLength)
-        let cornerLength = min(rectOfInterest.width / 2, Constant.cornerLength)
-
         let topLeftCorner = UIBezierPath()
-        topLeftCorner.move(to: topLeftPoint.offsetBy(dx: 0, dy: cornerLength))
+        topLeftCorner.move(to: topLeftPoint.offsetBy(dx: 0, dy: Constant.cornerLength))
         topLeftCorner.addArc(
-            withCenter: topLeftPoint.offsetBy(dx: cornerRadius, dy: cornerRadius),
-            radius: cornerRadius,
-            startAngle: .pi,
-            endAngle: 3 * .pi / 2,
-            clockwise: true
-        )
-        topLeftCorner.addLine(to: topLeftPoint.offsetBy(dx: cornerLength, dy: 0))
-
-        let topRightCorner = UIBezierPath()
-        topRightCorner.move(to: topRightPoint.offsetBy(dx: -cornerLength, dy: 0))
-        topRightCorner.addArc(
-            withCenter: topRightPoint.offsetBy(dx: -cornerRadius, dy: cornerRadius),
-            radius: cornerRadius,
-            startAngle: 3 * .pi / 2,
+            withCenter: topLeftPoint,
+            radius: 0,
+            startAngle: 0,
             endAngle: 0,
             clockwise: true
         )
-        topRightCorner.addLine(to: topRightPoint.offsetBy(dx: 0, dy: cornerLength))
+        topLeftCorner.addLine(to: topLeftPoint.offsetBy(dx: Constant.cornerLength, dy: 0))
+
+        let topRightCorner = UIBezierPath()
+        topRightCorner.move(to: topRightPoint.offsetBy(dx: -Constant.cornerLength, dy: 0))
+        topRightCorner.addArc(
+            withCenter: topRightPoint,
+            radius: 0,
+            startAngle: 0,
+            endAngle: 0,
+            clockwise: true
+        )
+        topRightCorner.addLine(to: topRightPoint.offsetBy(dx: 0, dy: Constant.cornerLength))
 
         let bottomRightCorner = UIBezierPath()
-        bottomRightCorner.move(to: bottomRightPoint.offsetBy(dx: 0, dy: -cornerLength))
+        bottomRightCorner.move(to: bottomRightPoint.offsetBy(dx: 0, dy: -Constant.cornerLength))
         bottomRightCorner.addArc(
-            withCenter: bottomRightPoint.offsetBy(dx: -cornerRadius, dy: -cornerRadius),
-            radius: cornerRadius,
+            withCenter: bottomRightPoint,
+            radius: 0,
             startAngle: 0,
-            endAngle: .pi / 2,
+            endAngle: 0,
             clockwise: true
         )
-        bottomRightCorner.addLine(to: bottomRightPoint.offsetBy(dx: -cornerLength, dy: 0))
+        bottomRightCorner.addLine(to: bottomRightPoint.offsetBy(dx: -Constant.cornerLength, dy: 0))
 
         let bottomLeftCorner = UIBezierPath()
-        bottomLeftCorner.move(to: bottomLeftPoint.offsetBy(dx: cornerLength, dy: 0))
+        bottomLeftCorner.move(to: bottomLeftPoint.offsetBy(dx: Constant.cornerLength, dy: 0))
         bottomLeftCorner.addArc(
-            withCenter: bottomLeftPoint.offsetBy(dx: cornerRadius, dy: -cornerRadius),
-            radius: cornerRadius,
-            startAngle: .pi / 2,
-            endAngle: .pi,
+            withCenter: bottomLeftPoint,
+            radius: 0,
+            startAngle: 0,
+            endAngle: 0,
             clockwise: true
         )
-        bottomLeftCorner.addLine(to: bottomLeftPoint.offsetBy(dx: 0, dy: -cornerLength))
+        bottomLeftCorner.addLine(to: bottomLeftPoint.offsetBy(dx: 0, dy: -Constant.cornerLength))
 
         let mutablePath = CGMutablePath()
         mutablePath.addPath(topLeftCorner.cgPath)
