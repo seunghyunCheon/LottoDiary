@@ -36,7 +36,6 @@ final class QRReaderView: UIView {
         configureSessionInput()
         configureSessionOutput()
 
-        configurePreviewLayer()
         configureRectOfInterest()
 
         start()
@@ -83,32 +82,38 @@ final class QRReaderView: UIView {
     }
 
     private func configureSessionOutput() {
-        let output = AVCaptureMetadataOutput()
         guard let session = self.session else { return }
+        let output = AVCaptureMetadataOutput()
 
         if session.canAddOutput(output) {
             session.addOutput(output)
 
             output.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
             output.metadataObjectTypes = [.qr]
+
+            let previewLayer = createPreviewLayer()
+            output.rectOfInterest = previewLayer
         } else {
             print("session output 오류")
             return
         }
     }
 
-    private func configurePreviewLayer() {
-        guard let session = session else { return }
+    private func createPreviewLayer() -> CGRect {
+        guard let session = session,
+              let rectOfInterest = rectOfInterest else { return CGRect() }
         let previewLayer = AVCaptureVideoPreviewLayer(session: session)
 
-        previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         previewLayer.frame = self.layer.bounds
+        previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
 
         let layer = createShapeLayer()
         previewLayer.addSublayer(layer)
 
         self.layer.addSublayer(previewLayer)
         self.previewLayer = previewLayer
+
+        return previewLayer.metadataOutputRectConverted(fromLayerRect: rectOfInterest)
     }
 
     private func configureRectOfInterest() {
@@ -124,6 +129,12 @@ final class QRReaderView: UIView {
 
         // CAShapeLayer에 경로를 설정하고 미리보기 레이어에 추가
         self.previewLayer?.addSublayer(shapeLayer)
+    }
+
+    private func start() {
+        DispatchQueue.global().async {
+            self.session?.startRunning()
+        }
     }
 
     private func createCorner() -> CGMutablePath {
@@ -204,23 +215,17 @@ final class QRReaderView: UIView {
 
         return layer
     }
-
-    private func start() {
-        DispatchQueue.global().async {
-            self.session?.startRunning()
-        }
-
-        // AVCaptureSession에서 CGRect 만큼 인식 구역으로 지정함.
-//        guard let previewLayer = previewLayer else { return }
-//        output?.rectOfInterest = previewLayer.metadataOutputRectConverted(fromLayerRect: rectOfInterest)
-    }
 }
 
 // AVCaptureMetadataOutputObjectsDelegate : 사진 캡쳐 output으로 인해 생성된 메타데이터를 받는 방법
 // 캡쳐를 통해 메타데이터를 인식하면 델리게이트 실행
 extension QRReaderView: AVCaptureMetadataOutputObjectsDelegate {
     
-    func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+    func metadataOutput(
+        _ output: AVCaptureMetadataOutput,
+        didOutput metadataObjects: [AVMetadataObject],
+        from connection: AVCaptureConnection
+    ) {
 
         print("메타 데이터 output 받았습니다. delegate 실행 ~")
 
@@ -234,6 +239,7 @@ extension QRReaderView: AVCaptureMetadataOutputObjectsDelegate {
             print(stringValue)
 
             self.delegate?.lottoQRDidComplete(.success(stringValue))
+            self.session?.stopRunning()
             self.delegate?.lottoQRDidComplete(.stop(true))
         }
     }
