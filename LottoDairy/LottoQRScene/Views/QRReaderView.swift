@@ -26,8 +26,6 @@ final class QRReaderView: UIView {
 
     private var previewLayer: AVCaptureVideoPreviewLayer?
 
-    private var output: AVCaptureMetadataOutput?
-
     private var rectOfInterest: CGRect?
 
     override init(frame: CGRect) {
@@ -85,8 +83,7 @@ final class QRReaderView: UIView {
     }
 
     private func configureSessionOutput() {
-        self.output = AVCaptureMetadataOutput()
-        guard let output = self.output else { return }
+        let output = AVCaptureMetadataOutput()
         guard let session = self.session else { return }
 
         if session.canAddOutput(output) {
