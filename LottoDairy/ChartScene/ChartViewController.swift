@@ -330,7 +330,8 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
                     print(error)
                 }
             }, receiveValue: { [weak self] barChartData in
-                if barChartData == nil {
+                guard let first = barChartData.dataSets.first else { return }
+                if barChartData.entryCount == .zero {
                     self?.chartEmptyLabel.isHidden = false
                     self?.chartView.isHidden = true
                 } else {
