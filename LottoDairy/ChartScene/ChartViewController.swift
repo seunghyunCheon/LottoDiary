@@ -34,10 +34,6 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         return label
     }()
 
-    private var chartViewPublisher = PassthroughSubject<Int, Never>()
-
-    private var viewWillAppearPublisher = PassthroughSubject<Void, Never>()
-
     private let dateHeaderView: LottoDiaryTextField = {
         let textField = LottoDiaryTextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -79,12 +75,9 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
 
     private let viewModel: ChartViewModel
 
-    private var years: [Int] {
-        return viewModel.years
-    }
-    private var months: [Int] {
-        return viewModel.months
-    }
+    private var chartViewPublisher = PassthroughSubject<Int, Never>()
+
+    private var viewWillAppearPublisher = PassthroughSubject<Void, Never>()
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -315,8 +308,8 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
     }
 
     private func setSelectedRow(year: Int, month: Int) {
-        guard let yearIndex = years.firstIndex(of: year),
-              let monthIndex = months.firstIndex(of: month) else { return }
+        guard let yearIndex = viewModel.years.firstIndex(of: year),
+              let monthIndex = viewModel.months.firstIndex(of: month) else { return }
 
         self.datePicker.selectRow(yearIndex, inComponent: 0, animated: true)
         self.datePicker.selectRow(monthIndex, inComponent: 1, animated: true)
@@ -374,7 +367,7 @@ extension ChartViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     }
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return [years, months][component].count
+        return [viewModel.years, viewModel.months][component].count
     }
 
     func pickerView(
@@ -382,7 +375,7 @@ extension ChartViewController: UIPickerViewDataSource, UIPickerViewDelegate {
         titleForRow row: Int,
         forComponent component: Int
     ) -> String? {
-        return component == 0 ? "\(years[row])년" : "\(months[row])월"
+        return component == 0 ? "\(viewModel.years[row])년" : "\(viewModel.months[row])월"
     }
 }
 
