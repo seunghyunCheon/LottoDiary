@@ -73,8 +73,8 @@ final class CoreDataLottoEntityPersistenceService: CoreDataLottoEntityPersistenc
                     if fetchResult.isEmpty {
                         promise(.success([Date.today.year]))
                     }
-                    let years = Set(fetchResult.compactMap { lottoEntry in
-                        let date = lottoEntry.value(forKey: "date") as? Date
+                    let years = Set(fetchResult.compactMap { lottoEntity in
+                        let date = lottoEntity.value(forKey: "date") as? Date
                         return date?.year
                     })
                     promise(.success(years))
