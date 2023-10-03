@@ -26,13 +26,13 @@ final class ChartViewModel {
         var chartInformationCollectionView = CurrentValueSubject<[ChartInformationComponents], Never>([])
     }
 
-    private var cancellables: Set<AnyCancellable> = []
-
     var selectedYear = CurrentValueSubject<Int, Never>(0)
     var selectedMonth = CurrentValueSubject<Int, Never>(0)
 
     private(set) var years = [Int]()
     private(set) var months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
+    private var cancellables: Set<AnyCancellable> = []
 
     init(chartUseCase: ChartUseCase, chartInformationUseCase: ChartInformationUseCase) {
         self.chartUseCase = chartUseCase
