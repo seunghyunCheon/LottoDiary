@@ -112,11 +112,11 @@ final class CoreDataGoalAmountEntityPersistenceService: CoreDataGoalAmountEntity
         .eraseToAnyPublisher()
     }
 
-    private func makeGoalAmountPredicate(year: Int, month: Int) -> NSPredicate {
+    private func makeGoalAmountPredicate(year: Int, month: Int) -> NSPredicate? {
         let calendar = Calendar.current
         guard let startDate = calendar.date(from: DateComponents(year: year, month: month, day: 1)),
               let endDate = calendar.date(byAdding: .month, value: 1, to: startDate) else {
-            return NSPredicate()
+            return nil
         }
 
         return NSPredicate(format: "(date >= %@) AND (date < %@)", startDate as NSDate, endDate as NSDate)
