@@ -16,7 +16,6 @@ final class LottoQRViewController: UIViewController, LottoQRFlowProtocol {
     }()
 
     init() {
-        print("로또 컨트롤러 생성 완료")
         super.init(nibName: nil, bundle: nil)
     }
     

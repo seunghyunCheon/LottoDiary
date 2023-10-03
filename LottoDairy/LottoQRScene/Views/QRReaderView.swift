@@ -119,7 +119,6 @@ final class QRReaderView: UIView {
     private func configureRectOfInterest() {
         let path = createCorner()
 
-        // CAShapeLayer를 생성하고 설정
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = path
         shapeLayer.strokeColor = UIColor.white.cgColor
@@ -127,7 +126,6 @@ final class QRReaderView: UIView {
         shapeLayer.lineWidth = Constant.cornerLineWidth
         shapeLayer.lineCap = .square
 
-        // CAShapeLayer에 경로를 설정하고 미리보기 레이어에 추가
         self.previewLayer?.addSublayer(shapeLayer)
     }
 
@@ -204,9 +202,7 @@ final class QRReaderView: UIView {
         guard let rectOfInterest = rectOfInterest else { return layer }
 
         let path = CGMutablePath()
-        // 하나의 큰 사각형 추가
         path.addRect(bounds)
-        // QR코드 인식을 위한 가운데 작은 사각형 추가
         path.addRect(rectOfInterest)
         
         layer.path = path
@@ -217,8 +213,6 @@ final class QRReaderView: UIView {
     }
 }
 
-// AVCaptureMetadataOutputObjectsDelegate : 사진 캡쳐 output으로 인해 생성된 메타데이터를 받는 방법
-// 캡쳐를 통해 메타데이터를 인식하면 델리게이트 실행
 extension QRReaderView: AVCaptureMetadataOutputObjectsDelegate {
     
     func metadataOutput(
