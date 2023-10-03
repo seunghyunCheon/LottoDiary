@@ -5,7 +5,6 @@
 //  Created by Sunny on 2023/09/19.
 //
 
-import Foundation
 import Combine
 
 protocol ChartLottoUseCase {
