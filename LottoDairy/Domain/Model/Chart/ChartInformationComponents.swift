@@ -7,6 +7,10 @@
 
 import UIKit
 
+enum ChartInformationSection {
+    case main
+}
+
 struct ChartInformationComponents: Hashable {
 
     enum ChartInformationType: String {
@@ -68,10 +72,6 @@ struct ChartInformationComponents: Hashable {
         }
     }
 
-    enum ChartInformationSection {
-        case main
-    }
-
     let image: UIImage
     let type: ChartInformationType
     var amount: String
@@ -87,12 +87,15 @@ struct ChartInformationComponents: Hashable {
     }
 
     func hash(into hasher: inout Hasher) {
+        hasher.combine(image)
+        hasher.combine(type)
         hasher.combine(amount)
         hasher.combine(result.result)
         hasher.combine(result.percent)
     }
 
     static func == (lhs: ChartInformationComponents, rhs: ChartInformationComponents) -> Bool {
-        return lhs.amount == rhs.amount && lhs.result.result == rhs.result.result && lhs.result.percent == rhs.result.percent
+        return lhs.image == rhs.image && lhs.type == rhs.type && lhs.amount == rhs.amount &&
+        lhs.result.result == rhs.result.result && lhs.result.percent == rhs.result.percent
     }
 }

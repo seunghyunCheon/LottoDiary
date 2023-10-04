@@ -18,4 +18,10 @@ extension Date {
             
         return (todayComponent == dateComponent)
     }
+
+    var year: Int {
+        let calendar = Calendar.current
+        let year = calendar.component(.year, from: self)
+        return year
+    }
 }

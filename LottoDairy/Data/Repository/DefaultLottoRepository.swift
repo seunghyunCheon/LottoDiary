@@ -25,6 +25,12 @@ final class DefaultLottoRepository: LottoRepository {
             }
             .eraseToAnyPublisher()
     }
+
+    func fetchAllOfYear() -> AnyPublisher<[Int], Error> {
+        return coreDataLottoEntityPersistenceService.fetchDistinctYear()
+            .map { $0.sorted() }
+            .eraseToAnyPublisher()
+    }
     
     func saveLotto(_ lotto: Lotto) -> AnyPublisher<Lotto, Error> {
         return coreDataLottoEntityPersistenceService.saveLottoEntity(lotto)

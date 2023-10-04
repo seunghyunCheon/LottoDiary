@@ -15,30 +15,31 @@ final class ChartViewModel {
     private let chartInformationUseCase: ChartInformationUseCase
 
     struct Input {
-        let viewDidLoadEvent: Just<Void>
+        let viewWillAppearEvent: PassthroughSubject<Void, Never>
         let dateHeaderTextFieldDidEditEvent: PassthroughSubject<[Int], Never>
         let chartViewDidSelectEvent: PassthroughSubject<Int, Never>
     }
 
     struct Output {
-        var chartView = CurrentValueSubject<BarChartData?, Never>(nil)
+        var chartView = CurrentValueSubject<BarChartData, Error>(BarChartData())
         var dateHeaderFieldText = CurrentValueSubject<[Int], Never>([])
         var chartInformationCollectionView = CurrentValueSubject<[ChartInformationComponents], Never>([])
     }
 
-    private var cancellables: Set<AnyCancellable> = []
-
     var selectedYear = CurrentValueSubject<Int, Never>(0)
     var selectedMonth = CurrentValueSubject<Int, Never>(0)
 
-    private var years = [Int]()
-    private let months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    private(set) var years = [Int]()
+    private(set) var months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
+    private var cancellables: Set<AnyCancellable> = []
 
     init(chartUseCase: ChartUseCase, chartInformationUseCase: ChartInformationUseCase) {
         self.chartUseCase = chartUseCase
         self.chartInformationUseCase = chartInformationUseCase
 
         configureToday()
+        configureYears()
     }
 
     func transform(from input: Input) -> Output {
@@ -46,12 +47,8 @@ final class ChartViewModel {
         return configureOutput(from: input)
     }
 
-    func getYears() -> [Int] {
-        return years
-    }
-
-    func getMonths() -> [Int] {
-        return months
+    private func configureYears() {
+        self.years = self.chartInformationUseCase.makeRangeOfYears()
     }
 
     private func configureToday() {
@@ -61,12 +58,9 @@ final class ChartViewModel {
     }
 
     private func configureInput(_ input: Input) {
-        input.viewDidLoadEvent
-            .flatMap {
-                self.chartInformationUseCase.makeRangeOfYear()
-            }
-            .sink { [weak self] rangeOfYear in
-                self?.years = rangeOfYear
+        input.viewWillAppearEvent
+            .sink {
+                self.selectedYear.send(self.selectedYear.value)
             }
             .store(in: &cancellables)
 
@@ -104,19 +98,27 @@ final class ChartViewModel {
                     self.chartInformationUseCase.makeChartInformationComponents(year: year, month: self.selectedMonth.value)
                 )
             }
-            .sink { (barChartData, chartInformationComponents) in
+            .sink(receiveCompletion: { completion in
+                if case .failure(let error) = completion {
+                    output.chartView.send(completion: .failure(error))
+                }
+            }, receiveValue: { (barChartData, chartInformationComponents) in
                 output.chartView.send(barChartData)
                 output.chartInformationCollectionView.send(chartInformationComponents)
-            }
+            })
             .store(in: &cancellables)
 
         self.selectedMonth
             .flatMap { month in
                 self.chartInformationUseCase.makeChartInformationComponents(year: self.selectedYear.value, month: month)
             }
-            .sink { chartInformationComponents in
+            .sink(receiveCompletion: { completion in
+                if case .failure(let error) = completion {
+                    print(error)
+                }
+            }, receiveValue: { chartInformationComponents in
                 output.chartInformationCollectionView.send(chartInformationComponents)
-            }
+            })
             .store(in: &cancellables)
 
         self.selectedYear
