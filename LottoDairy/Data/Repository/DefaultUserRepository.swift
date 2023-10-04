@@ -32,7 +32,11 @@ final class DefaultUserRepository: UserRepository {
         self.userDefaultsPersistenceService = userDefaultPersistenceService
         self.coreDataGoalAmountEntityPersistenceService = coreDataGoalAmountEntityPersistenceService
     }
-    
+
+    func fetchGoalAmount() -> AnyPublisher<Int, Error> {
+        return coreDataGoalAmountEntityPersistenceService.fetchGoalAmount()
+    }
+
     func fetchUserData() -> AnyPublisher<(String, String, Int), Error> {
         guard let userNickname: String = userDefaultsPersistenceService.get(key: UserDefaults.Keys.nickname),
               let userCycle: String = userDefaultsPersistenceService.get(key: UserDefaults.Keys.notificationCycle) else {

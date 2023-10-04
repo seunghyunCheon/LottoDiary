@@ -10,54 +10,43 @@ import Combine
 
 final class DefaultChartInformationUseCase: ChartInformationUseCase {
 
-//    private let repository: CoreDataRepository
+    private let userRepository: UserRepository
 
-//    init(repository: CoreDataRepository) {
-//        self.repository = repository
-//    }
+    private let chartLottoUseCase: ChartLottoUseCase
 
-    // MARK: ChartInformation 관련 함수
-    // Repository: CoreData에 저장되어있는 가장 오래된 데이터의 년도 조회
-    // UseCase: Repository의 오래된 년도 조회 함수의 return값 ~ 현재 년도까지 [Int] 배열 반환하는 함수
-    func makeRangeOfYear() -> AnyPublisher<[Int], Never> {
-        return Future<[Int], Never> { promise in
-            // 비동기로 CoreData에서 oldestYear fetch하는 함수 실행
-            //        let oldestYear = repository.fetchOldestYear()
-            let oldestYear = 2021
-            let thisYear = Calendar.current.component(.year, from: Date())
+    private let calendar = Calendar.current
 
-            var years = [Int]()
-            for year in oldestYear...thisYear {
-                years.append(year)
-            }
-
-            promise(.success(years))
-        }
-        .eraseToAnyPublisher()
+    init(userRepository: UserRepository, chartLottoUseCase: ChartLottoUseCase) {
+        self.userRepository = userRepository
+        self.chartLottoUseCase = chartLottoUseCase
     }
 
-    // 첫 chart scene에서 dateHeaderTextField가 오늘 년/월을 보여줄 수 있도록 현재 년/월 반환하는 함수
+    func makeRangeOfYears() -> [Int] {
+        let thisYear = self.calendar.component(.year, from: .today)
+        let range = (thisYear - 10)...(thisYear + 1)
+
+        return Array(range)
+    }
+
     func makeYearAndMonthOfToday() -> [Int] {
-        let year = Calendar.current.component(.year, from: Date())
-        let month = Calendar.current.component(.month, from: Date())
+        let year = self.calendar.component(.year, from: .today)
+        let month = self.calendar.component(.month, from: .today)
+
         return [year, month]
     }
 
-    // 특정 년도의 월에 대한 ChartInformationComponents 만드는 함수
-    func makeChartInformationComponents(year: Int, month: Int) -> AnyPublisher<[ChartInformationComponents], Never> {
+    func makeChartInformationComponents(year: Int, month: Int) -> AnyPublisher<[ChartInformationComponents], Error> {
+        return Publishers.CombineLatest(
+            chartLottoUseCase.fetchLottoAmounts(year: year, month: month),
+            userRepository.fetchGoalAmount()
+        )
+        .map { (lottoAmount, goalAmount) -> [ChartInformationComponents] in
+            let purchaseAmount = lottoAmount.purchase ?? .zero
+            let winningAmount = lottoAmount.winning ?? .zero
 
-        return Future<[ChartInformationComponents], Never> { promise in
-            // repository에서 특정 월에 대한 목표 금액 가져오기
-            let goalAmount = (1...30000).randomElement()!
-
-            // repository에서 특정 월에 대한 구매 금액 가져오기
-            let buyAmount = (1000...50000).randomElement()!
-            // repository에서 특정 월에 대한 당첨 금액 가져오기
-            let winAmount = (1000...200000).randomElement()!
-
-            let goalResult: Bool = goalAmount >= buyAmount
-            let winResult: Bool = buyAmount <= winAmount
-            let percent = Double(winAmount) / Double(buyAmount) * 100
+            let goalResult: Bool = goalAmount >= purchaseAmount
+            let winResult: Bool = purchaseAmount <= winningAmount
+            let percent: Double = (winningAmount == .zero && purchaseAmount == .zero) ? 0 : Double(winningAmount) / Double(purchaseAmount) * 100
 
             let chartInformationComponents = [
                 ChartInformationComponents(
@@ -67,17 +56,17 @@ final class DefaultChartInformationUseCase: ChartInformationUseCase {
                 ),
                 ChartInformationComponents(
                     type: .buy,
-                    amount: buyAmount,
+                    amount: purchaseAmount,
                     result: (goalResult, nil)
                 ),
                 ChartInformationComponents(
                     type: .win,
-                    amount: winAmount,
+                    amount: winningAmount,
                     result: (winResult, Int(percent))
                 )
             ]
 
-            promise(.success(chartInformationComponents))
+            return chartInformationComponents
         }
         .eraseToAnyPublisher()
     }
