@@ -17,8 +17,8 @@ final class DateCell: UICollectionViewCell {
     }
 
     // MARK: Properties - View
-    private let numberLabel: LottoLabel = {
-        let label = LottoLabel(text: "", font: .gmarketSans(size: .subheadLine, weight: .bold))
+    private let numberLabel: UILabel = {
+        let label = GmarketSansLabel(size: .subheadLine, weight: .bold)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         label.clipsToBounds = true

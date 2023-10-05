@@ -61,7 +61,7 @@ final class CalendarHeaderView: UIView {
         
         let days = ["일", "월", "화", "수", "목", "금", "토"]
         days.forEach { day in
-            let dayLabel = LottoLabel(text: day, font: .gmarketSans(size: .subheadLine, weight: .medium))
+            let dayLabel = GmarketSansLabel(text: day, size: .subheadLine, weight: .medium)
             dayLabel.textColor = .designSystem(.gray63626B)
             dayLabel.textAlignment = .center
             self.weekdayStackView.addArrangedSubview(dayLabel)
