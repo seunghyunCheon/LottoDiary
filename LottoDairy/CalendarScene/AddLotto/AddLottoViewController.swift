@@ -22,9 +22,19 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
         let segmentedControl = UISegmentedControl(items: ["로또", "스피또"])
         segmentedControl.selectedSegmentIndex = 0
         
-        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.designSystem(.whiteEAE9EE)!, NSAttributedString.Key.font: UIFont.gmarketSans(size: .body, weight: .bold)], for: .selected)
+        segmentedControl.setTitleTextAttributes(
+            [
+                NSAttributedString.Key.foregroundColor: UIColor.designSystem(.whiteEAE9EE)!,
+                NSAttributedString.Key.font: UIFont.gmarketSans(size: .body, weight: .bold)
+            ], for: .selected
+        )
         
-         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.designSystem(.grayA09FA7)!, NSAttributedString.Key.font: UIFont.gmarketSans(size: .body, weight: .bold)], for: .normal)
+        segmentedControl.setTitleTextAttributes(
+            [
+                NSAttributedString.Key.foregroundColor: UIColor.designSystem(.grayA09FA7)!,
+                NSAttributedString.Key.font: UIFont.gmarketSans(size: .body, weight: .bold)
+            ], for: .normal
+        )
         
         segmentedControl.selectedSegmentTintColor = .designSystem(.gray4D4D59)
         segmentedControl.backgroundColor = .designSystem(.gray2B2C35)
