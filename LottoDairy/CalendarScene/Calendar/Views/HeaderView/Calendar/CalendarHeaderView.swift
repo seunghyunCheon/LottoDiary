@@ -28,16 +28,6 @@ final class CalendarHeaderView: UIView {
         return scopeButton
     }()
     
-    var weekdayStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        stackView.alignment = .center
-        
-        return stackView
-    }()
-    
     private var scopeType: ScopeType = .month
     
     var delegate: CalendarHeaderViewDelegate?
@@ -57,15 +47,6 @@ final class CalendarHeaderView: UIView {
         scopeButton.delegate = self
         self.addSubview(self.yearAndMonthView)
         self.addSubview(self.scopeButton)
-        self.addSubview(self.weekdayStackView)
-        
-        let days = ["일", "월", "화", "수", "목", "금", "토"]
-        days.forEach { day in
-            let dayLabel = GmarketSansLabel(text: day, size: .subheadLine, weight: .medium)
-            dayLabel.textColor = .designSystem(.gray63626B)
-            dayLabel.textAlignment = .center
-            self.weekdayStackView.addArrangedSubview(dayLabel)
-        }
     }
     
     override func layoutSubviews() {
@@ -77,11 +58,6 @@ final class CalendarHeaderView: UIView {
             self.scopeButton.topAnchor.constraint(equalTo: self.topAnchor),
             self.scopeButton.widthAnchor.constraint(equalToConstant: Constant.buttonWidth),
             self.scopeButton.heightAnchor.constraint(equalToConstant: Constant.buttonHeight),
-            
-            self.weekdayStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            self.weekdayStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            self.weekdayStackView.topAnchor.constraint(equalTo: self.yearAndMonthView.bottomAnchor, constant: Constant.weekdayBottom),
-            self.weekdayStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
         
     }
@@ -100,6 +76,5 @@ extension CalendarHeaderView {
         static let buttonWidth: CGFloat = 90
         static let buttonHeight: CGFloat = 30
         static let yearAndMonthLeading: CGFloat = 15
-        static let weekdayBottom: CGFloat = 30
     }
 }

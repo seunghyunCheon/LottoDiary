@@ -347,6 +347,7 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
 }
 
 fileprivate extension UISegmentedControl {
+    
     var segmentPublisher: AnyPublisher<LottoType, Never> {
         self.publisher(for: .valueChanged)
             .map {
@@ -357,6 +358,7 @@ fileprivate extension UISegmentedControl {
 }
 
 extension AddLottoViewController {
+    
     private enum StringLiteral {
         static let errorTitle = "오류"
         static let errorMessage = "정보를 저장하지 못했습니다"

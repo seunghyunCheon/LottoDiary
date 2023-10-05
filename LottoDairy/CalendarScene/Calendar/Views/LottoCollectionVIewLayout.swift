@@ -42,6 +42,7 @@ struct LottoCollectionViewLayout {
                 elementKind: AddLottoFooterView.elementKind,
                 alignment: .bottom
             )
+            
             sectionFooter.contentInsets = NSDirectionalEdgeInsets(
                 top: 15,
                 leading: 0,

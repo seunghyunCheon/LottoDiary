@@ -31,6 +31,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     }()
     
     private var calendarHeaderView = CalendarHeaderView()
+    private let weekView = WeekView()
     
     private lazy var lottoCollectionView: UICollectionView = {
         let layout = LottoCollectionViewLayout().createLayout()
@@ -57,7 +58,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     
     var onAddLotto: ((Date) -> Void)?
     
-    private var dataSource: UICollectionViewDiffableDataSource<Section, [DayComponent]>?
+    private var dataSource: UICollectionViewDiffableDataSource<Section, [DayComponent]>!
 
     private var lottoDataSource: UICollectionViewDiffableDataSource<Int, Lotto>!
     
@@ -84,8 +85,9 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         super.viewDidLoad()
         
         setupRootView()
-        setupScrollView()
         setupCalendarHeaderView()
+        setupScrollView()
+        setupWeekView()
         setupCalendarView()
         setupLottoCollectionView()
         configureCalendarCollectionViewDataSource()
@@ -110,6 +112,21 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         self.view.backgroundColor = .designSystem(.backgroundBlack)
     }
     
+    private func setupCalendarHeaderView() {
+        calendarHeaderView.delegate = self
+        calendarHeaderView.translatesAutoresizingMaskIntoConstraints = false
+
+        self.view.addSubview(self.calendarHeaderView)
+        
+        let safe = view.safeAreaLayoutGuide
+        NSLayoutConstraint.activate([
+            calendarHeaderView.leadingAnchor.constraint(equalTo: safe.leadingAnchor, constant: Constant.calendarHeaderLeading),
+            calendarHeaderView.trailingAnchor.constraint(equalTo: safe.trailingAnchor, constant: Constant.calendarHeaderTrailing),
+            calendarHeaderView.topAnchor.constraint(equalTo: safe.topAnchor),
+            calendarHeaderView.heightAnchor.constraint(equalToConstant: Constant.calendarHeaderHeight),
+        ])
+    }
+    
     private func setupScrollView() {
         self.view.addSubview(self.scrollView)
         
@@ -118,7 +135,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         NSLayoutConstraint.activate([
             self.scrollView.leadingAnchor.constraint(equalTo: safe.leadingAnchor),
             self.scrollView.trailingAnchor.constraint(equalTo: safe.trailingAnchor),
-            self.scrollView.topAnchor.constraint(equalTo: safe.topAnchor),
+            self.scrollView.topAnchor.constraint(equalTo: calendarHeaderView.bottomAnchor),
             self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
         
@@ -134,16 +151,16 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         ])
     }
     
-    private func setupCalendarHeaderView() {
-        calendarHeaderView.delegate = self
-        calendarHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        self.contentView.addSubview(calendarHeaderView)
-
+    private func setupWeekView() {
+        weekView.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.contentView.addSubview(self.weekView)
+        
         NSLayoutConstraint.activate([
-            calendarHeaderView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: Constant.calendarHeaderLeading),
-            calendarHeaderView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: Constant.calendarHeaderTrailing),
-            calendarHeaderView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
-            calendarHeaderView.heightAnchor.constraint(equalToConstant: Constant.calendarHeaderHeight),
+            weekView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
+            weekView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: Device.Constraint.horiziontal),
+            weekView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -Device.Constraint.horiziontal),
+            weekView.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
 
@@ -152,11 +169,10 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         
         calendarHeightConstraint = calendarCollectionView.heightAnchor.constraint(equalToConstant: Constant.monthCalendarHeight)
         
-        let safe = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            calendarCollectionView.leadingAnchor.constraint(equalTo: safe.leadingAnchor),
-            calendarCollectionView.trailingAnchor.constraint(equalTo: safe.trailingAnchor),
-            calendarCollectionView.topAnchor.constraint(equalTo: self.calendarHeaderView.bottomAnchor),
+            calendarCollectionView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
+            calendarCollectionView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
+            calendarCollectionView.topAnchor.constraint(equalTo: self.weekView.bottomAnchor),
             calendarHeightConstraint
         ])
     }
@@ -426,7 +442,7 @@ extension CalendarViewController {
     private enum Constant {
         static let calendarHeaderLeading: CGFloat = 15
         static let calendarHeaderTrailing: CGFloat = -15
-        static let calendarHeaderHeight: CGFloat = 100
+        static let calendarHeaderHeight: CGFloat = 60
         static let monthCalendarHeight: CGFloat = 250
         static let weekCalendarHeight: CGFloat = 50
         static let lottoCellHeight: CGFloat = 105
