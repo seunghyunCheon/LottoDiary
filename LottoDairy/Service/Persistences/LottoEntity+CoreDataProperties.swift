@@ -19,6 +19,7 @@ extension LottoEntity {
     @NSManaged public var winningAmount: Int
     @NSManaged public var lottoNumbers: [[Int]]
     @NSManaged public var isResultAnnounced: Bool
+    @NSManaged public var roundNumber: Int
     
     @nonobjc public class func fetchRequest() -> NSFetchRequest<LottoEntity> {
         return NSFetchRequest<LottoEntity>(entityName: "LottoEntity")
