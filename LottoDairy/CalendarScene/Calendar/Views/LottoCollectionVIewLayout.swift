@@ -18,7 +18,7 @@ struct LottoCollectionViewLayout {
             
             let groupSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
-                heightDimension: .absolute(90)
+                heightDimension: .absolute(Device.Size.height / 9)
             )
             
             let group = NSCollectionLayoutGroup.vertical(
