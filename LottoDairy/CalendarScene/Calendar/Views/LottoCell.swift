@@ -9,8 +9,6 @@ import UIKit
 
 final class LottoCell: UICollectionViewCell {
     
-    static let identifer = "LottoCell"
-    
     var lottoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -31,7 +29,7 @@ final class LottoCell: UICollectionViewCell {
     }()
     
     var purchaseAmountLabel: UILabel = {
-        let label = GmarketSansLabel(text: "30,000원", size: .subheadLine, weight: .bold)
+        let label = GmarketSansLabel(size: .subheadLine, weight: .bold)
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         label.textAlignment = .right
         return label
@@ -52,7 +50,7 @@ final class LottoCell: UICollectionViewCell {
     }()
     
     var winningAmountLabel: UILabel = {
-        let label = GmarketSansLabel(text: "3,000원", size: .subheadLine, weight: .bold)
+        let label = GmarketSansLabel(size: .subheadLine, weight: .bold)
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         label.textAlignment = .right
         return label

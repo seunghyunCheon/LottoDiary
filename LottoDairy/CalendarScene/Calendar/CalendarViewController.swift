@@ -162,7 +162,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     }
     
     private func setupLottoCollectionView() {
-        self.lottoCollectionView.register(LottoCell.self, forCellWithReuseIdentifier: LottoCell.identifer)
+        self.lottoCollectionView.register(LottoCell.self, forCellWithReuseIdentifier: LottoCell.reuseIdentifier)
         self.contentView.addSubview(lottoCollectionView)
         
         lottosHeightConstraint = self.lottoCollectionView.heightAnchor.constraint(equalToConstant: 0)

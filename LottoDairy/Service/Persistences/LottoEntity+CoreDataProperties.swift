@@ -39,6 +39,7 @@ extension LottoEntity {
 
 extension LottoEntity : Identifiable {
     func convertToDomain() -> Lotto {
+        
         return Lotto(
             id: self.id,
             date: self.date,
@@ -49,5 +50,4 @@ extension LottoEntity : Identifiable {
             isResultAnnounced: self.isResultAnnounced
         )
     }
-    
 }
