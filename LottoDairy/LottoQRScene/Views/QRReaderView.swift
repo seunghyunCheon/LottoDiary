@@ -11,7 +11,7 @@ import AVFoundation
 enum QRStatus {
     case success(_ code: String?)
     case fail
-    case stop(_ isButtonTap: Bool)
+    case stop
 }
 
 enum QRReadingError: Error {
@@ -237,7 +237,7 @@ extension QRReaderView: AVCaptureMetadataOutputObjectsDelegate {
 
             self.delegate?.lottoQRDidComplete(.success(stringValue))
             self.session?.stopRunning()
-            self.delegate?.lottoQRDidComplete(.stop(true))
+            self.delegate?.lottoQRDidComplete(.stop)
         }
     }
 
