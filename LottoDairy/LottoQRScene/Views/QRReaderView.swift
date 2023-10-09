@@ -48,7 +48,7 @@ final class QRReaderView: UIView {
 
         start()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -155,49 +155,29 @@ final class QRReaderView: UIView {
         let bottomRightPoint = CGPoint(x: rectOfInterest.maxX + halfOfCornerLineWidth, y: rectOfInterest.maxY + halfOfCornerLineWidth)
         let bottomLeftPoint = CGPoint(x: rectOfInterest.minX - halfOfCornerLineWidth, y: rectOfInterest.maxY + halfOfCornerLineWidth)
 
-        let topLeftCorner = UIBezierPath()
-        topLeftCorner.move(to: topLeftPoint.offsetBy(dx: 0, dy: Constant.cornerLength))
-        topLeftCorner.addArc(
+        let topLeftCorner = createCorner(
+            movePoint: topLeftPoint.offsetBy(dx: 0, dy: Constant.cornerLength),
             withCenter: topLeftPoint,
-            radius: 0,
-            startAngle: 0,
-            endAngle: 0,
-            clockwise: true
+            addLinePoint: topLeftPoint.offsetBy(dx: Constant.cornerLength, dy: 0)
         )
-        topLeftCorner.addLine(to: topLeftPoint.offsetBy(dx: Constant.cornerLength, dy: 0))
 
-        let topRightCorner = UIBezierPath()
-        topRightCorner.move(to: topRightPoint.offsetBy(dx: -Constant.cornerLength, dy: 0))
-        topRightCorner.addArc(
+        let topRightCorner = createCorner(
+            movePoint: topRightPoint.offsetBy(dx: -Constant.cornerLength, dy: 0),
             withCenter: topRightPoint,
-            radius: 0,
-            startAngle: 0,
-            endAngle: 0,
-            clockwise: true
+            addLinePoint: topRightPoint.offsetBy(dx: 0, dy: Constant.cornerLength)
         )
-        topRightCorner.addLine(to: topRightPoint.offsetBy(dx: 0, dy: Constant.cornerLength))
 
-        let bottomRightCorner = UIBezierPath()
-        bottomRightCorner.move(to: bottomRightPoint.offsetBy(dx: 0, dy: -Constant.cornerLength))
-        bottomRightCorner.addArc(
+        let bottomRightCorner = createCorner(
+            movePoint: bottomRightPoint.offsetBy(dx: 0, dy: -Constant.cornerLength),
             withCenter: bottomRightPoint,
-            radius: 0,
-            startAngle: 0,
-            endAngle: 0,
-            clockwise: true
+            addLinePoint: bottomRightPoint.offsetBy(dx: -Constant.cornerLength, dy: 0)
         )
-        bottomRightCorner.addLine(to: bottomRightPoint.offsetBy(dx: -Constant.cornerLength, dy: 0))
 
-        let bottomLeftCorner = UIBezierPath()
-        bottomLeftCorner.move(to: bottomLeftPoint.offsetBy(dx: Constant.cornerLength, dy: 0))
-        bottomLeftCorner.addArc(
+        let bottomLeftCorner = createCorner(
+            movePoint: bottomLeftPoint.offsetBy(dx: Constant.cornerLength, dy: 0),
             withCenter: bottomLeftPoint,
-            radius: 0,
-            startAngle: 0,
-            endAngle: 0,
-            clockwise: true
+            addLinePoint: bottomLeftPoint.offsetBy(dx: 0, dy: -Constant.cornerLength)
         )
-        bottomLeftCorner.addLine(to: bottomLeftPoint.offsetBy(dx: 0, dy: -Constant.cornerLength))
 
         let mutablePath = CGMutablePath()
         mutablePath.addPath(topLeftCorner.cgPath)
@@ -215,12 +195,27 @@ final class QRReaderView: UIView {
         let path = CGMutablePath()
         path.addRect(bounds)
         path.addRect(rectOfInterest)
-        
+
         layer.path = path
         layer.fillColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.6).cgColor
         layer.fillRule = .evenOdd
 
         return layer
+    }
+
+    private func createCorner(movePoint: CGPoint, withCenter: CGPoint, addLinePoint: CGPoint) -> UIBezierPath {
+        let path = UIBezierPath()
+        path.move(to: movePoint)
+        path.addArc(
+            withCenter: withCenter,
+            radius: 0,
+            startAngle: 0,
+            endAngle: 0,
+            clockwise: true
+        )
+        path.addLine(to: addLinePoint)
+
+        return path
     }
 }
 
