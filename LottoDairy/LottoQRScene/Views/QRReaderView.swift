@@ -14,8 +14,16 @@ enum QRStatus {
     case stop(_ isButtonTap: Bool)
 }
 
+enum QRReadingError: Error {
+    case failedToProvideCaptureDeviceInput
+    case failedToAddCaptureDeviceInput
+    case failedToAddCaptureMetadataOutput
+    case failedToCaptureSession
+}
+
 protocol ReaderViewDelegate: AnyObject {
     func lottoQRDidComplete(_ status: QRStatus)
+    func lottoQRDidFailToSetup(_ error: QRReadingError)
 }
 
 final class QRReaderView: UIView {
@@ -68,21 +76,24 @@ final class QRReaderView: UIView {
 
         do {
             input = try AVCaptureDeviceInput(device: captureDevice)
-        } catch let error {
-            print(error.localizedDescription)
+        } catch {
+            delegate?.lottoQRDidFailToSetup(QRReadingError.failedToProvideCaptureDeviceInput)
             return
         }
 
         if session.canAddInput(input) {
             session.addInput(input)
         } else {
-            print("session input 오류")
+            delegate?.lottoQRDidFailToSetup(QRReadingError.failedToAddCaptureDeviceInput)
             return
         }
     }
 
     private func configureSessionOutput() {
-        guard let session = self.session else { return }
+        guard let session = self.session else {
+            delegate?.lottoQRDidFailToSetup(QRReadingError.failedToCaptureSession)
+            return
+        }
         let output = AVCaptureMetadataOutput()
 
         if session.canAddOutput(output) {
@@ -94,7 +105,7 @@ final class QRReaderView: UIView {
             let previewLayer = createPreviewLayer()
             output.rectOfInterest = previewLayer
         } else {
-            print("session output 오류")
+            delegate?.lottoQRDidFailToSetup(QRReadingError.failedToAddCaptureMetadataOutput)
             return
         }
     }
@@ -220,13 +231,10 @@ extension QRReaderView: AVCaptureMetadataOutputObjectsDelegate {
         didOutput metadataObjects: [AVMetadataObject],
         from connection: AVCaptureConnection
     ) {
-
-        print("메타 데이터 output 받았습니다. delegate 실행 ~")
-
         if let metadataObject = metadataObjects.first {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject,
                   let stringValue = readableObject.stringValue else {
-                print("delegate 오류!!!!")
+                self.delegate?.lottoQRDidComplete(.fail)
                 return
             }
 
@@ -250,7 +258,6 @@ extension QRReaderView {
 
 internal extension CGPoint {
 
-    // MARK: - CGPoint+offsetBy
     func offsetBy(dx: CGFloat, dy: CGFloat) -> CGPoint {
         var point = self
         point.x += dx
