@@ -16,7 +16,11 @@ final class LottoQRViewController: UIViewController, LottoQRFlowProtocol {
         return qrReaderView
     }()
 
-    init() {
+    private let viewModel: LottoQRViewModel
+
+    init(viewModel: LottoQRViewModel) {
+        self.viewModel = viewModel
+        
         super.init(nibName: nil, bundle: nil)
     }
     

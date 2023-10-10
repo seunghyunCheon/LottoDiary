@@ -83,6 +83,7 @@
 		62FD3DCC2AB41F9400C302F0 /* AddLottoViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62FD3DCB2AB41F9400C302F0 /* AddLottoViewProtocol.swift */; };
 		62FD3DD02AB4208700C302F0 /* AddLottoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62FD3DCF2AB4208700C302F0 /* AddLottoViewController.swift */; };
 		62FD3DD22AB4291300C302F0 /* HalfModalPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62FD3DD12AB4291300C302F0 /* HalfModalPresentationController.swift */; };
+		8001009B2AD4E41F000B40DD /* LotttoQRViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8001009A2AD4E41F000B40DD /* LotttoQRViewModel.swift */; };
 		801766FE2AAEF8FF0046E537 /* ChartUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801766FD2AAEF8FF0046E537 /* ChartUseCase.swift */; };
 		801767002AAEF90F0046E537 /* DefaultChartUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801766FF2AAEF90F0046E537 /* DefaultChartUseCase.swift */; };
 		801767032AB030E70046E537 /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = 801767022AB030E70046E537 /* DGCharts */; };
@@ -216,6 +217,7 @@
 		62FD3DCB2AB41F9400C302F0 /* AddLottoViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLottoViewProtocol.swift; sourceTree = "<group>"; };
 		62FD3DCF2AB4208700C302F0 /* AddLottoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLottoViewController.swift; sourceTree = "<group>"; };
 		62FD3DD12AB4291300C302F0 /* HalfModalPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalfModalPresentationController.swift; sourceTree = "<group>"; };
+		8001009A2AD4E41F000B40DD /* LotttoQRViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LotttoQRViewModel.swift; sourceTree = "<group>"; };
 		801766FD2AAEF8FF0046E537 /* ChartUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartUseCase.swift; sourceTree = "<group>"; };
 		801766FF2AAEF90F0046E537 /* DefaultChartUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultChartUseCase.swift; sourceTree = "<group>"; };
 		801767062AB036670046E537 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
@@ -693,6 +695,7 @@
 			children = (
 				8086095F2AC9F88500BE2735 /* Views */,
 				805FA70C2A6D856D00089070 /* LottoQRCoordinator.swift */,
+				8001009A2AD4E41F000B40DD /* LotttoQRViewModel.swift */,
 				805FA7062A6D834A00089070 /* LottoQRViewController.swift */,
 				805FA70A2A6D853400089070 /* LottoQRFlowProtocol.swift */,
 			);
@@ -991,6 +994,7 @@
 				625141232AB597B500E9E5C3 /* CoreDataLottoEntityPersistenceService.swift in Sources */,
 				629C1F5D2A4ABD0F00540FA4 /* LottoDiaryModel.xcdatamodeld in Sources */,
 				805FA70B2A6D853400089070 /* LottoQRFlowProtocol.swift in Sources */,
+				8001009B2AD4E41F000B40DD /* LotttoQRViewModel.swift in Sources */,
 				629C1F5D2A4ABD0F00540FA4 /* LottoDiaryModel.xcdatamodeld in Sources */,
 				80F90CDB2A8D1DD3007E1D23 /* CalendarFlowProtocol.swift in Sources */,
 				625141292AB5AA1F00E9E5C3 /* DefaultLottoRepository.swift in Sources */,
