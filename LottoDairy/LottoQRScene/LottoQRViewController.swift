@@ -10,7 +10,8 @@ import UIKit
 final class LottoQRViewController: UIViewController, LottoQRFlowProtocol {
 
     private lazy var qrReaderView: UIView = {
-        let qrReaderView = QRReaderView(frame: view.bounds)
+        let qrReaderView = QRReaderView(frame: .zero)
+        qrReaderView.delegate = self
         qrReaderView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         return qrReaderView
     }()
@@ -26,6 +27,21 @@ final class LottoQRViewController: UIViewController, LottoQRFlowProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        configureView()
+    }
+
+    private func configureView() {
         view.addSubview(qrReaderView)
+    }
+}
+
+extension LottoQRViewController: ReaderViewDelegate {
+
+    func lottoQRDidComplete(_ status: QRStatus) {
+        print(status)
+    }
+    
+    func lottoQRDidFailToSetup(_ error: QRReadingError) {
+        print(error)
     }
 }
