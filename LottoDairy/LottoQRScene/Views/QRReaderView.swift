@@ -45,12 +45,14 @@ final class QRReaderView: UIView {
         configureSessionOutput()
 
         configureRectOfInterest()
-
-        start()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func start() {
+        startSession()
     }
 
     private func setupRectOfInterest() {
@@ -140,7 +142,7 @@ final class QRReaderView: UIView {
         self.previewLayer?.addSublayer(shapeLayer)
     }
 
-    private func start() {
+    private func startSession() {
         DispatchQueue.global().async {
             self.session?.startRunning()
         }

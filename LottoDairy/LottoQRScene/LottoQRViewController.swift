@@ -6,11 +6,12 @@
 //
 
 import UIKit
+import AVFoundation
 
 final class LottoQRViewController: UIViewController, LottoQRFlowProtocol {
 
-    private lazy var qrReaderView: UIView = {
-        let qrReaderView = QRReaderView(frame: .zero)
+    private lazy var qrReaderView: QRReaderView = {
+        let qrReaderView = QRReaderView(frame: view.bounds)
         qrReaderView.delegate = self
         qrReaderView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         return qrReaderView
@@ -32,10 +33,37 @@ final class LottoQRViewController: UIViewController, LottoQRFlowProtocol {
         super.viewDidLoad()
 
         configureView()
+        requestCameraPermission()
     }
 
     private func configureView() {
         view.addSubview(qrReaderView)
+    }
+
+    private func requestCameraPermission() {
+        let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
+
+        switch cameraAuthorizationStatus {
+        case .notDetermined:
+            self.requestCameraAccess()
+        case .restricted, .denied:
+            print("no2")
+        case .authorized:
+            qrReaderView.start()
+        @unknown default:
+            break
+        }
+    }
+
+    private func requestCameraAccess() {
+        AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
+            if granted {
+                print("권한 설정 완료")
+                self?.qrReaderView.start()
+            } else {
+                print("권한 설정 완료 X")
+            }
+        }
     }
 }
 
