@@ -45,14 +45,12 @@ final class QRReaderView: UIView {
         configureSessionOutput()
 
         configureRectOfInterest()
+
+        startSession()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    func start() {
-        startSession()
     }
 
     private func setupRectOfInterest() {
