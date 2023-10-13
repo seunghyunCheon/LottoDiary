@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 final class TabBarController: UITabBarController, TabBarFlowProtocol {
     
@@ -18,7 +19,9 @@ final class TabBarController: UITabBarController, TabBarFlowProtocol {
     var onCalendarFlowSelect: ((UINavigationController) -> ())?
 
     var onChartFlowSelect: ((UINavigationController) -> ())?
-    
+
+    var onPermissionDeniedAlert: ((UINavigationController, UIAlertController) -> Void)?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -82,9 +85,78 @@ extension TabBarController: UITabBarControllerDelegate {
 extension TabBarController: LottoQRButtonDelegate {
 
     func lottoQRButtonDidTap() {
-        guard let controller = self.viewControllers?[TabBarComponents.lottoQR.rawValue] as? UINavigationController else { return }
+        self.requestCameraPermission()
+    }
+
+    private func requestCameraPermission() {
+        let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
+
+        switch cameraAuthorizationStatus {
+        case .notDetermined:
+            self.requestCameraAccess()
+        case .restricted, .denied:
+            self.showCameraPermissionDeniedAlert()
+        case .authorized:
+            self.selectedLottoQR()
+        @unknown default:
+            break
+        }
+    }
+
+    private func requestCameraAccess() {
+        AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
+            if granted {
+                self?.selectedLottoQR()
+            } else {
+                self?.showCameraPermissionDeniedAlert()
+            }
+        }
+    }
+
+    private func showCameraPermissionDeniedAlert() {
+        let alert = UIAlertController(
+            title: StringLiteral.CameraAlert.title,
+            message: StringLiteral.CameraAlert.message,
+            preferredStyle: .alert
+        )
+
+        let okButton = UIAlertAction(title: StringLiteral.CameraAlert.okTitle, style: .default)
+
+        let settingButton = UIAlertAction(
+            title: StringLiteral.CameraAlert.settingTitle,
+            style: .default) { action in
+            if let settingURL = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(settingURL)
+            }
+        }
+
+        alert.addAction(okButton)
+        alert.addAction(settingButton)
+
+        guard let controller = self.selectedViewController as? UINavigationController else { return }
+        controller.present(alert, animated: true)
+
+//        onPermissionDeniedAlert?(controller, alert)
+    }
+
+    private func selectedLottoQR() {
+        guard let controller = self.viewControllers?[TabBarComponents.lottoQR.rawValue] as? 
+                UINavigationController else { return }
         onLottoQRFlowSelect?(controller)
 
         self.selectedIndex = TabBarComponents.lottoQR.rawValue
+    }
+}
+
+extension TabBarController {
+
+    private enum StringLiteral {
+
+        enum CameraAlert {
+            static let title = "카메라 권한이 거부되었어요."
+            static let message = "설정>로또다이어리에서 카메라 권한을 허용해주세요."
+            static let okTitle = "닫기"
+            static let settingTitle = "설정으로 이동하기"
+        }
     }
 }

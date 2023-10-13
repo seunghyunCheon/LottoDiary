@@ -20,11 +20,18 @@ final class TabBarCoordinator: BaseCoordinator {
     override func start() {
         tabBarFlow.onViewWillAppear = runHomeFlow()
         tabBarFlow.onHomeFlowSelect = runHomeFlow()
-        tabBarFlow.onLottoQRFlowSelect = runLottoQRFlow()
         tabBarFlow.onCalendarFlowSelect = runCalendarFlow()
+        tabBarFlow.onLottoQRFlowSelect = runLottoQRFlow()
         tabBarFlow.onChartFlowSelect = runChartFlow()
+        tabBarFlow.onPermissionDeniedAlert = runPermissionDeniedAlert()
     }
-    
+
+    private func runPermissionDeniedAlert() -> ((UINavigationController, UIAlertController) -> ()) {
+        return { (navController, alertController) in
+            navController.present(alertController, animated: true)
+        }
+    }
+
     private func runHomeFlow() -> ((UINavigationController) -> ()) {
         return { [unowned self] navController in
             if navController.viewControllers.isEmpty == true {
