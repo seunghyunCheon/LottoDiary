@@ -9,8 +9,6 @@ import UIKit
 
 final class LottoCell: UICollectionViewCell {
     
-    static let identifer = "LottoCell"
-    
     var lottoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -31,9 +29,10 @@ final class LottoCell: UICollectionViewCell {
     }()
     
     var purchaseAmountLabel: UILabel = {
-        let label = GmarketSansLabel(text: "30,000원", size: .subheadLine, weight: .bold)
+        let label = GmarketSansLabel(size: .subheadLine, weight: .bold)
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         label.textAlignment = .right
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -52,9 +51,10 @@ final class LottoCell: UICollectionViewCell {
     }()
     
     var winningAmountLabel: UILabel = {
-        let label = GmarketSansLabel(text: "3,000원", size: .subheadLine, weight: .bold)
+        let label = GmarketSansLabel(size: .subheadLine, weight: .bold)
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         label.textAlignment = .right
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -99,14 +99,14 @@ final class LottoCell: UICollectionViewCell {
         self.purchaseStackView.addArrangedSubview(purchaseLabel)
         self.purchaseStackView.addArrangedSubview(purchaseAmountLabel)
         NSLayoutConstraint.activate([
-            purchaseStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.55),
+            purchaseStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5),
         ])
         
         self.addSubview(self.winningStackView)
         self.winningStackView.addArrangedSubview(winningLabel)
         self.winningStackView.addArrangedSubview(winningAmountLabel)
         NSLayoutConstraint.activate([
-            winningStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.55),
+            winningStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5),
         ])
         
         let informationStackView = UIStackView()
@@ -128,8 +128,8 @@ final class LottoCell: UICollectionViewCell {
     func configure(with lotto: Lotto) {
         lottoImageView.image = UIImage(named: lotto.type.rawValue)
         titleLabel.text = lotto.type.rawValue
-        purchaseAmountLabel.text = String(lotto.purchaseAmount.convertToDecimal()) + "원"
-        winningAmountLabel.text = String(lotto.winningAmount.convertToDecimal()) + "원"
+        purchaseAmountLabel.text = String(lotto.purchaseAmount.convertToDecimal()) + " 원"
+        winningAmountLabel.text = String(lotto.winningAmount.convertToDecimal()) + " 원"
         switch lotto.type {
         case .lotto:
             self.backgroundColor = .designSystem(.mainOrange)

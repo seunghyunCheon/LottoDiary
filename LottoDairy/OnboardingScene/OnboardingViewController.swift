@@ -16,23 +16,9 @@ final class OnboardingViewController: UIViewController, OnboardingFlowProtocol {
         static let goalSettingText = "목표 입력하기"
     }
     
-    private let titleLabel: LottoLabel = {
-        let label = LottoLabel(
-            text: Constant.title,
-            font: .gmarketSans(size: .title2, weight: .bold)
-        )
-
-        return label
-    }()
+    private let titleLabel = GmarketSansLabel(text: Constant.title, size: .title2, weight: .bold)
     
-    private let subTitleLabel: LottoLabel = {
-        let label = LottoLabel(
-            text: Constant.subtitle,
-            font: .gmarketSans(size: .body, weight: .medium)
-        )
-        
-        return label
-    }()
+    private let subTitleLabel = GmarketSansLabel(text: Constant.subtitle, size: .body, weight: .medium)
     
     private let goalSettingButton: UIButton = {
         let button = UIButton()
