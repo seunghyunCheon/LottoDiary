@@ -134,9 +134,7 @@ extension TabBarController: LottoQRButtonDelegate {
         alert.addAction(settingButton)
 
         guard let controller = self.selectedViewController as? UINavigationController else { return }
-        controller.present(alert, animated: true)
-
-//        onPermissionDeniedAlert?(controller, alert)
+        onPermissionDeniedAlert?(controller, alert)
     }
 
     private func selectedLottoQR() {
