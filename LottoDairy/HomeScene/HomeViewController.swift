@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class HomeViewController: UIViewController, HomeFlowProtocol {
 
@@ -14,8 +15,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
     private let contentView = UIStackView()
 
     private let nickNameLabel: UILabel = {
-        // 추후 유저 닉네임 연결
-        let label = GmarketSansLabel(text: "Brody님", size: .title2, weight: .bold)
+        let label = GmarketSansLabel(size: .title2, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
 
         return label
@@ -67,9 +67,13 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         return view
     }()
 
+    var onSetting: (() -> Void)?
+
     private let viewModel: HomeViewModel
 
-    var onSetting: (() -> Void)?
+    private var viewWillAppearPublisher = PassthroughSubject<Void, Never>()
+
+    private var cancellables = Set<AnyCancellable>()
 
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
@@ -89,6 +93,8 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         setupScrollView()
         setupContentView()
         configureContentView()
+
+        self.bindViewModel()
     }
 
     // MARK: Functions - Private
@@ -259,6 +265,18 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         contentView.isLayoutMarginsRelativeArrangement = true
         contentView.layoutMargins = UIEdgeInsets(top: .zero, left: horizontalInset, bottom: .zero, right: horizontalInset)
     }
+
+    private func bindViewModel() {
+        let input = HomeViewModel.Input(viewWillAppearEvent: self.viewWillAppearPublisher)
+
+        let output = viewModel.transform(from: input)
+
+        output.nickNameTextField
+            .sink { name in
+                self.nickNameLabel.text = name
+            }
+            .store(in: &cancellables)
+    }
 }
 
 // MARK: Extension
@@ -267,7 +285,7 @@ extension HomeViewController {
     private enum SystemName: String {
         case setting = "gearshape"
         case photo = "photo"
-        
+
         var image: UIImage? {
             return UIImage(systemName: self.rawValue)
         }
