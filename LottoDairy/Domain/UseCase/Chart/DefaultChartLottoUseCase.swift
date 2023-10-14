@@ -29,6 +29,13 @@ final class DefaultChartLottoUseCase: ChartLottoUseCase {
         self.lottoRepository = lottoRepository
     }
 
+    func fetchToday() -> [Int] {
+        let year = self.calendar.component(.year, from: .today)
+        let month = self.calendar.component(.month, from: .today)
+
+        return [year, month]
+    }
+
     func fetchLottoAmounts(year: Int, month: Int) -> AnyPublisher<(purchase: Int?, winning: Int?), Error> {
         return fetchLottoEntries(year: year, month: month)
             .flatMap { lottos -> AnyPublisher<(purchase: Int?, winning: Int?), Error> in

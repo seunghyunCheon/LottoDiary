@@ -9,6 +9,11 @@ import UIKit
 
 final class DoubleLabelView: UIStackView {
 
+    enum LabelType {
+        case percent
+        case riceSoup
+    }
+
     private var firstLabel = UILabel()
     private var secondLabel = UILabel()
 
@@ -16,15 +21,17 @@ final class DoubleLabelView: UIStackView {
         super.init(frame: frame)
     }
 
-    convenience init(month: String, percent: String) {
+    convenience init(type: LabelType) {
         self.init(frame: .zero)
 
-        firstLabel.attributedText(first: "\(month)월", second: "동안", secondFontSize: .callout)
-        secondLabel.attributedText(first: "목표치의 \(percent)%", second: "를 사용하셨습니다.", secondFontSize: .callout)
-
-        firstLabel.textAlignment = .left
-        secondLabel.textAlignment = .left
-        configureVerticalStackView(spacing: 10)
+        switch type {
+        case .percent:
+            firstLabel.textAlignment = .left
+            secondLabel.textAlignment = .left
+            configureVerticalStackView(spacing: 10)
+        case .riceSoup:
+            print("hi")
+        }
     }
 
     convenience init(won: String, riceSoup: String) {
@@ -57,6 +64,15 @@ final class DoubleLabelView: UIStackView {
 
     func updateWonAmount(_ won: Int?) {
         self.secondLabel.text = won?.convertToDecimal()
+    }
+
+    func configureExplanationLabel(month: Int) {
+        firstLabel.attributedText(first: "\(month)월", second: "동안", secondFontSize: .callout)
+    }
+
+
+    func configureExplanationLabel(percent: Int) {
+        secondLabel.attributedText(first: "목표치의 \(percent)%", second: "를 사용하셨습니다.", secondFontSize: .callout)
     }
 
     private func configureVerticalStackView(spacing: CGFloat) {

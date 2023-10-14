@@ -8,6 +8,7 @@
 import Combine
 
 protocol ChartLottoUseCase {
+    func fetchToday() -> [Int]
     func fetchLottoAmounts(year: Int, month: Int) -> AnyPublisher<(purchase: Int?, winning: Int?), Error>
     func calculateNetAmount(year: Int, month: Int) -> AnyPublisher<Int?, Error>
 }

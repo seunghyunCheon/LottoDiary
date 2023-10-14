@@ -19,7 +19,7 @@ final class HomeViewModel {
 
     struct Output {
         let nickNameTextField =  PassthroughSubject<String, Never>()
-        var month = CurrentValueSubject<Int, Never>(0)
+        var month = 0
         var percent = CurrentValueSubject<Int, Never>(0)    // ??
         var goalAmount = CurrentValueSubject<Int?, Never>(nil)
         var buyAmount = CurrentValueSubject<Int, Never>(0)
@@ -28,17 +28,28 @@ final class HomeViewModel {
 
     private var cancellables: Set<AnyCancellable> = []
 
+    private var year: Int = 0
+    private var month: Int = 0
+
     init(
         amountUseCase: ChartLottoUseCase,
         userUseCase: GoalSettingUseCase
     ) {
         self.amountUseCase = amountUseCase
         self.userUseCase = userUseCase
+
+        configureDate()
     }
 
     func transform(from input: Input) -> Output {
         self.configureInput(input)
         return configureOutput(from: input)
+    }
+
+    private func configureDate() {
+        let date = amountUseCase.fetchToday()
+        self.year = date[0]
+        self.month = date[1]
     }
 
     private func configureInput(_ input: Input) {
@@ -50,7 +61,9 @@ final class HomeViewModel {
     }
 
     private func configureOutput(from input: Input) -> Output {
-        let output = Output()
+        var output = Output()
+
+        output.month = self.month
 
         self.userUseCase.nickname
             .sink { name in
@@ -70,8 +83,6 @@ final class HomeViewModel {
     // 현재 월
 
     // 목표 금액 별 구매 금액 퍼센테이지 계산
-
-    // 현재 월에 대한 목표 금액
 
     // 구매, 당첨 금액 계산
 }

@@ -31,8 +31,8 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         return button
     }()
 
-    private let explanationLabel: UIView = {
-        let view = DoubleLabelView(month: "7", percent: "78")
+    private let explanationLabel: DoubleLabelView = {
+        let view = DoubleLabelView(type: .percent)
         view.translatesAutoresizingMaskIntoConstraints = false
 
         return view
@@ -277,6 +277,8 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         let input = HomeViewModel.Input(viewWillAppearEvent: self.viewWillAppearPublisher)
 
         let output = viewModel.transform(from: input)
+
+        self.explanationLabel.configureExplanationLabel(month: output.month)
 
         output.nickNameTextField
             .sink { name in

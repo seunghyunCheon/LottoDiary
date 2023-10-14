@@ -29,10 +29,7 @@ final class DefaultChartInformationUseCase: ChartInformationUseCase {
     }
 
     func makeYearAndMonthOfToday() -> [Int] {
-        let year = self.calendar.component(.year, from: .today)
-        let month = self.calendar.component(.month, from: .today)
-
-        return [year, month]
+        return chartLottoUseCase.fetchToday()
     }
 
     func makeChartInformationComponents(year: Int, month: Int) -> AnyPublisher<[ChartInformationComponents], Error> {
