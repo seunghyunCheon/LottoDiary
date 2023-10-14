@@ -177,8 +177,8 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         return nickNameView
     }
 
-    private func getMoneyHorizontalStackView(type: MoneyInformation, money: String) -> UIStackView {
-        let labelStackView = DoubleLabelView(title: type.title, won: money)
+    private func getMoneyHorizontalStackView(type: AmountType, money: String) -> UIStackView {
+        let labelStackView = DoubleLabelView(title: type.rawValue, won: money)
 
         let imageView: UIImageView = {
             let imageView = UIImageView(image: type.image)
@@ -267,12 +267,7 @@ extension HomeViewController {
     private enum SystemName: String {
         case setting = "gearshape"
         case photo = "photo"
-
-        // 임시 이미지
-        case goal = "sun.max"
-        case buy = "sun.max.fill"
-        case win = "sun.max.trianglebadge.exclamationmark"
-
+        
         var image: UIImage? {
             return UIImage(systemName: self.rawValue)
         }
@@ -285,33 +280,4 @@ extension HomeViewController {
     private enum StringLiteral {
         static let imageTitle = "이 돈이면"
     }
-
-    private enum MoneyInformation {
-        case goal
-        case buy
-        case win
-
-        var image: UIImage? {
-            switch self {
-            case .goal:
-                return SystemName.goal.image
-            case .buy:
-                return SystemName.buy.image
-            case .win:
-                return SystemName.win.image
-            }
-        }
-
-        var title: String {
-            switch self {
-            case .goal:
-                return "목표"
-            case .buy:
-                return "구매 금액"
-            case .win:
-                return "당첨 금액"
-            }
-        }
-    }
-
 }
