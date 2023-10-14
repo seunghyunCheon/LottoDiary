@@ -13,7 +13,7 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
     private var halfModalTransitioningDelegate = HalfModalTransitioningDelegate()
     
     private let titleLabel: UILabel = {
-        let label = LottoLabel(text: "로또 종류", font: .gmarketSans(size: .title2, weight: .bold))
+        let label = GmarketSansLabel(text: "로또 종류", size: .title2, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -22,9 +22,19 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
         let segmentedControl = UISegmentedControl(items: ["로또", "스피또"])
         segmentedControl.selectedSegmentIndex = 0
         
-        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.designSystem(.whiteEAE9EE)!, NSAttributedString.Key.font: UIFont.gmarketSans(size: .body, weight: .bold)], for: .selected)
+        segmentedControl.setTitleTextAttributes(
+            [
+                NSAttributedString.Key.foregroundColor: UIColor.designSystem(.whiteEAE9EE)!,
+                NSAttributedString.Key.font: UIFont.gmarketSans(size: .body, weight: .bold)
+            ], for: .selected
+        )
         
-         segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.designSystem(.grayA09FA7)!, NSAttributedString.Key.font: UIFont.gmarketSans(size: .body, weight: .bold)], for: .normal)
+        segmentedControl.setTitleTextAttributes(
+            [
+                NSAttributedString.Key.foregroundColor: UIColor.designSystem(.grayA09FA7)!,
+                NSAttributedString.Key.font: UIFont.gmarketSans(size: .body, weight: .bold)
+            ], for: .normal
+        )
         
         segmentedControl.selectedSegmentTintColor = .designSystem(.gray4D4D59)
         segmentedControl.backgroundColor = .designSystem(.gray2B2C35)
@@ -33,9 +43,11 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
     }()
     
     private let purchaseAmountLabel: UILabel = {
-        let label = LottoLabel(text: "구입금액", font: .gmarketSans(size: .caption, weight: .medium))
+        let label = GmarketSansLabel(text: "구입금액", size: .caption, weight: .medium)
+        label.textAlignment = .left
         return label
     }()
+        
     
     private let purchaseTextField: LottoDiaryTextField = {
         let textField = LottoDiaryTextField(
@@ -55,17 +67,15 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
     }()
     
     private let purchaseAmountValidationLabel: UILabel = {
-        let label = UILabel()
-        label.text = .none
-        label.font = .gmarketSans(size: .caption, weight: .bold)
+        let label = GmarketSansLabel(size: .caption, weight: .bold)
         label.textColor = .systemRed
         label.translatesAutoresizingMaskIntoConstraints = false
-        
         return label
     }()
     
     private let winningLabel: UILabel = {
-        let label = LottoLabel(text: "당첨금액", font: .gmarketSans(size: .caption, weight: .medium))
+        let label = GmarketSansLabel(text: "당첨금액", size: .caption, weight: .medium)
+        label.textAlignment = .left
         return label
     }()
     
@@ -337,6 +347,7 @@ final class AddLottoViewController: UIViewController, AddLottoViewProtocol {
 }
 
 fileprivate extension UISegmentedControl {
+    
     var segmentPublisher: AnyPublisher<LottoType, Never> {
         self.publisher(for: .valueChanged)
             .map {
@@ -347,6 +358,7 @@ fileprivate extension UISegmentedControl {
 }
 
 extension AddLottoViewController {
+    
     private enum StringLiteral {
         static let errorTitle = "오류"
         static let errorMessage = "정보를 저장하지 못했습니다"

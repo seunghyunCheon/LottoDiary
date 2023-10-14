@@ -18,7 +18,7 @@ final class AddLottoFooterView: UICollectionReusableView {
     }()
     
     private let footerLabel: UILabel = {
-        let label = LottoLabel(text: "새로운 로또 추가", font: .gmarketSans(size: .body, weight: .bold))
+        let label = GmarketSansLabel(text: "새로운 로또 추가", size: .body, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

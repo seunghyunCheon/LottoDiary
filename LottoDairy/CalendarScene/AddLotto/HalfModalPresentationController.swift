@@ -61,8 +61,12 @@ final class HalfModalPresentationController: UIPresentationController {
     
     override func containerViewDidLayoutSubviews() {
         super.containerViewDidLayoutSubviews()
+        guard let presentedView = self.presentedView else {
+            return
+        }
+        
         blurEffectView.frame = containerView!.bounds
-        self.presentedView?.layer.cornerRadius = 15
+        presentedView.roundCorners(corners: [.topLeft, .topRight], radius: 15)
     }
     
     @objc
@@ -70,3 +74,12 @@ final class HalfModalPresentationController: UIPresentationController {
         self.presentedViewController.dismiss(animated: true, completion: nil)
     }
 }
+
+fileprivate extension UIView {
+    func roundCorners(corners: UIRectCorner, radius: CGFloat) {
+         let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+         let mask = CAShapeLayer()
+         mask.path = path.cgPath
+         layer.mask = mask
+     }
+ }

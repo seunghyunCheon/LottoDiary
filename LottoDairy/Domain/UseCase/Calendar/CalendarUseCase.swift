@@ -184,24 +184,18 @@ final class CalendarUseCase {
     _ now: [DayComponent],
     _ next: [DayComponent]
     ) -> AnyPublisher<[[DayComponent]], Error> {
-        guard let previousFirstDay = previous.first?.date,
-              let previousLastDay = previous.last?.date,
-              let nowFirstDay = now.first?.date,
-              let nowLastDay = now.last?.date,
-              let nextFirstDay = next.first?.date,
-              let nextLastDay = next.last?.date else {
-            return Fail(error: CalendarUseCaseError.failedToFetchData).eraseToAnyPublisher()
+        guard let previousRange = dateRange(from: previous),
+              let nowRange = dateRange(from: now),
+              let nextRange = dateRange(from: next) else {
+            return Fail(error: CalendarUseCaseError.failedToFetchData)
+                .eraseToAnyPublisher()
         }
         
         var previous = previous
         var now = now
         var next = next
         
-        let previousRange = previousFirstDay...previousLastDay
-        let nowRange = nowFirstDay...nowLastDay
-        let nextRange = nextFirstDay...nextLastDay
-        
-        return lottoRepository.fetchLottos(with: previousFirstDay, and: nextLastDay)
+        return lottoRepository.fetchLottos(with: previousRange.lowerBound, and: nextRange.upperBound)
             .flatMap { lottos -> AnyPublisher<[[DayComponent]], Error> in
                 lottos.forEach { lotto in
                     if previousRange.contains(lotto.date),
@@ -226,6 +220,14 @@ final class CalendarUseCase {
             }
             .eraseToAnyPublisher()
     }
+    
+    private func dateRange(from dayComponents: [DayComponent]) -> ClosedRange<Date>? {
+       guard let firstDate = dayComponents.first?.date,
+             let lastDate = dayComponents.last?.date else {
+           return nil
+       }
+       return firstDate...lastDate
+   }
 }
 
 extension CalendarUseCase {

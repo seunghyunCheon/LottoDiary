@@ -9,14 +9,19 @@ import UIKit
 
 struct CalendarCollectionViewLayout {
 
-    func createLayout(type: ScopeType) -> UICollectionViewCompositionalLayout {
+    func createLayout(type: ScopeType, days: [DayComponent]) -> UICollectionViewCompositionalLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionNum, env) -> NSCollectionLayoutSection? in
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0 / 7),
                                                   heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-            var groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .fractionalHeight(1.0 / 6))
+        
+            let weekdayCount = 7
+            let column = days.count / weekdayCount > 5 ? 6 : 5
+            
+            var groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .fractionalHeight(1.0 / CGFloat(column))
+            )
             if type == .week {
                 groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                    heightDimension: .fractionalHeight(1.0))

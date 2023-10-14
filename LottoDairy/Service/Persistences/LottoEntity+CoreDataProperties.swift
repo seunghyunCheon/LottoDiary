@@ -19,6 +19,7 @@ extension LottoEntity {
     @NSManaged public var winningAmount: Int
     @NSManaged public var lottoNumbers: [[Int]]
     @NSManaged public var isResultAnnounced: Bool
+    @NSManaged public var roundNumber: Int
     
     @nonobjc public class func fetchRequest() -> NSFetchRequest<LottoEntity> {
         return NSFetchRequest<LottoEntity>(entityName: "LottoEntity")
@@ -38,6 +39,7 @@ extension LottoEntity {
 
 extension LottoEntity : Identifiable {
     func convertToDomain() -> Lotto {
+        
         return Lotto(
             id: self.id,
             date: self.date,
@@ -48,5 +50,4 @@ extension LottoEntity : Identifiable {
             isResultAnnounced: self.isResultAnnounced
         )
     }
-    
 }

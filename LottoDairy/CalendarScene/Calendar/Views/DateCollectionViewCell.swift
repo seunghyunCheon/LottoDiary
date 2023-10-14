@@ -18,7 +18,7 @@ final class DateCollectionViewCell: UICollectionViewCell {
 
         let collectionView = UICollectionView(
             frame: .zero,
-            collectionViewLayout: monthlyCollectionViewLayout.createLayout(type: .month)
+            collectionViewLayout: monthlyCollectionViewLayout.createLayout(type: .month, days: [])
         )
         collectionView.register(DateCell.self)
         collectionView.dataSource = self.dataSource
@@ -86,7 +86,7 @@ final class DateCollectionViewCell: UICollectionViewCell {
         snapshot.appendItems(days)
         self.dataSource?.apply(snapshot)
         
-        let layout = CalendarCollectionViewLayout().createLayout(type: self.scope)
+        let layout = CalendarCollectionViewLayout().createLayout(type: self.scope, days: days)
         monthlyCollectionView.setCollectionViewLayout(layout, animated: false)
     }
 }

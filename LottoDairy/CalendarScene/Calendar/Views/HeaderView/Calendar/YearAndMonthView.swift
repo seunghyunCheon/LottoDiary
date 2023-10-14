@@ -9,17 +9,10 @@ import UIKit
 
 final class YearAndMonthView: UIStackView {
     
-    var yearLabel: LottoLabel = {
-        let label = LottoLabel(text: "2023", font: .gmarketSans(size: .title2, weight: .light))
-        
-        return label
-    }()
+    var yearLabel = GmarketSansLabel(text: "2023", size: .title2, weight: .light)
     
-    var monthLabel: LottoLabel = {
-        let label = LottoLabel(text: "6월", font: .gmarketSans(size: .body, weight: .bold))
+    var monthLabel = GmarketSansLabel(text: "6월", size: .body, weight: .bold)
         
-        return label
-    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
