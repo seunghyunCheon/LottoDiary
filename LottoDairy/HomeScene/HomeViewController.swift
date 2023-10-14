@@ -38,9 +38,9 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         return view
     }()
 
-    private lazy var goalLabel = getMoneyHorizontalStackView(type: .goal, money: "10,000원")
-    private lazy var buyLabel = getMoneyHorizontalStackView(type: .buy, money: "20,000원")
-    private lazy var winLabel = getMoneyHorizontalStackView(type: .win, money: "3,000원")
+    private lazy var goalLabel = DoubleLabelView(type: .goal)
+    private lazy var buyLabel = DoubleLabelView(type: .buy)
+    private lazy var winLabel = DoubleLabelView(type: .win)
 
     private let imageLabel: UILabel = {
         let label = GmarketSansLabel(text: StringLiteral.imageTitle, alignment: .left, size: .title3, weight: .bold)
@@ -189,9 +189,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         return nickNameView
     }
 
-    private func getMoneyHorizontalStackView(type: AmountType, money: String) -> UIStackView {
-        let labelStackView = DoubleLabelView(title: type.rawValue, won: money)
-
+    private func getMoneyHorizontalStackView(label: UIView, type: AmountType) -> UIStackView {
         let imageView: UIImageView = {
             let imageView = UIImageView(image: type.image)
             let imageViewSize: CGFloat = view.frame.width * 0.095
@@ -206,7 +204,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
 
         let moneyHorizontalStackView: UIStackView = {
             let stackView = UIStackView()
-            stackView.addArrangedSubviews([imageView, labelStackView])
+            stackView.addArrangedSubviews([imageView, label])
             stackView.axis = .horizontal
             stackView.distribution = .fillProportionally
             stackView.alignment = .center
@@ -228,7 +226,10 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
             stackView.layer.cornerRadius = Constant.cornerRadius
             return stackView
         }()
-        moneyInformationStackView.addArrangedSubviews([goalLabel, buyLabel, winLabel])
+        let goalStackView = getMoneyHorizontalStackView(label: goalLabel, type: .goal)
+        let buyStackView = getMoneyHorizontalStackView(label: buyLabel, type: .buy)
+        let winStackView = getMoneyHorizontalStackView(label: winLabel, type: .win)
+        moneyInformationStackView.addArrangedSubviews([goalStackView, buyStackView, winStackView])
         moneyInformationStackView.isLayoutMarginsRelativeArrangement = true
         moneyInformationStackView.layoutMargins = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
 
@@ -280,6 +281,12 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         output.nickNameTextField
             .sink { name in
                 self.nickNameLabel.text = name
+            }
+            .store(in: &cancellables)
+
+        output.goalAmount
+            .sink { goal in
+                self.goalLabel.updateWonAmount(goal)
             }
             .store(in: &cancellables)
     }

@@ -21,8 +21,9 @@ final class HomeViewModel {
         let nickNameTextField =  PassthroughSubject<String, Never>()
         var month = CurrentValueSubject<Int, Never>(0)
         var percent = CurrentValueSubject<Int, Never>(0)    // ??
-        var informationComponents = CurrentValueSubject<[HomeInformationComponents], Never>([])
-        var amounts = CurrentValueSubject<[Int], Never>([])
+        var goalAmount = CurrentValueSubject<Int?, Never>(nil)
+        var buyAmount = CurrentValueSubject<Int, Never>(0)
+        var winAmount = CurrentValueSubject<Int, Never>(0)
     }
 
     private var cancellables: Set<AnyCancellable> = []
@@ -57,6 +58,12 @@ final class HomeViewModel {
             }
             .store(in: &cancellables)
 
+        self.userUseCase.goalAmount
+            .sink { goal in
+                output.goalAmount.send(goal)
+            }
+            .store(in: &cancellables)
+
         return output
     }
 
@@ -64,5 +71,7 @@ final class HomeViewModel {
 
     // 목표 금액 별 구매 금액 퍼센테이지 계산
 
-    // 현재 월에 대한 목표, 구매, 당첨 금액 계산
+    // 현재 월에 대한 목표 금액
+
+    // 구매, 당첨 금액 계산
 }

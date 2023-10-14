@@ -118,7 +118,6 @@
 		8080DDBE2A60540B00364CF1 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8080DDBD2A60540B00364CF1 /* TabBarView.swift */; };
 		80C0213C2AD91DFC0054B29F /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C0213B2AD91DFC0054B29F /* HomeViewModel.swift */; };
 		80C0213E2ADAB03D0054B29F /* AmountType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C0213D2ADAB03D0054B29F /* AmountType.swift */; };
-		80C021422ADAB1780054B29F /* HomeInformationComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C021412ADAB1780054B29F /* HomeInformationComponents.swift */; };
 		80EB03322A72336400455E05 /* GmarketSansLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB03312A72336400455E05 /* GmarketSansLabel.swift */; };
 		80EB03342A72370E00455E05 /* UIStackView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB03332A72370E00455E05 /* UIStackView+Extensions.swift */; };
 		80EB033C2A72CB8000455E05 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB033B2A72CB8000455E05 /* UIView+Extensions.swift */; };
@@ -252,7 +251,6 @@
 		8080DDBD2A60540B00364CF1 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		80C0213B2AD91DFC0054B29F /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		80C0213D2ADAB03D0054B29F /* AmountType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountType.swift; sourceTree = "<group>"; };
-		80C021412ADAB1780054B29F /* HomeInformationComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInformationComponents.swift; sourceTree = "<group>"; };
 		80EB03312A72336400455E05 /* GmarketSansLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GmarketSansLabel.swift; sourceTree = "<group>"; };
 		80EB03332A72370E00455E05 /* UIStackView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extensions.swift"; sourceTree = "<group>"; };
 		80EB033B2A72CB8000455E05 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
@@ -773,14 +771,6 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
-		80C021402ADAB1460054B29F /* Home */ = {
-			isa = PBXGroup;
-			children = (
-				80C021412ADAB1780054B29F /* HomeInformationComponents.swift */,
-			);
-			path = Home;
-			sourceTree = "<group>";
-		};
 		80EB032A2A7132C000455E05 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -814,7 +804,6 @@
 			isa = PBXGroup;
 			children = (
 				80C0213F2ADAB0430054B29F /* Common */,
-				80C021402ADAB1460054B29F /* Home */,
 				807AAD582AAC309A00D338BF /* Chart */,
 				80F90CE12A8D2415007E1D23 /* Calendar */,
 			);
@@ -964,7 +953,6 @@
 				621503452A5BF06100431BBB /* OnboardingFlowProtocol.swift in Sources */,
 				80F90CE82A8D2507007E1D23 /* Date+Extensions.swift in Sources */,
 				625141212AB5958500E9E5C3 /* LottoEntity+CoreDataProperties.swift in Sources */,
-				80C021422ADAB1780054B29F /* HomeInformationComponents.swift in Sources */,
 				6215031F2A4E792700431BBB /* Presentable.swift in Sources */,
 				62AFA09F2A725C7100C9D86C /* CoreDataGoalAmountEntityPersistenceService.swift in Sources */,
 				624BB0E92A67EED2002A3109 /* String+Extensions.swift in Sources */,

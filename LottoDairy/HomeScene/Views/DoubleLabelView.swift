@@ -38,15 +38,14 @@ final class DoubleLabelView: UIStackView {
         configureVerticalStackView(spacing: 10)
     }
 
-    convenience init(title: String, won: String) {
+    convenience init(type: AmountType) {
         self.init(frame: .zero)
 
-        self.firstLabel = GmarketSansLabel(text: title,
+        self.firstLabel = GmarketSansLabel(text: type.rawValue,
                                            alignment: .left,
                                            size: .subheadLine,
                                            weight: .light)
-        self.secondLabel = GmarketSansLabel(text: won,
-                                            alignment: .left,
+        self.secondLabel = GmarketSansLabel(alignment: .left,
                                             size: .title3,
                                             weight: .medium)
         configureVerticalStackView(spacing: 5)
@@ -54,6 +53,10 @@ final class DoubleLabelView: UIStackView {
 
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func updateWonAmount(_ won: Int?) {
+        self.secondLabel.text = won?.convertToDecimal()
     }
 
     private func configureVerticalStackView(spacing: CGFloat) {
