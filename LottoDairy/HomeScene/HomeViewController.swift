@@ -97,6 +97,12 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         self.bindViewModel()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        self.viewWillAppearPublisher.send()
+    }
+
     // MARK: Functions - Private
     private func configureView() {
         self.navigationController?.isNavigationBarHidden = true

@@ -41,7 +41,11 @@ final class HomeViewModel {
     }
 
     private func configureInput(_ input: Input) {
-//        input.viewWillAppearEvent
+        input.viewWillAppearEvent
+            .sink {
+                self.goalSettingUseCase.loadUserInfo()
+            }
+            .store(in: &cancellables)
     }
 
     private func configureOutput(from input: Input) -> Output {
