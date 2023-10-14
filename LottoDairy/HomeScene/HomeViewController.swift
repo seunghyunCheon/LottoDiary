@@ -38,7 +38,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         return view
     }()
 
-    private lazy var goalLabel = getMoneyHorizontalStackView(type: .buy, money: "10,000원")
+    private lazy var goalLabel = getMoneyHorizontalStackView(type: .goal, money: "10,000원")
     private lazy var buyLabel = getMoneyHorizontalStackView(type: .buy, money: "20,000원")
     private lazy var winLabel = getMoneyHorizontalStackView(type: .win, money: "3,000원")
 
@@ -67,8 +67,20 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         return view
     }()
 
+    private let viewModel: HomeViewModel
+
     var onSetting: (() -> Void)?
 
+    init(viewModel: HomeViewModel) {
+        self.viewModel = viewModel
+
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()

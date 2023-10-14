@@ -116,6 +116,7 @@
 		807AAD5C2AAC30DC00D338BF /* ChartInformationComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807AAD5B2AAC30DC00D338BF /* ChartInformationComponents.swift */; };
 		8080DDBB2A604A0500364CF1 /* TabBarComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8080DDBA2A604A0500364CF1 /* TabBarComponents.swift */; };
 		8080DDBE2A60540B00364CF1 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8080DDBD2A60540B00364CF1 /* TabBarView.swift */; };
+		80C0213C2AD91DFC0054B29F /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C0213B2AD91DFC0054B29F /* HomeViewModel.swift */; };
 		80EB03322A72336400455E05 /* GmarketSansLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB03312A72336400455E05 /* GmarketSansLabel.swift */; };
 		80EB03342A72370E00455E05 /* UIStackView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB03332A72370E00455E05 /* UIStackView+Extensions.swift */; };
 		80EB033C2A72CB8000455E05 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB033B2A72CB8000455E05 /* UIView+Extensions.swift */; };
@@ -247,6 +248,7 @@
 		807AAD5B2AAC30DC00D338BF /* ChartInformationComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartInformationComponents.swift; sourceTree = "<group>"; };
 		8080DDBA2A604A0500364CF1 /* TabBarComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarComponents.swift; sourceTree = "<group>"; };
 		8080DDBD2A60540B00364CF1 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
+		80C0213B2AD91DFC0054B29F /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		80EB03312A72336400455E05 /* GmarketSansLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GmarketSansLabel.swift; sourceTree = "<group>"; };
 		80EB03332A72370E00455E05 /* UIStackView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extensions.swift"; sourceTree = "<group>"; };
 		80EB033B2A72CB8000455E05 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
@@ -711,6 +713,7 @@
 			children = (
 				80EB032A2A7132C000455E05 /* Views */,
 				80773A6D2A55AE9E0020F1DD /* HomeCoordinator.swift */,
+				80C0213B2AD91DFC0054B29F /* HomeViewModel.swift */,
 				80773A6F2A55AF770020F1DD /* HomeViewController.swift */,
 				80773A712A55AFF80020F1DD /* HomeFlowProtocol.swift */,
 			);
@@ -907,6 +910,7 @@
 				801767002AAEF90F0046E537 /* DefaultChartUseCase.swift in Sources */,
 				805EA6BF2A9B1E1E00A3545C /* ChartViewController.swift in Sources */,
 				8060B41F2A61A66800726C83 /* LottoQRButton.swift in Sources */,
+				80C0213C2AD91DFC0054B29F /* HomeViewModel.swift in Sources */,
 				8080DDBB2A604A0500364CF1 /* TabBarComponents.swift in Sources */,
 				80773A6E2A55AE9E0020F1DD /* HomeCoordinator.swift in Sources */,
 				80EB03322A72336400455E05 /* GmarketSansLabel.swift in Sources */,
