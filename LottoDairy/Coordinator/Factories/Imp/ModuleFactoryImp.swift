@@ -13,7 +13,22 @@ final class ModuleFactoryImp:
     ChartModuleFactory {
     
     func makeHomeFlow() -> HomeFlowProtocol {
-        return HomeViewController()
+        let coreDataService = CoreDataPersistenceService.shared
+        let coreDataLottoPersistenceService = CoreDataLottoEntityPersistenceService(coreDataPersistenceService: coreDataService)
+        let lottoRepository = DefaultLottoRepository(coreDataLottoEntityPersistenceService: coreDataLottoPersistenceService)
+        let chartLottoUseCase = DefaultChartLottoUseCase(lottoRepository: lottoRepository)
+
+        let userDefaultService = UserDefaultsPersistenceService()
+        let coreDataGoalAmountPersistenceService = CoreDataGoalAmountEntityPersistenceService(coreDataPersistenceService: coreDataService)
+        let userRepository = DefaultUserRepository(
+            userDefaultPersistenceService: userDefaultService,
+            coreDataGoalAmountEntityPersistenceService: coreDataGoalAmountPersistenceService
+        )
+        let goalSettingUseCase = DefaultGoalSettingUseCase(userRepository: userRepository)
+
+        let viewModel = HomeViewModel(chartLottoUseCase: chartLottoUseCase, goalSettingUseCase: goalSettingUseCase)
+
+        return HomeViewController(viewModel: viewModel)
     }
     
     func makeOnboardingFlow() -> OnboardingFlowProtocol {
