@@ -26,7 +26,10 @@ final class ModuleFactoryImp:
         )
         let goalSettingUseCase = DefaultGoalSettingUseCase(userRepository: userRepository)
 
-        let viewModel = HomeViewModel(chartLottoUseCase: chartLottoUseCase, goalSettingUseCase: goalSettingUseCase)
+        let viewModel = HomeViewModel(
+            amountUseCase: chartLottoUseCase,
+            userUseCase: goalSettingUseCase
+        )
 
         return HomeViewController(viewModel: viewModel)
     }

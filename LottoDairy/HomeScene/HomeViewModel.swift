@@ -10,8 +10,8 @@ import Combine
 
 final class HomeViewModel {
 
-    private let goalSettingUseCase: GoalSettingUseCase
-    private let chartLottoUseCase: ChartLottoUseCase
+    private let userUseCase: GoalSettingUseCase
+    private let amountUseCase: ChartLottoUseCase
 
     struct Input {
         let viewWillAppearEvent: PassthroughSubject<Void, Never>
@@ -28,11 +28,11 @@ final class HomeViewModel {
     private var cancellables: Set<AnyCancellable> = []
 
     init(
-        chartLottoUseCase: ChartLottoUseCase,
-        goalSettingUseCase: GoalSettingUseCase
+        amountUseCase: ChartLottoUseCase,
+        userUseCase: GoalSettingUseCase
     ) {
-        self.chartLottoUseCase = chartLottoUseCase
-        self.goalSettingUseCase = goalSettingUseCase
+        self.amountUseCase = amountUseCase
+        self.userUseCase = userUseCase
     }
 
     func transform(from input: Input) -> Output {
@@ -43,7 +43,7 @@ final class HomeViewModel {
     private func configureInput(_ input: Input) {
         input.viewWillAppearEvent
             .sink {
-                self.goalSettingUseCase.loadUserInfo()
+                self.userUseCase.loadUserInfo()
             }
             .store(in: &cancellables)
     }
@@ -51,7 +51,7 @@ final class HomeViewModel {
     private func configureOutput(from input: Input) -> Output {
         let output = Output()
 
-        self.goalSettingUseCase.nickname
+        self.userUseCase.nickname
             .sink { name in
                 output.nickNameTextField.send(name)
             }
@@ -59,9 +59,6 @@ final class HomeViewModel {
 
         return output
     }
-
-    // 유저 닉네임 가져오기
-
 
     // 현재 월
 
