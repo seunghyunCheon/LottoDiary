@@ -23,7 +23,9 @@ final class ModuleFactoryImp:
     }
 
     func makeLottoQRFlow() -> LottoQRFlowProtocol {
-        return LottoQRViewController()
+        let viewModel = LottoQRViewModel()
+
+        return LottoQRViewController(viewModel: viewModel)
     }
         
     func makeGoalSettingFlow() -> GoalSettingFlowProtocol {
