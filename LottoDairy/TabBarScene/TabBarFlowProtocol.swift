@@ -13,4 +13,5 @@ protocol TabBarFlowProtocol: AnyObject {
     var onLottoQRFlowSelect: ((UINavigationController) -> ())? { get set }
     var onCalendarFlowSelect: ((UINavigationController) -> ())? { get set }
     var onChartFlowSelect: ((UINavigationController) -> ())? { get set }
+    var onPermissionDeniedAlert: ((UINavigationController, UIAlertController) -> ())? { get set }
 }

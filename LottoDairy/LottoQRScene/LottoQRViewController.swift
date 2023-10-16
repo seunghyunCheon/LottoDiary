@@ -9,10 +9,43 @@ import UIKit
 
 final class LottoQRViewController: UIViewController, LottoQRFlowProtocol {
 
+    private lazy var qrReaderView: QRReaderView = {
+        let qrReaderView = QRReaderView(frame: view.bounds)
+        qrReaderView.delegate = self
+        qrReaderView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        return qrReaderView
+    }()
+
+    private let viewModel: LottoQRViewModel
+
+    init(viewModel: LottoQRViewModel) {
+        self.viewModel = viewModel
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .red
+        configureView()
     }
 
+    private func configureView() {
+        view.addSubview(qrReaderView)
+    }
+}
+
+extension LottoQRViewController: ReaderViewDelegate {
+
+    func lottoQRDidComplete(_ status: QRStatus) {
+        print(status)
+    }
+    
+    func lottoQRDidFailToSetup(_ error: QRReadingError) {
+        print(error)
+    }
 }

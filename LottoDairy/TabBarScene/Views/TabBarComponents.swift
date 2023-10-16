@@ -8,7 +8,7 @@
 enum TabBarComponents: Int, CaseIterable {
     case calendar
     case home
-    case empty
+    case lottoQR
     case chart
     case numbers
     
@@ -22,7 +22,7 @@ enum TabBarComponents: Int, CaseIterable {
             return "차트"
         case .numbers:
             return "번호 추첨"
-        case .empty:
+        case .lottoQR:
             return ""
         }
     }
@@ -37,7 +37,7 @@ enum TabBarComponents: Int, CaseIterable {
             return "chart.bar"
         case .numbers:
             return "number.circle"
-        case .empty:
+        case .lottoQR:
             return ""
         }
     }
