@@ -20,10 +20,11 @@ final class HomeViewModel {
     struct Output {
         let nickNameTextField =  PassthroughSubject<String, Never>()
         var month = 0
-        var percent = CurrentValueSubject<Int?, Never>(nil)
+        var percent = CurrentValueSubject<Int, Never>(0)
         var goalAmount = CurrentValueSubject<Int?, Never>(nil)
         var purchaseAmount = CurrentValueSubject<Int?, Never>(nil)
         var winningAmount = CurrentValueSubject<Int?, Never>(nil)
+        var riceSoupCount = CurrentValueSubject<Double, Never>(0)
     }
 
     private var cancellables: Set<AnyCancellable> = []
@@ -104,8 +105,12 @@ final class HomeViewModel {
         self.$purchaseAmount
             .sink { purchase in
                 output.purchaseAmount.send(purchase)
+
                 let percent = self.amountUseCase.calculatePercent(purchase, self.goalAmount)
                 output.percent.send(percent)
+
+                let count = self.amountUseCase.calculateRiceSoupCount(purchase)
+                output.riceSoupCount.send(count)
             }
             .store(in: &cancellables)
 

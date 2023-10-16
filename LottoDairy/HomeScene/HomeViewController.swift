@@ -307,7 +307,13 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
 
         output.percent
             .sink { percent in
-                self.explanationLabel.configureExplanationLabel(percent: percent ?? 0)
+                self.explanationLabel.configureExplanationLabel(percent: percent)
+            }
+            .store(in: &cancellables)
+
+        output.riceSoupCount
+            .sink { count in
+                self.imageExplanationView.configureRiceSoupLabel(riceSoup: count)
             }
             .store(in: &cancellables)
     }

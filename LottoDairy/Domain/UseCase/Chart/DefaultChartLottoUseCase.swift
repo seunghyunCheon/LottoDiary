@@ -75,6 +75,12 @@ final class DefaultChartLottoUseCase: ChartLottoUseCase {
         return Int(percent)
     }
 
+    func calculateRiceSoupCount(_ purchase: Int?) -> Double {
+        guard let purchase = purchase else { return 0 }
+        let count = Double(purchase) / 8000
+        return (count * 10).rounded() / 10
+    }
+
     private func fetchLottoEntries(year: Int) -> AnyPublisher<[Lotto]?, Error> {
         let startComponents = DateComponents(year: year, month: 1, day: 1)
         let endComponents = DateComponents(year: year, month: 12, day: 31)

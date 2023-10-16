@@ -70,7 +70,7 @@ final class DoubleLabelView: UIStackView {
         firstLabel.attributedText(first: "\(won ?? .zero)원", second: "으로", secondFontSize: .title3)
     }
 
-    func configureRiceSoupLabel(riceSoup: Int) {
+    func configureRiceSoupLabel(riceSoup: Double) {
         secondLabel.attributedText(first: "국밥 \(riceSoup) 그릇", second: "먹기 가능", secondFontSize: .title3)
     }
 
