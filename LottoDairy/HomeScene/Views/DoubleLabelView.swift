@@ -24,25 +24,16 @@ final class DoubleLabelView: UIStackView {
     convenience init(type: LabelType) {
         self.init(frame: .zero)
 
+        configureVerticalStackView(spacing: 10)
+
         switch type {
         case .percent:
             firstLabel.textAlignment = .left
             secondLabel.textAlignment = .left
-            configureVerticalStackView(spacing: 10)
         case .riceSoup:
-            print("hi")
+            firstLabel.textAlignment = .center
+            secondLabel.textAlignment = .center
         }
-    }
-
-    convenience init(won: String, riceSoup: String) {
-        self.init(frame: .zero)
-
-        firstLabel.attributedText(first: "\(won)원", second: "으로", secondFontSize: .title3)
-        secondLabel.attributedText(first: "국밥 \(riceSoup) 그릇", second: "먹기 가능", secondFontSize: .title3)
-
-        firstLabel.textAlignment = .center
-        secondLabel.textAlignment = .center
-        configureVerticalStackView(spacing: 10)
     }
 
     convenience init(type: AmountType) {
@@ -73,6 +64,14 @@ final class DoubleLabelView: UIStackView {
 
     func configureExplanationLabel(percent: Int) {
         secondLabel.attributedText(first: "목표치의 \(percent)%", second: "를 사용하셨습니다.", secondFontSize: .callout)
+    }
+
+    func configureRiceSoupLabel(won: Int?) {
+        firstLabel.attributedText(first: "\(won ?? .zero)원", second: "으로", secondFontSize: .title3)
+    }
+
+    func configureRiceSoupLabel(riceSoup: Int) {
+        secondLabel.attributedText(first: "국밥 \(riceSoup) 그릇", second: "먹기 가능", secondFontSize: .title3)
     }
 
     private func configureVerticalStackView(spacing: CGFloat) {

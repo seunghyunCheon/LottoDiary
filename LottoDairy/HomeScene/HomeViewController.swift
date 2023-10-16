@@ -60,8 +60,8 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         return imageView
     }()
 
-    private let imageExplanationView: UIView = {
-        let view = DoubleLabelView(won: "78000", riceSoup: "7.8")
+    private let imageExplanationView: DoubleLabelView = {
+        let view = DoubleLabelView(type: .riceSoup)
         view.translatesAutoresizingMaskIntoConstraints = false
 
         return view
@@ -295,6 +295,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         output.purchaseAmount
             .sink { purchase in
                 self.purchaseLabel.updateWonAmount(purchase)
+                self.imageExplanationView.configureRiceSoupLabel(won: purchase)
             }
             .store(in: &cancellables)
 
