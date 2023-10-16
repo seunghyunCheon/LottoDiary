@@ -63,7 +63,7 @@ final class DoubleLabelView: UIStackView {
     }
 
     func updateWonAmount(_ won: Int?) {
-        self.secondLabel.text = won?.convertToDecimal()
+        self.secondLabel.text = won == nil ? "0" : won?.convertToDecimal()
     }
 
     func configureExplanationLabel(month: Int) {

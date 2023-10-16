@@ -39,8 +39,8 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
     }()
 
     private lazy var goalLabel = DoubleLabelView(type: .goal)
-    private lazy var buyLabel = DoubleLabelView(type: .buy)
-    private lazy var winLabel = DoubleLabelView(type: .win)
+    private lazy var purchaseLabel = DoubleLabelView(type: .buy)
+    private lazy var winningLabel = DoubleLabelView(type: .win)
 
     private let imageLabel: UILabel = {
         let label = GmarketSansLabel(text: StringLiteral.imageTitle, alignment: .left, size: .title3, weight: .bold)
@@ -227,8 +227,8 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
             return stackView
         }()
         let goalStackView = getMoneyHorizontalStackView(label: goalLabel, type: .goal)
-        let buyStackView = getMoneyHorizontalStackView(label: buyLabel, type: .buy)
-        let winStackView = getMoneyHorizontalStackView(label: winLabel, type: .win)
+        let buyStackView = getMoneyHorizontalStackView(label: purchaseLabel, type: .buy)
+        let winStackView = getMoneyHorizontalStackView(label: winningLabel, type: .win)
         moneyInformationStackView.addArrangedSubviews([goalStackView, buyStackView, winStackView])
         moneyInformationStackView.isLayoutMarginsRelativeArrangement = true
         moneyInformationStackView.layoutMargins = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
@@ -289,6 +289,18 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         output.goalAmount
             .sink { goal in
                 self.goalLabel.updateWonAmount(goal)
+            }
+            .store(in: &cancellables)
+
+        output.purchaseAmount
+            .sink { purchase in
+                self.purchaseLabel.updateWonAmount(purchase)
+            }
+            .store(in: &cancellables)
+
+        output.winningAmount
+            .sink { winning in
+                self.winningLabel.updateWonAmount(winning)
             }
             .store(in: &cancellables)
     }

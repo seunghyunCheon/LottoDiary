@@ -22,14 +22,18 @@ final class HomeViewModel {
         var month = 0
         var percent = CurrentValueSubject<Int, Never>(0)    // ??
         var goalAmount = CurrentValueSubject<Int?, Never>(nil)
-        var buyAmount = CurrentValueSubject<Int, Never>(0)
-        var winAmount = CurrentValueSubject<Int, Never>(0)
+        var purchaseAmount = CurrentValueSubject<Int?, Never>(nil)
+        var winningAmount = CurrentValueSubject<Int?, Never>(nil)
     }
 
     private var cancellables: Set<AnyCancellable> = []
 
     private var year: Int = 0
     private var month: Int = 0
+
+    @Published private var purchaseAmount: Int?
+    @Published private var winningAmount: Int?
+
 
     init(
         amountUseCase: ChartLottoUseCase,
@@ -60,9 +64,20 @@ final class HomeViewModel {
 
     private func configureInput(_ input: Input) {
         input.viewWillAppearEvent
-            .sink {
+            .sink { [self] in
                 self.configureDate()
                 self.userUseCase.loadUserInfo()
+
+                self.amountUseCase.fetchLottoAmounts(year: self.year, month: self.month)
+                    .sink { completion in
+                        if case .failure(let error) = completion {
+                            print(error)
+                        }
+                    } receiveValue: { (purchase, winning) in
+                        self.purchaseAmount = purchase
+                        self.winningAmount = winning
+                    }
+                    .store(in: &cancellables)
             }
             .store(in: &cancellables)
     }
@@ -84,12 +99,20 @@ final class HomeViewModel {
             }
             .store(in: &cancellables)
 
+        self.$purchaseAmount
+            .sink { purchase in
+                output.purchaseAmount.send(purchase)
+            }
+            .store(in: &cancellables)
+
+        self.$winningAmount
+            .sink { winning in
+                output.winningAmount.send(winning)
+            }
+            .store(in: &cancellables)
+
         return output
     }
 
-    // 현재 월
-
     // 목표 금액 별 구매 금액 퍼센테이지 계산
-
-    // 구매, 당첨 금액 계산
 }
