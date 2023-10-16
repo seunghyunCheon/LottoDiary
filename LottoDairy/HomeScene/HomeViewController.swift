@@ -303,6 +303,12 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
                 self.winningLabel.updateWonAmount(winning)
             }
             .store(in: &cancellables)
+
+        output.percent
+            .sink { percent in
+                self.explanationLabel.configureExplanationLabel(percent: percent ?? 0)
+            }
+            .store(in: &cancellables)
     }
 }
 

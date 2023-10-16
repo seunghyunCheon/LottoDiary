@@ -20,7 +20,7 @@ final class HomeViewModel {
     struct Output {
         let nickNameTextField =  PassthroughSubject<String, Never>()
         var month = 0
-        var percent = CurrentValueSubject<Int, Never>(0)    // ??
+        var percent = CurrentValueSubject<Int?, Never>(nil)
         var goalAmount = CurrentValueSubject<Int?, Never>(nil)
         var purchaseAmount = CurrentValueSubject<Int?, Never>(nil)
         var winningAmount = CurrentValueSubject<Int?, Never>(nil)
@@ -31,9 +31,9 @@ final class HomeViewModel {
     private var year: Int = 0
     private var month: Int = 0
 
+    @Published private var goalAmount: Int?
     @Published private var purchaseAmount: Int?
     @Published private var winningAmount: Int?
-
 
     init(
         amountUseCase: ChartLottoUseCase,
@@ -95,13 +95,17 @@ final class HomeViewModel {
 
         self.userUseCase.goalAmount
             .sink { goal in
-                output.goalAmount.send(goal)
+                self.goalAmount = goal
+                let percent = self.amountUseCase.calculatePercent(self.purchaseAmount, goal)
+                output.percent.send(percent)
             }
             .store(in: &cancellables)
 
         self.$purchaseAmount
             .sink { purchase in
                 output.purchaseAmount.send(purchase)
+                let percent = self.amountUseCase.calculatePercent(purchase, self.goalAmount)
+                output.percent.send(percent)
             }
             .store(in: &cancellables)
 
@@ -111,8 +115,12 @@ final class HomeViewModel {
             }
             .store(in: &cancellables)
 
+        self.$goalAmount
+            .sink { goal in
+                output.goalAmount.send(goal)
+            }
+            .store(in: &cancellables)
+
         return output
     }
-
-    // 목표 금액 별 구매 금액 퍼센테이지 계산
 }

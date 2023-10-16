@@ -67,6 +67,14 @@ final class DefaultChartLottoUseCase: ChartLottoUseCase {
             .eraseToAnyPublisher()
     }
 
+    func calculatePercent(_ a: Int?, _ b: Int?) -> Int {
+        guard let a = a, a != .zero,
+              let b = b, b != .zero else { return .zero }
+        let percent = Double(a) / Double(b) * 100
+
+        return Int(percent)
+    }
+
     private func fetchLottoEntries(year: Int) -> AnyPublisher<[Lotto]?, Error> {
         let startComponents = DateComponents(year: year, month: 1, day: 1)
         let endComponents = DateComponents(year: year, month: 12, day: 31)

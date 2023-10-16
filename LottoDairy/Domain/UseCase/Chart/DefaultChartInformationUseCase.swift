@@ -43,7 +43,7 @@ final class DefaultChartInformationUseCase: ChartInformationUseCase {
 
             let goalResult: Bool = goalAmount >= purchaseAmount
             let winResult: Bool = purchaseAmount <= winningAmount
-            let percent: Double = (winningAmount == .zero && purchaseAmount == .zero) ? 0 : Double(winningAmount) / Double(purchaseAmount) * 100
+            let percent = self.chartLottoUseCase.calculatePercent(winningAmount, purchaseAmount)
 
             let chartInformationComponents = [
                 ChartInformationComponents(
