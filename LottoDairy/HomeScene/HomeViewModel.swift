@@ -38,7 +38,7 @@ final class HomeViewModel {
         self.amountUseCase = amountUseCase
         self.userUseCase = userUseCase
 
-        configureDate()
+        self.configureDate()
     }
 
     func transform(from input: Input) -> Output {
@@ -48,13 +48,20 @@ final class HomeViewModel {
 
     private func configureDate() {
         let date = amountUseCase.fetchToday()
-        self.year = date[0]
-        self.month = date[1]
+
+        if self.year != date[0] {
+            self.year = date[0]
+        }
+
+        if self.month != date[1] {
+            self.month = date[1]
+        }
     }
 
     private func configureInput(_ input: Input) {
         input.viewWillAppearEvent
             .sink {
+                self.configureDate()
                 self.userUseCase.loadUserInfo()
             }
             .store(in: &cancellables)
