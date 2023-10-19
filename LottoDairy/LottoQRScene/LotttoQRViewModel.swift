@@ -26,7 +26,7 @@ final class LottoQRViewModel {
         let lottoQRValidation = PassthroughSubject<LottoQRState, Never>()
     }
 
-    private(set) var lottoURL = CurrentValueSubject<String, Never>("")
+    private var lottoURL = CurrentValueSubject<String, Never>("")
 
     private var cancellables: Set<AnyCancellable> = []
 
@@ -50,6 +50,13 @@ final class LottoQRViewModel {
 
     private func configureOutput(from input: Input) -> Output {
         let output = Output()
+        
+        self.lottoURL
+            .sink { url in
+                let validation = self.lottoQRUseCase.validateLottoURL(url)
+                output.lottoQRValidation.send(validation ? .valid : .invalid)
+            }
+            .store(in: &cancellables)
 
         return output
     }
