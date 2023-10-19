@@ -108,6 +108,9 @@
 		80603ADE2A4E9FB0003D5274 /* RouterImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80603ADD2A4E9FB0003D5274 /* RouterImp.swift */; };
 		8060B41F2A61A66800726C83 /* LottoQRButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8060B41E2A61A66800726C83 /* LottoQRButton.swift */; };
 		8060B4212A62DC2C00726C83 /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8060B4202A62DC2C00726C83 /* UIButton+Extensions.swift */; };
+		806F85212AE160F2003809EC /* LottoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806F85202AE160F2003809EC /* LottoAPI.swift */; };
+		806F85242AE1629B003809EC /* DefaultLottoQRUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806F85232AE1629B003809EC /* DefaultLottoQRUseCase.swift */; };
+		806F85272AE162CE003809EC /* LottoQRUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806F85262AE162CE003809EC /* LottoQRUseCase.swift */; };
 		80773A6E2A55AE9E0020F1DD /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80773A6D2A55AE9E0020F1DD /* HomeCoordinator.swift */; };
 		80773A702A55AF770020F1DD /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80773A6F2A55AF770020F1DD /* HomeViewController.swift */; };
 		80773A722A55AFF80020F1DD /* HomeFlowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80773A712A55AFF80020F1DD /* HomeFlowProtocol.swift */; };
@@ -241,6 +244,9 @@
 		80603ADD2A4E9FB0003D5274 /* RouterImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterImp.swift; sourceTree = "<group>"; };
 		8060B41E2A61A66800726C83 /* LottoQRButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoQRButton.swift; sourceTree = "<group>"; };
 		8060B4202A62DC2C00726C83 /* UIButton+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
+		806F85202AE160F2003809EC /* LottoAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoAPI.swift; sourceTree = "<group>"; };
+		806F85232AE1629B003809EC /* DefaultLottoQRUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLottoQRUseCase.swift; sourceTree = "<group>"; };
+		806F85262AE162CE003809EC /* LottoQRUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoQRUseCase.swift; sourceTree = "<group>"; };
 		80773A6D2A55AE9E0020F1DD /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		80773A6F2A55AF770020F1DD /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		80773A712A55AFF80020F1DD /* HomeFlowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFlowProtocol.swift; sourceTree = "<group>"; };
@@ -458,6 +464,7 @@
 		624BB0DB2A67B2D9002A3109 /* UseCase */ = {
 			isa = PBXGroup;
 			children = (
+				806F85222AE1628B003809EC /* LottoQR */,
 				80F90CDF2A8D234F007E1D23 /* Calendar */,
 				805EA6D32AA475AF00A3545C /* Chart */,
 				624BB0DC2A67B2E9002A3109 /* Account */,
@@ -514,13 +521,6 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
-		6265941F2ACE95C60008344A /* WeekHeaderView */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = WeekHeaderView;
-			sourceTree = "<group>";
-		};
 		626594202ACE95F00008344A /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
@@ -543,6 +543,7 @@
 		6268452D2A6BE36600569D02 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				806F851F2AE160DC003809EC /* LottoAPI */,
 				626845352A6BEB5900569D02 /* Repository */,
 				6268452E2A6BE37000569D02 /* Interfaces */,
 			);
@@ -735,6 +736,31 @@
 			path = Application;
 			sourceTree = "<group>";
 		};
+		806F851F2AE160DC003809EC /* LottoAPI */ = {
+			isa = PBXGroup;
+			children = (
+				806F85202AE160F2003809EC /* LottoAPI.swift */,
+			);
+			path = LottoAPI;
+			sourceTree = "<group>";
+		};
+		806F85222AE1628B003809EC /* LottoQR */ = {
+			isa = PBXGroup;
+			children = (
+				806F85252AE162AC003809EC /* Protocol */,
+				806F85232AE1629B003809EC /* DefaultLottoQRUseCase.swift */,
+			);
+			path = LottoQR;
+			sourceTree = "<group>";
+		};
+		806F85252AE162AC003809EC /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				806F85262AE162CE003809EC /* LottoQRUseCase.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		80773A6C2A55AE8C0020F1DD /* HomeScene */ = {
 			isa = PBXGroup;
 			children = (
@@ -831,7 +857,6 @@
 		80F90CEB2A8D2AD6007E1D23 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				6265941F2ACE95C60008344A /* WeekHeaderView */,
 				624628DD2AAB3AE100ADE103 /* HeaderView */,
 				80F90CEE2A8D2DBE007E1D23 /* DateCollectionViewCell.swift */,
 				80F90CF02A8D2E29007E1D23 /* CalendarCollectionViewLayout.swift */,
@@ -986,6 +1011,7 @@
 				621503582A5E8E2300431BBB /* UIControl+Extensions.swift in Sources */,
 				80F90CEF2A8D2DBE007E1D23 /* DateCollectionViewCell.swift in Sources */,
 				6270BEF82A77A1EA00950181 /* DefaultGoalSettingValidationUseCase.swift in Sources */,
+				806F85242AE1629B003809EC /* DefaultLottoQRUseCase.swift in Sources */,
 				629C1F532A4ABD0F00540FA4 /* AppDelegate.swift in Sources */,
 				621503522A5E6EC900431BBB /* UIFont+Extensions.swift in Sources */,
 				62CE39A22AB08E0B009DFCD4 /* LottoCollectionVIewLayout.swift in Sources */,
@@ -1002,6 +1028,7 @@
 				6251411D2AB46CA300E9E5C3 /* AddLottoViewModel.swift in Sources */,
 				62CE39A02AB0772B009DFCD4 /* LottoCell.swift in Sources */,
 				80773A762A55BA1C0020F1DD /* ModuleFactoryImp.swift in Sources */,
+				806F85212AE160F2003809EC /* LottoAPI.swift in Sources */,
 				624628992A8F772400ADE103 /* YearAndMonthView.swift in Sources */,
 				80F90CF12A8D2E29007E1D23 /* CalendarCollectionViewLayout.swift in Sources */,
 				626845392A6BEBDE00569D02 /* UserRepository.swift in Sources */,
@@ -1011,6 +1038,7 @@
 				625141132AB4606A00E9E5C3 /* AddLottoValidationUseCase.swift in Sources */,
 				625141172AB463BF00E9E5C3 /* WinningAmountValidationState.swift in Sources */,
 				80603AD82A4AC874003D5274 /* BaseCoordinator.swift in Sources */,
+				806F85272AE162CE003809EC /* LottoQRUseCase.swift in Sources */,
 				626845302A6BE38700569D02 /* UserDefaultsPersistenceServiceProtocol.swift in Sources */,
 				62AFA0972A7258B200C9D86C /* GoalAmountEntity+CoreDataProperties.swift in Sources */,
 				6270BEF62A77A18000950181 /* GoalSettingValidationUseCase.swift in Sources */,
