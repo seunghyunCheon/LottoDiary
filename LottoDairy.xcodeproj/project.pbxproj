@@ -514,13 +514,6 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
-		6265941F2ACE95C60008344A /* WeekHeaderView */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = WeekHeaderView;
-			sourceTree = "<group>";
-		};
 		626594202ACE95F00008344A /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
@@ -831,7 +824,6 @@
 		80F90CEB2A8D2AD6007E1D23 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				6265941F2ACE95C60008344A /* WeekHeaderView */,
 				624628DD2AAB3AE100ADE103 /* HeaderView */,
 				80F90CEE2A8D2DBE007E1D23 /* DateCollectionViewCell.swift */,
 				80F90CF02A8D2E29007E1D23 /* CalendarCollectionViewLayout.swift */,
