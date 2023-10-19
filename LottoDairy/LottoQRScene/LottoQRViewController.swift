@@ -111,7 +111,9 @@ extension LottoQRViewController: ReaderViewDelegate {
             preferredStyle: .alert
         )
 
-        let okButton = UIAlertAction(title: StringLiteral.LottoInvalidAlert.okTitle, style: .default)
+        let okButton = UIAlertAction(title: StringLiteral.LottoInvalidAlert.okTitle, style: .default) { _ in
+            self.qrReaderView.startSession()
+        }
 
         alert.addAction(okButton)
         self.onLottoInvalidAlert?(alert)
