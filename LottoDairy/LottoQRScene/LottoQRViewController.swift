@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class LottoQRViewController: UIViewController, LottoQRFlowProtocol {
 
@@ -17,6 +18,10 @@ final class LottoQRViewController: UIViewController, LottoQRFlowProtocol {
     }()
 
     private let viewModel: LottoQRViewModel
+
+    private var lottoQRDidComplete = PassthroughSubject<String, Never>()
+
+    private var cancellables = Set<AnyCancellable>()
 
     init(viewModel: LottoQRViewModel) {
         self.viewModel = viewModel
@@ -31,11 +36,20 @@ final class LottoQRViewController: UIViewController, LottoQRFlowProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        configureView()
+        self.configureView()
+        self.bindViewModel()
     }
 
     private func configureView() {
         view.addSubview(qrReaderView)
+    }
+
+    private func bindViewModel() {
+        let input = LottoQRViewModel.Input(
+            lottoQRDidComplete: self.lottoQRDidComplete
+        )
+
+        let output = viewModel.transform(from: input)
     }
 }
 
@@ -47,5 +61,6 @@ extension LottoQRViewController: ReaderViewDelegate {
     
     func lottoQRDidFailToSetup(_ error: QRReadingError) {
         print(error)
+        // 얼럿 띄우고 VC dismiss
     }
 }
