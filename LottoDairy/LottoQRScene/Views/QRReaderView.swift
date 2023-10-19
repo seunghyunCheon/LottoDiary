@@ -140,7 +140,7 @@ final class QRReaderView: UIView {
         self.previewLayer?.addSublayer(shapeLayer)
     }
 
-    private func startSession() {
+    func startSession() {
         DispatchQueue.global().async {
             self.session?.startRunning()
         }
