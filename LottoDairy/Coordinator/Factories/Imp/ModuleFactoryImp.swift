@@ -23,7 +23,8 @@ final class ModuleFactoryImp:
     }
 
     func makeLottoQRFlow() -> LottoQRFlowProtocol {
-        let viewModel = LottoQRViewModel()
+        let lottoQRUseCase = DefaultLottoQRUseCase()
+        let viewModel = LottoQRViewModel(lottoQRUseCase: lottoQRUseCase)
 
         return LottoQRViewController(viewModel: viewModel)
     }

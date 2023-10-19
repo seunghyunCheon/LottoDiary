@@ -8,5 +8,11 @@
 import Foundation
 
 final class LottoQRViewModel {
+    
+    private let lottoQRUseCase: LottoQRUseCase
+
+    init(lottoQRUseCase: LottoQRUseCase) {
+        self.lottoQRUseCase = lottoQRUseCase
+    }
 
 }
