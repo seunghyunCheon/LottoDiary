@@ -10,6 +10,10 @@ import Combine
 
 final class LottoQRViewController: UIViewController, LottoQRFlowProtocol {
 
+    var onCameraNotAvailableAlert: ((UIAlertController) -> ())?
+    
+    var onLottoInvalidAlert: ((UIAlertController) -> ())?
+
     private lazy var qrReaderView: QRReaderView = {
         let qrReaderView = QRReaderView(frame: view.bounds)
         qrReaderView.delegate = self
@@ -56,12 +60,64 @@ final class LottoQRViewController: UIViewController, LottoQRFlowProtocol {
 extension LottoQRViewController: ReaderViewDelegate {
 
     func lottoQRDidComplete(_ status: QRStatus) {
-        print("delegate: \(status)")
+        switch status {
+        case .success(let lottoURL):
+            self.lottoQRDidRecognize.send(lottoURL)
+        case .fail:
+            print("QR코드 인식 실패") // 로또 인식 실패가 아님
+            self.showQRCodeInvalidAlert()
+            self.qrReaderView.startSession()
+        case .stop:
+            print("카메라 멈춤")
+        }
     }
     
     func lottoQRDidFailToSetup(_ error: QRReadingError) {
         print(error)
-        // 얼럿 띄우고 VC dismiss
+        // 카메라 화면 자체가 실행 X
+        self.showCameraNotAvailableAlert()
+    }
+
+    private func showQRCodeInvalidAlert() {
+        let alert = UIAlertController(
+            title: StringLiteral.QRCodeInvalidAlert.title,
+            message: StringLiteral.QRCodeInvalidAlert.message,
+            preferredStyle: .alert
+        )
+
+        let okButton = UIAlertAction(title: StringLiteral.QRCodeInvalidAlert.okTitle, style: .default)
+
+        alert.addAction(okButton)
+        self.onLottoInvalidAlert?(alert)
+    }
+
+    private func showCameraNotAvailableAlert() {
+        let alert = UIAlertController(
+            title: StringLiteral.CameraAlert.title,
+            message: StringLiteral.CameraAlert.message,
+            preferredStyle: .alert
+        )
+
+        let closeButton = UIAlertAction(title: StringLiteral.CameraAlert.closeTitle, style: .default)
+
+        alert.addAction(closeButton)
+        self.onCameraNotAvailableAlert?(alert)
+    }
+
+    private func showLottoInvalidAlert() {
+        let alert = UIAlertController(
+            title: StringLiteral.LottoInvalidAlert.title,
+            message: StringLiteral.LottoInvalidAlert.message,
+            preferredStyle: .alert
+        )
+
+        let okButton = UIAlertAction(title: StringLiteral.LottoInvalidAlert.okTitle, style: .default)
+
+        alert.addAction(okButton)
+        self.onLottoInvalidAlert?(alert)
+    }
+}
+
 extension LottoQRViewController {
 
     private enum StringLiteral {
