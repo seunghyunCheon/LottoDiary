@@ -14,10 +14,10 @@ enum QRStatus {
 }
 
 enum QRReadingError: Error {
+    case failedToProvideCaptureDevice
     case failedToProvideCaptureDeviceInput
     case failedToAddCaptureDeviceInput
     case failedToAddCaptureMetadataOutput
-    case failedToCaptureSession
 }
 
 protocol ReaderViewDelegate: AnyObject {
@@ -72,7 +72,10 @@ final class QRReaderView: UIView {
     }
 
     private func configureSessionInput() {
-        guard let captureDevice = AVCaptureDevice.default(for: .video) else { return }
+        guard let captureDevice = AVCaptureDevice.default(for: .video) else {
+            delegate?.qrCodeDidFailToSetup(QRReadingError.failedToProvideCaptureDevice)
+            return
+        }
 
         self.session = AVCaptureSession()
         guard let session = self.session else { return }
@@ -95,10 +98,7 @@ final class QRReaderView: UIView {
     }
 
     private func configureSessionOutput() {
-        guard let session = self.session else {
-            delegate?.qrCodeDidFailToSetup(QRReadingError.failedToCaptureSession)
-            return
-        }
+        guard let session = self.session else { return }
         let output = AVCaptureMetadataOutput()
 
         if session.canAddOutput(output) {
