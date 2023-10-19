@@ -12,7 +12,7 @@ final class LottoQRViewController: UIViewController, LottoQRFlowProtocol {
 
     var onCameraNotAvailableAlert: ((UIAlertController) -> ())?
     
-    var onLottoInvalidAlert: ((UIAlertController) -> ())?
+    var onInvalidAlert: ((UIAlertController) -> ())?
 
     private lazy var qrReaderView: QRReaderView = {
         let qrReaderView = QRReaderView(frame: view.bounds)
@@ -98,7 +98,7 @@ extension LottoQRViewController: ReaderViewDelegate {
         let okButton = UIAlertAction(title: StringLiteral.QRCodeInvalidAlert.okTitle, style: .default)
 
         alert.addAction(okButton)
-        self.onLottoInvalidAlert?(alert)
+        self.onInvalidAlert?(alert)
     }
 
     private func showCameraNotAvailableAlert() {
@@ -126,7 +126,7 @@ extension LottoQRViewController: ReaderViewDelegate {
         }
 
         alert.addAction(okButton)
-        self.onLottoInvalidAlert?(alert)
+        self.onInvalidAlert?(alert)
     }
 }
 

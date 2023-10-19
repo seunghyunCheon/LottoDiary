@@ -23,7 +23,7 @@ final class LottoQRCoordinator: BaseCoordinator {
         var lottoQRFlow = moduleFactory.makeLottoQRFlow()
 
         lottoQRFlow.onCameraNotAvailableAlert = runCameraNotAvailableAlert()
-        lottoQRFlow.onLottoInvalidAlert = runLottoInvalidAlert()
+        lottoQRFlow.onInvalidAlert = runInvalidAlert()
 
         router.setRootModule(lottoQRFlow)
     }
@@ -36,7 +36,7 @@ final class LottoQRCoordinator: BaseCoordinator {
         }
     }
     
-    private func runLottoInvalidAlert() -> ((UIAlertController) -> ()) {
+    private func runInvalidAlert() -> ((UIAlertController) -> ()) {
         return { [weak self] alertController in
             self?.router.present(alertController, animated: true)
         }

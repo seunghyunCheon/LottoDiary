@@ -9,5 +9,5 @@ import UIKit
 
 protocol LottoQRFlowProtocol: Presentable {
     var onCameraNotAvailableAlert: ((UIAlertController) -> ())? { get set }
-    var onLottoInvalidAlert: ((UIAlertController) -> ())? { get set }
+    var onInvalidAlert: ((UIAlertController) -> ())? { get set }
 }
