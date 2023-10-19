@@ -62,5 +62,26 @@ extension LottoQRViewController: ReaderViewDelegate {
     func lottoQRDidFailToSetup(_ error: QRReadingError) {
         print(error)
         // 얼럿 띄우고 VC dismiss
+extension LottoQRViewController {
+
+    private enum StringLiteral {
+
+        enum CameraAlert {
+            static let title = "카메라를 사용할 수 없어요."
+            static let message = "잠시후 다시 시도해 주세요."
+            static let closeTitle = "닫기"
+        }
+
+        enum LottoInvalidAlert {
+            static let title = "유효한 로또 QR가 아니에요."
+            static let message = "로또 QR코드가 맞는지 확인해주세요."
+            static let okTitle = "확인"
+        }
+
+        enum QRCodeInvalidAlert {
+            static let title = "QR코드 인식에 실패했어요."
+            static let message = "올바른 QR코드가 맞는지 확인해주세요."
+            static let okTitle = "확인"
+        }
     }
 }
