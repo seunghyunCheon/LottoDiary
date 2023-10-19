@@ -9,7 +9,7 @@ import UIKit
 import AVFoundation
 
 enum QRStatus {
-    case success(_ code: String?)
+    case success(_ code: String)
     case fail
     case stop
 }
@@ -232,7 +232,7 @@ extension QRReaderView: AVCaptureMetadataOutputObjectsDelegate {
                 self.delegate?.lottoQRDidComplete(.fail)
                 return
             }
-
+            
             self.delegate?.lottoQRDidComplete(.success(stringValue))
             self.session?.stopRunning()
             self.delegate?.lottoQRDidComplete(.stop)
