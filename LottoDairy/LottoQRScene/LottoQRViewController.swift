@@ -79,10 +79,7 @@ extension LottoQRViewController: ReaderViewDelegate {
         case .success(let lottoURL):
             self.lottoQRDidRecognize.send(lottoURL)
         case .fail:
-            print("QR코드 인식 실패") // 로또 인식 실패가 아님
             self.showQRCodeInvalidAlert()
-        case .stop:
-            print("카메라 멈춤")
         }
     }
     

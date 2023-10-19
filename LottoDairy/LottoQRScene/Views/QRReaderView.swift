@@ -11,7 +11,6 @@ import AVFoundation
 enum QRStatus {
     case success(_ code: String)
     case fail
-    case stop
 }
 
 enum QRReadingError: Error {
