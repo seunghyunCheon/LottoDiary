@@ -6,6 +6,13 @@
 //
 
 import Foundation
+import Combine
+
+enum LottoQRState {
+    case invalid
+    case canNotAvailable
+    case valid
+}
 
 final class LottoQRViewModel {
     
