@@ -23,7 +23,7 @@ final class LottoQRViewController: UIViewController, LottoQRFlowProtocol {
 
     private let viewModel: LottoQRViewModel
 
-    private var lottoQRDidRecognize = PassthroughSubject<String, Never>()
+    private var qrCodeDidRecognize = PassthroughSubject<String, Never>()
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -50,7 +50,7 @@ final class LottoQRViewController: UIViewController, LottoQRFlowProtocol {
 
     private func bindViewModel() {
         let input = LottoQRViewModel.Input(
-            lottoQRDidRecognize: self.lottoQRDidRecognize
+            qrCodeDidRecognize: self.qrCodeDidRecognize
         )
 
         let output = viewModel.transform(from: input)
@@ -74,18 +74,17 @@ final class LottoQRViewController: UIViewController, LottoQRFlowProtocol {
 
 extension LottoQRViewController: ReaderViewDelegate {
 
-    func lottoQRDidComplete(_ status: QRStatus) {
+    func qrCodeDidComplete(_ status: QRStatus) {
         switch status {
         case .success(let lottoURL):
-            self.lottoQRDidRecognize.send(lottoURL)
+            self.qrCodeDidRecognize.send(lottoURL)
         case .fail:
             self.showQRCodeInvalidAlert()
         }
     }
     
-    func lottoQRDidFailToSetup(_ error: QRReadingError) {
+    func qrCodeDidFailToSetup(_ error: QRReadingError) {
         print(error)
-        // 카메라 화면 자체가 실행 X
         self.showCameraNotAvailableAlert()
     }
 

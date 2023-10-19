@@ -21,8 +21,8 @@ enum QRReadingError: Error {
 }
 
 protocol ReaderViewDelegate: AnyObject {
-    func lottoQRDidComplete(_ status: QRStatus)
-    func lottoQRDidFailToSetup(_ error: QRReadingError)
+    func qrCodeDidComplete(_ status: QRStatus)
+    func qrCodeDidFailToSetup(_ error: QRReadingError)
 }
 
 final class QRReaderView: UIView {
@@ -82,21 +82,21 @@ final class QRReaderView: UIView {
         do {
             input = try AVCaptureDeviceInput(device: captureDevice)
         } catch {
-            delegate?.lottoQRDidFailToSetup(QRReadingError.failedToProvideCaptureDeviceInput)
+            delegate?.qrCodeDidFailToSetup(QRReadingError.failedToProvideCaptureDeviceInput)
             return
         }
 
         if session.canAddInput(input) {
             session.addInput(input)
         } else {
-            delegate?.lottoQRDidFailToSetup(QRReadingError.failedToAddCaptureDeviceInput)
+            delegate?.qrCodeDidFailToSetup(QRReadingError.failedToAddCaptureDeviceInput)
             return
         }
     }
 
     private func configureSessionOutput() {
         guard let session = self.session else {
-            delegate?.lottoQRDidFailToSetup(QRReadingError.failedToCaptureSession)
+            delegate?.qrCodeDidFailToSetup(QRReadingError.failedToCaptureSession)
             return
         }
         let output = AVCaptureMetadataOutput()
@@ -110,7 +110,7 @@ final class QRReaderView: UIView {
             let previewLayer = createPreviewLayer()
             output.rectOfInterest = previewLayer
         } else {
-            delegate?.lottoQRDidFailToSetup(QRReadingError.failedToAddCaptureMetadataOutput)
+            delegate?.qrCodeDidFailToSetup(QRReadingError.failedToAddCaptureMetadataOutput)
             return
         }
     }
@@ -228,11 +228,11 @@ extension QRReaderView: AVCaptureMetadataOutputObjectsDelegate {
         if let metadataObject = metadataObjects.first {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject,
                   let stringValue = readableObject.stringValue else {
-                self.delegate?.lottoQRDidComplete(.fail)
+                self.delegate?.qrCodeDidComplete(.fail)
                 return
             }
             
-            self.delegate?.lottoQRDidComplete(.success(stringValue))
+            self.delegate?.qrCodeDidComplete(.success(stringValue))
             self.session?.stopRunning()
         }
     }
