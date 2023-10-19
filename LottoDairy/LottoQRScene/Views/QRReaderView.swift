@@ -53,6 +53,12 @@ final class QRReaderView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    func startSession() {
+        DispatchQueue.global().async {
+            self.session?.startRunning()
+        }
+    }
+
     private func setupRectOfInterest() {
         let size = self.frame.height * 0.28
         let halfOfWidth = bounds.width / 2
@@ -138,12 +144,6 @@ final class QRReaderView: UIView {
         shapeLayer.lineCap = .square
 
         self.previewLayer?.addSublayer(shapeLayer)
-    }
-
-    func startSession() {
-        DispatchQueue.global().async {
-            self.session?.startRunning()
-        }
     }
 
     private func createCorner() -> CGMutablePath {
@@ -235,7 +235,6 @@ extension QRReaderView: AVCaptureMetadataOutputObjectsDelegate {
             
             self.delegate?.lottoQRDidComplete(.success(stringValue))
             self.session?.stopRunning()
-            self.delegate?.lottoQRDidComplete(.stop)
         }
     }
 
