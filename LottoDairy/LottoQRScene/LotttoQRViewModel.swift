@@ -19,7 +19,7 @@ final class LottoQRViewModel {
     private let lottoQRUseCase: LottoQRUseCase
 
     struct Input {
-        let lottoQRDidComplete: PassthroughSubject<String, Never>
+        let lottoQRDidRecognize: PassthroughSubject<String, Never>
     }
 
     struct Output {
@@ -40,7 +40,7 @@ final class LottoQRViewModel {
     }
 
     private func configureInput(_ input: Input) {
-        input.lottoQRDidComplete
+        input.lottoQRDidRecognize
             .sink { [weak self] lottoURL in
                 self?.lottoURL.send(lottoURL)
                 print(lottoURL)

@@ -19,7 +19,7 @@ final class LottoQRViewController: UIViewController, LottoQRFlowProtocol {
 
     private let viewModel: LottoQRViewModel
 
-    private var lottoQRDidComplete = PassthroughSubject<String, Never>()
+    private var lottoQRDidRecognize = PassthroughSubject<String, Never>()
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -46,7 +46,7 @@ final class LottoQRViewController: UIViewController, LottoQRFlowProtocol {
 
     private func bindViewModel() {
         let input = LottoQRViewModel.Input(
-            lottoQRDidComplete: self.lottoQRDidComplete
+            lottoQRDidRecognize: self.lottoQRDidRecognize
         )
 
         let output = viewModel.transform(from: input)
@@ -56,7 +56,7 @@ final class LottoQRViewController: UIViewController, LottoQRFlowProtocol {
 extension LottoQRViewController: ReaderViewDelegate {
 
     func lottoQRDidComplete(_ status: QRStatus) {
-        print(status)
+        print("delegate: \(status)")
     }
     
     func lottoQRDidFailToSetup(_ error: QRReadingError) {

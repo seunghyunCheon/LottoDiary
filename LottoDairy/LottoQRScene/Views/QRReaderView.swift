@@ -233,8 +233,6 @@ extension QRReaderView: AVCaptureMetadataOutputObjectsDelegate {
                 return
             }
 
-            print(stringValue)
-
             self.delegate?.lottoQRDidComplete(.success(stringValue))
             self.session?.stopRunning()
             self.delegate?.lottoQRDidComplete(.stop)
