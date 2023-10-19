@@ -225,6 +225,8 @@ extension QRReaderView: AVCaptureMetadataOutputObjectsDelegate {
         didOutput metadataObjects: [AVMetadataObject],
         from connection: AVCaptureConnection
     ) {
+        self.session?.stopRunning()
+
         if let metadataObject = metadataObjects.first {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject,
                   let stringValue = readableObject.stringValue else {
@@ -233,7 +235,6 @@ extension QRReaderView: AVCaptureMetadataOutputObjectsDelegate {
             }
             
             self.delegate?.qrCodeDidComplete(.success(stringValue))
-            self.session?.stopRunning()
         }
     }
 
