@@ -18,8 +18,39 @@ final class LottoQRViewModel {
     
     private let lottoQRUseCase: LottoQRUseCase
 
+    struct Input {
+        let lottoQRDidComplete: PassthroughSubject<String, Never>
+    }
+
+    struct Output {
+        let lottoQRValidation = PassthroughSubject<LottoQRState, Never>()
+    }
+
+    private(set) var lottoURL = CurrentValueSubject<String, Never>("")
+
+    private var cancellables: Set<AnyCancellable> = []
+
     init(lottoQRUseCase: LottoQRUseCase) {
         self.lottoQRUseCase = lottoQRUseCase
     }
 
+    func transform(from input: Input) -> Output {
+        self.configureInput(input)
+        return configureOutput(from: input)
+    }
+
+    private func configureInput(_ input: Input) {
+        input.lottoQRDidComplete
+            .sink { [weak self] lottoURL in
+                self?.lottoURL.send(lottoURL)
+                print(lottoURL)
+            }
+            .store(in: &cancellables)
+    }
+
+    private func configureOutput(from input: Input) -> Output {
+        let output = Output()
+
+        return output
+    }
 }
