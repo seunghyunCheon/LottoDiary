@@ -866,7 +866,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					629C1F4E2A4ABD0F00540FA4 = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -1011,10 +1011,8 @@
 				629C1F5D2A4ABD0F00540FA4 /* LottoDiaryModel.xcdatamodeld in Sources */,
 				805FA70B2A6D853400089070 /* LottoQRFlowProtocol.swift in Sources */,
 				8001009B2AD4E41F000B40DD /* LotttoQRViewModel.swift in Sources */,
-				629C1F5D2A4ABD0F00540FA4 /* LottoDiaryModel.xcdatamodeld in Sources */,
 				80F90CDB2A8D1DD3007E1D23 /* CalendarFlowProtocol.swift in Sources */,
 				625141292AB5AA1F00E9E5C3 /* DefaultLottoRepository.swift in Sources */,
-				629C1F5D2A4ABD0F00540FA4 /* LottoDiaryModel.xcdatamodeld in Sources */,
 				626594232ACE961B0008344A /* WeekView.swift in Sources */,
 				621503372A55A44900431BBB /* TabBarFlowProtocol.swift in Sources */,
 				80F90CD72A8D1CFE007E1D23 /* CalendarViewController.swift in Sources */,
@@ -1092,6 +1090,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1152,6 +1151,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
