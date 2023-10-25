@@ -60,7 +60,7 @@ final class LottoQRViewController: UIViewController, LottoQRFlowProtocol {
                 switch state {
                 case .invalid:
                     self.showLottoInvalidAlert()
-                case .canNotAvailable:
+                case .notAnnounced:
                     print("결과 안나옴")
                     // 달력 페이지로 이동
                 case .valid:

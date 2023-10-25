@@ -10,7 +10,7 @@ import Combine
 
 enum LottoQRState {
     case invalid
-    case canNotAvailable
+    case notAnnounced
     case valid
 }
 
@@ -43,7 +43,6 @@ final class LottoQRViewModel {
         input.qrCodeDidRecognize
             .sink { [weak self] lottoURL in
                 self?.lottoURL.send(lottoURL)
-                print(lottoURL)
             }
             .store(in: &cancellables)
     }
@@ -52,12 +51,18 @@ final class LottoQRViewModel {
         let output = Output()
         
         self.lottoURL
-            .sink { url in
-                let validation = self.lottoQRUseCase.validateLottoURL(url)
-                output.lottoQRValidation.send(validation ? .valid : .invalid)
+            .flatMap { url -> AnyPublisher<Lotto, Error> in
+                return self.lottoQRUseCase.crawlLottoResult(url)
+            }
+            .sink { completion in
+                
+            } receiveValue: { lotto in
+                
             }
             .store(in: &cancellables)
 
+
         return output
     }
+
 }
