@@ -5,14 +5,29 @@
 //  Created by Sunny on 10/19/23.
 //
 
+import Foundation
 import Combine
+import SwiftSoup
 
-enum ErrorMan: Error {
-    case ee
+extension String {
+    func encoding() -> String? {
+        return self.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+    }
+    
+    func decoding() -> String? {
+        self.removingPercentEncoding
+    }
+}
+
+enum LottoQRUseCaseError: Error {
+    case invalidURL
+    case invalidResponse
 }
 
 final class DefaultLottoQRUseCase: LottoQRUseCase {
-
+    
+    private var cancellables = Set<AnyCancellable>()
+    
     func validateLottoURL(_ url: String) -> Bool {
         return url.contains(LottoAPI.baseURL)
     }
@@ -22,6 +37,53 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
         // 2. 정보를 기반으로 로또를 생성하고 반환한다.
         // 3. 외부에서 당첨금액이 없다면 달력으로 화면을 이동하고, 당첨금액이 있다면 당첨화면을 보여준다.
         
-        return Fail(error: ErrorMan.ee).eraseToAnyPublisher()
+        crawlling(url: url)
+            .sink(receiveCompletion: { comp in
+                if case .failure(let error) = comp {
+                    print(error)
+                }
+            }, receiveValue: { str in
+                
+            })
+            .store(in: &cancellables)
+        
+        return Fail(error: LottoQRUseCaseError.invalidURL).eraseToAnyPublisher()
+    }
+    
+    private func crawlling(url: String) -> AnyPublisher<String, Error> {
+        let redirectedUrl = url.replacingOccurrences(of: "/?", with: "/qr.do?&method=winQr&")
+        
+        guard let url = URL(string: redirectedUrl) else {
+            return Fail(error: LottoQRUseCaseError.invalidURL).eraseToAnyPublisher()
+        }
+        
+        return URLSession.shared
+            .dataTaskPublisher(for: url)
+            .tryMap { element -> Data in
+                guard let httpResponse = element.response as? HTTPURLResponse,
+                      httpResponse.statusCode == 200 else {
+                    throw LottoQRUseCaseError.invalidResponse
+                }
+                return element.data
+            }
+            .flatMap { data -> AnyPublisher<String, Error> in
+                do {
+                    let encodingEUCKR = CFStringConvertEncodingToNSStringEncoding(0x0422)
+                    if let html = String(data: data, encoding: String.Encoding(rawValue: encodingEUCKR)) {
+                        let doc: Document = try SwiftSoup.parse(data.description)
+                        let empElements: Elements = try doc.select(".winner_number").select(".tit")
+                        // 원하는 작업을 수행한 후 결과를 반환
+                        let result = try empElements.text()
+                    }
+                    return Just("")
+                        .setFailureType(to: Error.self)
+                        .eraseToAnyPublisher()
+                } catch {
+                    return Fail(error: error).eraseToAnyPublisher()
+                }
+            }
+            .eraseToAnyPublisher()
+        
     }
 }
+

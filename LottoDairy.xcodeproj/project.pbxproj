@@ -79,6 +79,7 @@
 		62AFA09F2A725C7100C9D86C /* CoreDataGoalAmountEntityPersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62AFA09E2A725C7100C9D86C /* CoreDataGoalAmountEntityPersistenceService.swift */; };
 		62CE39A02AB0772B009DFCD4 /* LottoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CE399F2AB0772B009DFCD4 /* LottoCell.swift */; };
 		62CE39A22AB08E0B009DFCD4 /* LottoCollectionVIewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CE39A12AB08E0B009DFCD4 /* LottoCollectionVIewLayout.swift */; };
+		62E8BB262AE9466000B14B4E /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 62E8BB252AE9466000B14B4E /* SwiftSoup */; };
 		62FD3DCA2AB2E6E700C302F0 /* AddLottoFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62FD3DC92AB2E6E700C302F0 /* AddLottoFooterView.swift */; };
 		62FD3DCC2AB41F9400C302F0 /* AddLottoViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62FD3DCB2AB41F9400C302F0 /* AddLottoViewProtocol.swift */; };
 		62FD3DD02AB4208700C302F0 /* AddLottoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62FD3DCF2AB4208700C302F0 /* AddLottoViewController.swift */; };
@@ -283,6 +284,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				801767032AB030E70046E537 /* DGCharts in Frameworks */,
+				62E8BB262AE9466000B14B4E /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -886,6 +888,7 @@
 			name = LottoDairy;
 			packageProductDependencies = (
 				801767022AB030E70046E537 /* DGCharts */,
+				62E8BB252AE9466000B14B4E /* SwiftSoup */,
 			);
 			productName = LottoDairy;
 			productReference = 629C1F4F2A4ABD0F00540FA4 /* LottoDairy.app */;
@@ -917,6 +920,7 @@
 			mainGroup = 629C1F462A4ABD0F00540FA4;
 			packageReferences = (
 				801767012AB030E70046E537 /* XCRemoteSwiftPackageReference "Charts" */,
+				62E8BB242AE9466000B14B4E /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 			);
 			productRefGroup = 629C1F502A4ABD0F00540FA4 /* Products */;
 			projectDirPath = "";
@@ -1286,6 +1290,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		62E8BB242AE9466000B14B4E /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		801767012AB030E70046E537 /* XCRemoteSwiftPackageReference "Charts" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/danielgindi/Charts.git";
@@ -1297,6 +1309,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		62E8BB252AE9466000B14B4E /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 62E8BB242AE9466000B14B4E /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
 		801767022AB030E70046E537 /* DGCharts */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 801767012AB030E70046E537 /* XCRemoteSwiftPackageReference "Charts" */;

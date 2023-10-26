@@ -17,41 +17,32 @@ enum LottoQRState {
 final class LottoQRViewModel {
     
     private let lottoQRUseCase: LottoQRUseCase
-
+    
     struct Input {
         let qrCodeDidRecognize: PassthroughSubject<String, Never>
     }
-
+    
     struct Output {
         let lottoQRValidation = PassthroughSubject<LottoQRState, Never>()
     }
-
+    
     private var lottoURL = CurrentValueSubject<String, Never>("")
-
+    
     private var cancellables: Set<AnyCancellable> = []
-
+    
     init(lottoQRUseCase: LottoQRUseCase) {
         self.lottoQRUseCase = lottoQRUseCase
     }
-
+    
     func transform(from input: Input) -> Output {
         self.configureInput(input)
         return configureOutput(from: input)
     }
-
+    
     private func configureInput(_ input: Input) {
         input.qrCodeDidRecognize
-            .sink { [weak self] lottoURL in
-                self?.lottoURL.send(lottoURL)
-            }
-            .store(in: &cancellables)
-    }
-
-    private func configureOutput(from input: Input) -> Output {
-        let output = Output()
-        
-        self.lottoURL
             .flatMap { url -> AnyPublisher<Lotto, Error> in
+                print(url)
                 return self.lottoQRUseCase.crawlLottoResult(url)
             }
             .sink { completion in
@@ -60,9 +51,13 @@ final class LottoQRViewModel {
                 
             }
             .store(in: &cancellables)
-
-
+        
+    }
+    
+    private func configureOutput(from input: Input) -> Output {
+        let output = Output()
+        
         return output
     }
-
+    
 }
