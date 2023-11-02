@@ -36,6 +36,30 @@ final class CoreDataLottoEntityPersistenceService: CoreDataLottoEntityPersistenc
         self.coreDataPersistenceService = coreDataPersistenceService
     }
 
+    func fetchLottoEntitiesWithoutWinningAmount() -> AnyPublisher<[Lotto], Error> {
+        guard let context = coreDataPersistenceService.backgroundContext else {
+            return Fail(error: CoreDataLottoEntityPersistenceServiceError.failedToInitializeCoreDataContainer)
+                .eraseToAnyPublisher()
+        }
+
+        return Future { promise in
+            context.perform {
+                let fetchRequest = LottoEntity.fetchRequest()
+                let predicate = NSPredicate(format: "winningAmount == -1")
+                fetchRequest.predicate = predicate
+                do {
+                    let fetchResult = try context.fetch(fetchRequest)
+                    promise(.success(fetchResult.map {
+                        $0.convertToDomain() }))
+                } catch {
+                    promise(.failure(CoreDataLottoEntityPersistenceServiceError.failedToFetchGoalAmount))
+                }
+            }
+        }
+        .receive(on: DispatchQueue.main)
+        .eraseToAnyPublisher()
+    }
+
     func fetchLottoEntities(with startDate: Date, and endDate: Date) -> AnyPublisher<[Lotto], Error> {
         guard let context = coreDataPersistenceService.backgroundContext else {
             return Fail(error: CoreDataLottoEntityPersistenceServiceError.failedToInitializeCoreDataContainer).eraseToAnyPublisher()
