@@ -17,7 +17,11 @@ final class DefaultLottoRepository: LottoRepository {
     ) {
         self.coreDataLottoEntityPersistenceService = coreDataLottoEntityPersistenceService
     }
-    
+
+    func fetchLottosWithoutWinningAmount() -> AnyPublisher<[Lotto], Error> {
+        return coreDataLottoEntityPersistenceService.fetchLottoEntitiesWithoutWinningAmount()
+    }
+
     func fetchLottos(with startDate: Date, and endDate: Date) -> AnyPublisher<[Lotto], Error> {
         return coreDataLottoEntityPersistenceService.fetchLottoEntities(with: startDate, and: endDate)
     }
