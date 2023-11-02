@@ -20,10 +20,6 @@ final class DefaultLottoRepository: LottoRepository {
     
     func fetchLottos(with startDate: Date, and endDate: Date) -> AnyPublisher<[Lotto], Error> {
         return coreDataLottoEntityPersistenceService.fetchLottoEntities(with: startDate, and: endDate)
-            .flatMap { lottos -> AnyPublisher<[Lotto], Error> in
-                return Just((lottos)).setFailureType(to: Error.self).eraseToAnyPublisher()
-            }
-            .eraseToAnyPublisher()
     }
 
     func fetchAllOfYear() -> AnyPublisher<[Int], Error> {
