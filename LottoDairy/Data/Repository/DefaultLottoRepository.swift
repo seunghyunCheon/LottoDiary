@@ -35,4 +35,8 @@ final class DefaultLottoRepository: LottoRepository {
     func saveLotto(_ lotto: Lotto) -> AnyPublisher<Lotto, Error> {
         return coreDataLottoEntityPersistenceService.saveLottoEntity(lotto)
     }
+
+    func updateWinningAmount(_ lotto: Lotto, amount: Int) {
+        coreDataLottoEntityPersistenceService.updateWinningAmount(lotto, amount: amount)
+    }
 }

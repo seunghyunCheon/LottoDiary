@@ -9,7 +9,9 @@ import Combine
 import Foundation
 
 protocol LottoRepository {
+    func fetchLottosWithoutWinningAmount() -> AnyPublisher<[Lotto], Error>
     func fetchLottos(with startDate: Date, and endDate: Date) -> AnyPublisher<[Lotto], Error>
     func fetchAllOfYear() -> AnyPublisher<[Int], Error>
     func saveLotto(_ lotto: Lotto) -> AnyPublisher<Lotto, Error>
+    func updateWinningAmount(_ lotto: Lotto, amount: Int)
 }
