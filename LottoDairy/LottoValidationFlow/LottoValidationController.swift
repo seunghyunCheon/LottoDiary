@@ -20,6 +20,20 @@ final class LottoValidationController {
         self.lottoValidationUseCase = lottoValidationUseCase
     }
 
+    private func fetchLottoResult(_ lotto: Lotto) -> AnyPublisher<[[Int]], Error> {
+        return lottoValidationUseCase.fetchLottoResult(lotto.roundNumber)
+            .map { result in
+                // 아직 결과가 안나온거라면 끝!
+                guard let result = result else { return nil }
+                // 결과 나왔을 때 아래 실행
+                print("새로 네트워킹 해서 결과 받아왔어요!")
+                self.roundNumberSet[lotto.roundNumber] = result
+                return result
+            }
+            .compactMap { $0 }
+            .eraseToAnyPublisher()
+    }
+
     private func calculateWinningAmount(numbers: [Int?]) -> Int {
         let winningAmounts = numbers.compactMap { number in
             switch number {
