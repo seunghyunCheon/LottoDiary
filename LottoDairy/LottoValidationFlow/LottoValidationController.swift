@@ -8,8 +8,12 @@
 import Combine
 import Foundation
 
-final class LottoValidationController {
-    
+protocol LottoValidationFlowProtocol {
+    func fetchRoundNumberWithNoResult()
+}
+
+final class LottoValidationController: LottoValidationFlowProtocol {
+
     private let lottoValidationUseCase: LottoValidationUseCase
 
     private var roundNumberSet: [Int: [[Int]]] = [:]
