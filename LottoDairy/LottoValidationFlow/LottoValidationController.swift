@@ -20,6 +20,41 @@ final class LottoValidationController {
         self.lottoValidationUseCase = lottoValidationUseCase
     }
 
+    func fetchRoundNumberWithNoResult() {
+        // 1. 당첨 결과가 없는 로또 fetch
+        lottoValidationUseCase.fetchLottosWithoutWinningAmount()
+            .sink { completion in
+                if case .failure(let error) = completion {
+                    print(error.localizedDescription)
+                }
+            } receiveValue: { lottos in
+                lottos.forEach { lotto in
+                    if let result = self.roundNumberSet[lotto.roundNumber] {
+                        // 이미 해당 회차번호에 대한 결과값이 있을 경우, 번호 비교
+                        return self.updateWinningAmount(lotto, result: result)
+                    } else {
+                        // 결과가 아직 오지 않은 경우, 결과 조회
+                        return self.fetchLottoResult(lotto)
+                            .sink { completion in
+                                if case .failure(let error) = completion {
+                                    print(error.localizedDescription)
+                                }
+                            } receiveValue: { result in
+                                return self.updateWinningAmount(lotto, result: result)
+                            }
+                            .store(in: &self.cancellables)
+                    }
+                }
+            }
+            .store(in: &cancellables)
+    }
+
+    private func updateWinningAmount(_ lotto: Lotto, result: [[Int]]) {
+        let comparedNumbers = self.compareLottoNumbers(lotto.lottoNumbers, with: result[0], bonus: result[1])
+        let amount = self.calculateWinningAmount(numbers: comparedNumbers)
+        return self.lottoValidationUseCase.updateWinningAmount(lotto: lotto, amount: amount)
+    }
+
     private func fetchLottoResult(_ lotto: Lotto) -> AnyPublisher<[[Int]], Error> {
         return lottoValidationUseCase.fetchLottoResult(lotto.roundNumber)
             .map { result in
