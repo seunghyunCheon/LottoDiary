@@ -9,7 +9,7 @@ import Combine
 import Foundation
 
 protocol LottoValidationFlowProtocol {
-    func fetchRoundNumberWithNoResult()
+    func updateLottosWithNoResult()
 }
 
 final class LottoValidationController: LottoValidationFlowProtocol {
@@ -24,7 +24,7 @@ final class LottoValidationController: LottoValidationFlowProtocol {
         self.lottoValidationUseCase = lottoValidationUseCase
     }
 
-    func fetchRoundNumberWithNoResult() {
+    func updateLottosWithNoResult() {
         // 1. 당첨 결과가 없는 로또 fetch
         lottoValidationUseCase.fetchLottosWithoutWinningAmount()
             .sink { completion in

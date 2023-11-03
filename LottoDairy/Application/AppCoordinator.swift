@@ -30,7 +30,7 @@ final class AppCoordinator: BaseCoordinator {
 
     private func runLottoValidationFlow() {
         let lottoValidationModule = moduleFactory.makeLottoValidationFlow()
-        lottoValidationModule.fetchRoundNumberWithNoResult()
+        lottoValidationModule.updateLottosWithNoResult()
     }
 
     private func runOnboardingFlow() {
