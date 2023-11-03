@@ -29,7 +29,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func makeAppCoordinator() -> Coordinator {
         return AppCoordinator(
             router: RouterImp(navigationController: self.rootController),
-            coordinatorFactory: CoordinatorFactoryImp()
+            coordinatorFactory: CoordinatorFactoryImp(),
+            moduleFactory: ModuleFactoryImp()
         )
     }
 
