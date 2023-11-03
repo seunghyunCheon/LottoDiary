@@ -20,6 +20,33 @@ final class LottoValidationController {
         self.lottoValidationUseCase = lottoValidationUseCase
     }
 
+    private func calculateWinningAmount(numbers: [Int?]) -> Int {
+        let winningAmounts = numbers.compactMap { number in
+            switch number {
+            case 3:
+                print("5등 금액")
+               return 5000
+            case 4:
+                print("4등 금액")
+               return 50000
+            case 5:
+                print("네트워킹 통한 3등 금액")
+                return 100000
+            case -5:
+                print("네트워킹 통한 2등 금액")
+                return 200000
+            case 6:
+                print("네트워킹 통한 1등 금액")
+                return 3000000
+            default:
+                break
+            }
+            return number
+        }
+
+        return winningAmounts.reduce(0, +)
+    }
+
     private func compareLottoNumbers(_ numbers: [[Int]], with result: [Int], bonus: [Int]) -> [Int?] {
         // 로또 번호와 결과 비교 로직 구현
         let comparedNumbers = numbers.map { number in
