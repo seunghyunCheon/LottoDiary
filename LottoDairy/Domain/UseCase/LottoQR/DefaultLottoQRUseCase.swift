@@ -51,8 +51,14 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
     }
     
     private func crawlling(url: String) -> AnyPublisher<String, Error> {
-        let redirectedUrl = url.replacingOccurrences(of: "/?", with: "/qr.do?&method=winQr&")
+        var redirectedUrl = url.replacingOccurrences(of: "/?", with: "/qr.do?&method=winQr&")
         
+        if let range = redirectedUrl.range(of: "/qr.do?") {
+            let lottoHost = "http://m.dhlottery.co.kr/"
+            let pathAndQuery = String(redirectedUrl[range.lowerBound...])
+            redirectedUrl = lottoHost + pathAndQuery
+        }
+         // /?가 있는 곳의 인덱스를 찾고 그 인덱스까지 정해둔 도메인을 넣어준다.
         guard let url = URL(string: redirectedUrl) else {
             return Fail(error: LottoQRUseCaseError.invalidURL).eraseToAnyPublisher()
         }
@@ -70,10 +76,19 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
                 do {
                     let encodingEUCKR = CFStringConvertEncodingToNSStringEncoding(0x0422)
                     if let html = String(data: data, encoding: String.Encoding(rawValue: encodingEUCKR)) {
-                        let doc: Document = try SwiftSoup.parse(data.description)
-                        let empElements: Elements = try doc.select(".winner_number").select(".tit")
-                        // 원하는 작업을 수행한 후 결과를 반환
-                        let result = try empElements.text()
+                        let doc: Document = try SwiftSoup.parse(html)
+                        let isAnnounced: Elements = try doc.select(".winner_number").select(".tit")
+                        let purchaseCounts: Elements = try doc.select(".list_my_number")
+                        
+                        for a in isAnnounced {
+                            print(a)
+                        }
+                        
+                        for ele in purchaseCounts {
+                            print(ele)
+                        }
+                        
+                        
                     }
                     return Just("")
                         .setFailureType(to: Error.self)
@@ -83,7 +98,6 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
                 }
             }
             .eraseToAnyPublisher()
-        
     }
 }
 
