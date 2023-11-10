@@ -42,7 +42,6 @@ final class LottoQRViewModel {
     private func configureInput(_ input: Input) {
         input.qrCodeDidRecognize
             .flatMap { url -> AnyPublisher<Lotto, Error> in
-                print(url)
                 return self.lottoQRUseCase.crawlLottoResult(url)
             }
             .sink { completion in

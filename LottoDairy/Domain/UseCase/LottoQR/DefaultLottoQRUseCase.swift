@@ -58,7 +58,7 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
             let pathAndQuery = String(redirectedUrl[range.lowerBound...])
             redirectedUrl = lottoHost + pathAndQuery
         }
-         // /?가 있는 곳의 인덱스를 찾고 그 인덱스까지 정해둔 도메인을 넣어준다.
+        print(redirectedUrl)
         guard let url = URL(string: redirectedUrl) else {
             return Fail(error: LottoQRUseCaseError.invalidURL).eraseToAnyPublisher()
         }
@@ -78,17 +78,23 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
                     if let html = String(data: data, encoding: String.Encoding(rawValue: encodingEUCKR)) {
                         let doc: Document = try SwiftSoup.parse(html)
                         let isAnnounced: Elements = try doc.select(".winner_number").select(".tit")
-                        let purchaseCounts: Elements = try doc.select(".list_my_number")
+                        let lottoNumbers: Elements = try doc.select(".bx_winner").select(".list").select(".clr").select("span")
+                        let purchaseCounts: Elements = try doc.select(".tbl_basic").select("tr")
+                        let winningAmount: Elements = try doc.select(".bx_notice").select(".key_clr1")
                         
-                        for a in isAnnounced {
-                            print(a)
+                        // 결과발표가 일어났다면
+                        if !isAnnounced.isEmpty() {
+                            var myLottoNumbers = []
+                            for number in lottoNumbers {
+                                myLottoNumbers.append(try number.text())
+                            }
+                            // 구매금액, 당첨금액, 내 로또번호 이렇게 세개만 넘겨주면 된다.
+                            print(myLottoNumbers)
+                            print(try winningAmount.text())
+                            print(purchaseCounts.count)
+                        } else {
+                            // 여기서는 당첨금액을 -1로 구매금액, 로또번호 이렇게 세개 넘겨준다.
                         }
-                        
-                        for ele in purchaseCounts {
-                            print(ele)
-                        }
-                        
-                        
                     }
                     return Just("")
                         .setFailureType(to: Error.self)
