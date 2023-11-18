@@ -15,7 +15,6 @@ final class Lotto {
     let winningAmount: Int
     let roundNumber: Int
     var lottoNumbers: [[Int]] = []
-    var isResultAnnounced: Bool = true
     
     init(
         id: UUID,
@@ -24,7 +23,6 @@ final class Lotto {
         purchaseAmount: Int,
         winningAmount: Int,
         lottoNumbers: [[Int]],
-        isResultAnnounced: Bool,
         roundNumber: Int = 0
     ) {
         self.id = id
@@ -33,7 +31,6 @@ final class Lotto {
         self.purchaseAmount = purchaseAmount
         self.winningAmount = winningAmount
         self.lottoNumbers = lottoNumbers
-        self.isResultAnnounced = isResultAnnounced
         self.roundNumber = roundNumber
     }
     
@@ -43,7 +40,26 @@ final class Lotto {
         purchaseAmount: Int,
         winningAmount: Int
     ) {
-        self.init(id: UUID(), date: date, type: type, purchaseAmount: purchaseAmount, winningAmount: winningAmount, lottoNumbers: [], isResultAnnounced: true)
+        self.init(id: UUID(), date: date, type: type, purchaseAmount: purchaseAmount, winningAmount: winningAmount, lottoNumbers: [])
+    }
+    
+    convenience init(
+        date: Date,
+        purchaseAmount: Int,
+        winningAmount: Int,
+        lottoNumbers: [[Int]]
+    ) {
+        self.init(id: UUID(), date: date, type: .lotto, purchaseAmount: purchaseAmount, winningAmount: winningAmount, lottoNumbers: lottoNumbers)
+    }
+    
+    // QR Initializer
+    convenience init(
+        purchaseAmount: Int,
+        winningAmount: Int,
+        lottoNumbers: [[Int]],
+        roundNumber: Int
+    ) {
+        self.init(id: UUID(), date: Date(), type: .lotto, purchaseAmount: purchaseAmount, winningAmount: winningAmount, lottoNumbers: lottoNumbers, roundNumber: roundNumber)
     }
 }
 
@@ -53,7 +69,6 @@ extension Lotto: Hashable {
         lhs.type == rhs.type &&
         lhs.purchaseAmount == rhs.purchaseAmount &&
         lhs.winningAmount == rhs.winningAmount &&
-        lhs.isResultAnnounced == rhs.isResultAnnounced &&
         lhs.lottoNumbers == rhs.lottoNumbers
     }
     
@@ -62,7 +77,6 @@ extension Lotto: Hashable {
         hasher.combine(type)
         hasher.combine(purchaseAmount)
         hasher.combine(winningAmount)
-        hasher.combine(isResultAnnounced)
         hasher.combine(lottoNumbers)
     }
 }

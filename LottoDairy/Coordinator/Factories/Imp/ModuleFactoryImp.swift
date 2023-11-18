@@ -23,7 +23,10 @@ final class ModuleFactoryImp:
     }
 
     func makeLottoQRFlow() -> LottoQRFlowProtocol {
-        let lottoQRUseCase = DefaultLottoQRUseCase()
+        let coreDataService = CoreDataPersistenceService.shared
+        let coreDataLottoPersistenceService = CoreDataLottoEntityPersistenceService(coreDataPersistenceService: coreDataService)
+        let lottoRepository = DefaultLottoRepository(coreDataLottoEntityPersistenceService: coreDataLottoPersistenceService)
+        let lottoQRUseCase = DefaultLottoQRUseCase(lottoRepository: lottoRepository)
         let viewModel = LottoQRViewModel(lottoQRUseCase: lottoQRUseCase)
 
         return LottoQRViewController(viewModel: viewModel)

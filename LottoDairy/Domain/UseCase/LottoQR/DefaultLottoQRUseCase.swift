@@ -22,11 +22,17 @@ extension String {
 enum LottoQRUseCaseError: Error {
     case invalidURL
     case invalidResponse
+    case invalidEncoding
 }
 
 final class DefaultLottoQRUseCase: LottoQRUseCase {
     
+    private let lottoRepository: LottoRepository
     private var cancellables = Set<AnyCancellable>()
+    
+    init(lottoRepository: LottoRepository) {
+        self.lottoRepository = lottoRepository
+    }
     
     func validateLottoURL(_ url: String) -> Bool {
         return url.contains(LottoAPI.baseURL)
@@ -50,7 +56,7 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
         return Fail(error: LottoQRUseCaseError.invalidURL).eraseToAnyPublisher()
     }
     
-    private func crawlling(url: String) -> AnyPublisher<String, Error> {
+    private func crawlling(url: String) -> AnyPublisher<Lotto, Error> {
         var redirectedUrl = url.replacingOccurrences(of: "/?", with: "/qr.do?&method=winQr&")
         
         if let range = redirectedUrl.range(of: "/qr.do?") {
@@ -72,38 +78,70 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
                 }
                 return element.data
             }
-            .flatMap { data -> AnyPublisher<String, Error> in
+            .flatMap { data -> AnyPublisher<Lotto, Error> in
                 do {
                     let encodingEUCKR = CFStringConvertEncodingToNSStringEncoding(0x0422)
                     if let html = String(data: data, encoding: String.Encoding(rawValue: encodingEUCKR)) {
                         let doc: Document = try SwiftSoup.parse(html)
-                        let isAnnounced: Elements = try doc.select(".winner_number").select(".tit")
-                        let lottoNumbers: Elements = try doc.select(".bx_winner").select(".list").select(".clr").select("span")
                         let purchaseCounts: Elements = try doc.select(".tbl_basic").select("tr")
-                        let winningAmount: Elements = try doc.select(".bx_notice").select(".key_clr1")
+                        let winningAmounts: Elements = try doc.select(".bx_notice").select(".key_clr1")
+                        let lottoNumbers: Elements = try doc.select(".list_my_number").select("tbody").select(".clr").select("span")
+                        let roundNumberInformation: String = try doc.select(".winner_number").select(".key_clr1").get(0).text()
+                        let winningNumbers: Elements = try doc.select(".bx_winner").select(".list")
                         
-                        // 결과발표가 일어났다면
-                        if !isAnnounced.isEmpty() {
-                            var myLottoNumbers = []
-                            for number in lottoNumbers {
-                                myLottoNumbers.append(try number.text())
-                            }
-                            // 구매금액, 당첨금액, 내 로또번호 이렇게 세개만 넘겨주면 된다.
-                            print(myLottoNumbers)
-                            print(try winningAmount.text())
-                            print(purchaseCounts.count)
-                        } else {
-                            // 여기서는 당첨금액을 -1로 구매금액, 로또번호 이렇게 세개 넘겨준다.
+                        var myLottoNumbers: [String] = []
+                        for number in lottoNumbers {
+                            myLottoNumbers.append(try number.text())
                         }
+                        
+                        let roundNumber = self.convertToRoundNumber(roundNumberInformation)
+                        let separatedLottoNumbers = self.convertToSeparatedLottoNumbers(myLottoNumbers)
+                        
+                        if !winningNumbers.isEmpty() {
+                            let winningAmount = try winningAmounts.text()
+                            let lotto = Lotto(
+                                purchaseAmount: 1000*purchaseCounts.count,
+                                winningAmount: Int(winningAmount) ?? 0,
+                                lottoNumbers: separatedLottoNumbers,
+                                roundNumber: roundNumber
+                            )
+                            
+                            return self.lottoRepository.saveLotto(lotto)
+                        } else {
+                            let lotto = Lotto(
+                                purchaseAmount: 1000*purchaseCounts.count,
+                                winningAmount: -1,
+                                lottoNumbers: separatedLottoNumbers,
+                                roundNumber: roundNumber
+                            )
+                            
+                            return self.lottoRepository.saveLotto(lotto)
+                        }
+                    } else {
+                        return Fail(error: LottoQRUseCaseError.invalidEncoding).eraseToAnyPublisher()
                     }
-                    return Just("")
-                        .setFailureType(to: Error.self)
-                        .eraseToAnyPublisher()
                 } catch {
                     return Fail(error: error).eraseToAnyPublisher()
                 }
             }
             .eraseToAnyPublisher()
+    }
+    
+    private func convertToSeparatedLottoNumbers(_ lottoNumbers: [String]) -> [[Int]] {
+        var separatedLottoNumbers: [[Int]] = []
+        var idx = 0
+        
+        while idx < lottoNumbers.count {
+            let array = Array(lottoNumbers[idx..<idx+6]).map { Int($0) ?? 0 }
+            separatedLottoNumbers.append(array)
+            idx += 6
+        }
+        
+        return separatedLottoNumbers
+    }
+    
+    private func convertToRoundNumber(_ roundNumberInformation: String) -> Int {
+        return Int(roundNumberInformation.filter { $0.isNumber }) ?? 0
     }
 }
 
