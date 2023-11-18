@@ -29,6 +29,13 @@ final class DefaultChartLottoUseCase: ChartLottoUseCase {
         self.lottoRepository = lottoRepository
     }
 
+    func fetchToday() -> [Int] {
+        let year = self.calendar.component(.year, from: .today)
+        let month = self.calendar.component(.month, from: .today)
+
+        return [year, month]
+    }
+
     func fetchLottoAmounts(year: Int, month: Int) -> AnyPublisher<(purchase: Int?, winning: Int?), Error> {
         return fetchLottoEntries(year: year, month: month)
             .flatMap { lottos -> AnyPublisher<(purchase: Int?, winning: Int?), Error> in
@@ -58,6 +65,20 @@ final class DefaultChartLottoUseCase: ChartLottoUseCase {
                     .eraseToAnyPublisher()
             }
             .eraseToAnyPublisher()
+    }
+
+    func calculatePercent(_ a: Int?, _ b: Int?) -> Int {
+        guard let a = a, a != .zero,
+              let b = b, b != .zero else { return .zero }
+        let percent = Double(a) / Double(b) * 100
+
+        return Int(percent)
+    }
+
+    func calculateRiceSoupCount(_ purchase: Int?) -> Double {
+        guard let purchase = purchase else { return 0 }
+        let count = Double(purchase) / 8000
+        return (count * 10).rounded() / 10
     }
 
     private func fetchLottoEntries(year: Int) -> AnyPublisher<[Lotto]?, Error> {

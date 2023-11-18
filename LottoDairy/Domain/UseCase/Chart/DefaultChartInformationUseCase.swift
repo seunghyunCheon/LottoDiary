@@ -29,10 +29,7 @@ final class DefaultChartInformationUseCase: ChartInformationUseCase {
     }
 
     func makeYearAndMonthOfToday() -> [Int] {
-        let year = self.calendar.component(.year, from: .today)
-        let month = self.calendar.component(.month, from: .today)
-
-        return [year, month]
+        return chartLottoUseCase.fetchToday()
     }
 
     func makeChartInformationComponents(year: Int, month: Int) -> AnyPublisher<[ChartInformationComponents], Error> {
@@ -46,7 +43,7 @@ final class DefaultChartInformationUseCase: ChartInformationUseCase {
 
             let goalResult: Bool = goalAmount >= purchaseAmount
             let winResult: Bool = purchaseAmount <= winningAmount
-            let percent: Double = (winningAmount == .zero && purchaseAmount == .zero) ? 0 : Double(winningAmount) / Double(purchaseAmount) * 100
+            let percent = self.chartLottoUseCase.calculatePercent(winningAmount, purchaseAmount)
 
             let chartInformationComponents = [
                 ChartInformationComponents(

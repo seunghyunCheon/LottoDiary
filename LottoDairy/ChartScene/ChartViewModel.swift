@@ -38,8 +38,8 @@ final class ChartViewModel {
         self.chartUseCase = chartUseCase
         self.chartInformationUseCase = chartInformationUseCase
 
-        configureToday()
-        configureYears()
+        self.configureToday()
+        self.configureYears()
     }
 
     func transform(from input: Input) -> Output {
@@ -60,6 +60,7 @@ final class ChartViewModel {
     private func configureInput(_ input: Input) {
         input.viewWillAppearEvent
             .sink {
+                self.configureToday()
                 self.selectedYear.send(self.selectedYear.value)
             }
             .store(in: &cancellables)

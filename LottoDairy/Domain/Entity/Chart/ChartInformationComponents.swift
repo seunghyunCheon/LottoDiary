@@ -13,23 +13,6 @@ enum ChartInformationSection {
 
 struct ChartInformationComponents: Hashable {
 
-    enum ChartInformationType: String {
-        case goal = "목표 금액"
-        case buy = "구매 금액"
-        case win = "당첨 금액"
-
-        var image: UIImage {
-            switch self {
-            case .goal:
-                return .actions
-            case .buy:
-                return .add
-            case .win:
-                return .remove
-            }
-        }
-    }
-
     enum ChartInformationPercentType {
         case minus
         case plus
@@ -73,13 +56,13 @@ struct ChartInformationComponents: Hashable {
     }
 
     let image: UIImage
-    let type: ChartInformationType
+    let type: AmountType
     var amount: String
     // 1, 2 : (달성 여부, nil)
     // 3 : (+/-, 금액)
     var result: (result: Bool, percent: Int?)
 
-    init(type: ChartInformationType, amount: Int, result: (result: Bool, percent: Int?)) {
+    init(type: AmountType, amount: Int, result: (result: Bool, percent: Int?)) {
         self.image = type.image
         self.type = type
         self.amount = amount.convertToDecimal()

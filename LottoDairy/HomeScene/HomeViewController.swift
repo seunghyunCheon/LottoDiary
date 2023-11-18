@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class HomeViewController: UIViewController, HomeFlowProtocol {
 
@@ -14,8 +15,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
     private let contentView = UIStackView()
 
     private let nickNameLabel: UILabel = {
-        // 추후 유저 닉네임 연결
-        let label = GmarketSansLabel(text: "Brody님", size: .title2, weight: .bold)
+        let label = GmarketSansLabel(size: .title2, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
 
         return label
@@ -31,16 +31,16 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         return button
     }()
 
-    private let explanationLabel: UIView = {
-        let view = DoubleLabelView(month: "7", percent: "78")
+    private let explanationLabel: DoubleLabelView = {
+        let view = DoubleLabelView(type: .percent)
         view.translatesAutoresizingMaskIntoConstraints = false
 
         return view
     }()
 
-    private lazy var goalLabel = getMoneyHorizontalStackView(type: .buy, money: "10,000원")
-    private lazy var buyLabel = getMoneyHorizontalStackView(type: .buy, money: "20,000원")
-    private lazy var winLabel = getMoneyHorizontalStackView(type: .win, money: "3,000원")
+    private lazy var goalLabel = DoubleLabelView(type: .goal)
+    private lazy var purchaseLabel = DoubleLabelView(type: .buy)
+    private lazy var winningLabel = DoubleLabelView(type: .win)
 
     private let imageLabel: UILabel = {
         let label = GmarketSansLabel(text: StringLiteral.imageTitle, alignment: .left, size: .title3, weight: .bold)
@@ -60,8 +60,8 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         return imageView
     }()
 
-    private let imageExplanationView: UIView = {
-        let view = DoubleLabelView(won: "78000", riceSoup: "7.8")
+    private let imageExplanationView: DoubleLabelView = {
+        let view = DoubleLabelView(type: .riceSoup)
         view.translatesAutoresizingMaskIntoConstraints = false
 
         return view
@@ -69,6 +69,22 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
 
     var onSetting: (() -> Void)?
 
+    private let viewModel: HomeViewModel
+
+    private var viewWillAppearPublisher = PassthroughSubject<Void, Never>()
+
+    private var cancellables = Set<AnyCancellable>()
+
+    init(viewModel: HomeViewModel) {
+        self.viewModel = viewModel
+
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,6 +93,14 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         setupScrollView()
         setupContentView()
         configureContentView()
+
+        self.bindViewModel()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        self.viewWillAppearPublisher.send()
     }
 
     // MARK: Functions - Private
@@ -165,9 +189,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         return nickNameView
     }
 
-    private func getMoneyHorizontalStackView(type: MoneyInformation, money: String) -> UIStackView {
-        let labelStackView = DoubleLabelView(title: type.title, won: money)
-
+    private func getMoneyHorizontalStackView(label: UIView, type: AmountType) -> UIStackView {
         let imageView: UIImageView = {
             let imageView = UIImageView(image: type.image)
             let imageViewSize: CGFloat = view.frame.width * 0.095
@@ -182,7 +204,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
 
         let moneyHorizontalStackView: UIStackView = {
             let stackView = UIStackView()
-            stackView.addArrangedSubviews([imageView, labelStackView])
+            stackView.addArrangedSubviews([imageView, label])
             stackView.axis = .horizontal
             stackView.distribution = .fillProportionally
             stackView.alignment = .center
@@ -204,7 +226,10 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
             stackView.layer.cornerRadius = Constant.cornerRadius
             return stackView
         }()
-        moneyInformationStackView.addArrangedSubviews([goalLabel, buyLabel, winLabel])
+        let goalStackView = getMoneyHorizontalStackView(label: goalLabel, type: .goal)
+        let buyStackView = getMoneyHorizontalStackView(label: purchaseLabel, type: .buy)
+        let winStackView = getMoneyHorizontalStackView(label: winningLabel, type: .win)
+        moneyInformationStackView.addArrangedSubviews([goalStackView, buyStackView, winStackView])
         moneyInformationStackView.isLayoutMarginsRelativeArrangement = true
         moneyInformationStackView.layoutMargins = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
 
@@ -247,6 +272,51 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         contentView.isLayoutMarginsRelativeArrangement = true
         contentView.layoutMargins = UIEdgeInsets(top: .zero, left: horizontalInset, bottom: .zero, right: horizontalInset)
     }
+
+    private func bindViewModel() {
+        let input = HomeViewModel.Input(viewWillAppearEvent: self.viewWillAppearPublisher)
+
+        let output = viewModel.transform(from: input)
+
+        self.explanationLabel.configureExplanationLabel(month: output.month)
+
+        output.nickNameTextField
+            .sink { name in
+                self.nickNameLabel.text = name
+            }
+            .store(in: &cancellables)
+
+        output.goalAmount
+            .sink { goal in
+                self.goalLabel.updateWonAmount(goal)
+            }
+            .store(in: &cancellables)
+
+        output.purchaseAmount
+            .sink { purchase in
+                self.purchaseLabel.updateWonAmount(purchase)
+                self.imageExplanationView.configureRiceSoupLabel(won: purchase)
+            }
+            .store(in: &cancellables)
+
+        output.winningAmount
+            .sink { winning in
+                self.winningLabel.updateWonAmount(winning)
+            }
+            .store(in: &cancellables)
+
+        output.percent
+            .sink { percent in
+                self.explanationLabel.configureExplanationLabel(percent: percent)
+            }
+            .store(in: &cancellables)
+
+        output.riceSoupCount
+            .sink { count in
+                self.imageExplanationView.configureRiceSoupLabel(riceSoup: count)
+            }
+            .store(in: &cancellables)
+    }
 }
 
 // MARK: Extension
@@ -255,11 +325,6 @@ extension HomeViewController {
     private enum SystemName: String {
         case setting = "gearshape"
         case photo = "photo"
-
-        // 임시 이미지
-        case goal = "sun.max"
-        case buy = "sun.max.fill"
-        case win = "sun.max.trianglebadge.exclamationmark"
 
         var image: UIImage? {
             return UIImage(systemName: self.rawValue)
@@ -273,33 +338,4 @@ extension HomeViewController {
     private enum StringLiteral {
         static let imageTitle = "이 돈이면"
     }
-
-    private enum MoneyInformation {
-        case goal
-        case buy
-        case win
-
-        var image: UIImage? {
-            switch self {
-            case .goal:
-                return SystemName.goal.image
-            case .buy:
-                return SystemName.buy.image
-            case .win:
-                return SystemName.win.image
-            }
-        }
-
-        var title: String {
-            switch self {
-            case .goal:
-                return "목표"
-            case .buy:
-                return "구매 금액"
-            case .win:
-                return "당첨 금액"
-            }
-        }
-    }
-
 }

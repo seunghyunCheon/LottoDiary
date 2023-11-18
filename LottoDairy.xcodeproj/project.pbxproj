@@ -117,6 +117,8 @@
 		807AAD5C2AAC30DC00D338BF /* ChartInformationComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807AAD5B2AAC30DC00D338BF /* ChartInformationComponents.swift */; };
 		8080DDBB2A604A0500364CF1 /* TabBarComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8080DDBA2A604A0500364CF1 /* TabBarComponents.swift */; };
 		8080DDBE2A60540B00364CF1 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8080DDBD2A60540B00364CF1 /* TabBarView.swift */; };
+		80C0213C2AD91DFC0054B29F /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C0213B2AD91DFC0054B29F /* HomeViewModel.swift */; };
+		80C0213E2ADAB03D0054B29F /* AmountType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C0213D2ADAB03D0054B29F /* AmountType.swift */; };
 		808609612AC9F89000BE2735 /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808609602AC9F89000BE2735 /* QRReaderView.swift */; };
 		80EB03322A72336400455E05 /* GmarketSansLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB03312A72336400455E05 /* GmarketSansLabel.swift */; };
 		80EB03342A72370E00455E05 /* UIStackView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB03332A72370E00455E05 /* UIStackView+Extensions.swift */; };
@@ -250,6 +252,8 @@
 		807AAD5B2AAC30DC00D338BF /* ChartInformationComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartInformationComponents.swift; sourceTree = "<group>"; };
 		8080DDBA2A604A0500364CF1 /* TabBarComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarComponents.swift; sourceTree = "<group>"; };
 		8080DDBD2A60540B00364CF1 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
+		80C0213B2AD91DFC0054B29F /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		80C0213D2ADAB03D0054B29F /* AmountType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountType.swift; sourceTree = "<group>"; };
 		808609602AC9F89000BE2735 /* QRReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRReaderView.swift; sourceTree = "<group>"; };
 		80EB03312A72336400455E05 /* GmarketSansLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GmarketSansLabel.swift; sourceTree = "<group>"; };
 		80EB03332A72370E00455E05 /* UIStackView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extensions.swift"; sourceTree = "<group>"; };
@@ -449,7 +453,6 @@
 			children = (
 				80F90CE02A8D23F5007E1D23 /* Entity */,
 				626845362A6BEBBE00569D02 /* Interfaces */,
-				807AAD572AAC309300D338BF /* Model */,
 				624BB0DB2A67B2D9002A3109 /* UseCase */,
 			);
 			path = Domain;
@@ -733,18 +736,11 @@
 			children = (
 				80EB032A2A7132C000455E05 /* Views */,
 				80773A6D2A55AE9E0020F1DD /* HomeCoordinator.swift */,
+				80C0213B2AD91DFC0054B29F /* HomeViewModel.swift */,
 				80773A6F2A55AF770020F1DD /* HomeViewController.swift */,
 				80773A712A55AFF80020F1DD /* HomeFlowProtocol.swift */,
 			);
 			path = HomeScene;
-			sourceTree = "<group>";
-		};
-		807AAD572AAC309300D338BF /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				807AAD582AAC309A00D338BF /* Chart */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		807AAD582AAC309A00D338BF /* Chart */ = {
@@ -766,6 +762,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		80C0213F2ADAB0430054B29F /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				80C0213D2ADAB03D0054B29F /* AmountType.swift */,
+			);
+			path = Common;
+            sourceTree = "<group>";
+        };
 		8086095F2AC9F88500BE2735 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -806,6 +810,8 @@
 		80F90CE02A8D23F5007E1D23 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				80C0213F2ADAB0430054B29F /* Common */,
+				807AAD582AAC309A00D338BF /* Chart */,
 				80F90CE12A8D2415007E1D23 /* Calendar */,
 			);
 			path = Entity;
@@ -920,6 +926,7 @@
 				8080DDBE2A60540B00364CF1 /* TabBarView.swift in Sources */,
 				801767072AB036670046E537 /* Device.swift in Sources */,
 				621503302A559BB200431BBB /* CoordinatorFactoryImp.swift in Sources */,
+				80C0213E2ADAB03D0054B29F /* AmountType.swift in Sources */,
 				805EA6C12A9B1E3D00A3545C /* ChartCoordinator.swift in Sources */,
 				624BB0CF2A652FB9002A3109 /* GoalSettingModuleFactory.swift in Sources */,
 				805EA6C82AA2492900A3545C /* ChartInformationCell.swift in Sources */,
@@ -937,6 +944,7 @@
 				801767002AAEF90F0046E537 /* DefaultChartUseCase.swift in Sources */,
 				805EA6BF2A9B1E1E00A3545C /* ChartViewController.swift in Sources */,
 				8060B41F2A61A66800726C83 /* LottoQRButton.swift in Sources */,
+				80C0213C2AD91DFC0054B29F /* HomeViewModel.swift in Sources */,
 				8080DDBB2A604A0500364CF1 /* TabBarComponents.swift in Sources */,
 				80773A6E2A55AE9E0020F1DD /* HomeCoordinator.swift in Sources */,
 				80EB03322A72336400455E05 /* GmarketSansLabel.swift in Sources */,
