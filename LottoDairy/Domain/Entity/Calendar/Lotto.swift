@@ -34,7 +34,9 @@ final class Lotto {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone.current
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
-        self.date = dateFormatter.date(from: dateFormatter.string(from: date)) ?? Date()
+        let dates = dateFormatter.date(from: dateFormatter.string(from: date))
+        print(dates)
+        self.date = dates ?? Date()
     }
     
     convenience init(
