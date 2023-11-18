@@ -185,7 +185,6 @@ final class CalendarUseCase {
     _ next: [DayComponent]
     ) -> AnyPublisher<[[DayComponent]], Error> {
         guard let previousRange = dateRange(from: previous),
-              let nowRange = dateRange(from: now),
               let nextRange = dateRange(from: next) else {
             return Fail(error: CalendarUseCaseError.failedToFetchData)
                 .eraseToAnyPublisher()
