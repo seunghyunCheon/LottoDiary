@@ -129,7 +129,12 @@ final class LottoCell: UICollectionViewCell {
         lottoImageView.image = UIImage(named: lotto.type.rawValue)
         titleLabel.text = lotto.type.rawValue
         purchaseAmountLabel.text = String(lotto.purchaseAmount.convertToDecimal()) + " 원"
-        winningAmountLabel.text = String(lotto.winningAmount.convertToDecimal()) + " 원"
+        if lotto.winningAmount == -1 {
+            winningAmountLabel.text = "미지정"
+        } else {
+            winningAmountLabel.text = String(lotto.winningAmount.convertToDecimal()) + " 원"
+        }
+        
         switch lotto.type {
         case .lotto:
             self.backgroundColor = .designSystem(.mainOrange)

@@ -8,6 +8,5 @@
 import Foundation
 
 enum LottoAPI {
-
     static var baseURL = "http://m.dhlottery.co.kr"
 }
