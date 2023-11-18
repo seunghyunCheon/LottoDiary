@@ -98,10 +98,10 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
                         let separatedLottoNumbers = self.convertToSeparatedLottoNumbers(myLottoNumbers)
                         
                         if !winningNumbers.isEmpty() {
-                            let winningAmount = try winningAmounts.text()
+                            let winningAmountInformation = try winningAmounts.text()
                             let lotto = Lotto(
                                 purchaseAmount: 1000*purchaseCounts.count,
-                                winningAmount: Int(winningAmount) ?? 0,
+                                winningAmount: self.convertToWinningAmount(winningAmountInformation),
                                 lottoNumbers: separatedLottoNumbers,
                                 roundNumber: roundNumber
                             )
@@ -125,6 +125,10 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
                 }
             }
             .eraseToAnyPublisher()
+    }
+    
+    private func convertToWinningAmount(_ winningAmount: String) -> Int {
+        return Int(winningAmount.filter { $0.isNumber }) ?? 0
     }
     
     private func convertToSeparatedLottoNumbers(_ lottoNumbers: [String]) -> [[Int]] {
