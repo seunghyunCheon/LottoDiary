@@ -85,15 +85,17 @@ extension TabBarController: UITabBarControllerDelegate {
 extension TabBarController: LottoQRButtonDelegate {
 
     func lottoQRButtonDidTap() {
-        self.requestCameraPermission()
+        Task {
+            await self.requestCameraPermission()
+        }
     }
 
-    private func requestCameraPermission() {
+    private func requestCameraPermission() async {
         let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
 
         switch cameraAuthorizationStatus {
         case .notDetermined:
-            self.requestCameraAccess()
+            await self.requestCameraAccess()
         case .restricted, .denied:
             self.showCameraPermissionDeniedAlert()
         case .authorized:
@@ -103,13 +105,11 @@ extension TabBarController: LottoQRButtonDelegate {
         }
     }
 
-    private func requestCameraAccess() {
-        AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
-            if granted {
-                self?.selectedLottoQR()
-            } else {
-                self?.showCameraPermissionDeniedAlert()
-            }
+    private func requestCameraAccess() async {
+        if await AVCaptureDevice.requestAccess(for: .video) {
+            self.selectedLottoQR()
+        } else {
+            self.showCameraPermissionDeniedAlert()
         }
     }
 
@@ -134,9 +134,7 @@ extension TabBarController: LottoQRButtonDelegate {
         alert.addAction(settingButton)
 
         guard let controller = self.selectedViewController as? UINavigationController else { return }
-        controller.present(alert, animated: true)
-
-//        onPermissionDeniedAlert?(controller, alert)
+        onPermissionDeniedAlert?(controller, alert)
     }
 
     private func selectedLottoQR() {
