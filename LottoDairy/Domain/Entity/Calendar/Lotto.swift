@@ -26,12 +26,15 @@ final class Lotto {
         roundNumber: Int = 0
     ) {
         self.id = id
-        self.date = date
         self.type = type
         self.purchaseAmount = purchaseAmount
         self.winningAmount = winningAmount
         self.lottoNumbers = lottoNumbers
         self.roundNumber = roundNumber
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone.current
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+        self.date = dateFormatter.date(from: dateFormatter.string(from: date)) ?? Date()
     }
     
     convenience init(

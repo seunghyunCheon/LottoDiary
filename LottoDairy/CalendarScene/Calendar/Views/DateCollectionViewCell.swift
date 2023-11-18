@@ -84,6 +84,7 @@ final class DateCollectionViewCell: UICollectionViewCell {
         var snapshot = NSDiffableDataSourceSnapshot<Int, DayComponent>()
         snapshot.appendSections([0])
         snapshot.appendItems(days)
+        
         self.dataSource?.apply(snapshot)
         
         let layout = CalendarCollectionViewLayout().createLayout(type: self.scope, days: days)
