@@ -12,6 +12,7 @@ fileprivate enum CoreDataLottoEntityPersistenceServiceError: LocalizedError {
     case failedToInitializeCoreDataContainer
     case failedToCreateGoalAmount
     case failedToFetchGoalAmount
+    case failedToFetchLottoEntity
     case failedToFetchDistinctYear
 
     var errorDescription: String? {
@@ -24,6 +25,8 @@ fileprivate enum CoreDataLottoEntityPersistenceServiceError: LocalizedError {
             return "GoalAmount 엔티티 불러오기에 실패했습니다."
         case .failedToFetchDistinctYear:
             return "LottoEntity의 년도 데이터 불러오기에 실패했습니다."
+        case .failedToFetchLottoEntity:
+            return "id로 LottoEntity를 불러오기에 실패했습니다."
         }
     }
 }
@@ -34,6 +37,29 @@ final class CoreDataLottoEntityPersistenceService: CoreDataLottoEntityPersistenc
 
     init(coreDataPersistenceService: CoreDataPersistenceServiceProtocol) {
         self.coreDataPersistenceService = coreDataPersistenceService
+    }
+
+    func fetchLottoEntitiesWithoutWinningAmount() -> AnyPublisher<[Lotto], Error> {
+        guard let context = coreDataPersistenceService.backgroundContext else {
+            return Fail(error: CoreDataLottoEntityPersistenceServiceError.failedToInitializeCoreDataContainer)
+                .eraseToAnyPublisher()
+        }
+
+        return Future { promise in
+            context.perform {
+                let fetchRequest = LottoEntity.fetchRequest()
+                let predicate = NSPredicate(format: "winningAmount == -1")
+                fetchRequest.predicate = predicate
+                do {
+                    let fetchResult = try context.fetch(fetchRequest)
+                    promise(.success(fetchResult.map {
+                        $0.convertToDomain() }))
+                } catch {
+                    promise(.failure(CoreDataLottoEntityPersistenceServiceError.failedToFetchGoalAmount))
+                }
+            }
+        }
+        .eraseToAnyPublisher()
     }
 
     func fetchLottoEntities(with startDate: Date, and endDate: Date) -> AnyPublisher<[Lotto], Error> {
@@ -107,5 +133,24 @@ final class CoreDataLottoEntityPersistenceService: CoreDataLottoEntityPersistenc
         }
         .receive(on: DispatchQueue.main)
         .eraseToAnyPublisher()
+    }
+
+    func updateWinningAmount(_ lotto: Lotto, amount: Int) {
+        guard let context = coreDataPersistenceService.backgroundContext else {
+            print(CoreDataLottoEntityPersistenceServiceError.failedToInitializeCoreDataContainer)
+            return
+        }
+
+        let fetchRequest = LottoEntity.fetchRequest()
+        let predicate = NSPredicate(format: "id == %@", lotto.id as CVarArg)
+        fetchRequest.predicate = predicate
+        do {
+            guard let fetchResult = try context.fetch(fetchRequest).first else { return }
+            fetchResult.winningAmount = amount
+            try context.save()
+        } catch {
+            print(CoreDataLottoEntityPersistenceServiceError.failedToFetchLottoEntity)
+            return
+        }
     }
 }

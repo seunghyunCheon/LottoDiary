@@ -62,6 +62,4 @@ final class DefaultAddLottoValidationUseCase: AddLottoValidationUseCase {
         
         self.winningAmountValidationState.send(.success)
     }
-    
-    
 }

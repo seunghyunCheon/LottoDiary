@@ -17,13 +17,13 @@ final class DefaultLottoRepository: LottoRepository {
     ) {
         self.coreDataLottoEntityPersistenceService = coreDataLottoEntityPersistenceService
     }
-    
+
+    func fetchLottosWithoutWinningAmount() -> AnyPublisher<[Lotto], Error> {
+        return coreDataLottoEntityPersistenceService.fetchLottoEntitiesWithoutWinningAmount()
+    }
+
     func fetchLottos(with startDate: Date, and endDate: Date) -> AnyPublisher<[Lotto], Error> {
         return coreDataLottoEntityPersistenceService.fetchLottoEntities(with: startDate, and: endDate)
-            .flatMap { lottos -> AnyPublisher<[Lotto], Error> in
-                return Just((lottos)).setFailureType(to: Error.self).eraseToAnyPublisher()
-            }
-            .eraseToAnyPublisher()
     }
 
     func fetchAllOfYear() -> AnyPublisher<[Int], Error> {
@@ -34,5 +34,9 @@ final class DefaultLottoRepository: LottoRepository {
     
     func saveLotto(_ lotto: Lotto) -> AnyPublisher<Lotto, Error> {
         return coreDataLottoEntityPersistenceService.saveLottoEntity(lotto)
+    }
+
+    func updateWinningAmount(_ lotto: Lotto, amount: Int) {
+        coreDataLottoEntityPersistenceService.updateWinningAmount(lotto, amount: amount)
     }
 }

@@ -10,8 +10,9 @@ final class ModuleFactoryImp:
     GoalSettingModuleFactory,
     LottoQRModuleFactory,
     CalendarModuleFactory,
-    ChartModuleFactory {
-    
+    ChartModuleFactory,
+    LottoValidationModuleFactory {
+
     func makeHomeFlow() -> HomeFlowProtocol {
         let coreDataService = CoreDataPersistenceService.shared
         let coreDataLottoPersistenceService = CoreDataLottoEntityPersistenceService(coreDataPersistenceService: coreDataService)
@@ -112,5 +113,13 @@ final class ModuleFactoryImp:
             chartInformationUseCase: chartInformationUseCase
         )
         return ChartViewController(viewModel: viewModel)
+    }
+
+    func makeLottoValidationFlow() -> LottoValidationFlowProtocol {
+        let coreDataService = CoreDataPersistenceService.shared
+        let coreDataLottoPersistenceService = CoreDataLottoEntityPersistenceService(coreDataPersistenceService: coreDataService)
+        let lottoRepository = DefaultLottoRepository(coreDataLottoEntityPersistenceService: coreDataLottoPersistenceService)
+        let lottoValidationUseCase = DefaultLottoValidationUseCase(lottoRepository: lottoRepository)
+        return LottoValidationController(lottoValidationUseCase: lottoValidationUseCase)
     }
 }
