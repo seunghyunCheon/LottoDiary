@@ -185,7 +185,6 @@ final class CalendarUseCase {
     _ next: [DayComponent]
     ) -> AnyPublisher<[[DayComponent]], Error> {
         guard let previousRange = dateRange(from: previous),
-              let nowRange = dateRange(from: now),
               let nextRange = dateRange(from: next) else {
             return Fail(error: CalendarUseCaseError.failedToFetchData)
                 .eraseToAnyPublisher()
@@ -198,23 +197,20 @@ final class CalendarUseCase {
         return lottoRepository.fetchLottos(with: previousRange.lowerBound, and: nextRange.upperBound)
             .flatMap { lottos -> AnyPublisher<[[DayComponent]], Error> in
                 lottos.forEach { lotto in
-                    if previousRange.contains(lotto.date),
-                       let targetIdx = previous.firstIndex(where: { $0.date.equalsDate(with: lotto.date) }) {
-                            previous[targetIdx].lottos.append(lotto)
-                            return
-                       }
+                    if let targetIdx = previous.firstIndex(where: { $0.date.equalsDate(with: lotto.date) }) {
+                        previous[targetIdx].lottos.append(lotto)
+                        return
+                   }
                     
-                    if nowRange.contains(lotto.date),
-                       let targetIdx = now.firstIndex(where: { $0.date.equalsDate(with: lotto.date) }) {
-                            now[targetIdx].lottos.append(lotto)
-                            return
-                       }
+                    if let targetIdx = now.firstIndex(where: { $0.date.equalsDate(with: lotto.date) }) {
+                        now[targetIdx].lottos.append(lotto)
+                        return
+                   }
                     
-                    if nextRange.contains(lotto.date),
-                       let targetIdx = next.firstIndex(where: { $0.date.equalsDate(with: lotto.date) }) {
-                            next[targetIdx].lottos.append(lotto)
-                            return
-                       }
+                    if let targetIdx = next.firstIndex(where: { $0.date.equalsDate(with: lotto.date) }) {
+                        next[targetIdx].lottos.append(lotto)
+                        return
+                   }
                 }
                 return Just([previous, now, next]).setFailureType(to: Error.self).eraseToAnyPublisher()
             }

@@ -9,21 +9,20 @@ import UIKit
 import AVFoundation
 
 enum QRStatus {
-    case success(_ code: String?)
+    case success(_ code: String)
     case fail
-    case stop
 }
 
 enum QRReadingError: Error {
+    case failedToProvideCaptureDevice
     case failedToProvideCaptureDeviceInput
     case failedToAddCaptureDeviceInput
     case failedToAddCaptureMetadataOutput
-    case failedToCaptureSession
 }
 
 protocol ReaderViewDelegate: AnyObject {
-    func lottoQRDidComplete(_ status: QRStatus)
-    func lottoQRDidFailToSetup(_ error: QRReadingError)
+    func qrCodeDidComplete(_ status: QRStatus)
+    func qrCodeDidFailToSetup(_ error: QRReadingError)
 }
 
 final class QRReaderView: UIView {
@@ -53,6 +52,12 @@ final class QRReaderView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    func startSession() {
+        DispatchQueue.global().async {
+            self.session?.startRunning()
+        }
+    }
+
     private func setupRectOfInterest() {
         let size = self.frame.height * 0.28
         let halfOfWidth = bounds.width / 2
@@ -67,7 +72,10 @@ final class QRReaderView: UIView {
     }
 
     private func configureSessionInput() {
-        guard let captureDevice = AVCaptureDevice.default(for: .video) else { return }
+        guard let captureDevice = AVCaptureDevice.default(for: .video) else {
+            delegate?.qrCodeDidFailToSetup(QRReadingError.failedToProvideCaptureDevice)
+            return
+        }
 
         self.session = AVCaptureSession()
         guard let session = self.session else { return }
@@ -77,23 +85,20 @@ final class QRReaderView: UIView {
         do {
             input = try AVCaptureDeviceInput(device: captureDevice)
         } catch {
-            delegate?.lottoQRDidFailToSetup(QRReadingError.failedToProvideCaptureDeviceInput)
+            delegate?.qrCodeDidFailToSetup(QRReadingError.failedToProvideCaptureDeviceInput)
             return
         }
 
         if session.canAddInput(input) {
             session.addInput(input)
         } else {
-            delegate?.lottoQRDidFailToSetup(QRReadingError.failedToAddCaptureDeviceInput)
+            delegate?.qrCodeDidFailToSetup(QRReadingError.failedToAddCaptureDeviceInput)
             return
         }
     }
 
     private func configureSessionOutput() {
-        guard let session = self.session else {
-            delegate?.lottoQRDidFailToSetup(QRReadingError.failedToCaptureSession)
-            return
-        }
+        guard let session = self.session else { return }
         let output = AVCaptureMetadataOutput()
 
         if session.canAddOutput(output) {
@@ -105,7 +110,7 @@ final class QRReaderView: UIView {
             let previewLayer = createPreviewLayer()
             output.rectOfInterest = previewLayer
         } else {
-            delegate?.lottoQRDidFailToSetup(QRReadingError.failedToAddCaptureMetadataOutput)
+            delegate?.qrCodeDidFailToSetup(QRReadingError.failedToAddCaptureMetadataOutput)
             return
         }
     }
@@ -138,12 +143,6 @@ final class QRReaderView: UIView {
         shapeLayer.lineCap = .square
 
         self.previewLayer?.addSublayer(shapeLayer)
-    }
-
-    private func startSession() {
-        DispatchQueue.global().async {
-            self.session?.startRunning()
-        }
     }
 
     private func createCorner() -> CGMutablePath {
@@ -226,18 +225,16 @@ extension QRReaderView: AVCaptureMetadataOutputObjectsDelegate {
         didOutput metadataObjects: [AVMetadataObject],
         from connection: AVCaptureConnection
     ) {
+        self.session?.stopRunning()
+
         if let metadataObject = metadataObjects.first {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject,
                   let stringValue = readableObject.stringValue else {
-                self.delegate?.lottoQRDidComplete(.fail)
+                self.delegate?.qrCodeDidComplete(.fail)
                 return
             }
-
-            print(stringValue)
-
-            self.delegate?.lottoQRDidComplete(.success(stringValue))
-            self.session?.stopRunning()
-            self.delegate?.lottoQRDidComplete(.stop)
+            
+            self.delegate?.qrCodeDidComplete(.success(stringValue))
         }
     }
 

@@ -59,7 +59,8 @@ final class ChartViewModel {
 
     private func configureInput(_ input: Input) {
         input.viewWillAppearEvent
-            .sink {
+            .sink { [weak self] _ in
+                guard let self else { return }
                 self.configureToday()
                 self.selectedYear.send(self.selectedYear.value)
             }
