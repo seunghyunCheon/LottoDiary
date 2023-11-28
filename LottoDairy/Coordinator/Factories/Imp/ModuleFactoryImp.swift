@@ -20,10 +20,8 @@ final class ModuleFactoryImp:
         let chartLottoUseCase = DefaultChartLottoUseCase(lottoRepository: lottoRepository)
 
         let userDefaultService = UserDefaultsPersistenceService()
-        let coreDataGoalAmountPersistenceService = CoreDataGoalAmountEntityPersistenceService(coreDataPersistenceService: coreDataService)
         let userRepository = DefaultUserRepository(
-            userDefaultPersistenceService: userDefaultService,
-            coreDataGoalAmountEntityPersistenceService: coreDataGoalAmountPersistenceService
+            userDefaultPersistenceService: userDefaultService
         )
         let goalSettingUseCase = DefaultGoalSettingUseCase(userRepository: userRepository)
 
@@ -54,10 +52,8 @@ final class ModuleFactoryImp:
     func makeGoalSettingFlow() -> GoalSettingFlowProtocol {
         let userDefaultService = UserDefaultsPersistenceService()
         let coreDataService = CoreDataPersistenceService.shared
-        let coreDataGoalAmountPersistenceService = CoreDataGoalAmountEntityPersistenceService(coreDataPersistenceService: coreDataService)
         let userRepository = DefaultUserRepository(
-            userDefaultPersistenceService: userDefaultService,
-            coreDataGoalAmountEntityPersistenceService: coreDataGoalAmountPersistenceService
+            userDefaultPersistenceService: userDefaultService
         )
         let goalSettingValidationUseCase = DefaultGoalSettingValidationUseCase()
         let goalSettingUseCase = DefaultGoalSettingUseCase(userRepository: userRepository)
@@ -98,10 +94,8 @@ final class ModuleFactoryImp:
         let lottoRepository = DefaultLottoRepository(coreDataLottoEntityPersistenceService: coreDataLottoPersistenceService)
         let chartLottoUseCase = DefaultChartLottoUseCase(lottoRepository: lottoRepository)
         let userDefaultService = UserDefaultsPersistenceService()
-        let coreDataGoalAmountPersistenceService = CoreDataGoalAmountEntityPersistenceService(coreDataPersistenceService: coreDataService)
         let userRepository = DefaultUserRepository(
-            userDefaultPersistenceService: userDefaultService,
-            coreDataGoalAmountEntityPersistenceService: coreDataGoalAmountPersistenceService
+            userDefaultPersistenceService: userDefaultService
         )
         let chartInformationUseCase = DefaultChartInformationUseCase(
             userRepository: userRepository,

@@ -11,5 +11,6 @@ extension UserDefaults {
     enum Keys {
         static let nickname = "nickname"
         static let notificationCycle = "notificationCycle"
+        static let goalAmount = "goalAmount"
     }
 }

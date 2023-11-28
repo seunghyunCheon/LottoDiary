@@ -45,10 +45,12 @@ final class DefaultGoalSettingUseCase: GoalSettingUseCase {
     func signUp() -> AnyPublisher<Void, Error> {
         guard let notificationCycle = selectedNotificationCycle.value?.rawValue,
               let goalAmount = goalAmount.value else {
-            return Fail(error: GoalSettingUseCaseError.signUpError).eraseToAnyPublisher()
+            return Fail(error: GoalSettingUseCaseError.signUpError)
+                .eraseToAnyPublisher()
         }
-        
-        return userRepository.saveUserInfo(nickname: self.nickname.value, notificationCycle: notificationCycle, goalAmount: goalAmount)
+
+        userRepository.saveUserInfo(nickname: self.nickname.value, notificationCycle: notificationCycle, goalAmount: goalAmount)
+        return Empty().eraseToAnyPublisher()
     }
     
     func loadNotificationCycle() {

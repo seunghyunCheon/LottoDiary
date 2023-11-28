@@ -10,8 +10,6 @@ import Combine
 
 fileprivate enum CoreDataLottoEntityPersistenceServiceError: LocalizedError {
     case failedToInitializeCoreDataContainer
-    case failedToCreateGoalAmount
-    case failedToFetchGoalAmount
     case failedToFetchLottoEntity
     case failedToFetchDistinctYear
 
@@ -19,10 +17,6 @@ fileprivate enum CoreDataLottoEntityPersistenceServiceError: LocalizedError {
         switch self {
         case .failedToInitializeCoreDataContainer:
             return "CoreDataContainer 초기화에 실패했습니다."
-        case .failedToCreateGoalAmount:
-            return "GoalAmount 엔티티 생성에 실패했습니다."
-        case .failedToFetchGoalAmount:
-            return "GoalAmount 엔티티 불러오기에 실패했습니다."
         case .failedToFetchDistinctYear:
             return "LottoEntity의 년도 데이터 불러오기에 실패했습니다."
         case .failedToFetchLottoEntity:
@@ -55,7 +49,7 @@ final class CoreDataLottoEntityPersistenceService: CoreDataLottoEntityPersistenc
                     promise(.success(fetchResult.map {
                         $0.convertToDomain() }))
                 } catch {
-                    promise(.failure(CoreDataLottoEntityPersistenceServiceError.failedToFetchGoalAmount))
+                    promise(.failure(CoreDataLottoEntityPersistenceServiceError.failedToFetchLottoEntity))
                 }
             }
         }
@@ -77,7 +71,7 @@ final class CoreDataLottoEntityPersistenceService: CoreDataLottoEntityPersistenc
                     let fetchResult = try context.fetch(fetchRequest)
                     promise(.success(fetchResult.map { $0.convertToDomain() }))
                 } catch {
-                    promise(.failure(CoreDataLottoEntityPersistenceServiceError.failedToFetchGoalAmount))
+                    promise(.failure(CoreDataLottoEntityPersistenceServiceError.failedToFetchLottoEntity))
                 }
             }
         }
@@ -127,7 +121,7 @@ final class CoreDataLottoEntityPersistenceService: CoreDataLottoEntityPersistenc
                     promise(.success(lottoEntity.convertToDomain()))
             
                 } catch {
-                    promise(.failure(CoreDataLottoEntityPersistenceServiceError.failedToCreateGoalAmount))
+                    promise(.failure(CoreDataLottoEntityPersistenceServiceError.failedToFetchLottoEntity))
                 }
             }
         }

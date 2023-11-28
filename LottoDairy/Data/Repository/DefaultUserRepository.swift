@@ -9,13 +9,16 @@ import Foundation
 import Combine
 
 fileprivate enum UserRepositoryError: LocalizedError {
-    
+
     case failedToFetchDataFromUserDefaults
-    
+    case failedToFetchGoalAmount
+
     var errorDescription: String? {
         switch self {
         case .failedToFetchDataFromUserDefaults:
             return "userDefaults로부터 데이터를 가져오는데 실패했습니다."
+        case .failedToFetchGoalAmount:
+            return "목표 금액을 UserDefaults로부터 가져오는데 실패했습니다."
         }
     }
 }
@@ -23,37 +26,36 @@ fileprivate enum UserRepositoryError: LocalizedError {
 final class DefaultUserRepository: UserRepository {
     
     private let userDefaultsPersistenceService: UserDefaultsPersistenceServiceProtocol
-    private let coreDataGoalAmountEntityPersistenceService: CoreDataGoalAmountEntityPersistenceServiceProtocol
     
     init(
-        userDefaultPersistenceService: UserDefaultsPersistenceServiceProtocol,
-        coreDataGoalAmountEntityPersistenceService: CoreDataGoalAmountEntityPersistenceServiceProtocol
+        userDefaultPersistenceService: UserDefaultsPersistenceServiceProtocol
     ) {
         self.userDefaultsPersistenceService = userDefaultPersistenceService
-        self.coreDataGoalAmountEntityPersistenceService = coreDataGoalAmountEntityPersistenceService
     }
 
     func fetchGoalAmount() -> AnyPublisher<Int, Error> {
-        return coreDataGoalAmountEntityPersistenceService.fetchGoalAmount()
+        guard let goalAmount: Int = userDefaultsPersistenceService.get(key: UserDefaults.Keys.goalAmount) else {
+            return Fail(error: UserRepositoryError.failedToFetchGoalAmount)
+                .eraseToAnyPublisher()
+        }
+
+        return Just(goalAmount).setFailureType(to: Error.self).eraseToAnyPublisher()
     }
 
     func fetchUserData() -> AnyPublisher<(String, String, Int), Error> {
         guard let userNickname: String = userDefaultsPersistenceService.get(key: UserDefaults.Keys.nickname),
-              let userCycle: String = userDefaultsPersistenceService.get(key: UserDefaults.Keys.notificationCycle) else {
+              let userCycle: String = userDefaultsPersistenceService.get(key: UserDefaults.Keys.notificationCycle),
+              let goalAmount: Int = userDefaultsPersistenceService.get(key: UserDefaults.Keys.goalAmount)
+        else {
             return Fail(error: UserRepositoryError.failedToFetchDataFromUserDefaults).eraseToAnyPublisher()
         }
         
-        return coreDataGoalAmountEntityPersistenceService.fetchGoalAmount()
-            .flatMap { goalAmount -> AnyPublisher<(String, String, Int), Error> in
-                return Just((userNickname, userCycle, goalAmount)).setFailureType(to: Error.self).eraseToAnyPublisher()
-            }
-            .eraseToAnyPublisher()
+        return  Just((userNickname, userCycle, goalAmount)).setFailureType(to: Error.self).eraseToAnyPublisher()
     }
     
-    func saveUserInfo(nickname: String, notificationCycle: String, goalAmount: Int) -> AnyPublisher<Void, Error> {
+    func saveUserInfo(nickname: String, notificationCycle: String, goalAmount: Int) {
         self.userDefaultsPersistenceService.set(key: UserDefaults.Keys.nickname, value: nickname)
         self.userDefaultsPersistenceService.set(key: UserDefaults.Keys.notificationCycle, value: notificationCycle)
-        
-        return coreDataGoalAmountEntityPersistenceService.saveGoalAmountEntity(goalAmount)
+        self.userDefaultsPersistenceService.set(key: UserDefaults.Keys.goalAmount, value: goalAmount)
     }
 }
