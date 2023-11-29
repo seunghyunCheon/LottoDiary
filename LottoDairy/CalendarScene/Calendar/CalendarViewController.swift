@@ -77,6 +77,17 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         super.init(nibName: nil, bundle: nil)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        switch viewModel.calendarShape {
+        case .month:
+            self.viewModel.fetchThreeMonthlyDays()
+        case .week:
+            self.viewModel.fetchThreeWeeklyDays()
+        }
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -92,7 +103,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         setupLottoCollectionView()
         configureCalendarCollectionViewDataSource()
         configureLottoCollectionViewDataSource()
-        self.viewModel.fetchThreeMonthlyDays()
+
         bindViewModel()
         setupCenterXOffset()
     }
@@ -129,7 +140,6 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     
     private func setupScrollView() {
         self.view.addSubview(self.scrollView)
-        
         let safe = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
