@@ -384,7 +384,7 @@ extension GoalSettingViewController {
         static let notificationText = "로또 추첨방송 알림"
         static let notificationPlaceholderText = "주기를 선택해주세요"
         static let errorTitle = "오류"
-        static let errorMessage = "정보를 저장하지 못했습니다"
+        static let errorMessage = "닉네임/목표금액/알람이 \n모두 입력되었는지 확인해주세요😀"
         static let errorOkButtonText = "확인"
     }
 }
