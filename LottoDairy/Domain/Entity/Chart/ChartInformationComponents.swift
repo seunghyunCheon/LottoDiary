@@ -55,7 +55,7 @@ struct ChartInformationComponents: Hashable {
         }
     }
 
-    let image: UIImage
+    let image: UIImage?
     let type: AmountType
     var amount: String
     // 1, 2 : (달성 여부, nil)

@@ -12,14 +12,14 @@ enum AmountType: String {
     case buy = "구매 금액"
     case win = "당첨 금액"
 
-    var image: UIImage {
+    var image: UIImage? {
         switch self {
         case .goal:
-            return .actions
+            return UIImage(named: "목표")
         case .buy:
-            return .add
+            return UIImage(named: "구매")
         case .win:
-            return .remove
+            return UIImage(named: "win")
         }
     }
 }

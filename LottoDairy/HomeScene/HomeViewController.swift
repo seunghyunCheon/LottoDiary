@@ -22,7 +22,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
 
     private lazy var settingButton: UIButton = {
         let button = UIButton()
-        let gearImage = SystemName.setting.image
+        let gearImage = SystemName.setting.systemImage
         button.setImage(gearImage, for: .normal)
         button.tintColor = .white
         button.addTarget(self, action: #selector(settingButtoTapped), for: .touchUpInside)
@@ -48,8 +48,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
 
     private let imageView: UIImageView = {
         let imageView = UIImageView(image: SystemName.photo.image)
-        imageView.backgroundColor = .systemYellow
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = Constant.cornerRadius
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -190,13 +189,16 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
     private func getMoneyHorizontalStackView(label: UIView, type: AmountType) -> UIStackView {
         let imageView: UIImageView = {
             let imageView = UIImageView(image: type.image)
-            let imageViewSize: CGFloat = view.frame.width * 0.095
+            imageView.tintColor = .white
 
+            imageView.contentMode = .scaleAspectFit
+            imageView.backgroundColor = .designSystem(.mainBlue)
+
+            let imageViewSize: CGFloat = view.frame.width * 0.095
             imageView.heightAnchor.constraint(equalToConstant: imageViewSize).isActive = true
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
             imageView.clipsToBounds = true
             imageView.layer.cornerRadius = imageViewSize / 2
-            imageView.backgroundColor = .blue
             return imageView
         }()
 
@@ -327,10 +329,13 @@ extension HomeViewController {
 
     private enum SystemName: String {
         case setting = "gearshape"
-        case photo = "photo"
+        case photo = "국밥"
 
-        var image: UIImage? {
+        var systemImage: UIImage? {
             return UIImage(systemName: self.rawValue)
+        }
+        var image: UIImage? {
+            return UIImage(named: self.rawValue)
         }
     }
 
