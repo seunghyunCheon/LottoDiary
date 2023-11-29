@@ -53,9 +53,11 @@ final class DefaultUserRepository: UserRepository {
         return  Just((userNickname, userCycle, goalAmount)).setFailureType(to: Error.self).eraseToAnyPublisher()
     }
     
-    func saveUserInfo(nickname: String, notificationCycle: String, goalAmount: Int) {
+    func saveUserInfo(nickname: String, notificationCycle: String, goalAmount: Int) -> AnyPublisher<Void, Error> {
         self.userDefaultsPersistenceService.set(key: UserDefaults.Keys.nickname, value: nickname)
         self.userDefaultsPersistenceService.set(key: UserDefaults.Keys.notificationCycle, value: notificationCycle)
         self.userDefaultsPersistenceService.set(key: UserDefaults.Keys.goalAmount, value: goalAmount)
+
+        return Just(()).setFailureType(to: Error.self).eraseToAnyPublisher()
     }
 }

@@ -49,8 +49,7 @@ final class DefaultGoalSettingUseCase: GoalSettingUseCase {
                 .eraseToAnyPublisher()
         }
 
-        userRepository.saveUserInfo(nickname: self.nickname.value, notificationCycle: notificationCycle, goalAmount: goalAmount)
-        return Empty().eraseToAnyPublisher()
+        return userRepository.saveUserInfo(nickname: self.nickname.value, notificationCycle: notificationCycle, goalAmount: goalAmount)
     }
     
     func loadNotificationCycle() {
