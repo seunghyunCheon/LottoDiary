@@ -11,7 +11,7 @@ final class ModuleFactoryImp:
     LottoQRModuleFactory,
     CalendarModuleFactory,
     ChartModuleFactory,
-    LottoValidationModuleFactory {
+    AppSetupModuleFactory {
 
     func makeHomeFlow() -> HomeFlowProtocol {
         let coreDataService = CoreDataPersistenceService.shared
@@ -115,5 +115,13 @@ final class ModuleFactoryImp:
         let lottoRepository = DefaultLottoRepository(coreDataLottoEntityPersistenceService: coreDataLottoPersistenceService)
         let lottoValidationUseCase = DefaultLottoValidationUseCase(lottoRepository: lottoRepository)
         return LottoValidationController(lottoValidationUseCase: lottoValidationUseCase)
+    }
+
+    func makeUserSetupFlow() -> UserSetupFlowProtocol {
+        let userDefaultService = UserDefaultsPersistenceService()
+        let userRepository = DefaultUserRepository(
+            userDefaultPersistenceService: userDefaultService
+        )
+        return UserSetupController(userRepository: userRepository)
     }
 }

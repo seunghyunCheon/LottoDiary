@@ -5,6 +5,7 @@
 //  Created by Sunny on 11/3/23.
 //
 
-protocol LottoValidationModuleFactory {
+protocol AppSetupModuleFactory {
     func makeLottoValidationFlow() -> LottoValidationFlowProtocol
+    func makeUserSetupFlow() -> UserSetupFlowProtocol
 }
