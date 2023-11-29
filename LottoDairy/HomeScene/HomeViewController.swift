@@ -15,7 +15,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
     private let contentView = UIStackView()
 
     private let nickNameLabel: UILabel = {
-        let label = GmarketSansLabel(size: .title2, weight: .bold)
+        let label = GmarketSansLabel(size: .title1, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -105,6 +105,19 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
     }
 
     private func setupScrollView() {
+        let height = view.frame.height * 0.35
+        let nickNameViewHeight: CGFloat = height * 0.127
+        let horizontalInset = view.frame.width * 0.054
+
+        let nickNameView = createNickNameView()
+        view.addSubview(nickNameView)
+        NSLayoutConstraint.activate([
+            nickNameView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            nickNameView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: horizontalInset),
+            nickNameView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            nickNameView.heightAnchor.constraint(equalToConstant: nickNameViewHeight)
+        ])
+
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -112,7 +125,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
 
         guard let tabBarHeight = self.tabBarController?.tabBar.frame.height else { return }
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.topAnchor.constraint(equalTo: nickNameView.bottomAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
@@ -133,24 +146,16 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
 
     private func setupInformationView() -> UIView {
         let informationView = UIView()
-
-        let nickNameView = setupNickNameView()
         let moneyInformationStackView = setupMoneyInformationStackView()
 
-        informationView.addSubviews([nickNameView, explanationLabel, moneyInformationStackView])
+        informationView.addSubviews([explanationLabel, moneyInformationStackView])
 
         let height = view.frame.height * 0.35
-        let nickNameViewHeight: CGFloat = height * 0.127
-        let explanationLabelGap: CGFloat = height * 0.07
+        let explanationLabelGap: CGFloat = height * 0.05
         let moneyInformationStackViewGap: CGFloat = 10
 
         NSLayoutConstraint.activate([
-            nickNameView.topAnchor.constraint(equalTo: informationView.topAnchor),
-            nickNameView.leadingAnchor.constraint(equalTo: informationView.leadingAnchor),
-            nickNameView.trailingAnchor.constraint(equalTo: informationView.trailingAnchor),
-            nickNameView.heightAnchor.constraint(equalToConstant: nickNameViewHeight),
-
-            explanationLabel.topAnchor.constraint(equalTo: nickNameView.bottomAnchor, constant: explanationLabelGap),
+            explanationLabel.topAnchor.constraint(equalTo: informationView.topAnchor, constant: explanationLabelGap),
             explanationLabel.leadingAnchor.constraint(equalTo: informationView.leadingAnchor),
             explanationLabel.trailingAnchor.constraint(equalTo: informationView.trailingAnchor),
 
@@ -163,12 +168,11 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         return informationView
     }
 
-    private func setupNickNameView() -> UIView {
+    private func createNickNameView() -> UIView {
         let nickNameView: UIView = {
             let view = UIView()
             view.addSubviews([nickNameLabel, settingButton])
             view.translatesAutoresizingMaskIntoConstraints = false
-
             return view
         }()
 
@@ -177,8 +181,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
             nickNameLabel.leadingAnchor.constraint(equalTo: nickNameView.leadingAnchor),
             nickNameLabel.centerYAnchor.constraint(equalTo: settingButton.centerYAnchor),
 
-            settingButton.topAnchor.constraint(equalTo: nickNameView.topAnchor),
-            settingButton.leadingAnchor.constraint(equalTo: nickNameLabel.trailingAnchor, constant: 10)
+            settingButton.leadingAnchor.constraint(equalTo: nickNameLabel.trailingAnchor, constant: 20)
         ])
 
         return nickNameView
