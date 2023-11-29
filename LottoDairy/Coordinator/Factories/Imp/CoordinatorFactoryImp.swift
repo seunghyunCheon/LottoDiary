@@ -25,20 +25,20 @@ final class CoordinatorFactoryImp: CoordinatorFactory {
         return coordinator
     }
     
-    func makeTabbarCoordinator() -> (configurator: Coordinator, toPresent: Presentable?) {
+    func makeTabbarCoordinator() -> (configurator: Coordinator & TabBarCoordinatorFinishable, toPresent: Presentable?) {
         let controller = TabBarController()
         let coordinator = TabBarCoordinator(tabBarFlow: controller, coordinatorFactory: CoordinatorFactoryImp())
         
         return (coordinator, controller)
     }
     
-    func makeHomeCoordinator(navigationController: UINavigationController?) -> Coordinator {
+    func makeHomeCoordinator(navigationController: UINavigationController?) -> Coordinator & HomeCoordinatorFinishable {
         let coordinator = HomeCoordinator(
             router: router(navigationController),
             moduleFactory: ModuleFactoryImp(),
             coordinatorFactory: CoordinatorFactoryImp()
         )
-        
+
         return coordinator
     }
 

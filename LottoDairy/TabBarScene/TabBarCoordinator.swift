@@ -7,8 +7,13 @@
 
 import UIKit
 
-final class TabBarCoordinator: BaseCoordinator {
-    
+protocol TabBarCoordinatorFinishable: AnyObject {
+    var onSettingFlow: (() -> Void)? { get set }
+}
+
+final class TabBarCoordinator: BaseCoordinator, TabBarCoordinatorFinishable {
+
+    var onSettingFlow: (() -> Void)?
     private let tabBarFlow: TabBarFlowProtocol
     private let coordinatorFactory: CoordinatorFactory
     
@@ -36,6 +41,9 @@ final class TabBarCoordinator: BaseCoordinator {
         return { [unowned self] navController in
             if navController.viewControllers.isEmpty == true {
                 let homeCoordinator = coordinatorFactory.makeHomeCoordinator(navigationController: navController)
+                homeCoordinator.onSettingFlow = { [weak self] in
+                    self?.onSettingFlow?()
+                }
                 addDependency(homeCoordinator)
                 homeCoordinator.start()
             }

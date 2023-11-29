@@ -31,19 +31,9 @@ final class OnboardingCoordinator: BaseCoordinator, OnboardingCoordinatorFinisha
         var onboardingModule = factory.makeOnboardingFlow()
         
         onboardingModule.onSetting = { [weak self] in
-            self?.runGoalSettingFlow()
+            self?.finishFlow?()
         }
         
         router.setRootModule(onboardingModule)
-    }
-    
-    func runGoalSettingFlow() {
-        let coordinator = coordinatorFactory.makeGoalSettingCoordinator(router: router)
-        coordinator.finishFlow = { [weak self, weak coordinator] in
-            self?.removeDependency(coordinator)
-            self?.finishFlow?()
-        }
-        addDependency(coordinator)
-        coordinator.start()
     }
 }
