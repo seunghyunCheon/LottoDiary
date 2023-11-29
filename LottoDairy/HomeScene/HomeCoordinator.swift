@@ -20,12 +20,18 @@ final class HomeCoordinator: BaseCoordinator {
     override func start() {
         var homeFlow = moduleFactory.makeHomeFlow()
         homeFlow.onSetting = { [weak self] in
-            self?.runMyInformationFlow()
+            self?.runGoalSettingFlow()
         }
         router.setRootModule(homeFlow)
     }
     
-    private func runMyInformationFlow() {
-        
+    private func runGoalSettingFlow() {
+        let coordinator = coordinatorFactory.makeGoalSettingCoordinator(router: router)
+        coordinator.finishFlow = { [weak self, weak coordinator] in
+            self?.removeDependency(coordinator)
+            self?.start()
+        }
+        addDependency(coordinator)
+        coordinator.start()
     }
 }

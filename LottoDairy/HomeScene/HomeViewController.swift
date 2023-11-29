@@ -17,24 +17,22 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
     private let nickNameLabel: UILabel = {
         let label = GmarketSansLabel(size: .title2, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
-
         return label
     }()
 
-    private let settingButton: UIButton = {
+    private lazy var settingButton: UIButton = {
         let button = UIButton()
         let gearImage = SystemName.setting.image
         button.setImage(gearImage, for: .normal)
         button.tintColor = .white
+        button.addTarget(self, action: #selector(settingButtoTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
-
         return button
     }()
 
     private let explanationLabel: DoubleLabelView = {
         let view = DoubleLabelView(type: .percent)
         view.translatesAutoresizingMaskIntoConstraints = false
-
         return view
     }()
 
@@ -45,7 +43,6 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
     private let imageLabel: UILabel = {
         let label = GmarketSansLabel(text: StringLiteral.imageTitle, alignment: .left, size: .title3, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
-
         return label
     }()
 
@@ -56,14 +53,12 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = Constant.cornerRadius
         imageView.translatesAutoresizingMaskIntoConstraints = false
-
         return imageView
     }()
 
     private let imageExplanationView: DoubleLabelView = {
         let view = DoubleLabelView(type: .riceSoup)
         view.translatesAutoresizingMaskIntoConstraints = false
-
         return view
     }()
 
@@ -316,6 +311,11 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
                 self.imageExplanationView.configureRiceSoupLabel(riceSoup: count)
             }
             .store(in: &cancellables)
+    }
+
+    @objc
+    private func settingButtoTapped() {
+        onSetting?()
     }
 }
 
