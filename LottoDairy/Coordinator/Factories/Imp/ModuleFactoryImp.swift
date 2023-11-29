@@ -49,7 +49,7 @@ final class ModuleFactoryImp:
         return LottoQRViewController(viewModel: viewModel)
     }
         
-    func makeGoalSettingFlow() -> GoalSettingFlowProtocol {
+    func makeGoalSettingFlow(isEdit: Bool) -> GoalSettingFlowProtocol {
         let userDefaultService = UserDefaultsPersistenceService()
         let coreDataService = CoreDataPersistenceService.shared
         let userRepository = DefaultUserRepository(
@@ -58,6 +58,7 @@ final class ModuleFactoryImp:
         let goalSettingValidationUseCase = DefaultGoalSettingValidationUseCase()
         let goalSettingUseCase = DefaultGoalSettingUseCase(userRepository: userRepository)
         let viewModel = GoalSettingViewModel(
+            isEdit: isEdit,
             goalSettingValidationUseCase: goalSettingValidationUseCase,
             goalSettingUseCase: goalSettingUseCase
         )

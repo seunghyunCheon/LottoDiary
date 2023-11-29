@@ -6,11 +6,13 @@
 //
 
 protocol GoalSettingCoordinatorFinishable: AnyObject {
+    var isEdit: Bool? { get set }
     var finishFlow: (() -> Void)? { get set }
 }
 
 final class GoalSettingCoordinator: BaseCoordinator, GoalSettingCoordinatorFinishable {
-    
+
+    var isEdit: Bool?
     var finishFlow: (() -> Void)?
     private let factory: GoalSettingModuleFactory
     private let router: Router
@@ -25,8 +27,9 @@ final class GoalSettingCoordinator: BaseCoordinator, GoalSettingCoordinatorFinis
     }
     
     private func showGoalSetting() {
-        var goalSettingModule = factory.makeGoalSettingFlow()
-        
+        guard let isEdit = isEdit else { return }
+        var goalSettingModule = factory.makeGoalSettingFlow(isEdit: isEdit)
+
         goalSettingModule.onMain = { [weak self] in
             self?.finishFlow?()
         }

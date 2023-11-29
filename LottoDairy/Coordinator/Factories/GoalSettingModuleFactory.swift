@@ -6,5 +6,5 @@
 //
 
 protocol GoalSettingModuleFactory {
-    func makeGoalSettingFlow() -> GoalSettingFlowProtocol
+    func makeGoalSettingFlow(isEdit: Bool) -> GoalSettingFlowProtocol
 }

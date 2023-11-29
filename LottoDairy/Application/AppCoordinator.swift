@@ -46,18 +46,19 @@ final class AppCoordinator: BaseCoordinator {
         let coordinator = coordinatorFactory.makeOnboardingCoordinator(router: router)
         coordinator.finishFlow = { [weak self, weak coordinator] in
             self?.removeDependency(coordinator)
-            self?.runGoalSettingFlow()
+            self?.runGoalSettingFlow(isEdit: false)
         }
         addDependency(coordinator)
         coordinator.start()
     }
 
-    func runGoalSettingFlow() {
+    func runGoalSettingFlow(isEdit: Bool) {
         let coordinator = coordinatorFactory.makeGoalSettingCoordinator(router: router)
         coordinator.finishFlow = { [weak self, weak coordinator] in
             self?.removeDependency(coordinator)
             self?.runMainFlow()
         }
+        coordinator.isEdit = isEdit
         addDependency(coordinator)
         coordinator.start()
     }
@@ -65,7 +66,7 @@ final class AppCoordinator: BaseCoordinator {
     private func runMainFlow() {
         let (coordinator, module) = coordinatorFactory.makeTabbarCoordinator()
         coordinator.onSettingFlow = { [weak self] in
-            self?.runGoalSettingFlow()
+            self?.runGoalSettingFlow(isEdit: true)
         }
         addDependency(coordinator)
         router.setRootModule(module)
