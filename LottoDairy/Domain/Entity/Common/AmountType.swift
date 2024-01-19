@@ -15,9 +15,9 @@ enum AmountType: String {
     var image: UIImage? {
         switch self {
         case .goal:
-            return UIImage(named: "목표")
+            return UIImage(named: "goal")
         case .buy:
-            return UIImage(named: "구매")
+            return UIImage(named: "buy")
         case .win:
             return UIImage(named: "win")
         }
