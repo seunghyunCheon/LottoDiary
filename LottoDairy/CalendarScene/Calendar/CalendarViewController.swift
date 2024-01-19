@@ -77,19 +77,19 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         super.init(nibName: nil, bundle: nil)
     }
 
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         switch viewModel.calendarShape {
         case .month:
             self.viewModel.fetchThreeMonthlyDays()
         case .week:
             self.viewModel.fetchThreeWeeklyDays()
         }
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 
     override func viewDidLoad() {
@@ -298,16 +298,16 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
 
     private func updateSnapshot(with days: [[DayComponent]] = []) {
         guard !days.isEmpty else { return }
+
         var snapshot = NSDiffableDataSourceSnapshot<Section, [DayComponent]>()
         snapshot.appendSections([.previous, .now, .next])
+        snapshot.appendItems([days[0]], toSection: .previous)
+        snapshot.appendItems([days[1]], toSection: .now)
+        snapshot.appendItems([days[2]], toSection: .next)
 
-        switch viewModel.calendarShape {
-        case .month, .week:
-            snapshot.appendItems([days[0]], toSection: .previous)
-            snapshot.appendItems([days[1]], toSection: .now)
-            snapshot.appendItems([days[2]], toSection: .next)
-        }
         dataSource?.apply(snapshot, animatingDifferences: false)
+
+        calendarCollectionView.reloadData()
     }
     
     private func updateLottoLayout(with date: Date) -> [Lotto] {
@@ -317,13 +317,10 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         }
         
         let filteredDate = dayComponents.flatMap { $0 }.filter { $0.date.equalsDate(with: date) }
-    
         let lottos = filteredDate[0].lottos
-        
+
         self.lottosHeightConstraint.constant = CGFloat(CGFloat(lottos.count) * Constant.lottoCellHeight + Constant.lottoFooterHeight)
-        
-//        self.lottoCollectionView.reloadData()
-          
+
         return lottos
     }
     
@@ -383,7 +380,6 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
                 viewModel.updateNextWeekBaseDate()
             }
         }
-//        self.calendarCollectionView.reloadData()
     }
 
     func scrollViewWillEndDragging(
@@ -432,13 +428,12 @@ extension CalendarViewController: CalendarHeaderViewDelegate {
         } else {
             self.calendarHeightConstraint.constant = Constant.weekCalendarHeight
         }
-        
+
+        self.viewModel.calendarShape == .month ?
+        self.viewModel.fetchThreeMonthlyDays() :
+        self.viewModel.fetchThreeWeeklyDays()
+
         UIView.animate(withDuration: 0.3) {
-//            self.calendarCollectionView.reloadData()
-            self.viewModel.calendarShape == .month ?
-            self.viewModel.fetchThreeMonthlyDays() :
-            self.viewModel.fetchThreeWeeklyDays()
-            
             self.view.layoutIfNeeded()
         }
     }
@@ -451,7 +446,7 @@ extension CalendarViewController {
         static let calendarHeaderHeight: CGFloat = 60
         static let monthCalendarHeight: CGFloat = 250
         static let weekCalendarHeight: CGFloat = 50
-        static let lottoCellHeight: CGFloat = 105
+        static let lottoCellHeight: CGFloat = 100
         static let lottoFooterHeight: CGFloat = 100
     }
     
