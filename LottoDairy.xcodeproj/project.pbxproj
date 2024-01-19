@@ -104,7 +104,6 @@
 		80603ADA2A4E6FE2003D5274 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80603AD92A4E6FE2003D5274 /* AppCoordinator.swift */; };
 		80603ADE2A4E9FB0003D5274 /* RouterImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80603ADD2A4E9FB0003D5274 /* RouterImp.swift */; };
 		8060B41F2A61A66800726C83 /* LottoQRButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8060B41E2A61A66800726C83 /* LottoQRButton.swift */; };
-		8060B4212A62DC2C00726C83 /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8060B4202A62DC2C00726C83 /* UIButton+Extensions.swift */; };
 		806A5B6E2B160DFA006C6323 /* UserSetupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806A5B6D2B160DFA006C6323 /* UserSetupController.swift */; };
 		806F85212AE160F2003809EC /* LottoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806F85202AE160F2003809EC /* LottoAPI.swift */; };
 		806F85242AE1629B003809EC /* DefaultLottoQRUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806F85232AE1629B003809EC /* DefaultLottoQRUseCase.swift */; };
@@ -243,7 +242,6 @@
 		80603AD92A4E6FE2003D5274 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		80603ADD2A4E9FB0003D5274 /* RouterImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterImp.swift; sourceTree = "<group>"; };
 		8060B41E2A61A66800726C83 /* LottoQRButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoQRButton.swift; sourceTree = "<group>"; };
-		8060B4202A62DC2C00726C83 /* UIButton+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
 		806A5B6D2B160DFA006C6323 /* UserSetupController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSetupController.swift; sourceTree = "<group>"; };
 		806F85202AE160F2003809EC /* LottoAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoAPI.swift; sourceTree = "<group>"; };
 		806F85232AE1629B003809EC /* DefaultLottoQRUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLottoQRUseCase.swift; sourceTree = "<group>"; };
@@ -422,7 +420,6 @@
 				624BB0E82A67EED2002A3109 /* String+Extensions.swift */,
 				624BB0EC2A67F73B002A3109 /* Int+Extensions.swift */,
 				6268453C2A6BECE800569D02 /* UserDefaults+Extensions.swift */,
-				8060B4202A62DC2C00726C83 /* UIButton+Extensions.swift */,
 				80F90CE72A8D2507007E1D23 /* Date+Extensions.swift */,
 				80F90CF22A8D301D007E1D23 /* UICollectionView+Extensions.swift */,
 				80F90CF42A8D3037007E1D23 /* UICollectionViewCell+Extensions.swift */,
@@ -935,7 +932,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1520;
 				TargetAttributes = {
 					629C1F4E2A4ABD0F00540FA4 = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -1005,7 +1002,6 @@
 				624BB0D32A653299002A3109 /* GoalSettingViewController.swift in Sources */,
 				625141252AB598AA00E9E5C3 /* CoreDataLottoEntityPersistenceServiceProtocol.swift in Sources */,
 				801767132AB99CC60046E537 /* ChartLottoUseCase.swift in Sources */,
-				8060B4212A62DC2C00726C83 /* UIButton+Extensions.swift in Sources */,
 				801767002AAEF90F0046E537 /* DefaultChartUseCase.swift in Sources */,
 				805EA6BF2A9B1E1E00A3545C /* ChartViewController.swift in Sources */,
 				8060B41F2A61A66800726C83 /* LottoQRButton.swift in Sources */,
@@ -1134,6 +1130,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -1195,6 +1192,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";

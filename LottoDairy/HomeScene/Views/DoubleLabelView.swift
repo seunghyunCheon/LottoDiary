@@ -67,7 +67,8 @@ final class DoubleLabelView: UIStackView {
     }
 
     func configureRiceSoupLabel(won: Int?) {
-        firstLabel.attributedText(first: "\(won ?? .zero)원", second: "으로", secondFontSize: .title3)
+        let won = won ?? .zero
+        firstLabel.attributedText(first: "\(won.convertToDecimal())원", second: "으로", secondFontSize: .title3)
     }
 
     func configureRiceSoupLabel(riceSoup: Double) {

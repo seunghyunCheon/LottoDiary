@@ -23,8 +23,6 @@ final class LottoQRButton: UIButton {
         let transformer = UIConfigurationTextAttributesTransformer { incoming in
             var outgoing = incoming
             outgoing.font = UIFont.gmarketSans(size: .caption, weight: .bold)
-            outgoing.foregroundColor = .white
-
             return outgoing
         }
         return transformer

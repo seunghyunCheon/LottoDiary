@@ -241,7 +241,7 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         imageInformationView.addSubviews([imageLabel, imageView, imageExplanationView])
 
         let height = view.frame.height * 0.344
-        let topAchorGap: CGFloat = height * 0.04
+        let topAchorGap: CGFloat = height * 0.05
         let imageViewHeight: CGFloat = height * 0.52
 
         NSLayoutConstraint.activate([
