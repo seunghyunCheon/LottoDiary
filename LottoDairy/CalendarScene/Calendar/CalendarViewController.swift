@@ -302,11 +302,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         snapshot.appendSections([.previous, .now, .next])
 
         switch viewModel.calendarShape {
-        case .month:
-            snapshot.appendItems([days[0]], toSection: .previous)
-            snapshot.appendItems([days[1]], toSection: .now)
-            snapshot.appendItems([days[2]], toSection: .next)
-        case .week:
+        case .month, .week:
             snapshot.appendItems([days[0]], toSection: .previous)
             snapshot.appendItems([days[1]], toSection: .now)
             snapshot.appendItems([days[2]], toSection: .next)
@@ -326,7 +322,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
         
         self.lottosHeightConstraint.constant = CGFloat(CGFloat(lottos.count) * Constant.lottoCellHeight + Constant.lottoFooterHeight)
         
-        self.lottoCollectionView.reloadData()
+//        self.lottoCollectionView.reloadData()
           
         return lottos
     }
@@ -387,7 +383,7 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
                 viewModel.updateNextWeekBaseDate()
             }
         }
-        self.calendarCollectionView.reloadData()
+//        self.calendarCollectionView.reloadData()
     }
 
     func scrollViewWillEndDragging(
@@ -438,7 +434,7 @@ extension CalendarViewController: CalendarHeaderViewDelegate {
         }
         
         UIView.animate(withDuration: 0.3) {
-            self.calendarCollectionView.reloadData()
+//            self.calendarCollectionView.reloadData()
             self.viewModel.calendarShape == .month ?
             self.viewModel.fetchThreeMonthlyDays() :
             self.viewModel.fetchThreeWeeklyDays()
