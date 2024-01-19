@@ -62,7 +62,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
 
     private var lottoDataSource: UICollectionViewDiffableDataSource<Int, Lotto>!
     
-    private var scrollDirection: ScrollDirection = .none
+    private var scrollDirection: Direction = .none
 
     private let viewModel: CalendarViewModel
     
@@ -84,12 +84,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        switch viewModel.calendarShape {
-        case .month:
-            self.viewModel.fetchThreeMonthlyDays()
-        case .week:
-            self.viewModel.fetchThreeWeeklyDays()
-        }
+        self.viewModel.fetchDays()
     }
 
     override func viewDidLoad() {
@@ -109,11 +104,7 @@ final class CalendarViewController: UIViewController, CalendarFlowProtocol {
     }
     
     func addLotto() {
-        if viewModel.calendarShape == .month {
-            viewModel.fetchThreeMonthlyDays()
-        } else {
-            viewModel.fetchThreeWeeklyDays()
-        }
+        self.viewModel.fetchDays()
     }
     
     // MARK: - Private Methods
@@ -341,12 +332,6 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
         case now
         case next
     }
-
-    private enum ScrollDirection {
-        case left
-        case none
-        case right
-    }
     
     func collectionView(
         _ collectionView: UICollectionView,
@@ -362,24 +347,12 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         switch viewModel.calendarShape {
         case .month:
-            switch scrollDirection {
-            case .left:
-                viewModel.updatePreviousBaseDate()
-            case .none:
-                break
-            case .right:
-                viewModel.updateNextBaseDate()
-            }
+            viewModel.calculateMonthBaseDate(scrollDirection)
         case .week:
-            switch scrollDirection {
-            case .left:
-                viewModel.updatePreviousWeekBaseDate()
-            case .none:
-                break
-            case .right:
-                viewModel.updateNextWeekBaseDate()
-            }
+            viewModel.calculateWeekBaseDate(scrollDirection)
         }
+
+        self.viewModel.fetchDays()
     }
 
     func scrollViewWillEndDragging(
@@ -422,16 +395,14 @@ extension CalendarViewController: CellBaseDateChangeDelegate {
 
 extension CalendarViewController: CalendarHeaderViewDelegate {
     func scopeSwitchButtonTapped(with scopeType: ScopeType) {
-        self.viewModel.changeCalendarShape()
+        self.viewModel.toggleCalendarShape()
         if self.viewModel.calendarShape == .month {
             self.calendarHeightConstraint.constant = Constant.monthCalendarHeight
         } else {
             self.calendarHeightConstraint.constant = Constant.weekCalendarHeight
         }
 
-        self.viewModel.calendarShape == .month ?
-        self.viewModel.fetchThreeMonthlyDays() :
-        self.viewModel.fetchThreeWeeklyDays()
+        self.viewModel.fetchDays()
 
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()

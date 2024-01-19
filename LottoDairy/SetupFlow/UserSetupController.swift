@@ -54,7 +54,10 @@ final class UserSetupController: UserSetupFlowProtocol {
                     print(error.localizedDescription)
                 }
             } receiveValue: { result in
-                print("유저 정보 있음? \(result)")
+                #if DEBUG
+                print("✅ 유저 정보 가져오기 성공! \n✅\(result)")
+                print("-----------------------------------------")
+                #endif
                 self.isAutorized = true
             }
             .store(in: &cancellables)

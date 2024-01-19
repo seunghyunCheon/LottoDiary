@@ -64,7 +64,6 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
             let pathAndQuery = String(redirectedUrl[range.lowerBound...])
             redirectedUrl = lottoHost + pathAndQuery
         }
-        print(redirectedUrl)
         guard let url = URL(string: redirectedUrl) else {
             return Fail(error: LottoQRUseCaseError.invalidURL).eraseToAnyPublisher()
         }

@@ -94,12 +94,8 @@ final class DateCollectionViewCell: UICollectionViewCell {
 
 extension DateCollectionViewCell: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let days = self.days,
-            days[indexPath.row].isIncludeInMonth
-        else {
-            return
-        }
-        
+        guard let days = self.days, days[indexPath.row].isIncludeInMonth else { return }
+
         self.delegate?.changeBaseDate(with: days[indexPath.row].date)
     }
 }

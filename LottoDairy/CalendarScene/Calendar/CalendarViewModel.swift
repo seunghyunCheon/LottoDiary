@@ -13,6 +13,12 @@ enum ScopeType {
     case week
 }
 
+enum Direction {
+    case left
+    case none
+    case right
+}
+
 final class CalendarViewModel {
 
     var baseDate = CurrentValueSubject<Date, Never>(.today)
@@ -23,53 +29,71 @@ final class CalendarViewModel {
     
     init(calendarUseCase: CalendarUseCase) {
         self.calendarUseCase = calendarUseCase
-    }
-    
-    func fetchThreeWeeklyDays() {
-        calendarUseCase.getDaysInThreeWeek(for: baseDate.value)
-            .sink { completion in
-                
-            } receiveValue: { days in
-                self.days.send(days)
-            }
-            .store(in: &cancellables)
+
+        #if DEBUG
+        self.debugBaseDate()
+        #endif
     }
 
-    func fetchThreeMonthlyDays() {
-        calendarUseCase.getDaysInThreeMonth(for: baseDate.value)
-            .sink { completion in
-                
-            } receiveValue: { days in
-                self.days.send(days)
-            }
-            .store(in: &cancellables)
+    func fetchDays() {
+        switch calendarShape {
+        case .month: self.fetchMonthlyDays()
+        case .week: self.fetchWeeklyDays()
+        }
     }
 
-    func updatePreviousBaseDate() {
-        self.baseDate.value = calendarUseCase.calculatePreviousMonth(by: baseDate.value)
-        self.fetchThreeMonthlyDays()
+    func calculateMonthBaseDate(_ direction: Direction) {
+        switch direction {
+        case .left:
+            self.baseDate.value = calendarUseCase.calculatePreviousMonth(by: baseDate.value)
+        case .right:
+            self.baseDate.value = calendarUseCase.calculateNextMonth(by: baseDate.value)
+        case .none: break
+        }
     }
 
-    func updateNextBaseDate() {
-        self.baseDate.value = calendarUseCase.calculateNextMonth(by: baseDate.value)
-        self.fetchThreeMonthlyDays()
+    func calculateWeekBaseDate(_ direction: Direction) {
+        switch direction {
+        case .left:
+            self.baseDate.value = calendarUseCase.calculatePreviousWeek(by: baseDate.value)
+        case .right:
+            self.baseDate.value = calendarUseCase.calculateNextWeek(by: baseDate.value)
+        case .none: break
+        }
     }
 
-    func updatePreviousWeekBaseDate() {
-        self.baseDate.value = calendarUseCase.calculatePreviousWeek(by: baseDate.value)
-        self.fetchThreeWeeklyDays()
-    }
-
-    func updateNextWeekBaseDate() {
-        self.baseDate.value = calendarUseCase.calculateNextWeek(by: baseDate.value)
-        self.fetchThreeWeeklyDays()
-    }
-    
     func changeBaseDate(with date: Date) {
         self.baseDate.value = date
     }
     
-    func changeCalendarShape() {
+    func toggleCalendarShape() {
         self.calendarShape = (self.calendarShape == .month) ? .week : .month
+    }
+
+    private func fetchWeeklyDays() {
+        calendarUseCase.getDaysInThreeWeek(for: baseDate.value)
+            .sink { result in
+            } receiveValue: { days in
+                self.days.send(days)
+            }
+            .store(in: &cancellables)
+    }
+
+    private func fetchMonthlyDays() {
+        calendarUseCase.getDaysInThreeMonth(for: baseDate.value)
+            .sink { result in
+            } receiveValue: { days in
+                self.days.send(days)
+            }
+            .store(in: &cancellables)
+    }
+
+    private func debugBaseDate() {
+        baseDate
+            .sink { date in
+                print("ℹ️ baseDate 변경 \nℹ️\(date)")
+                print("-----------------------------------------")
+            }
+            .store(in: &cancellables)
     }
 }
