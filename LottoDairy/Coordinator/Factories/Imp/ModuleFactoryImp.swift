@@ -51,7 +51,6 @@ final class ModuleFactoryImp:
         
     func makeGoalSettingFlow(isEdit: Bool) -> GoalSettingFlowProtocol {
         let userDefaultService = UserDefaultsPersistenceService()
-        let coreDataService = CoreDataPersistenceService.shared
         let userRepository = DefaultUserRepository(
             userDefaultPersistenceService: userDefaultService
         )

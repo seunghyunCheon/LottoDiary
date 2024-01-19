@@ -38,14 +38,13 @@ final class DateCollectionViewCell: UICollectionViewCell {
     private var scope: ScopeType = .month
 
     private var dataSource: UICollectionViewDiffableDataSource<Int, DayComponent>?
-
+    
     override func updateConfiguration(using state: UICellConfigurationState) {
         super.updateConfiguration(using: state)
         setupDateCollectionViewCell()
-        configuremonthlyCollectionViewDataSource()
+        configureMonthlyCollectionViewDataSource()
         configureSnapshot()
     }
-
     
     func configure(with dayComponent: [DayComponent], scope: ScopeType, baseDate: Date) {
         self.days = dayComponent
@@ -63,7 +62,7 @@ final class DateCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    private func configuremonthlyCollectionViewDataSource() {
+    private func configureMonthlyCollectionViewDataSource() {
         self.dataSource = UICollectionViewDiffableDataSource<Int, DayComponent>(
             collectionView: self.monthlyCollectionView
         ) { collectionView, indexPath, item in

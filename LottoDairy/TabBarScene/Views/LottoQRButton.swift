@@ -12,8 +12,6 @@ final class LottoQRButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        configureTextAttribute()
-        configureImage()
         configureLottoQRButton()
     }
 
@@ -21,24 +19,33 @@ final class LottoQRButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func configureLottoQRButton() {
-        backgroundColor = .designSystem(.mainBlue)
-        alignTextBelow(spacing: 7)
+    private var textTransformer: UIConfigurationTextAttributesTransformer {
+        let transformer = UIConfigurationTextAttributesTransformer { incoming in
+            var outgoing = incoming
+            outgoing.font = UIFont.gmarketSans(size: .caption, weight: .bold)
+            outgoing.foregroundColor = .white
+
+            return outgoing
+        }
+        return transformer
     }
 
-    private func configureTextAttribute() {
-        let attribute: [NSAttributedString.Key: Any] = [
-            .font: UIFont.gmarketSans(size: .caption, weight: .bold),
-            .foregroundColor: UIColor.white
-        ]
-        let attributedString = NSAttributedString(string: TabBarComponents.LottoQR.title, attributes: attribute)
-
-        setAttributedTitle(attributedString, for: .normal)
-    }
-
-    private func configureImage() {
+    private var qrImage: UIImage? {
         let imageConfiguration = UIImage.SymbolConfiguration(pointSize: 25)
         let image = UIImage(systemName: TabBarComponents.LottoQR.systemName, withConfiguration: imageConfiguration)
-        setImage(image, for: .normal)
+        return image
+    }
+
+    private func configureLottoQRButton() {
+        backgroundColor = .designSystem(.mainBlue)
+
+        var configuration = UIButton.Configuration.plain()
+        configuration.title = TabBarComponents.LottoQR.title
+        configuration.titleTextAttributesTransformer = textTransformer
+        configuration.image = qrImage
+        configuration.imagePadding = 7
+        configuration.imagePlacement = .top
+
+        self.configuration = configuration
     }
 }
