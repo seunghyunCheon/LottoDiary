@@ -37,7 +37,7 @@ final class LottoQRButton: UIButton {
     private func configureLottoQRButton() {
         backgroundColor = .designSystem(.mainBlue)
 
-        var configuration = UIButton.Configuration.plain()
+        var configuration = UIButton.Configuration.filled()
         configuration.title = TabBarComponents.LottoQR.title
         configuration.titleTextAttributesTransformer = textTransformer
         configuration.image = qrImage

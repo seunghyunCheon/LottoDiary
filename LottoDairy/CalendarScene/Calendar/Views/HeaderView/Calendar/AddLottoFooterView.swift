@@ -38,7 +38,7 @@ final class AddLottoFooterView: UICollectionReusableView {
             footerLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             footerLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
-        plusImageView.image = UIImage(named: "add")
+        plusImageView.image = UIImage(named: "addIcon")
         self.addSubview(plusImageView)
         NSLayoutConstraint.activate([
             plusImageView.widthAnchor.constraint(equalToConstant: 20),
