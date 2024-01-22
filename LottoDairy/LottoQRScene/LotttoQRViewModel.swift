@@ -26,7 +26,7 @@ final class LottoQRViewModel {
         // 로또 성공적 조회 이후 back 했을 때, 달력 화면으로 전환하기
     }
     
-    private var lottoURL = CurrentValueSubject<String, Never>("")
+    private var lottoURL = PassthroughSubject<String, Never>()
 
     private var validation = CurrentValueSubject<LottoQRState, Never>(.invalid)
 

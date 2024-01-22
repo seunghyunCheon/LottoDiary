@@ -73,6 +73,9 @@ final class LottoQRViewController: UIViewController, LottoQRFlowProtocol {
                     #endif
                     // 동행복권 결과 페이지 present
                     self.presentLottoResultView(url)
+
+                    // 로또 인식 이후 readerView 재시작
+                    self.qrReaderView.startSession()
                 }
             }
             .store(in: &cancellables)
@@ -96,9 +99,6 @@ extension LottoQRViewController: ReaderViewDelegate {
             // QR코드 인식 실패
             self.showQRCodeInvalidAlert()
         }
-
-        // 로또 인식 이후 readerView 재시작
-        qrReaderView.startSession()
     }
     
     func qrCodeDidFailToSetup(_ error: QRReadingError) {
