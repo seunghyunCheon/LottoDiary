@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import SafariServices
 
 final class LottoQRViewController: UIViewController, LottoQRFlowProtocol {
 
@@ -69,6 +70,14 @@ final class LottoQRViewController: UIViewController, LottoQRFlowProtocol {
                 }
             }
             .store(in: &cancellables)
+
+        
+    }
+
+    private func presentLottoResultView(_ url: String) {
+        guard let url = URL(string: url) else { return }
+        let webView: SFSafariViewController = .init(url: url)
+        self.present(webView, animated: true, completion: { })
     }
 }
 
