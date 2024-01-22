@@ -230,10 +230,19 @@ extension QRReaderView: AVCaptureMetadataOutputObjectsDelegate {
         if let metadataObject = metadataObjects.first {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject,
                   let stringValue = readableObject.stringValue else {
+                #if DEBUG
+                print("ℹ️ QR코드 인식 실패")
+                print("-----------------------------------------")
+                #endif
+
                 self.delegate?.qrCodeDidComplete(.fail)
                 return
             }
             
+            #if DEBUG
+            print("ℹ️ QR코드 인식 성공")
+            print("-----------------------------------------")
+            #endif
             self.delegate?.qrCodeDidComplete(.success(stringValue))
         }
     }
