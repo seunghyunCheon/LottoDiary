@@ -20,6 +20,7 @@ extension String {
 }
 
 enum LottoQRUseCaseError: Error {
+    case emptyURL
     case invalidURL
     case invalidResponse
     case invalidEncoding
@@ -33,16 +34,22 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
     init(lottoRepository: LottoRepository) {
         self.lottoRepository = lottoRepository
     }
-    
-    func validateLottoURL(_ url: String) -> Bool {
+
+    // QR코드로 받아온 string이 로또 주소가 맞는지 확인하는 함수
+    func valid(_ url: String) -> Bool {
+        // 로또 번호 주소가 올바르지 않을 경우
         return url.contains(LottoAPI.baseURL)
     }
-    
+
     func crawlLottoResult(_ url: String) -> AnyPublisher<Lotto, Error> {
         // 1. url을 통해 크롤링한다.
         // 2. 정보를 기반으로 로또를 생성하고 반환한다.
         // 3. 외부에서 당첨금액이 없다면 달력으로 화면을 이동하고, 당첨금액이 있다면 당첨화면을 보여준다.
-        
+
+        guard let url = URL(string: url) else {
+            return Fail(error: LottoQRUseCaseError.emptyURL).eraseToAnyPublisher()
+        }
+
         crawlling(url: url)
             .sink(receiveCompletion: { comp in
                 if case .failure(let error) = comp {
@@ -56,18 +63,18 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
         return Fail(error: LottoQRUseCaseError.invalidURL).eraseToAnyPublisher()
     }
     
-    private func crawlling(url: String) -> AnyPublisher<Lotto, Error> {
-        var redirectedUrl = url.replacingOccurrences(of: "/?", with: "/qr.do?&method=winQr&")
-        
-        if let range = redirectedUrl.range(of: "/qr.do?") {
-            let lottoHost = "http://m.dhlottery.co.kr/"
-            let pathAndQuery = String(redirectedUrl[range.lowerBound...])
-            redirectedUrl = lottoHost + pathAndQuery
-        }
-        guard let url = URL(string: redirectedUrl) else {
-            return Fail(error: LottoQRUseCaseError.invalidURL).eraseToAnyPublisher()
-        }
-        
+    private func crawlling(url: URL) -> AnyPublisher<Lotto, Error> {
+//        var redirectedUrl = url.replacingOccurrences(of: "/?", with: "/qr.do?&method=winQr&")
+//        
+//        if let range = redirectedUrl.range(of: "/qr.do?") {
+//            let lottoHost = "http://m.dhlottery.co.kr/"
+//            let pathAndQuery = String(redirectedUrl[range.lowerBound...])
+//            redirectedUrl = lottoHost + pathAndQuery
+//        }
+//        guard let url = URL(string: redirectedUrl) else {
+//            return Fail(error: LottoQRUseCaseError.invalidURL).eraseToAnyPublisher()
+//        }
+
         return URLSession.shared
             .dataTaskPublisher(for: url)
             .tryMap { element -> Data in

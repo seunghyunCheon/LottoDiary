@@ -9,6 +9,6 @@ import Foundation
 import Combine
 
 protocol LottoQRUseCase {
-    func validateLottoURL(_ url: String) -> Bool
+    func valid(_ url: String) -> Bool
     func crawlLottoResult(_ url: String) -> AnyPublisher<Lotto, Error>
 }
