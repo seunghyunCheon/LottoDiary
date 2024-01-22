@@ -49,18 +49,7 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
         guard let url = URL(string: url) else {
             return Fail(error: LottoQRUseCaseError.emptyURL).eraseToAnyPublisher()
         }
-
-        crawlling(url: url)
-            .sink(receiveCompletion: { comp in
-                if case .failure(let error) = comp {
-                    print(error)
-                }
-            }, receiveValue: { str in
-                
-            })
-            .store(in: &cancellables)
-        
-        return Fail(error: LottoQRUseCaseError.invalidURL).eraseToAnyPublisher()
+        return crawlling(url: url)
     }
     
     private func crawlling(url: URL) -> AnyPublisher<Lotto, Error> {
