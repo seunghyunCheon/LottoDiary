@@ -60,18 +60,22 @@ final class LottoQRViewController: UIViewController, LottoQRFlowProtocol {
             .sink { state in
                 switch state {
                 case .invalid:
+                    #if DEBUG
+                    print("🆘 로또QR 인식 실패")
+                    print("-----------------------------------------")
+                    #endif
                     self.showLottoInvalidAlert()
-                case .notAnnounced:
-                    print("결과 안나옴")
-                    // 달력 페이지로 이동
-                case .valid:
-                    print("유효한 QR코드야!")
-                    // 동행복권 결과 페이지로 이동
+                case .valid(let url):
+                    #if DEBUG
+                    print("✅ 로또QR 인식 성공! -> 동행복권 결과 페이지 이동")
+                    print("✅\(url)")
+                    print("-----------------------------------------")
+                    #endif
+                    // 동행복권 결과 페이지 present
+                    self.presentLottoResultView(url)
                 }
             }
             .store(in: &cancellables)
-
-        
     }
 
     private func presentLottoResultView(_ url: String) {
@@ -86,10 +90,15 @@ extension LottoQRViewController: ReaderViewDelegate {
     func qrCodeDidComplete(_ status: QRStatus) {
         switch status {
         case .success(let lottoURL):
+            // QR코드 인식 성공 (not 로또QR)
             self.qrCodeDidRecognize.send(lottoURL)
         case .fail:
+            // QR코드 인식 실패
             self.showQRCodeInvalidAlert()
         }
+
+        // 로또 인식 이후 readerView 재시작
+        qrReaderView.startSession()
     }
     
     func qrCodeDidFailToSetup(_ error: QRReadingError) {
