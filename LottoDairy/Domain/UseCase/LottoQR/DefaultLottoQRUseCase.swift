@@ -22,7 +22,7 @@ extension String {
 enum LottoQRUseCaseError: Error {
     case emptyURL
     case invalidURL
-    case invalidResponse
+    case outOfResponseCode
     case invalidEncoding
 }
 
@@ -45,31 +45,36 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
         // 1. url을 통해 크롤링한다.
         // 2. 정보를 기반으로 로또를 생성하고 반환한다.
         // 3. 외부에서 당첨금액이 없다면 달력으로 화면을 이동하고, 당첨금액이 있다면 당첨화면을 보여준다.
-
-        guard let url = URL(string: url) else {
-            return Fail(error: LottoQRUseCaseError.emptyURL).eraseToAnyPublisher()
-        }
-        return crawlling(url: url)
+        return lottoURL(url)
+            .flatMap { url -> AnyPublisher<Lotto, Error> in
+                self.crawlling(url: url)
+            }
+            .eraseToAnyPublisher()
     }
-    
-    private func crawlling(url: URL) -> AnyPublisher<Lotto, Error> {
-//        var redirectedUrl = url.replacingOccurrences(of: "/?", with: "/qr.do?&method=winQr&")
-//        
-//        if let range = redirectedUrl.range(of: "/qr.do?") {
-//            let lottoHost = "http://m.dhlottery.co.kr/"
-//            let pathAndQuery = String(redirectedUrl[range.lowerBound...])
-//            redirectedUrl = lottoHost + pathAndQuery
-//        }
-//        guard let url = URL(string: redirectedUrl) else {
-//            return Fail(error: LottoQRUseCaseError.invalidURL).eraseToAnyPublisher()
-//        }
 
+    private func lottoURL(_ url: String) -> AnyPublisher<URL, Error> {
+        var redirectedUrl = url.replacingOccurrences(of: "/?", with: "/qr.do?&method=winQr&")
+
+        if let range = redirectedUrl.range(of: "/qr.do?") {
+            let lottoHost = "http://m.dhlottery.co.kr/"
+            let pathAndQuery = String(redirectedUrl[range.lowerBound...])
+            redirectedUrl = lottoHost + pathAndQuery
+        }
+        guard let url = URL(string: redirectedUrl) else {
+            return Fail(error: LottoQRUseCaseError.invalidURL).eraseToAnyPublisher()
+        }
+
+        return Just(url)
+            .setFailureType(to: Error.self)
+            .eraseToAnyPublisher()
+    }
+
+    private func crawlling(url: URL) -> AnyPublisher<Lotto, Error> {
         return URLSession.shared
             .dataTaskPublisher(for: url)
             .tryMap { element -> Data in
-                guard let httpResponse = element.response as? HTTPURLResponse,
-                      httpResponse.statusCode == 200 else {
-                    throw LottoQRUseCaseError.invalidResponse
+                guard element.response.checkResponse else {
+                    throw LottoQRUseCaseError.outOfResponseCode
                 }
                 return element.data
             }
