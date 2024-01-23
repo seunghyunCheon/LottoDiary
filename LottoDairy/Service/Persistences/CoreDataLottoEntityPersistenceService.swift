@@ -118,9 +118,18 @@ final class CoreDataLottoEntityPersistenceService: CoreDataLottoEntityPersistenc
                     let lottoEntity = LottoEntity(context: context)
                     lottoEntity.update(lotto: lotto)
                     try context.save()
+                    #if DEBUG
+                    print("✅ 새로운 로또 인스턴스 CoreData 저장 성공!")
+                    print("-----------------------------------------")
+                    #endif
+
                     promise(.success(lottoEntity.convertToDomain()))
-            
                 } catch {
+                    #if DEBUG
+                    print("🆘 새로운 로또 인스턴스 CoreData 저장 실패")
+                    print("-----------------------------------------")
+                    #endif
+
                     promise(.failure(CoreDataLottoEntityPersistenceServiceError.failedToFetchLottoEntity))
                 }
             }

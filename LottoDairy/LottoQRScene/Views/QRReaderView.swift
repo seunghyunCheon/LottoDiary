@@ -246,7 +246,6 @@ extension QRReaderView: AVCaptureMetadataOutputObjectsDelegate {
             self.delegate?.qrCodeDidComplete(.success(stringValue))
         }
     }
-
 }
 
 extension QRReaderView {

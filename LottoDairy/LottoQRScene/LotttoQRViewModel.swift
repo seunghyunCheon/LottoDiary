@@ -85,10 +85,10 @@ final class LottoQRViewModel {
                 return self.lottoQRUseCase.crawlLottoResult(url)
             }
             .sink(receiveCompletion: { completion in
-                print(completion)
-            }, receiveValue: { lotto in
-                print(lotto)
-            })
+                if case .failure(let error) = completion {
+                    print(error.localizedDescription)
+                }
+            }, receiveValue: { lotto in })
             .store(in: &cancellables)
 
         return output

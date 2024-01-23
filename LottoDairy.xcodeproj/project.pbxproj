@@ -108,6 +108,7 @@
 		806F85212AE160F2003809EC /* LottoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806F85202AE160F2003809EC /* LottoAPI.swift */; };
 		806F85242AE1629B003809EC /* DefaultLottoQRUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806F85232AE1629B003809EC /* DefaultLottoQRUseCase.swift */; };
 		806F85272AE162CE003809EC /* LottoQRUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806F85262AE162CE003809EC /* LottoQRUseCase.swift */; };
+		8073ED542B5F7DA400E810D2 /* URLResponse+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8073ED532B5F7DA400E810D2 /* URLResponse+Extensions.swift */; };
 		80773A6E2A55AE9E0020F1DD /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80773A6D2A55AE9E0020F1DD /* HomeCoordinator.swift */; };
 		80773A702A55AF770020F1DD /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80773A6F2A55AF770020F1DD /* HomeViewController.swift */; };
 		80773A722A55AFF80020F1DD /* HomeFlowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80773A712A55AFF80020F1DD /* HomeFlowProtocol.swift */; };
@@ -246,6 +247,7 @@
 		806F85202AE160F2003809EC /* LottoAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoAPI.swift; sourceTree = "<group>"; };
 		806F85232AE1629B003809EC /* DefaultLottoQRUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLottoQRUseCase.swift; sourceTree = "<group>"; };
 		806F85262AE162CE003809EC /* LottoQRUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoQRUseCase.swift; sourceTree = "<group>"; };
+		8073ED532B5F7DA400E810D2 /* URLResponse+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLResponse+Extensions.swift"; sourceTree = "<group>"; };
 		80773A6D2A55AE9E0020F1DD /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		80773A6F2A55AF770020F1DD /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		80773A712A55AFF80020F1DD /* HomeFlowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFlowProtocol.swift; sourceTree = "<group>"; };
@@ -423,6 +425,7 @@
 				80F90CE72A8D2507007E1D23 /* Date+Extensions.swift */,
 				80F90CF22A8D301D007E1D23 /* UICollectionView+Extensions.swift */,
 				80F90CF42A8D3037007E1D23 /* UICollectionViewCell+Extensions.swift */,
+				8073ED532B5F7DA400E810D2 /* URLResponse+Extensions.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1002,6 +1005,7 @@
 				624BB0D32A653299002A3109 /* GoalSettingViewController.swift in Sources */,
 				625141252AB598AA00E9E5C3 /* CoreDataLottoEntityPersistenceServiceProtocol.swift in Sources */,
 				801767132AB99CC60046E537 /* ChartLottoUseCase.swift in Sources */,
+				8073ED542B5F7DA400E810D2 /* URLResponse+Extensions.swift in Sources */,
 				801767002AAEF90F0046E537 /* DefaultChartUseCase.swift in Sources */,
 				805EA6BF2A9B1E1E00A3545C /* ChartViewController.swift in Sources */,
 				8060B41F2A61A66800726C83 /* LottoQRButton.swift in Sources */,

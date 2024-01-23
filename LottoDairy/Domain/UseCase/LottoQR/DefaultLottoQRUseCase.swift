@@ -47,7 +47,7 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
         // 3. 외부에서 당첨금액이 없다면 달력으로 화면을 이동하고, 당첨금액이 있다면 당첨화면을 보여준다.
         return lottoURL(url)
             .flatMap { url -> AnyPublisher<Lotto, Error> in
-                self.crawlling(url: url)
+                return self.crawlling(url: url)
             }
             .eraseToAnyPublisher()
     }
@@ -63,12 +63,22 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
             return Fail(error: LottoQRUseCaseError.emptyURL).eraseToAnyPublisher()
         }
 
+        #if DEBUG
+        print("✅ 로또QR로 받아온 string url -> URL 타입 변환 성공")
+        print("-----------------------------------------")
+        #endif
+
         return Just(url)
             .setFailureType(to: Error.self)
             .eraseToAnyPublisher()
     }
 
     private func crawlling(url: URL) -> AnyPublisher<Lotto, Error> {
+        #if DEBUG
+        print("ℹ️ 동행복권 결과 페이지 크롤링 시작")
+        print("-----------------------------------------")
+        #endif
+
         return URLSession.shared
             .dataTaskPublisher(for: url)
             .tryMap { element -> Data in
@@ -94,6 +104,10 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
         guard let html = String(data: data, encoding: String.Encoding(rawValue: encodingEUCKR)) else {
             throw LottoQRUseCaseError.failedToEncoding
         }
+        #if DEBUG
+        print("✅ 동행복권 html data -> String encoding 성공!")
+        print("-----------------------------------------")
+        #endif
 
         return html
     }
@@ -113,6 +127,11 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
                 lottoNumbers: lottoNumbers,
                 roundNumber: roundNumber
             )
+            #if DEBUG
+            print("✅ 이미 결과가 나온, 새로운 로또 인스턴스 생성 완료! \n✅\(lotto)")
+            print("-----------------------------------------")
+            #endif
+
             return self.lottoRepository.saveLotto(lotto)
         } else {
             let lotto = Lotto(
@@ -121,6 +140,11 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
                 lottoNumbers: lottoNumbers,
                 roundNumber: roundNumber
             )
+            #if DEBUG
+            print("✅ 아직 결과 안나온, 새로운 로또 인스턴스 생성 완료! \n✅\(lotto)")
+            print("-----------------------------------------")
+            #endif
+
             return self.lottoRepository.saveLotto(lotto)
         }
     }

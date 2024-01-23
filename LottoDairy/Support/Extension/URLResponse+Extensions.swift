@@ -16,6 +16,10 @@ extension URLResponse {
         guard let httpResponse = self as? HTTPURLResponse, successRange.contains(httpResponse.statusCode) else {
             return false
         }
+        #if DEBUG
+        print("ℹ️ URLResponse's statusCode: \(httpResponse.statusCode)")
+        print("-----------------------------------------")
+        #endif
 
         return true
     }
