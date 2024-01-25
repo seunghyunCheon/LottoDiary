@@ -27,15 +27,16 @@ final class AppCoordinator: BaseCoordinator {
     }
 
     private func runSetup() {
-        // 결과 없는 로또 조회 -> 업데이트
-        let lottoValidationModule = moduleFactory.makeLottoValidationFlow()
-        lottoValidationModule.updateLottosWithNoResult()
-
         // 유저 정보 있는지 검색
         let userSetupModule = moduleFactory.makeUserSetupFlow()
-        // 유저 정보 탐색 끝났으면 -> 화면 연결
+
+        // 유저 정보 여부에 따라 -> 화면 연결
         switch userSetupModule.instructor {
         case .main:
+            // 결과 없는 로또 조회 -> 업데이트
+            let lottoValidationModule = moduleFactory.makeLottoValidationFlow()
+            lottoValidationModule.updateLottosWithNoResult()
+
             self.runMainFlow()
         case .onboarding:
             self.runOnboardingFlow()

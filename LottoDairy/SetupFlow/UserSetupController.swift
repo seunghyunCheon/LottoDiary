@@ -52,13 +52,31 @@ final class UserSetupController: UserSetupFlowProtocol {
                 // 기존 유저 정보 없을 때
                 if case .failure(let error) = completion {
                     print(error.localizedDescription)
+                    self.isAutorized = false
+
+                    #if DEBUG
+                    print(
+                        """
+                        [🆘][UserSetupController.swift] -> 로그인 실패 :
+                            유저 정보 가져오기 실패! 온보딩 화면으로 이동
+
+                        """
+                    )
+                    #endif
                 }
             } receiveValue: { result in
-                #if DEBUG
-                print("✅ 유저 정보 가져오기 성공! \n✅\(result)")
-                print("-----------------------------------------")
-                #endif
                 self.isAutorized = true
+
+                #if DEBUG
+                print(
+                    """
+                    [✅][UserSetupController.swift] -> 로그인 성공 :
+                        유저 정보 가져오기 성공!
+                        \(result)
+
+                    """
+                )
+                #endif
             }
             .store(in: &cancellables)
     }
