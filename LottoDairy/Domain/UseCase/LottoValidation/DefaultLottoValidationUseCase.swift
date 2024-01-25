@@ -17,6 +17,11 @@ final class DefaultLottoValidationUseCase: LottoValidationUseCase {
     
     // 로또 데이터 조회해서 당첨 금액 없는 데이터 조회
     func fetchLottosWithoutWinningAmount() -> AnyPublisher<[Lotto], Error> {
+
+        #if DEBUG
+        print("[ℹ️][LottoValidationUseCase.swift] -> 당첨 금액 없는 로또 데이터 조회")
+        #endif
+
         return lottoRepository.fetchLottosWithoutWinningAmount()
     }
 

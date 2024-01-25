@@ -62,10 +62,14 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
         guard let url = URL(string: redirectedUrl) else {
             return Fail(error: LottoQRUseCaseError.emptyURL).eraseToAnyPublisher()
         }
-
         #if DEBUG
-        print("✅ 로또QR로 받아온 string url -> URL 타입 변환 성공")
-        print("-----------------------------------------")
+        print(
+            """
+            [✅][LottoQRUseCase.swift] -> 로또QR로 받아온 string url을 동행복권 URL 타입 변환 성공
+
+            """
+        )
+
         #endif
 
         return Just(url)
@@ -75,8 +79,13 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
 
     private func crawlling(url: URL) -> AnyPublisher<Lotto, Error> {
         #if DEBUG
-        print("ℹ️ 동행복권 결과 페이지 크롤링 시작")
-        print("-----------------------------------------")
+        print(
+            """
+            [ℹ️][LottoQRUseCase.swift] -> 동행복권 결과 페이지 크롤링 시작
+
+            """
+        )
+
         #endif
 
         return URLSession.shared
@@ -105,8 +114,13 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
             throw LottoQRUseCaseError.failedToEncoding
         }
         #if DEBUG
-        print("✅ 동행복권 html data -> String encoding 성공!")
-        print("-----------------------------------------")
+        print(
+            """
+            [✅][LottoQRUseCase.swift] -> 동행복권 html data를 String encoding 성공
+
+            """
+        )
+
         #endif
 
         return html
@@ -128,8 +142,13 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
                 roundNumber: roundNumber
             )
             #if DEBUG
-            print("✅ 이미 결과가 나온, 새로운 로또 인스턴스 생성 완료! \n✅\(lotto)")
-            print("-----------------------------------------")
+            print(
+                """
+                [✅][LottoQRUseCase.swift] -> 이미 결과가 나온, 새로운 로또 인스턴스 생성 완료
+                    \(lotto)
+                """
+            )
+
             #endif
 
             return self.lottoRepository.saveLotto(lotto)
@@ -141,8 +160,13 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
                 roundNumber: roundNumber
             )
             #if DEBUG
-            print("✅ 아직 결과 안나온, 새로운 로또 인스턴스 생성 완료! \n✅\(lotto)")
-            print("-----------------------------------------")
+            print(
+                """
+                [✅][LottoQRUseCase.swift] -> 아직 결과 안나온, 새로운 로또 인스턴스 생성 완료
+                    \(lotto)
+                """
+            )
+
             #endif
 
             return self.lottoRepository.saveLotto(lotto)

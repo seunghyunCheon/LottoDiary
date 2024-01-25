@@ -48,8 +48,28 @@ final class CoreDataLottoEntityPersistenceService: CoreDataLottoEntityPersistenc
                     let fetchResult = try context.fetch(fetchRequest)
                     promise(.success(fetchResult.map {
                         $0.convertToDomain() }))
+
+                    #if DEBUG
+                    print(
+                        """
+                        [✅][CoreDataLottoEntityPersistenceService.swift] -> CoreData fetch 성공 :
+                            당첨금액이 -1인 로또 데이터 조회 성공
+                        """
+                    )
+
+                    #endif
                 } catch {
                     promise(.failure(CoreDataLottoEntityPersistenceServiceError.failedToFetchLottoEntity))
+
+                    #if DEBUG
+                    print(
+                        """
+                        [🆘][CoreDataLottoEntityPersistenceService.swift] -> CoreData fetch 실패 :
+                            당첨금액이 -1인 로또 데이터 조회 실패
+                        """
+                    )
+
+                    #endif
                 }
             }
         }
@@ -70,8 +90,28 @@ final class CoreDataLottoEntityPersistenceService: CoreDataLottoEntityPersistenc
                 do {
                     let fetchResult = try context.fetch(fetchRequest)
                     promise(.success(fetchResult.map { $0.convertToDomain() }))
+
+                    #if DEBUG
+                    print(
+                        """
+                        [✅][CoreDataLottoEntityPersistenceService.swift] -> CoreData fetch 성공 :
+                            \(startDate) ~ \(endDate) 간의 로또 데이터 조회 성공
+                        """
+                    )
+
+                    #endif
                 } catch {
                     promise(.failure(CoreDataLottoEntityPersistenceServiceError.failedToFetchLottoEntity))
+
+                    #if DEBUG
+                    print(
+                        """
+                        [🆘][CoreDataLottoEntityPersistenceService.swift] -> CoreData fetch 실패 :
+                            \(startDate) ~ \(endDate) 간의 로또 데이터 조회 성공
+                        """
+                    )
+
+                    #endif
                 }
             }
         }
@@ -118,19 +158,32 @@ final class CoreDataLottoEntityPersistenceService: CoreDataLottoEntityPersistenc
                     let lottoEntity = LottoEntity(context: context)
                     lottoEntity.update(lotto: lotto)
                     try context.save()
-                    #if DEBUG
-                    print("✅ 새로운 로또 인스턴스 CoreData 저장 성공!")
-                    print("-----------------------------------------")
-                    #endif
 
                     promise(.success(lottoEntity.convertToDomain()))
-                } catch {
-                    #if DEBUG
-                    print("🆘 새로운 로또 인스턴스 CoreData 저장 실패")
-                    print("-----------------------------------------")
-                    #endif
 
+                    #if DEBUG
+                    print(
+                        """
+                        [✅][CoreDataLottoEntityPersistenceService.swift] -> CoreData 저장 성공 :
+                            새로운 로또 인스턴스 저장
+                            \(lotto)
+                        """
+                    )
+
+                    #endif
+                } catch {
                     promise(.failure(CoreDataLottoEntityPersistenceServiceError.failedToFetchLottoEntity))
+
+                    #if DEBUG
+                    print(
+                        """
+                        [🆘][CoreDataLottoEntityPersistenceService.swift] -> CoreData 저장 실패 :
+                            새로운 로또 인스턴스 저장 실패
+
+                        """
+                    )
+
+                    #endif
                 }
             }
         }
@@ -151,9 +204,30 @@ final class CoreDataLottoEntityPersistenceService: CoreDataLottoEntityPersistenc
             guard let fetchResult = try context.fetch(fetchRequest).first else { return }
             fetchResult.winningAmount = amount
             try context.save()
+
+            #if DEBUG
+            print(
+                """
+                [✅][CoreDataLottoEntityPersistenceService.swift] -> CoreData 업데이트 성공 :
+                    기존의 로또 데이터에서 당첨 금액 업데이트
+                    \(fetchResult)
+                """
+            )
+
+            #endif
         } catch {
             print(CoreDataLottoEntityPersistenceServiceError.failedToFetchLottoEntity)
-            return
+
+            #if DEBUG
+            print(
+                """
+                [🆘][CoreDataLottoEntityPersistenceService.swift] -> CoreData 업데이트 실패 :
+                    기존 로또 데이터에서 당첨 금액 업데이트
+
+                """
+            )
+
+            #endif
         }
     }
 }
