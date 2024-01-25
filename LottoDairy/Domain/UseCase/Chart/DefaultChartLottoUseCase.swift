@@ -43,7 +43,9 @@ final class DefaultChartLottoUseCase: ChartLottoUseCase {
                     pre += next.purchaseAmount
                 }
                 let winningAmount = lottos?.reduce(into: 0) { pre, next in
-                    pre += next.winningAmount
+                    if next.winningAmount > Int.zero {
+                        pre += next.winningAmount
+                    }
                 }
                 return Just((purchase: purchaseAmount, winning: winningAmount))
                     .setFailureType(to: Error.self)
