@@ -1,36 +1,19 @@
 //
-//  DefaultLottoQRUseCase.swift
+//  DefaultLottoResultValidationUseCase.swift
 //  LottoDairy
 //
-//  Created by Sunny on 10/19/23.
+//  Created by Sunny on 11/2/23.
 //
 
 import Foundation
 import Combine
 import SwiftSoup
 
-extension String {
-    func encoding() -> String? {
-        return self.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-    }
-    
-    func decoding() -> String? {
-        self.removingPercentEncoding
-    }
-}
+final class DefaultLottoResultValidationUseCase: LottoResultValidationUseCase {
 
-enum LottoQRUseCaseError: Error {
-    case emptyURL
-    case invalidURL
-    case outOfResponseCode
-    case failedToEncoding
-}
-
-final class DefaultLottoQRUseCase: LottoQRUseCase {
-    
     private let lottoRepository: LottoRepository
     private var cancellables = Set<AnyCancellable>()
-    
+
     init(lottoRepository: LottoRepository) {
         self.lottoRepository = lottoRepository
     }
@@ -60,7 +43,7 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
             redirectedUrl = lottoHost + pathAndQuery
         }
         guard let url = URL(string: redirectedUrl) else {
-            return Fail(error: LottoQRUseCaseError.emptyURL).eraseToAnyPublisher()
+            return Fail(error: NetworkError.emptyURL).eraseToAnyPublisher()
         }
         #if DEBUG
         print(
@@ -92,7 +75,7 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
             .dataTaskPublisher(for: url)
             .tryMap { element -> Data in
                 guard element.response.checkResponse else {
-                    throw LottoQRUseCaseError.outOfResponseCode
+                    throw NetworkError.outOfResponseCode
                 }
                 return element.data
             }
@@ -111,7 +94,7 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
     private func encode(_ data: Data) throws -> String {
         let encodingEUCKR = CFStringConvertEncodingToNSStringEncoding(0x0422)
         guard let html = String(data: data, encoding: String.Encoding(rawValue: encodingEUCKR)) else {
-            throw LottoQRUseCaseError.failedToEncoding
+            throw NetworkError.failedToEncoding
         }
         #if DEBUG
         print(
@@ -171,6 +154,21 @@ final class DefaultLottoQRUseCase: LottoQRUseCase {
 
             return self.lottoRepository.saveLotto(lotto)
         }
+    }
+
+    // 로또 데이터 조회해서 당첨 금액 없는 데이터 조회
+    func fetchLottosWithoutWinningAmount() -> AnyPublisher<[Lotto], Error> {
+
+        #if DEBUG
+        print("[ℹ️][LottoValidationUseCase.swift] -> 당첨 금액 없는 로또 데이터 조회")
+        #endif
+
+        return lottoRepository.fetchLottosWithoutWinningAmount()
+    }
+
+    // 로또 데이터 당첨 금액 업데이트
+    func updateWinningAmount(lotto: Lotto, amount: Int) {
+        lottoRepository.updateWinningAmount(lotto, amount: amount)
     }
 }
 

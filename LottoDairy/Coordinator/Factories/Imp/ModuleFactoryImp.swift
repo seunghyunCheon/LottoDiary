@@ -43,8 +43,8 @@ final class ModuleFactoryImp:
         let coreDataService = CoreDataPersistenceService.shared
         let coreDataLottoPersistenceService = CoreDataLottoEntityPersistenceService(coreDataPersistenceService: coreDataService)
         let lottoRepository = DefaultLottoRepository(coreDataLottoEntityPersistenceService: coreDataLottoPersistenceService)
-        let lottoQRUseCase = DefaultLottoQRUseCase(lottoRepository: lottoRepository)
-        let viewModel = LottoQRViewModel(lottoQRUseCase: lottoQRUseCase)
+        let lottoResultValidationUseCase = DefaultLottoResultValidationUseCase(lottoRepository: lottoRepository)
+        let viewModel = LottoQRViewModel(lottoResultValidationUseCase: lottoResultValidationUseCase)
 
         return LottoQRViewController(viewModel: viewModel)
     }
@@ -113,8 +113,8 @@ final class ModuleFactoryImp:
         let coreDataService = CoreDataPersistenceService.shared
         let coreDataLottoPersistenceService = CoreDataLottoEntityPersistenceService(coreDataPersistenceService: coreDataService)
         let lottoRepository = DefaultLottoRepository(coreDataLottoEntityPersistenceService: coreDataLottoPersistenceService)
-        let lottoValidationUseCase = DefaultLottoValidationUseCase(lottoRepository: lottoRepository)
-        return LottoValidationController(lottoValidationUseCase: lottoValidationUseCase)
+        let lottoResultValidationUseCase = DefaultLottoResultValidationUseCase(lottoRepository: lottoRepository)
+        return LottoValidationController(lottoResultValidationUseCase: lottoResultValidationUseCase)
     }
 
     func makeUserSetupFlow() -> UserSetupFlowProtocol {

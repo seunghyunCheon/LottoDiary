@@ -12,4 +12,12 @@ extension String {
         let removeAllSeparator = self.replacingOccurrences(of: ",", with: "")
         return Int(removeAllSeparator)
     }
+
+    func encoding() -> String? {
+        return self.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+    }
+
+    func decoding() -> String? {
+        self.removingPercentEncoding
+    }
 }

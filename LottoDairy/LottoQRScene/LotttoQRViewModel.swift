@@ -15,8 +15,8 @@ enum LottoQRState {
 
 final class LottoQRViewModel {
     
-    private let lottoQRUseCase: LottoQRUseCase
-    
+    private let lottoResultValidationUseCase: LottoResultValidationUseCase
+
     struct Input {
         let qrCodeDidRecognize: PassthroughSubject<String, Never>
     }
@@ -32,8 +32,8 @@ final class LottoQRViewModel {
 
     private var cancellables: Set<AnyCancellable> = []
     
-    init(lottoQRUseCase: LottoQRUseCase) {
-        self.lottoQRUseCase = lottoQRUseCase
+    init(lottoResultValidationUseCase: LottoResultValidationUseCase) {
+        self.lottoResultValidationUseCase = lottoResultValidationUseCase
     }
     
     func transform(from input: Input) -> Output {
@@ -49,7 +49,7 @@ final class LottoQRViewModel {
                 }
             } receiveValue: { url in
                 // url 유효성 검사
-                if self.lottoQRUseCase.valid(url) {
+                if self.lottoResultValidationUseCase.valid(url) {
                     #if DEBUG
                     print("ℹ️ 로또 유효성 검사 통과")
                     print("-----------------------------------------")
@@ -82,7 +82,7 @@ final class LottoQRViewModel {
 
         self.lottoURL
             .flatMap { url -> AnyPublisher<Lotto, Error> in
-                return self.lottoQRUseCase.crawlLottoResult(url)
+                return self.lottoResultValidationUseCase.crawlLottoResult(url)
             }
             .sink(receiveCompletion: { completion in
                 if case .failure(let error) = completion {
