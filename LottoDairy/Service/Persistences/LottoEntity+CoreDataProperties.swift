@@ -17,8 +17,6 @@ extension LottoEntity {
     @NSManaged public var type: String
     @NSManaged public var purchaseAmount: Int
     @NSManaged public var winningAmount: Int
-    @NSManaged public var lottoNumbers: [[Int]]
-    @NSManaged public var roundNumber: Int
     
     @nonobjc public class func fetchRequest() -> NSFetchRequest<LottoEntity> {
         return NSFetchRequest<LottoEntity>(entityName: "LottoEntity")
@@ -30,7 +28,6 @@ extension LottoEntity {
         self.type = lotto.type.rawValue
         self.purchaseAmount = lotto.purchaseAmount
         self.winningAmount = lotto.winningAmount
-        self.lottoNumbers = lotto.lottoNumbers
     }
 }
 
@@ -41,8 +38,7 @@ extension LottoEntity : Identifiable {
             date: self.date,
             type: LottoType(rawValue: self.type) ?? .lotto,
             purchaseAmount: self.purchaseAmount,
-            winningAmount: self.winningAmount,
-            lottoNumbers: self.lottoNumbers
+            winningAmount: self.winningAmount
         )
     }
 }
