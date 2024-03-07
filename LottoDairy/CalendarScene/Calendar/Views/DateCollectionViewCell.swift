@@ -14,11 +14,9 @@ protocol CellBaseDateChangeDelegate: AnyObject {
 final class DateCollectionViewCell: UICollectionViewCell {
 
     lazy var monthlyCollectionView: UICollectionView = {
-        let monthlyCollectionViewLayout = CalendarCollectionViewLayout()
-
         let collectionView = UICollectionView(
             frame: .zero,
-            collectionViewLayout: monthlyCollectionViewLayout.createLayout(type: .month, days: [])
+            collectionViewLayout: CalendarCollectionViewLayout.createLayout(type: .month, days: [])
         )
         collectionView.register(DateCell.self)
         collectionView.dataSource = self.dataSource
@@ -84,7 +82,7 @@ final class DateCollectionViewCell: UICollectionViewCell {
         snapshot.appendSections([0])
         snapshot.appendItems(days)
 
-        let layout = CalendarCollectionViewLayout().createLayout(type: self.scope, days: days)
+        let layout = CalendarCollectionViewLayout.createLayout(type: self.scope, days: days)
         monthlyCollectionView.setCollectionViewLayout(layout, animated: false)
 
         self.dataSource?.apply(snapshot, animatingDifferences: false)
