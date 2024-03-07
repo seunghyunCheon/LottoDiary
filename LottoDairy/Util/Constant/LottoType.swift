@@ -8,4 +8,11 @@
 enum LottoType: String, CaseIterable {
     case lotto = "로또"
     case spitto = "스피또"
+
+    var imageName: String {
+        switch self {
+        case .lotto: return "lotto"
+        case .spitto: return "spito"
+        }
+    }
 }

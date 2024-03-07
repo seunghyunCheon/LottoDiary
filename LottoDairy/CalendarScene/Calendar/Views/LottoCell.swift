@@ -126,7 +126,7 @@ final class LottoCell: UICollectionViewCell {
     }
     
     func configure(with lotto: Lotto) {
-        lottoImageView.image = UIImage(named: lotto.type.rawValue)
+        lottoImageView.image = UIImage(named: lotto.type.imageName)
         titleLabel.text = lotto.type.rawValue
         purchaseAmountLabel.text = String(lotto.purchaseAmount.convertToDecimal()) + " 원"
         if lotto.winningAmount == -1 {

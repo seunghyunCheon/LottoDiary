@@ -329,7 +329,7 @@ extension HomeViewController {
 
     private enum SystemName: String {
         case setting = "gearshape"
-        case photo = "국밥"
+        case photo = "bap"
 
         var systemImage: UIImage? {
             return UIImage(systemName: self.rawValue)

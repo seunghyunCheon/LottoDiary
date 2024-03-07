@@ -394,7 +394,7 @@ extension ChartViewController: ChartViewDelegate {
 extension ChartViewController {
 
     private enum Image: String {
-        case emptyChart = "차트안내메세지"
+        case emptyChart = "information"
 
         var image: UIImage? {
             return UIImage(named: self.rawValue)
