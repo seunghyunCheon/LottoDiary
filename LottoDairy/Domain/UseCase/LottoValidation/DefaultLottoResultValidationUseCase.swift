@@ -82,7 +82,7 @@ final class DefaultLottoResultValidationUseCase: LottoResultValidationUseCase {
             .flatMap { data -> AnyPublisher<Lotto, Error> in
                 do {
                     let htmlSting = try self.encode(data)
-                    return try self.saveLotto(htmlSting)
+                    return try self.saveLottoResult(htmlSting)
                 } catch {
                     return Fail(error: error).eraseToAnyPublisher()
                 }
@@ -109,20 +109,23 @@ final class DefaultLottoResultValidationUseCase: LottoResultValidationUseCase {
         return html
     }
 
-    private func saveLotto(_ html: String) throws -> AnyPublisher<Lotto, Error> {
+    private func saveLottoResult(_ html: String) throws -> AnyPublisher<Lotto, Error> {
         let doc: Document = try SwiftSoup.parse(html)
         let purchaseCounts: Elements = try doc.purchase()
         let winningNumbers: Elements = try doc.winningNumbers()
         let winningAmount: Int = try doc.winningAmount()
-        let roundNumber = try doc.roundNumber()
-        let lottoNumbers: [[Int]] = try doc.lottoNumbers()
 
+        /// 회차번호, 로또 번호(구매한) 필요한가?
+        //        let roundNumber = try doc.roundNumber()
+        //        let lottoNumbers: [[Int]] = try doc.lottoNumbers()
+
+        // 여기서 id 값을 파라미터로 받아, id가 닐이 아니라면 업데이트 ,
+        // 닐이라면 새로 인스턴스 생성해 저장
         if !winningNumbers.isEmpty() {
             let lotto = Lotto(
                 purchaseAmount: 1000 * purchaseCounts.count,
-                winningAmount: winningAmount,
-                lottoNumbers: lottoNumbers,
-                roundNumber: roundNumber
+                winningAmount: winningAmount, 
+                url: html
             )
             #if DEBUG
             print(
@@ -138,9 +141,8 @@ final class DefaultLottoResultValidationUseCase: LottoResultValidationUseCase {
         } else {
             let lotto = Lotto(
                 purchaseAmount: 1000 * purchaseCounts.count,
-                winningAmount: -1,
-                lottoNumbers: lottoNumbers,
-                roundNumber: roundNumber
+                winningAmount: -1, 
+                url: html
             )
             #if DEBUG
             print(

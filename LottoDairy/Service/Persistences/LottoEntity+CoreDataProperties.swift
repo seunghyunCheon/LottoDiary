@@ -17,7 +17,8 @@ extension LottoEntity {
     @NSManaged public var type: String
     @NSManaged public var purchaseAmount: Int
     @NSManaged public var winningAmount: Int
-    
+    @NSManaged public var url: String
+
     @nonobjc public class func fetchRequest() -> NSFetchRequest<LottoEntity> {
         return NSFetchRequest<LottoEntity>(entityName: "LottoEntity")
     }
@@ -38,7 +39,8 @@ extension LottoEntity : Identifiable {
             date: self.date,
             type: LottoType(rawValue: self.type) ?? .lotto,
             purchaseAmount: self.purchaseAmount,
-            winningAmount: self.winningAmount
+            winningAmount: self.winningAmount, 
+            url: self.url
         )
     }
 }

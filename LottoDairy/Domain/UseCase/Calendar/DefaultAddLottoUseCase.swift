@@ -23,6 +23,8 @@ final class DefaultAddLottoUseCase: AddLottoUseCase {
     
     var selectedDate: Date?
     var lottoType: LottoType = .lotto
+    // MARK: 확인 필요
+    let html: String = ""
     var purchaseAmount = CurrentValueSubject<Int?, Never>(nil)
     var winningAmount = CurrentValueSubject<Int?, Never>(nil)
     private let lottoRepository: LottoRepository
@@ -48,11 +50,13 @@ final class DefaultAddLottoUseCase: AddLottoUseCase {
             return Fail(error: AddLottoUseCaseError.failedToCreateLotto).eraseToAnyPublisher()
         }
         
+        // MARK: 확인 필요
         let newLotto = Lotto(
             type: self.lottoType,
             date: selectedDate,
             purchaseAmount: self.purchaseAmount.value ?? 0,
-            winningAmount: self.winningAmount.value ?? 0
+            winningAmount: self.winningAmount.value ?? 0,
+            url: ""
         )
         
         return lottoRepository.saveLotto(newLotto)

@@ -24,13 +24,17 @@ final class LottoValidationController: LottoValidationFlowProtocol {
 
     func updateLottosWithNoResult() {
         // 1. 당첨 결과가 없는 로또 fetch
-        lottoResultValidationUseCase.fetchLottosWithoutWinningAmount()
+        self.lottoResultValidationUseCase.fetchLottosWithoutWinningAmount()
             .sink { completion in
                 if case .failure(let error) = completion {
                     print(error.localizedDescription)
                 }
             } receiveValue: { lottos in
+                // 당첨 결과 없는 로또 !
                 lottos.forEach { lotto in
+//                    return self.lottoResultValidationUseCase.crawlLottoResult(<#T##url: String##String#>)
+
+//                    return self.lottoResultValidationUseCase.crawlLottoResult(lotto.)
 //                    return self.fetchLottoResult(lotto)
 //                        .sink { completion in
 //                            if case .failure(let error) = completion {
