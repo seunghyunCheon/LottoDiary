@@ -9,7 +9,7 @@ import Combine
 import Foundation
 
 protocol LottoValidationFlowProtocol {
-    func updateLottosWithNoResult()
+    func fetchLottosWithNoResult()
 }
 
 final class LottoValidationController: LottoValidationFlowProtocol {
@@ -18,34 +18,35 @@ final class LottoValidationController: LottoValidationFlowProtocol {
 
     private var cancellables = Set<AnyCancellable>()
 
+    private var noResultLotto: [Lotto] = []
+
     init(lottoResultValidationUseCase: LottoResultValidationUseCase) {
         self.lottoResultValidationUseCase = lottoResultValidationUseCase
     }
 
-    func updateLottosWithNoResult() {
-        // 1. 당첨 결과가 없는 로또 fetch
+    // 1. 당첨 결과가 없는 로또 fetch
+    func fetchLottosWithNoResult() {
         self.lottoResultValidationUseCase.fetchLottosWithoutWinningAmount()
             .sink { completion in
                 if case .failure(let error) = completion {
                     print(error.localizedDescription)
                 }
             } receiveValue: { lottos in
-                // 당첨 결과 없는 로또 !
-                lottos.forEach { lotto in
-//                    return self.lottoResultValidationUseCase.crawlLottoResult(<#T##url: String##String#>)
+                // 당첨 결과 없는 로또를 noResultLotto에 넣기
+                self.noResultLotto = lottos
 
-//                    return self.lottoResultValidationUseCase.crawlLottoResult(lotto.)
-//                    return self.fetchLottoResult(lotto)
-//                        .sink { completion in
-//                            if case .failure(let error) = completion {
-//                                print(error.localizedDescription)
-//                            }
-//                        } receiveValue: { result in
-//
-//                        }
-//                        .store(in: &self.cancellables)
-                }
+                self.updateLottosWithNoResult()
             }
             .store(in: &cancellables)
+    }
+
+    // 2. 당첨 결과 없는 로또를 크롤링 해서 결과 있는지 확인하기
+    func updateLottosWithNoResult() {
+        for lotto in noResultLotto {
+            self.lottoResultValidationUseCase.crawlLottoResult(
+                id: lotto.id.uuidString,
+                url: lotto.url
+            )
+        }
     }
 }

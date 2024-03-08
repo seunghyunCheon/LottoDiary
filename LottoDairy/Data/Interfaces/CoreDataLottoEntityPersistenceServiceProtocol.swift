@@ -13,5 +13,5 @@ protocol CoreDataLottoEntityPersistenceServiceProtocol {
     func fetchLottoEntities(with startDate: Date, and endDate: Date) -> AnyPublisher<[Lotto], Error>
     func fetchLottoEntitiesWithoutWinningAmount() -> AnyPublisher<[Lotto], Error>
     func fetchDistinctYear() -> AnyPublisher<Set<Int>, Error>
-    func updateWinningAmount(_ lotto: Lotto, amount: Int)
+    func updateWinningAmount(_ id: String, amount: Int) -> AnyPublisher<Lotto, Error>
 }

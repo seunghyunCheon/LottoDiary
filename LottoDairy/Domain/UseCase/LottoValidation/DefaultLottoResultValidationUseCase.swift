@@ -24,13 +24,14 @@ final class DefaultLottoResultValidationUseCase: LottoResultValidationUseCase {
         return url.contains(LottoAPI.baseURL)
     }
 
-    func crawlLottoResult(_ url: String) -> AnyPublisher<Lotto, Error> {
+    @discardableResult
+    func crawlLottoResult(id: String?, url: String) -> AnyPublisher<Lotto, Error> {
         // 1. url을 통해 크롤링한다.
         // 2. 정보를 기반으로 로또를 생성하고 반환한다.
         // 3. 외부에서 당첨금액이 없다면 달력으로 화면을 이동하고, 당첨금액이 있다면 당첨화면을 보여준다.
         return lottoURL(url)
             .flatMap { url -> AnyPublisher<Lotto, Error> in
-                return self.crawlling(url: url)
+                return self.crawlling(id: id, url: url)
             }
             .eraseToAnyPublisher()
     }
@@ -60,7 +61,7 @@ final class DefaultLottoResultValidationUseCase: LottoResultValidationUseCase {
             .eraseToAnyPublisher()
     }
 
-    private func crawlling(url: URL) -> AnyPublisher<Lotto, Error> {
+    private func crawlling(id: String?, url: URL) -> AnyPublisher<Lotto, Error> {
         #if DEBUG
         print(
             """
@@ -82,7 +83,7 @@ final class DefaultLottoResultValidationUseCase: LottoResultValidationUseCase {
             .flatMap { data -> AnyPublisher<Lotto, Error> in
                 do {
                     let htmlSting = try self.encode(data)
-                    return try self.saveLottoResult(htmlSting)
+                    return try self.saveLottoResult(id, htmlSting)
                 } catch {
                     return Fail(error: error).eraseToAnyPublisher()
                 }
@@ -109,7 +110,7 @@ final class DefaultLottoResultValidationUseCase: LottoResultValidationUseCase {
         return html
     }
 
-    private func saveLottoResult(_ html: String) throws -> AnyPublisher<Lotto, Error> {
+    private func saveLottoResult(_ id: String?, _ html: String) throws -> AnyPublisher<Lotto, Error> {
         let doc: Document = try SwiftSoup.parse(html)
         let purchaseCounts: Elements = try doc.purchase()
         let winningNumbers: Elements = try doc.winningNumbers()
@@ -119,43 +120,47 @@ final class DefaultLottoResultValidationUseCase: LottoResultValidationUseCase {
         //        let roundNumber = try doc.roundNumber()
         //        let lottoNumbers: [[Int]] = try doc.lottoNumbers()
 
-        // 여기서 id 값을 파라미터로 받아, id가 닐이 아니라면 업데이트 ,
+        // 여기서 id 값을 파라미터로 받아, id가 닐이 아니라면 업데이트,
         // 닐이라면 새로 인스턴스 생성해 저장
-        if !winningNumbers.isEmpty() {
-            let lotto = Lotto(
-                purchaseAmount: 1000 * purchaseCounts.count,
-                winningAmount: winningAmount, 
-                url: html
-            )
-            #if DEBUG
-            print(
-                """
-                [✅][LottoQRUseCase.swift] -> 이미 결과가 나온, 새로운 로또 인스턴스 생성 완료
-                    \(lotto)
-                """
-            )
+        guard let id else {
+            if !winningNumbers.isEmpty() {
+                let lotto = Lotto(
+                    purchaseAmount: 1000 * purchaseCounts.count,
+                    winningAmount: winningAmount,
+                    url: html
+                )
+                #if DEBUG
+                print(
+                    """
+                    [✅][LottoQRUseCase.swift] -> 이미 결과가 나온, 새로운 로또 인스턴스 생성 완료
+                        \(lotto)
+                    """
+                )
 
-            #endif
+                #endif
 
-            return self.lottoRepository.saveLotto(lotto)
-        } else {
-            let lotto = Lotto(
-                purchaseAmount: 1000 * purchaseCounts.count,
-                winningAmount: -1, 
-                url: html
-            )
-            #if DEBUG
-            print(
-                """
-                [✅][LottoQRUseCase.swift] -> 아직 결과 안나온, 새로운 로또 인스턴스 생성 완료
-                    \(lotto)
-                """
-            )
+                return self.lottoRepository.saveLotto(lotto)
+            } else {
+                let lotto = Lotto(
+                    purchaseAmount: 1000 * purchaseCounts.count,
+                    winningAmount: -1,
+                    url: html
+                )
+                #if DEBUG
+                print(
+                    """
+                    [✅][LottoQRUseCase.swift] -> 아직 결과 안나온, 새로운 로또 인스턴스 생성 완료
+                        \(lotto)
+                    """
+                )
 
-            #endif
+                #endif
 
-            return self.lottoRepository.saveLotto(lotto)
+                return self.lottoRepository.saveLotto(lotto)
+            }
         }
+
+        return self.lottoRepository.updateWinningAmount(id, amount: winningAmount)
     }
 
     // 로또 데이터 조회해서 당첨 금액 없는 데이터 조회
@@ -166,11 +171,6 @@ final class DefaultLottoResultValidationUseCase: LottoResultValidationUseCase {
         #endif
 
         return lottoRepository.fetchLottosWithoutWinningAmount()
-    }
-
-    // 로또 데이터 당첨 금액 업데이트
-    func updateWinningAmount(lotto: Lotto, amount: Int) {
-        lottoRepository.updateWinningAmount(lotto, amount: amount)
     }
 }
 

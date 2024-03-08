@@ -35,7 +35,7 @@ final class AppCoordinator: BaseCoordinator {
         case .main:
             // 결과 없는 로또 조회 -> 업데이트
             let lottoValidationModule = moduleFactory.makeLottoValidationFlow()
-            lottoValidationModule.updateLottosWithNoResult()
+            lottoValidationModule.fetchLottosWithNoResult()
 
             self.runMainFlow()
         case .onboarding:

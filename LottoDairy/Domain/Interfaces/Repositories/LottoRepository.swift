@@ -13,5 +13,5 @@ protocol LottoRepository {
     func fetchLottos(with startDate: Date, and endDate: Date) -> AnyPublisher<[Lotto], Error>
     func fetchAllOfYear() -> AnyPublisher<[Int], Error>
     func saveLotto(_ lotto: Lotto) -> AnyPublisher<Lotto, Error>
-    func updateWinningAmount(_ lotto: Lotto, amount: Int)
+    func updateWinningAmount(_ id: String, amount: Int) -> AnyPublisher<Lotto, Error>
 }

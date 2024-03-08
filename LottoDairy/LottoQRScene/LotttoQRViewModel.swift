@@ -82,7 +82,7 @@ final class LottoQRViewModel {
 
         self.lottoURL
             .flatMap { url -> AnyPublisher<Lotto, Error> in
-                return self.lottoResultValidationUseCase.crawlLottoResult(url)
+                return self.lottoResultValidationUseCase.crawlLottoResult(id: nil, url: url)
             }
             .sink(receiveCompletion: { completion in
                 if case .failure(let error) = completion {

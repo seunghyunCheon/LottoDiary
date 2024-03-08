@@ -191,43 +191,50 @@ final class CoreDataLottoEntityPersistenceService: CoreDataLottoEntityPersistenc
         .eraseToAnyPublisher()
     }
 
-    func updateWinningAmount(_ lotto: Lotto, amount: Int) {
+    func updateWinningAmount(_ id: String, amount: Int) -> AnyPublisher<Lotto, Error> {
         guard let context = coreDataPersistenceService.backgroundContext else {
-            print(CoreDataLottoEntityPersistenceServiceError.failedToInitializeCoreDataContainer)
-            return
+            return Fail(error: CoreDataLottoEntityPersistenceServiceError.failedToInitializeCoreDataContainer).eraseToAnyPublisher()
         }
+        let predicate = NSPredicate(format: "id == %@", id as CVarArg)
 
-        let fetchRequest = LottoEntity.fetchRequest()
-        let predicate = NSPredicate(format: "id == %@", lotto.id as CVarArg)
-        fetchRequest.predicate = predicate
-        do {
-            guard let fetchResult = try context.fetch(fetchRequest).first else { return }
-            fetchResult.winningAmount = amount
-            try context.save()
+        return Future { promise in
+            context.perform {
+                do {
+                    let fetchRequest = LottoEntity.fetchRequest()
+                    fetchRequest.predicate = predicate
 
-            #if DEBUG
-            print(
-                """
-                [✅][CoreDataLottoEntityPersistenceService.swift] -> CoreData 업데이트 성공 :
-                    기존의 로또 데이터에서 당첨 금액 업데이트
-                    \(fetchResult)
-                """
-            )
+                    guard let fetchResult = try context.fetch(fetchRequest).first else {
+                        return promise(.failure(CoreDataLottoEntityPersistenceServiceError.failedToFetchLottoEntity))
+                    }
+                    fetchResult.winningAmount = amount
+                    try context.save()
 
-            #endif
-        } catch {
-            print(CoreDataLottoEntityPersistenceServiceError.failedToFetchLottoEntity)
+                    #if DEBUG
+                    print(
+                        """
+                        [✅][CoreDataLottoEntityPersistenceService.swift] -> CoreData 업데이트 성공 :
+                            기존의 로또 데이터에서 당첨 금액 업데이트
+                            \(fetchResult)
+                        """
+                    )
+                    #endif
 
-            #if DEBUG
-            print(
-                """
-                [🆘][CoreDataLottoEntityPersistenceService.swift] -> CoreData 업데이트 실패 :
-                    기존 로또 데이터에서 당첨 금액 업데이트
+                    promise(.success(fetchResult.convertToDomain()))
+                } catch {
+                    promise(.failure(CoreDataLottoEntityPersistenceServiceError.failedToFetchLottoEntity))
 
-                """
-            )
+                    #if DEBUG
+                    print(
+                        """
+                        [🆘][CoreDataLottoEntityPersistenceService.swift] -> CoreData 업데이트 실패 :
+                            기존 로또 데이터에서 당첨 금액 업데이트
 
-            #endif
+                        """
+                    )
+                    #endif
+                }
+            }
         }
+        .eraseToAnyPublisher()
     }
 }
