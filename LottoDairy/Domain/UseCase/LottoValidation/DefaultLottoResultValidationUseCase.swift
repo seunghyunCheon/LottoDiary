@@ -83,7 +83,8 @@ final class DefaultLottoResultValidationUseCase: LottoResultValidationUseCase {
             .flatMap { data -> AnyPublisher<Lotto, Error> in
                 do {
                     let htmlSting = try self.encode(data)
-                    return try self.saveLottoResult(id, htmlSting)
+
+                    return try self.saveLottoResult(id, url.absoluteString, htmlSting)
                 } catch {
                     return Fail(error: error).eraseToAnyPublisher()
                 }
@@ -110,15 +111,11 @@ final class DefaultLottoResultValidationUseCase: LottoResultValidationUseCase {
         return html
     }
 
-    private func saveLottoResult(_ id: String?, _ html: String) throws -> AnyPublisher<Lotto, Error> {
+    private func saveLottoResult(_ id: String?, _ url: String, _ html: String) throws -> AnyPublisher<Lotto, Error> {
         let doc: Document = try SwiftSoup.parse(html)
         let purchaseCounts: Elements = try doc.purchase()
         let winningNumbers: Elements = try doc.winningNumbers()
         let winningAmount: Int = try doc.winningAmount()
-
-        /// 회차번호, 로또 번호(구매한) 필요한가?
-        //        let roundNumber = try doc.roundNumber()
-        //        let lottoNumbers: [[Int]] = try doc.lottoNumbers()
 
         // 여기서 id 값을 파라미터로 받아, id가 닐이 아니라면 업데이트,
         // 닐이라면 새로 인스턴스 생성해 저장
@@ -127,13 +124,13 @@ final class DefaultLottoResultValidationUseCase: LottoResultValidationUseCase {
                 let lotto = Lotto(
                     purchaseAmount: 1000 * purchaseCounts.count,
                     winningAmount: winningAmount,
-                    url: html
+                    url: url
                 )
                 #if DEBUG
                 print(
                     """
                     [✅][LottoQRUseCase.swift] -> 이미 결과가 나온, 새로운 로또 인스턴스 생성 완료
-                        \(lotto)
+                        \(lotto.url)
                     """
                 )
 
@@ -144,13 +141,13 @@ final class DefaultLottoResultValidationUseCase: LottoResultValidationUseCase {
                 let lotto = Lotto(
                     purchaseAmount: 1000 * purchaseCounts.count,
                     winningAmount: -1,
-                    url: html
+                    url: url
                 )
                 #if DEBUG
                 print(
                     """
                     [✅][LottoQRUseCase.swift] -> 아직 결과 안나온, 새로운 로또 인스턴스 생성 완료
-                        \(lotto)
+                        \(lotto.url)
                     """
                 )
 

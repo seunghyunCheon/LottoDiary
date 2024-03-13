@@ -29,6 +29,7 @@ extension LottoEntity {
         self.type = lotto.type.rawValue
         self.purchaseAmount = lotto.purchaseAmount
         self.winningAmount = lotto.winningAmount
+        self.url = lotto.url
     }
 }
 
