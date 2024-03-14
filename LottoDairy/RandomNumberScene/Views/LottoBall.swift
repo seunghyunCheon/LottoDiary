@@ -8,8 +8,6 @@
 import UIKit
 
 final class LottoBall: UIView {
-    var number: Int = .zero
-
     let numberLabel: UILabel = {
         let label = UILabel()
         label.font = .gmarketSans(size: .subheadLine, weight: .bold)
@@ -18,13 +16,12 @@ final class LottoBall: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
-    init(lottoNumber: Int = .random(in: Int.lottoRange)) {
-        self.number = lottoNumber
+    
+    init(_ number: Int) {
         super.init(frame: .zero)
 
         setupView()
-        configureView()
+        configureView(number: number)
     }
 
     required init?(coder: NSCoder) {
@@ -34,7 +31,7 @@ final class LottoBall: UIView {
 
 // MARK: Layout
 extension LottoBall {
-    private func configureView() {
+    private func configureView(number: Int) {
         switch number {
         case 1..<10:
             self.backgroundColor = .designSystem(.mainYellow)
@@ -51,21 +48,24 @@ extension LottoBall {
 
         self.clipsToBounds = true
         self.layer.cornerRadius = CGFloat(Constant.ballSize / 2)
-        self.frame.size = .init(width: Constant.ballSize, height: Constant.ballSize)
+        self.translatesAutoresizingMaskIntoConstraints = false
     }
 
     private func setupView() {
         self.addSubview(numberLabel)
         NSLayoutConstraint.activate([
             numberLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            numberLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+            numberLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+
+            self.heightAnchor.constraint(equalToConstant: Constant.ballSize),
+            self.widthAnchor.constraint(equalToConstant: Constant.ballSize)
         ])
     }
 }
 
 // MARK: Constant
 extension LottoBall {
-    private enum Constant {
+    enum Constant {
         static let ballSize: CGFloat = 38
     }
 }
