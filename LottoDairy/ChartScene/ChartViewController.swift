@@ -62,7 +62,7 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
     private lazy var informationCollectionView: UICollectionView = {
         let collectionView = UICollectionView(
             frame: .zero,
-            collectionViewLayout: makeInformationListCollectionViewLayout()
+            collectionViewLayout: ChartCollectionViewLayout.createInformationListLayout()
         )
         collectionView.register(ChartInformationCell.self)
         collectionView.isScrollEnabled = false
@@ -112,84 +112,6 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
     private func configureView() {
         self.navigationController?.isNavigationBarHidden = true
         self.view.backgroundColor = .designSystem(.backgroundBlack)
-    }
-
-    private func setupView() {
-        self.view.addSubview(chartTitleLabel)
-        let chartTitleLeading: CGFloat = Device.Constraint.horiziontal + 10
-        NSLayoutConstraint.activate([
-            chartTitleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            chartTitleLabel.leadingAnchor.constraint(
-                equalTo: view.leadingAnchor,
-                constant: chartTitleLeading
-            )
-        ])
-
-        self.view.addSubview(backgroundView)
-        let backgroundViewHeight = view.frame.height * 0.33
-        let backgroundViewTop: CGFloat = view.frame.height * 0.015
-        NSLayoutConstraint.activate([
-            backgroundView.topAnchor.constraint(
-                equalTo: self.chartTitleLabel.bottomAnchor,
-                constant: backgroundViewTop
-            ),
-            backgroundView.leadingAnchor.constraint(
-                equalTo: view.leadingAnchor,
-                constant: Device.Constraint.horiziontal
-            ),
-            backgroundView.trailingAnchor.constraint(
-                equalTo: view.trailingAnchor,
-                constant: -Device.Constraint.horiziontal
-            ),
-            backgroundView.heightAnchor.constraint(equalToConstant: backgroundViewHeight)
-        ])
-
-        self.backgroundView.addSubview(chartView)
-        self.chartView.delegate = self
-        NSLayoutConstraint.activate([
-            chartView.topAnchor.constraint(equalTo: self.backgroundView.topAnchor),
-            chartView.leadingAnchor.constraint(equalTo: self.backgroundView.leadingAnchor, constant: Constant.chartViewMargin),
-            chartView.trailingAnchor.constraint(equalTo: self.backgroundView.trailingAnchor, constant: -Constant.chartViewMargin),
-            chartView.bottomAnchor.constraint(equalTo: self.backgroundView.bottomAnchor, constant: -Constant.chartViewMargin)
-        ])
-
-        self.view.addSubview(chartEmptyLabel)
-        NSLayoutConstraint.activate([
-            chartEmptyLabel.leadingAnchor.constraint(equalTo: self.backgroundView.leadingAnchor),
-            chartEmptyLabel.trailingAnchor.constraint(equalTo: self.backgroundView.trailingAnchor),
-            chartEmptyLabel.topAnchor.constraint(equalTo: self.backgroundView.topAnchor),
-            chartEmptyLabel.bottomAnchor.constraint(equalTo: self.backgroundView.bottomAnchor)
-        ])
-
-        self.view.addSubview(dateHeaderView)
-        let dateHeaderViewTop: CGFloat = view.frame.height * 0.041
-        NSLayoutConstraint.activate([
-            dateHeaderView.topAnchor.constraint(
-                equalTo: self.backgroundView.bottomAnchor,
-                constant: dateHeaderViewTop
-            ),
-            dateHeaderView.leadingAnchor.constraint(equalTo: self.backgroundView.leadingAnchor),
-            dateHeaderView.trailingAnchor.constraint(equalTo: self.backgroundView.trailingAnchor)
-        ])
-
-        self.view.addSubview(informationCollectionView)
-        let informationCollectionViewTop: CGFloat = view.frame.height * 0.018
-        let informationCollectionViewHeight: CGFloat = view.frame.height * 0.249
-        NSLayoutConstraint.activate([
-            informationCollectionView.topAnchor.constraint(
-                equalTo: self.dateHeaderView.bottomAnchor,
-                constant: informationCollectionViewTop
-            ),
-            informationCollectionView.leadingAnchor.constraint(
-                equalTo: self.backgroundView.leadingAnchor
-            ),
-            informationCollectionView.trailingAnchor.constraint(
-                equalTo: self.backgroundView.trailingAnchor
-            ),
-            informationCollectionView.heightAnchor.constraint(
-                equalToConstant: informationCollectionViewHeight
-            )
-        ])
     }
 
     private func configureChartView() {
@@ -249,27 +171,6 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
         snapshot.appendSections([.main])
         snapshot.appendItems(items)
         self.dataSource?.apply(snapshot)
-    }
-
-    private func makeInformationListCollectionViewLayout() -> UICollectionViewCompositionalLayout {
-        let layout = UICollectionViewCompositionalLayout { (sectionNum, env) -> NSCollectionLayoutSection? in
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                  heightDimension: .fractionalHeight(1.0 / 3.0))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                   heightDimension: .fractionalHeight(1.0))
-            let group = NSCollectionLayoutGroup.vertical(
-                layoutSize: groupSize,
-                subitems: [item]
-            )
-            group.interItemSpacing = .fixed(Constant.interItemSpacing)
-
-            let section = NSCollectionLayoutSection(group: group)
-            return section
-        }
-
-        return layout
     }
 
     private func configureDateHeaderView() {
@@ -360,6 +261,7 @@ final class ChartViewController: UIViewController, ChartFlowProtocol {
     }
 }
 
+// MARK: UIPickerViewDataSource, UIPickerViewDelegate
 extension ChartViewController: UIPickerViewDataSource, UIPickerViewDelegate {
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -379,8 +281,8 @@ extension ChartViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     }
 }
 
+// MARK: ChartViewDelegate
 extension ChartViewController: ChartViewDelegate {
-
     func chartValueSelected(
         _ chartView: ChartViewBase,
         entry: ChartDataEntry,
@@ -391,8 +293,8 @@ extension ChartViewController: ChartViewDelegate {
     }
 }
 
+// MARK: Constant, StringLiteral
 extension ChartViewController {
-
     private enum Image: String {
         case emptyChart = "information"
 
@@ -409,5 +311,86 @@ extension ChartViewController {
 
     private enum StringLiteral {
         static let chartTitle = "소비 분석"
+    }
+}
+
+// MARK: Layout
+extension ChartViewController {
+    private func setupView() {
+        self.view.addSubview(chartTitleLabel)
+        let chartTitleLeading: CGFloat = Device.Constraint.horiziontal + 10
+        NSLayoutConstraint.activate([
+            chartTitleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            chartTitleLabel.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor,
+                constant: chartTitleLeading
+            )
+        ])
+
+        self.view.addSubview(backgroundView)
+        let backgroundViewHeight = view.frame.height * 0.33
+        let backgroundViewTop: CGFloat = view.frame.height * 0.015
+        NSLayoutConstraint.activate([
+            backgroundView.topAnchor.constraint(
+                equalTo: self.chartTitleLabel.bottomAnchor,
+                constant: backgroundViewTop
+            ),
+            backgroundView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor,
+                constant: Device.Constraint.horiziontal
+            ),
+            backgroundView.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor,
+                constant: -Device.Constraint.horiziontal
+            ),
+            backgroundView.heightAnchor.constraint(equalToConstant: backgroundViewHeight)
+        ])
+
+        self.backgroundView.addSubview(chartView)
+        self.chartView.delegate = self
+        NSLayoutConstraint.activate([
+            chartView.topAnchor.constraint(equalTo: self.backgroundView.topAnchor),
+            chartView.leadingAnchor.constraint(equalTo: self.backgroundView.leadingAnchor, constant: Constant.chartViewMargin),
+            chartView.trailingAnchor.constraint(equalTo: self.backgroundView.trailingAnchor, constant: -Constant.chartViewMargin),
+            chartView.bottomAnchor.constraint(equalTo: self.backgroundView.bottomAnchor, constant: -Constant.chartViewMargin)
+        ])
+
+        self.view.addSubview(chartEmptyLabel)
+        NSLayoutConstraint.activate([
+            chartEmptyLabel.leadingAnchor.constraint(equalTo: self.backgroundView.leadingAnchor),
+            chartEmptyLabel.trailingAnchor.constraint(equalTo: self.backgroundView.trailingAnchor),
+            chartEmptyLabel.topAnchor.constraint(equalTo: self.backgroundView.topAnchor),
+            chartEmptyLabel.bottomAnchor.constraint(equalTo: self.backgroundView.bottomAnchor)
+        ])
+
+        self.view.addSubview(dateHeaderView)
+        let dateHeaderViewTop: CGFloat = view.frame.height * 0.041
+        NSLayoutConstraint.activate([
+            dateHeaderView.topAnchor.constraint(
+                equalTo: self.backgroundView.bottomAnchor,
+                constant: dateHeaderViewTop
+            ),
+            dateHeaderView.leadingAnchor.constraint(equalTo: self.backgroundView.leadingAnchor),
+            dateHeaderView.trailingAnchor.constraint(equalTo: self.backgroundView.trailingAnchor)
+        ])
+
+        self.view.addSubview(informationCollectionView)
+        let informationCollectionViewTop: CGFloat = view.frame.height * 0.018
+        let informationCollectionViewHeight: CGFloat = view.frame.height * 0.249
+        NSLayoutConstraint.activate([
+            informationCollectionView.topAnchor.constraint(
+                equalTo: self.dateHeaderView.bottomAnchor,
+                constant: informationCollectionViewTop
+            ),
+            informationCollectionView.leadingAnchor.constraint(
+                equalTo: self.backgroundView.leadingAnchor
+            ),
+            informationCollectionView.trailingAnchor.constraint(
+                equalTo: self.backgroundView.trailingAnchor
+            ),
+            informationCollectionView.heightAnchor.constraint(
+                equalToConstant: informationCollectionViewHeight
+            )
+        ])
     }
 }
