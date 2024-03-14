@@ -19,12 +19,23 @@ extension UIFont {
     }
 
     enum Size: CGFloat {
+        /// 33
         case largeTitle = 33
-        case title1 = 27, title2 = 21, title3 = 19
+        /// 27
+        case title1 = 27
+        /// 21
+        case title2 = 21
+        /// 19
+        case title3 = 19
+        /// 16
         case body = 16
+        /// 15
         case callout = 15
+        /// 14
         case subheadLine = 14
+        /// 12
         case middleCaption = 12
+        /// 11
         case caption = 11
     }
 
