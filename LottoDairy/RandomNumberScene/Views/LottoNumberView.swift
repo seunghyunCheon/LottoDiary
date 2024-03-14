@@ -18,11 +18,12 @@ final class LottoNumbersView: UIView {
         return imageView
     }()
 
-    init(numbers: [Int] = Int.makeRandomIntArray(count: 7)) {
+    init(numbers: [Int] = Int.makeRandomLottoNumber()) {
         self.lottoNumbers = numbers
         super.init(frame: .zero)
 
         setupLottoBall()
+        self.translatesAutoresizingMaskIntoConstraints = false
     }
 
     required init?(coder: NSCoder) {

@@ -24,14 +24,18 @@ extension Int {
 
     static let lottoRange: Range<Int> = 1..<46
 
-    static func makeRandomIntArray(count: Int) -> [Int] {
-        var returnArray: [Int] = []
-        for _ in 0..<count {
-            returnArray.append(Int.random(in: lottoRange))
+    static func makeRandomLottoNumber() -> [Int] {
+        var arrayWithoutBonus: Set<Int> = []
+        for _ in 0..<6 {
+            arrayWithoutBonus.insert(Int.random(in: lottoRange))
         }
 
-        let sortedRandomReturnArray = returnArray.sorted()
+        var bonus: Int = .random(in: lottoRange)
 
-        return sortedRandomReturnArray
+        while arrayWithoutBonus.contains(bonus) {
+            bonus = Int.random(in: lottoRange)
+        }
+
+        return arrayWithoutBonus.sorted() + [bonus]
     }
 }
