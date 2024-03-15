@@ -23,8 +23,14 @@ final class LottoNumbersView: UIView {
         return imageView
     }()
 
-    init(numbers: [Int] = Int.makeRandomLottoNumber()) {
+    private var isAnimation: Bool
+
+    init(
+        numbers: [Int],
+        isAnimation: Bool = true
+    ) {
         self.lottoNumbers = numbers
+        self.isAnimation = isAnimation
         super.init(frame: .zero)
 
         setupLottoBall()
@@ -126,6 +132,8 @@ extension LottoNumbersView {
             bounusBall.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
 
-        self.configureAnimation(balls: balls)
+        if isAnimation {
+            self.configureAnimation(balls: balls)
+        }
     }
 }
