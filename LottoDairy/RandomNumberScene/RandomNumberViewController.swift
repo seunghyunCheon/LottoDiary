@@ -100,7 +100,7 @@ final class RandomNumberViewController: UIViewController, RandomNumberFlowProtoc
     }
 
     @objc func changeButtonTapped() {
-        numberView.lottoNumbers = Int.makeRandomLottoNumber()
+        numberView.updateLottoNumbers()
     }
 }
 

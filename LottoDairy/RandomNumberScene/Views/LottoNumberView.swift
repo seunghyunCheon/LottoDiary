@@ -8,9 +8,10 @@
 import UIKit
 
 final class LottoNumbersView: UIView {
-    var lottoNumbers: [Int] = [] {
+    private var lottoNumbers: [Int] = [] {
         didSet {
-            setupLottoBall()
+            self.removeAllBalls()
+            self.setupLottoBall()
         }
     }
 
@@ -32,6 +33,38 @@ final class LottoNumbersView: UIView {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func updateLottoNumbers() {
+        self.lottoNumbers = Int.makeRandomLottoNumber()
+    }
+
+    private func removeAllBalls() {
+        self.subviews.forEach { $0.removeFromSuperview() }
+    }
+
+    private func configureAnimation(balls: [UIView]) {
+        // 각 볼에 대한 애니메이션 적용
+        for (index, ball) in balls.enumerated() {
+            // 각 볼의 초기 상태를 설정합니다. 예를 들어, 볼을 뷰의 상단으로 옮길 수 있습니다.
+            ball.transform = CGAffineTransform(translationX: 0, y: -15)
+
+            // 키 프레임 애니메이션을 사용하여 볼이 튕기는 효과를 추가합니다.
+            UIView.animateKeyframes(withDuration: 0.4, delay: 0.05 * Double(index), options: [], animations: {
+                // 첫 번째 키 프레임: 볼이 아래로 떨어집니다.
+                UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.5) {
+                    ball.transform = CGAffineTransform(translationX: 0, y: 0)
+                }
+                // 두 번째 키 프레임: 볼이 약간 위로 튕깁니다.
+                UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.25) {
+                    ball.transform = CGAffineTransform(translationX: 0, y: -10)
+                }
+                // 세 번째 키 프레임: 볼이 최종 위치로 돌아옵니다.
+                UIView.addKeyframe(withRelativeStartTime: 0.75, relativeDuration: 0.25) {
+                    ball.transform = .identity
+                }
+            })
+        }
     }
 }
 
@@ -55,7 +88,7 @@ extension LottoNumbersView {
 // MARK: Layout
 extension LottoNumbersView {
     func setupLottoBall() {
-        let firstBall = LottoBall(lottoNumbers[safe: 0])
+        let firstBall = LottoBall(lottoNumbers[safe:0])
         let secondBall = LottoBall(lottoNumbers[safe:1])
         let thirdBall = LottoBall(lottoNumbers[safe:2])
         let fourthBall = LottoBall(lottoNumbers[safe:3])
@@ -63,9 +96,8 @@ extension LottoNumbersView {
         let sixthBall = LottoBall(lottoNumbers[safe:5])
         let bounusBall = LottoBall(lottoNumbers[safe:6])
 
-        self.addSubviews([
-            firstBall, secondBall, thirdBall, fourthBall, fifthBall, sixthBall, plusImage, bounusBall
-        ])
+        let balls = [firstBall, secondBall, thirdBall, fourthBall, fifthBall, sixthBall, plusImage, bounusBall]
+        self.addSubviews(balls)
 
         NSLayoutConstraint.activate([
             firstBall.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constant.leadingPadding),
@@ -93,5 +125,7 @@ extension LottoNumbersView {
             bounusBall.leadingAnchor.constraint(equalTo: plusImage.trailingAnchor, constant: Constant.spacing),
             bounusBall.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
+
+        self.configureAnimation(balls: balls)
     }
 }
