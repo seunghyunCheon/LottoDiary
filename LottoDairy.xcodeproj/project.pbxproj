@@ -127,6 +127,7 @@
 		809B88512BA414F10084021D /* RandomNumberCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809B88502BA414F10084021D /* RandomNumberCoordinator.swift */; };
 		809B88542BA415A40084021D /* RandomNumberModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809B88532BA415A40084021D /* RandomNumberModuleFactory.swift */; };
 		809B88562BA415E20084021D /* RandomNumberFlowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809B88552BA415E20084021D /* RandomNumberFlowProtocol.swift */; };
+		809B88582BA41CC10084021D /* Collection+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809B88572BA41CC10084021D /* Collection+Extensions.swift */; };
 		80BAF63F2AF356210064196A /* LottoValidationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80BAF63E2AF356210064196A /* LottoValidationController.swift */; };
 		80BAF6432AF35EDE0064196A /* DefaultLottoResultValidationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80BAF6422AF35EDE0064196A /* DefaultLottoResultValidationUseCase.swift */; };
 		80BAF6452AF35EF30064196A /* LottoValidationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80BAF6442AF35EF30064196A /* LottoValidationUseCase.swift */; };
@@ -274,6 +275,7 @@
 		809B88502BA414F10084021D /* RandomNumberCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomNumberCoordinator.swift; sourceTree = "<group>"; };
 		809B88532BA415A40084021D /* RandomNumberModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomNumberModuleFactory.swift; sourceTree = "<group>"; };
 		809B88552BA415E20084021D /* RandomNumberFlowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomNumberFlowProtocol.swift; sourceTree = "<group>"; };
+		809B88572BA41CC10084021D /* Collection+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Extensions.swift"; sourceTree = "<group>"; };
 		80BAF63E2AF356210064196A /* LottoValidationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoValidationController.swift; sourceTree = "<group>"; };
 		80BAF6422AF35EDE0064196A /* DefaultLottoResultValidationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLottoResultValidationUseCase.swift; sourceTree = "<group>"; };
 		80BAF6442AF35EF30064196A /* LottoValidationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottoValidationUseCase.swift; sourceTree = "<group>"; };
@@ -444,6 +446,7 @@
 				80F90CF42A8D3037007E1D23 /* UICollectionViewCell+Extensions.swift */,
 				8073ED532B5F7DA400E810D2 /* URLResponse+Extensions.swift */,
 				809B88482BA2DA8D0084021D /* DeviceInfo.swift */,
+				809B88572BA41CC10084021D /* Collection+Extensions.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1112,6 +1115,7 @@
 				626845392A6BEBDE00569D02 /* UserRepository.swift in Sources */,
 				805EA6D52AA475C600A3545C /* DefaultChartInformationUseCase.swift in Sources */,
 				62FD3DCC2AB41F9400C302F0 /* AddLottoViewProtocol.swift in Sources */,
+				809B88582BA41CC10084021D /* Collection+Extensions.swift in Sources */,
 				625141272AB5A92500E9E5C3 /* LottoRepository.swift in Sources */,
 				625141132AB4606A00E9E5C3 /* AddLottoValidationUseCase.swift in Sources */,
 				625141172AB463BF00E9E5C3 /* WinningAmountValidationState.swift in Sources */,

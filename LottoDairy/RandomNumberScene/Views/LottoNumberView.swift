@@ -51,13 +51,13 @@ extension LottoNumbersView {
 // MARK: Layout
 extension LottoNumbersView {
     func setupLottoBall() {
-        let firstBall = LottoBall(lottoNumbers[0])
-        let secondBall = LottoBall(lottoNumbers[1])
-        let thirdBall = LottoBall(lottoNumbers[2])
-        let fourthBall = LottoBall(lottoNumbers[3])
-        let fifthBall = LottoBall(lottoNumbers[4])
-        let sixthBall = LottoBall(lottoNumbers[5])
-        let bounusBall = LottoBall(lottoNumbers[6])
+        let firstBall = LottoBall(lottoNumbers[safe: 0])
+        let secondBall = LottoBall(lottoNumbers[safe:1])
+        let thirdBall = LottoBall(lottoNumbers[safe:2])
+        let fourthBall = LottoBall(lottoNumbers[safe:3])
+        let fifthBall = LottoBall(lottoNumbers[safe:4])
+        let sixthBall = LottoBall(lottoNumbers[safe:5])
+        let bounusBall = LottoBall(lottoNumbers[safe:6])
 
         self.addSubviews([
             firstBall, secondBall, thirdBall, fourthBall, fifthBall, sixthBall, plusImage, bounusBall

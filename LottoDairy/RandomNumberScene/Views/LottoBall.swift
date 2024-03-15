@@ -17,11 +17,11 @@ final class LottoBall: UIView {
         return label
     }()
     
-    init(_ number: Int) {
+    init(_ number: Int?) {
         super.init(frame: .zero)
 
         setupView()
-        configureView(number: number)
+        configureView(number: number ?? .zero)
     }
 
     required init?(coder: NSCoder) {
