@@ -11,6 +11,7 @@ final class ModuleFactoryImp:
     LottoQRModuleFactory,
     CalendarModuleFactory,
     ChartModuleFactory,
+    RandomNumberModuleFactory,
     AppSetupModuleFactory {
 
     func makeHomeFlow() -> HomeFlowProtocol {
@@ -123,5 +124,9 @@ final class ModuleFactoryImp:
             userDefaultPersistenceService: userDefaultService
         )
         return UserSetupController(userRepository: userRepository)
+    }
+
+    func makeRandomNumberFlow() -> RandomNumberFlowProtocol {
+        return RandomNumberViewController()
     }
 }

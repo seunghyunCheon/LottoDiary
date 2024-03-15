@@ -20,6 +20,8 @@ final class TabBarController: UITabBarController, TabBarFlowProtocol {
 
     var onChartFlowSelect: ((UINavigationController) -> ())?
 
+    var onRandomNumberFlowSelect: ((UINavigationController) -> ())?
+
     var onPermissionDeniedAlert: ((UINavigationController, UIAlertController) -> Void)?
 
     override func viewDidLoad() {
@@ -69,6 +71,8 @@ extension TabBarController: UITabBarControllerDelegate {
             onHomeFlowSelect?(controller)
         case .chart:
             onChartFlowSelect?(controller)
+        case .numbers:
+            onRandomNumberFlowSelect?(controller)
         default:
             break
         }

@@ -14,6 +14,7 @@ protocol TabBarCoordinatorFinishable: AnyObject {
 final class TabBarCoordinator: BaseCoordinator, TabBarCoordinatorFinishable {
 
     var onSettingFlow: (() -> Void)?
+
     private let tabBarFlow: TabBarFlowProtocol
     private let coordinatorFactory: CoordinatorFactory
     
@@ -28,6 +29,7 @@ final class TabBarCoordinator: BaseCoordinator, TabBarCoordinatorFinishable {
         tabBarFlow.onCalendarFlowSelect = runCalendarFlow()
         tabBarFlow.onLottoQRFlowSelect = runLottoQRFlow()
         tabBarFlow.onChartFlowSelect = runChartFlow()
+        tabBarFlow.onRandomNumberFlowSelect = runRandomNumberFlow()
         tabBarFlow.onPermissionDeniedAlert = runPermissionDeniedAlert()
     }
 
@@ -76,6 +78,16 @@ final class TabBarCoordinator: BaseCoordinator, TabBarCoordinatorFinishable {
                 let chartCoordinator = coordinatorFactory.makeChartCoordinator(navigationController: navController)
                 addDependency(chartCoordinator)
                 chartCoordinator.start()
+            }
+        }
+    }
+
+    private func runRandomNumberFlow() -> ((UINavigationController) -> ()) {
+        return { [unowned self] navController in
+            if navController.viewControllers.isEmpty == true {
+                let randomNumberCoordinator = coordinatorFactory.makeRandomNumberCoordinator(navigationController: navController)
+                addDependency(randomNumberCoordinator)
+                randomNumberCoordinator.start()
             }
         }
     }
