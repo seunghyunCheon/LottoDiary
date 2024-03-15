@@ -18,15 +18,6 @@ final class RandomNumberViewController: UIViewController, RandomNumberFlowProtoc
         return label
     }()
 
-    let lastNumberTitle: UILabel = {
-        let label = UILabel()
-        label.text = "지난 회차 번호는?"
-        label.textColor = .designSystem(.white)
-        label.font = .gmarketSans(size: .title1, weight: .bold)
-        label.textAlignment = .left
-        return label
-    }()
-
     private let numberBackgroundView: UIView = {
         let view = UIView()
         view.clipsToBounds = true
@@ -36,7 +27,7 @@ final class RandomNumberViewController: UIViewController, RandomNumberFlowProtoc
         return view
     }()
 
-    private let numberView = LottoNumbersView()
+    private let numberView = LottoNumbersView(numbers: Int.makeRandomLottoNumber())
 
     private lazy var changeButton: UIButton = {
         let button = UIButton(type: .system)
@@ -62,26 +53,38 @@ final class RandomNumberViewController: UIViewController, RandomNumberFlowProtoc
         return label
     }()
 
-    let lastNumbersView: UIView = {
+    private let lastNumberTitle: UILabel = {
+        let label = UILabel()
+        label.text = "지난 회차 번호는?"
+        label.textColor = .white
+        label.font = .gmarketSans(size: .title1, weight: .bold)
+        label.textAlignment = .left
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private let lastNumberBackgroundView: UIView = {
         let view = UIView()
         view.clipsToBounds = true
         view.layer.cornerRadius = 20
         view.backgroundColor = .designSystem(.gray2B2C35)
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
-    lazy var lastLottoNumberTabelView: UITableView = {
+    private lazy var lastLottoNumberTabelView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .clear
-//        tableView.register(LastLottoNumberTableViewCell.self, forCellReuseIdentifier: LastLottoNumberTableViewCell.cellId)
-//        tableView.dataSource = self
+        tableView.register(LastLottoNumberCell.self, forCellReuseIdentifier: LastLottoNumberCell.cellId)
+        tableView.dataSource = self
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
         tableView.rowHeight = DeviceInfo.screenHeight / 10
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
 
-    var lastDrawNumberButton: UIButton = {
+    private var lastNumberButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("회차 번호 더보기", for: .normal)
         button.titleLabel?.font = .gmarketSans(size: .body, weight: .bold)
@@ -89,40 +92,52 @@ final class RandomNumberViewController: UIViewController, RandomNumberFlowProtoc
         button.backgroundColor = .designSystem(.mainBlue)
         button.clipsToBounds = true
         button.layer.cornerRadius = 10
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .designSystem(.backgroundBlack)
 
+        self.configureView()
         self.setup()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        numberView.updateLottoNumbers()
     }
 
     @objc func changeButtonTapped() {
         numberView.updateLottoNumbers()
     }
+
+    private func configureView() {
+        self.navigationController?.isNavigationBarHidden = true
+        self.view.backgroundColor = .designSystem(.backgroundBlack)
+    }
 }
 
-//extension NumberDrawViewController: UITableViewDataSource {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return LottoData.lastDrawDatas.count
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        guard let cell = tableView.dequeueReusableCell(withIdentifier: LastLottoNumberTableViewCell.cellId, for: indexPath) as? LastLottoNumberTableViewCell else { return UITableViewCell() }
+// MARK: UITableViewDataSource
+extension RandomNumberViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 3
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: LastLottoNumberCell.cellId, for: indexPath) as? LastLottoNumberCell else { return UITableViewCell() }
+        cell.configure(round: "1051", numbers: [1, 5, 10, 12, 13, 35, 40])
 //        cell.lottoData = LottoData.lastDrawDatas[indexPath.row]
-//        cell.selectionStyle = .none
-//        return cell
-//    }
-//}
+        cell.selectionStyle = .none
+        return cell
+    }
+}
 
 // MARK: Layout
 extension RandomNumberViewController {
     private func setup() {
         self.view.addSubview(randomNumberTitle)
         NSLayoutConstraint.activate([
-            randomNumberTitle.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            randomNumberTitle.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             randomNumberTitle.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20)
         ])
 
@@ -150,32 +165,35 @@ extension RandomNumberViewController {
             warningLabel.bottomAnchor.constraint(equalTo: numberBackgroundView.bottomAnchor, constant: -14)
         ])
 
-//        view.addSubview(lastNumberTitle)
-//        lastNumberTitle.snp.makeConstraints { make in
-//            make.leading.equalToSuperview().inset(14)
-//            make.top.equalTo(randomNumberDrawView.snp.bottom).offset(30)
-//            make.height.equalTo(23)
-//        }
-//
-//        view.addSubview(lastNumbersView)
-//        lastNumbersView.snp.makeConstraints { make in
-//            make.top.equalTo(lastNumberTitle.snp.bottom).offset(13)
-//            make.leading.trailing.equalToSuperview().inset(14)
-//            make.bottom.equalToSuperview().inset(150)
-//        }
-//
-//        lastNumbersView.addSubview(lastLottoNumberTabelView)
-//        lastLottoNumberTabelView.snp.makeConstraints { make in
-//            make.edges.equalToSuperview()
-//        }
-//
-//        lastNumbersView.addSubview(lastDrawNumberButton)
-//        lastDrawNumberButton.snp.makeConstraints { make in
-//            make.trailing.equalToSuperview().inset(14)
-//            make.bottom.equalToSuperview().inset(14)
-//            make.height.equalTo(32)
-//            make.width.equalTo(142)
-//        }
+        self.view.addSubview(lastNumberTitle)
+        NSLayoutConstraint.activate([
+            lastNumberTitle.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
+            lastNumberTitle.topAnchor.constraint(equalTo: numberBackgroundView.bottomAnchor, constant: 30)
+        ])
+
+        self.view.addSubview(lastNumberBackgroundView)
+        NSLayoutConstraint.activate([
+            lastNumberBackgroundView.topAnchor.constraint(equalTo: lastNumberTitle.bottomAnchor, constant: 14),
+            lastNumberBackgroundView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 14),
+            lastNumberBackgroundView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -14),
+            lastNumberBackgroundView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -150)
+        ])
+
+        lastNumberBackgroundView.addSubview(lastLottoNumberTabelView)
+        NSLayoutConstraint.activate([
+            lastLottoNumberTabelView.topAnchor.constraint(equalTo: lastNumberBackgroundView.topAnchor),
+            lastLottoNumberTabelView.leadingAnchor.constraint(equalTo: lastNumberBackgroundView.leadingAnchor),
+            lastLottoNumberTabelView.trailingAnchor.constraint(equalTo: lastNumberBackgroundView.trailingAnchor),
+            lastLottoNumberTabelView.bottomAnchor.constraint(equalTo: lastNumberBackgroundView.bottomAnchor)
+        ])
+
+        lastNumberBackgroundView.addSubview(lastNumberButton)
+        NSLayoutConstraint.activate([
+            lastNumberButton.bottomAnchor.constraint(equalTo: lastNumberBackgroundView.bottomAnchor, constant: -14),
+            lastNumberButton.trailingAnchor.constraint(equalTo: lastNumberBackgroundView.trailingAnchor, constant: -14),
+            lastNumberButton.heightAnchor.constraint(equalToConstant: 32),
+            lastNumberButton.widthAnchor.constraint(equalToConstant: 142)
+        ])
     }
 }
 

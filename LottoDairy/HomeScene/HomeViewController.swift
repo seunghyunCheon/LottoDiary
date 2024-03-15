@@ -9,7 +9,6 @@ import UIKit
 import Combine
 
 final class HomeViewController: UIViewController, HomeFlowProtocol {
-
     // MARK: Properties - UI
     private let scrollView = UIScrollView()
     private let contentView = UIStackView()
@@ -103,46 +102,69 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         self.view.backgroundColor = .designSystem(.backgroundBlack)
     }
 
-    private func setupScrollView() {
-        let height = view.frame.height * 0.35
-        let nickNameViewHeight: CGFloat = height * 0.127
+    private func configureContentView() {
         let horizontalInset = view.frame.width * 0.054
+        let spacing = view.frame.height * 0.04
 
-        let nickNameView = createNickNameView()
-        view.addSubview(nickNameView)
-        NSLayoutConstraint.activate([
-            nickNameView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            nickNameView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: horizontalInset),
-            nickNameView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            nickNameView.heightAnchor.constraint(equalToConstant: nickNameViewHeight)
-        ])
-
-        view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-
-        guard let tabBarHeight = self.tabBarController?.tabBar.frame.height else { return }
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: nickNameView.bottomAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-
-            contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -(tabBarHeight + 5)),
-            contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
-        ])
+        contentView.axis = .vertical
+        contentView.spacing = spacing
+        contentView.isLayoutMarginsRelativeArrangement = true
+        contentView.layoutMargins = UIEdgeInsets(top: .zero, left: horizontalInset, bottom: .zero, right: horizontalInset)
     }
 
-    private func setupContentView() {
-        let informationView = setupInformationView()
-        let imageInformationView = setupImageInformationView()
-        contentView.addArrangedSubviews([informationView, imageInformationView])
+    private func bindViewModel() {
+        let input = HomeViewModel.Input(viewWillAppearEvent: self.viewWillAppearPublisher)
+
+        let output = viewModel.transform(from: input)
+
+        self.explanationLabel.configureExplanationLabel(month: output.month)
+
+        output.nickNameTextField
+            .sink { name in
+                self.nickNameLabel.text = name
+            }
+            .store(in: &cancellables)
+
+        output.goalAmount
+            .sink { goal in
+                self.goalLabel.updateWonAmount(goal)
+            }
+            .store(in: &cancellables)
+
+        output.purchaseAmount
+            .sink { purchase in
+                self.purchaseLabel.updateWonAmount(purchase)
+                self.imageExplanationView.configureRiceSoupLabel(won: purchase)
+            }
+            .store(in: &cancellables)
+
+        output.winningAmount
+            .sink { winning in
+                self.winningLabel.updateWonAmount(winning)
+            }
+            .store(in: &cancellables)
+
+        output.percent
+            .sink { percent in
+                self.explanationLabel.configureExplanationLabel(percent: percent)
+            }
+            .store(in: &cancellables)
+
+        output.riceSoupCount
+            .sink { count in
+                self.imageExplanationView.configureRiceSoupLabel(riceSoup: count)
+            }
+            .store(in: &cancellables)
     }
 
+    @objc
+    private func settingButtoTapped() {
+        onSetting?()
+    }
+}
+
+// MARK: Layout
+extension HomeViewController {
     private func setupInformationView() -> UIView {
         let informationView = UIView()
         let moneyInformationStackView = setupMoneyInformationStackView()
@@ -263,70 +285,50 @@ final class HomeViewController: UIViewController, HomeFlowProtocol {
         return imageInformationView
     }
 
-    private func configureContentView() {
+    // MARK: ScrollView
+    private func setupScrollView() {
+        let height = view.frame.height * 0.35
+        let nickNameViewHeight: CGFloat = height * 0.127
         let horizontalInset = view.frame.width * 0.054
-        let spacing = view.frame.height * 0.04
 
-        contentView.axis = .vertical
-        contentView.spacing = spacing
-        contentView.isLayoutMarginsRelativeArrangement = true
-        contentView.layoutMargins = UIEdgeInsets(top: .zero, left: horizontalInset, bottom: .zero, right: horizontalInset)
+        let nickNameView = createNickNameView()
+        view.addSubview(nickNameView)
+        NSLayoutConstraint.activate([
+            nickNameView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            nickNameView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: horizontalInset),
+            nickNameView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            nickNameView.heightAnchor.constraint(equalToConstant: nickNameViewHeight)
+        ])
+
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+
+        guard let tabBarHeight = self.tabBarController?.tabBar.frame.height else { return }
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: nickNameView.bottomAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+
+            contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -(tabBarHeight + 5)),
+            contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
+        ])
     }
 
-    private func bindViewModel() {
-        let input = HomeViewModel.Input(viewWillAppearEvent: self.viewWillAppearPublisher)
-
-        let output = viewModel.transform(from: input)
-
-        self.explanationLabel.configureExplanationLabel(month: output.month)
-
-        output.nickNameTextField
-            .sink { name in
-                self.nickNameLabel.text = name
-            }
-            .store(in: &cancellables)
-
-        output.goalAmount
-            .sink { goal in
-                self.goalLabel.updateWonAmount(goal)
-            }
-            .store(in: &cancellables)
-
-        output.purchaseAmount
-            .sink { purchase in
-                self.purchaseLabel.updateWonAmount(purchase)
-                self.imageExplanationView.configureRiceSoupLabel(won: purchase)
-            }
-            .store(in: &cancellables)
-
-        output.winningAmount
-            .sink { winning in
-                self.winningLabel.updateWonAmount(winning)
-            }
-            .store(in: &cancellables)
-
-        output.percent
-            .sink { percent in
-                self.explanationLabel.configureExplanationLabel(percent: percent)
-            }
-            .store(in: &cancellables)
-
-        output.riceSoupCount
-            .sink { count in
-                self.imageExplanationView.configureRiceSoupLabel(riceSoup: count)
-            }
-            .store(in: &cancellables)
-    }
-
-    @objc
-    private func settingButtoTapped() {
-        onSetting?()
+    private func setupContentView() {
+        let informationView = setupInformationView()
+        let imageInformationView = setupImageInformationView()
+        contentView.addArrangedSubviews([informationView, imageInformationView])
     }
 }
 
 // MARK: Extension
 extension HomeViewController {
-
     private enum SystemName: String {
         case setting = "gearshape"
         case photo = "bap"
