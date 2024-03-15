@@ -26,7 +26,7 @@ extension Int {
 
     static func makeRandomLottoNumber() -> [Int] {
         var arrayWithoutBonus: Set<Int> = []
-        for _ in 0..<6 {
+        while arrayWithoutBonus.count != 6 {
             arrayWithoutBonus.insert(Int.random(in: lottoRange))
         }
 
