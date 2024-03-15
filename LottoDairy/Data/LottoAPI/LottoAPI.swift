@@ -8,5 +8,7 @@
 import Foundation
 
 enum LottoAPI {
-    static var baseURL = "http://m.dhlottery.co.kr"
+    static let baseURL = "http://m.dhlottery.co.kr"
+
+    static let resultURL = "https://m.dhlottery.co.kr/gameResult.do?method=byWin"
 }

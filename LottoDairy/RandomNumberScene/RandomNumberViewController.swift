@@ -92,6 +92,7 @@ final class RandomNumberViewController: UIViewController, RandomNumberFlowProtoc
         button.backgroundColor = .designSystem(.mainBlue)
         button.clipsToBounds = true
         button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(lastNumberButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -107,13 +108,19 @@ final class RandomNumberViewController: UIViewController, RandomNumberFlowProtoc
         numberView.updateLottoNumbers()
     }
 
-    @objc func changeButtonTapped() {
-        numberView.updateLottoNumbers()
-    }
-
     private func configureView() {
         self.navigationController?.isNavigationBarHidden = true
         self.view.backgroundColor = .designSystem(.backgroundBlack)
+    }
+
+    @objc private func changeButtonTapped() {
+        numberView.updateLottoNumbers()
+    }
+
+    @objc private func lastNumberButtonTapped() {
+        guard let url = URL(string: LottoAPI.resultURL) else { return }
+        let webView: SFSafariViewController = .init(url: url)
+        self.present(webView, animated: true, completion: { })
     }
 }
 
@@ -199,6 +206,7 @@ extension RandomNumberViewController {
 
 #if DEBUG
 import SwiftUI
+import SafariServices
 struct ViewController_Previews: PreviewProvider {   // 이름 바꿔도 됨
     static var previews: some View {
         Container().edgesIgnoringSafeArea(.all)
