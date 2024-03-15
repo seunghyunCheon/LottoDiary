@@ -8,7 +8,11 @@
 import UIKit
 
 final class LottoNumbersView: UIView {
-    var lottoNumbers: [Int] = []
+    var lottoNumbers: [Int] = [] {
+        didSet {
+            setupLottoBall()
+        }
+    }
 
     private lazy var plusImage: UIImageView = {
         let imageView = UIImageView()
